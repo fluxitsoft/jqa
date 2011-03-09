@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package ar.com.fluxit.jqa.mock.allocation;
+package ar.com.fluxit.jqa.mock.usage;
 
 import ar.com.fluxit.jqa.mock.ClassA;
 
@@ -25,13 +25,14 @@ import ar.com.fluxit.jqa.mock.ClassA;
  * 
  * @author Juan Ignacio Barisich
  */
-public class ClassThatStaticReturnsClassA {
+public class StaticInnerClassThatExtendsClassA {
 
-	public ClassThatStaticReturnsClassA() {
+	public static class B extends ClassA {
+
+	}
+
+	public StaticInnerClassThatExtendsClassA() {
 		super();
 	}
 
-	static ClassA dummy() {
-		return null;
-	}
 }

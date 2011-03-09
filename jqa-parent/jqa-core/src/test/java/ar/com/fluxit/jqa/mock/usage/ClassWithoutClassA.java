@@ -16,18 +16,16 @@
  * You should have received a copy of the GNU General Public License
  * along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package ar.com.fluxit.jqa.mock.allocation;
-
-import ar.com.fluxit.jqa.mock.ClassA;
+package ar.com.fluxit.jqa.mock.usage;
 
 /**
  * TODO javadoc
  * 
  * @author Juan Ignacio Barisich
  */
-public class ClassThatExtendsClassA extends ClassA {
+public class ClassWithoutClassA {
 
-	public ClassThatExtendsClassA() {
+	public ClassWithoutClassA() {
 		super();
 	}
 }

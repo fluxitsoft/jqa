@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package ar.com.fluxit.jqa.mock.allocation;
+package ar.com.fluxit.jqa.mock.usage;
 
 import ar.com.fluxit.jqa.mock.ClassA;
 
@@ -25,9 +25,9 @@ import ar.com.fluxit.jqa.mock.ClassA;
  * 
  * @author Juan Ignacio Barisich
  */
-public class InnerClassWithFieldClassA {
+public class StaticInnerClassWithFieldClassA {
 
-	public class B {
+	public static class B {
 		private ClassA classA = null;
 
 		String dummy() {
@@ -35,7 +35,7 @@ public class InnerClassWithFieldClassA {
 		}
 	}
 
-	public InnerClassWithFieldClassA() {
+	public StaticInnerClassWithFieldClassA() {
 		super();
 	}
 
