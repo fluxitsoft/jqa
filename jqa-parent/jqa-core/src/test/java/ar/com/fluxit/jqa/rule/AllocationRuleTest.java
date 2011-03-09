@@ -19,6 +19,12 @@
 package ar.com.fluxit.jqa.rule;
 
 import junit.framework.TestCase;
+import ar.com.fluxit.jqa.bce.JavaClass;
+import ar.com.fluxit.jqa.bce.RepositoryLocator;
+import ar.com.fluxit.jqa.context.CheckingContext;
+import ar.com.fluxit.jqa.mock.ClassA;
+import ar.com.fluxit.jqa.mock.MockCheckingContext;
+import ar.com.fluxit.jqa.mock.allocation.ClassThatAllocatesClassA;
 
 /**
  * TODO javadoc
@@ -27,8 +33,38 @@ import junit.framework.TestCase;
  */
 public class AllocationRuleTest extends TestCase {
 
-	public final void testCheck() {
-		// TODO
+	public final void testCheck() throws ClassNotFoundException {
+		final String filterRuleParentClass = ClassA.class.getName();
+
+		testMatches(filterRuleParentClass, ClassA.class, false);
+		testMatches(filterRuleParentClass, ClassThatAllocatesClassA.class, true);
+
+	}
+
+	private CheckingContext checkingContext;
+
+	private CheckingContext getCheckingContext() {
+		return checkingContext;
+	}
+
+	@Override
+	protected void tearDown() throws Exception {
+		this.checkingContext = null;
+	}
+
+	@Override
+	protected void setUp() throws Exception {
+		this.checkingContext = new MockCheckingContext();
+	}
+
+	private void testMatches(String filterRuleParentClass,
+			Class<?> usageRuleclass, boolean matches)
+			throws ClassNotFoundException {
+		final Rule filterRule = new TypingRule(filterRuleParentClass);
+		final JavaClass clazz = RepositoryLocator.getRepository().lookupClass(
+				usageRuleclass);
+		assertEquals(matches, new AllocationRule(filterRule).check(clazz,
+				getCheckingContext()));
 	}
 
 }

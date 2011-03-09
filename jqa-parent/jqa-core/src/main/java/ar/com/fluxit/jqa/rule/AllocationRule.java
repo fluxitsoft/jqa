@@ -18,6 +18,8 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.rule;
 
+import java.util.Collection;
+
 import ar.com.fluxit.jqa.context.CheckingContext;
 
 import ar.com.fluxit.jqa.bce.JavaClass;
@@ -27,11 +29,19 @@ import ar.com.fluxit.jqa.bce.JavaClass;
  * 
  * @author Juan Ignacio Barisich
  */
-public class AllocationRule implements Rule {
+public class AllocationRule extends FilteredRule {
+
+	public AllocationRule() {
+		super();
+	}
+
+	public AllocationRule(Rule filterRule) {
+		super(filterRule);
+	}
 
 	@Override
-	public boolean check(JavaClass clazz, CheckingContext checkingContext) {
-		// TODO
+	protected boolean check(Collection<JavaClass> filteredClasses,
+			CheckingContext checkingContext) {
 		return false;
 	}
 
