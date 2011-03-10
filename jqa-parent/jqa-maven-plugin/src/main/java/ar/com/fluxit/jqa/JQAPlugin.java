@@ -39,8 +39,8 @@ import org.slf4j.Logger;
 import ar.com.fluxit.jqa.config.Check;
 import ar.com.fluxit.jqa.config.Configuration;
 import ar.com.fluxit.jqa.log.MavenLogLoggerAdapter;
-import ar.com.fluxit.jqa.predicate.NamingRule;
-import ar.com.fluxit.jqa.predicate.TypingRule;
+import ar.com.fluxit.jqa.predicate.NamingPredicate;
+import ar.com.fluxit.jqa.predicate.TypingPredicate;
 import ar.com.fluxit.jqa.result.CheckingResult;
 import ar.com.fluxit.jqa.util.ClassPathLoader;
 
@@ -63,13 +63,13 @@ public class JQAPlugin extends AbstractMojo {
 		final Configuration configuration = new Configuration();
 
 		final Check ruleset1 = new Check();
-		ruleset1.setFilterRule(new NamingRule("**.entities.**"));
-		ruleset1.setCheckRule(new TypingRule(
+		ruleset1.setFilterRule(new NamingPredicate("**.entities.**"));
+		ruleset1.setCheckRule(new TypingPredicate(
 				"ar.com.osde.framework.entities.FrameworkEntity"));
 
 		final Check ruleset2 = new Check();
-		ruleset2.setFilterRule(new NamingRule("**.bo.**"));
-		ruleset2.setCheckRule(new TypingRule(
+		ruleset2.setFilterRule(new NamingPredicate("**.bo.**"));
+		ruleset2.setCheckRule(new TypingPredicate(
 				"ar.com.osde.framework.business.base.BusinessObject"));
 
 		final XStream xs = new XStream();
