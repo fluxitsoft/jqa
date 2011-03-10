@@ -35,13 +35,13 @@ public class RepositoryImpl implements Repository {
 
 	@Override
 	public void addClass(JavaClass clazz) {
-		org.apache.bcel.Repository.addClass(getWrappedJavaClass(clazz));
+		org.apache.bcel.Repository.addClass(getWrappedClass(clazz));
 	}
 
 	@Override
 	public Collection<JavaClass> getAllocations(final JavaClass clazz) {
 		final List<JavaClass> result = new ArrayList<JavaClass>();
-		getWrappedJavaClass(clazz).getMethods();
+		getWrappedClass(clazz).getMethods();
 		final Visitor visitor = new EmptyVisitor() {
 
 			@Override
@@ -54,11 +54,11 @@ public class RepositoryImpl implements Repository {
 						final String op = Constants.OPCODE_NAMES[opcode];
 						if (NEW_OPCODE_NAME.equals(op)) {
 							final int index = stream.readUnsignedShort();
-							final ConstantPool constantPool = getWrappedJavaClass(
+							final ConstantPool constantPool = getWrappedClass(
 									clazz).getConstantPool();
 							final String className = constantPool
 									.constantToString(index, (byte) 7);
-							result.add(getJavaClass(className));
+							result.add(getClazz(className));
 						}
 					}
 				} catch (final IOException e) {
@@ -67,20 +67,20 @@ public class RepositoryImpl implements Repository {
 			}
 
 		};
-		new DescendingVisitor(getWrappedJavaClass(clazz), visitor).visit();
+		new DescendingVisitor(getWrappedClass(clazz), visitor).visit();
 		return result;
 	}
 
 	private ConstantPool getConstantPool(JavaClass clazz) {
-		return getWrappedJavaClass(clazz).getConstantPool();
+		return getWrappedClass(clazz).getConstantPool();
 	}
 
-	private JavaClass getJavaClass(ConstantClass constantClass, JavaClass clazz) {
+	private JavaClass getClazz(ConstantClass constantClass, JavaClass clazz) {
 		final ConstantPool cp = getConstantPool(clazz);
-		return getJavaClass(constantClass.getBytes(cp));
+		return getClazz(constantClass.getBytes(cp));
 	}
 
-	private JavaClass getJavaClass(String constantClassName) {
+	private JavaClass getClazz(String constantClassName) {
 		final String usedClassName = ClassNameTranslator
 				.typeConstantToClassName(constantClassName);
 		final org.apache.bcel.classfile.JavaClass usedClass = org.apache.bcel.Repository
@@ -91,11 +91,11 @@ public class RepositoryImpl implements Repository {
 	@Override
 	public Collection<JavaClass> getUses(final JavaClass clazz) {
 		final List<JavaClass> result = new ArrayList<JavaClass>();
-		getWrappedJavaClass(clazz).getMethods();
+		getWrappedClass(clazz).getMethods();
 		final Visitor visitor = new EmptyVisitor() {
 			@Override
 			public void visitConstantClass(ConstantClass constantClass) {
-				result.add(getJavaClass(constantClass, clazz));
+				result.add(getClazz(constantClass, clazz));
 			}
 
 			@Override
@@ -106,7 +106,7 @@ public class RepositoryImpl implements Repository {
 				final int beginIndex = signature.startsWith("[") ? 2 : 1;
 				final String signatureClassName = signature.substring(
 						beginIndex, signature.length() - 1);
-				result.add(getJavaClass(signatureClassName));
+				result.add(getClazz(signatureClassName));
 			};
 
 			@Override
@@ -115,17 +115,17 @@ public class RepositoryImpl implements Repository {
 						.signatureToClassNames(method.getSignature());
 				for (final String className : classNames) {
 					if (!className.equals(VOID)) {
-						result.add(getJavaClass(className));
+						result.add(getClazz(className));
 					}
 				}
 			}
 
 		};
-		new DescendingVisitor(getWrappedJavaClass(clazz), visitor).visit();
+		new DescendingVisitor(getWrappedClass(clazz), visitor).visit();
 		return result;
 	}
 
-	private org.apache.bcel.classfile.JavaClass getWrappedJavaClass(
+	private org.apache.bcel.classfile.JavaClass getWrappedClass(
 			JavaClass clazz) {
 		return ((BcelJavaClass) clazz).getWrapped();
 	}
@@ -134,8 +134,8 @@ public class RepositoryImpl implements Repository {
 	public boolean instanceOf(JavaClass clazz, JavaClass parentJavaClass)
 			throws ClassNotFoundException {
 		return org.apache.bcel.Repository.instanceOf(
-				getWrappedJavaClass(clazz),
-				getWrappedJavaClass(parentJavaClass));
+				getWrappedClass(clazz),
+				getWrappedClass(parentJavaClass));
 	}
 
 	@Override

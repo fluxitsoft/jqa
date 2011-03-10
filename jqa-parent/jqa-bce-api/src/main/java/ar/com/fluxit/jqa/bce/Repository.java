@@ -17,12 +17,12 @@ public interface Repository {
 
 	Collection<JavaClass> getUses(JavaClass clazz);
 
-	boolean instanceOf(JavaClass clazz, JavaClass parentJavaClass)
+	boolean instanceOf(JavaClass clazz, JavaClass parentClass)
 			throws ClassNotFoundException;
 
 	JavaClass lookupClass(Class<?> clazz) throws ClassNotFoundException;
 
-	JavaClass lookupClass(String parentClassName) throws ClassNotFoundException;
+	JavaClass lookupClass(String className) throws ClassNotFoundException;
 
 	JavaClass parse(FileInputStream classFile, String className)
 			throws ClassFormatException, IOException;
