@@ -16,37 +16,25 @@
  * You should have received a copy of the GNU General Public License
  * along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package ar.com.fluxit.jqa.rule;
+package ar.com.fluxit.jqa.mock.allocation;
 
-import java.util.Collection;
-
-import ar.com.fluxit.jqa.bce.JavaClass;
-import ar.com.fluxit.jqa.bce.RepositoryLocator;
-import ar.com.fluxit.jqa.context.CheckingContext;
+import ar.com.fluxit.jqa.mock.ClassA;
 
 /**
  * TODO javadoc
  * 
  * @author Juan Ignacio Barisich
  */
-public class AllocationRule extends FilteredRule {
+public class StaticInnerClassThatAllocatesClassA extends ClassA {
 
-	public AllocationRule() {
-		super();
-	}
-
-	public AllocationRule(Rule filterRule) {
-		super(filterRule);
-	}
-
-	@Override
-	public boolean check(JavaClass clazz, CheckingContext checkingContext) {
-		final Collection<JavaClass> filteredClasses = RepositoryLocator.getRepository().getAllocations(clazz);
-		for (JavaClass usedClass : filteredClasses) {
-			if(getFilterRule().check(usedClass, checkingContext)) {
-				return true;
-			}
+	public static class B {
+		ClassA dummy() {
+			return new ClassA();
 		}
-		return false;
+	}
+
+	public StaticInnerClassThatAllocatesClassA() {
+		super();
+
 	}
 }

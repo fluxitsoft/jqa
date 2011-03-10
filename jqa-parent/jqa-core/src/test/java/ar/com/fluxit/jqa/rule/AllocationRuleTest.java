@@ -25,6 +25,9 @@ import ar.com.fluxit.jqa.context.CheckingContext;
 import ar.com.fluxit.jqa.mock.ClassA;
 import ar.com.fluxit.jqa.mock.MockCheckingContext;
 import ar.com.fluxit.jqa.mock.allocation.ClassThatAllocatesClassA;
+import ar.com.fluxit.jqa.mock.allocation.ClassThatStaticAllocatesClassA;
+import ar.com.fluxit.jqa.mock.allocation.InnerClassThatAllocatesClassA;
+import ar.com.fluxit.jqa.mock.allocation.StaticInnerClassThatAllocatesClassA;
 
 /**
  * TODO javadoc
@@ -38,6 +41,12 @@ public class AllocationRuleTest extends TestCase {
 
 		testMatches(filterRuleParentClass, ClassA.class, false);
 		testMatches(filterRuleParentClass, ClassThatAllocatesClassA.class, true);
+		testMatches(filterRuleParentClass, InnerClassThatAllocatesClassA.B.class,
+				true);
+		testMatches(filterRuleParentClass,
+				StaticInnerClassThatAllocatesClassA.B.class, true);
+		testMatches(filterRuleParentClass,
+				ClassThatStaticAllocatesClassA.class, true);		
 	}
 
 	private CheckingContext checkingContext;
