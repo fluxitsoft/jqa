@@ -32,7 +32,7 @@ import ar.com.fluxit.jqa.predicate.TypingPredicate;
  * 
  * @author Juan Ignacio Barisich
  */
-public class TypingRuleTest extends TestCase {
+public class TypingPredicateTest extends TestCase {
 
 	public final void testCheck() throws ClassNotFoundException {
 		final Repository repository = RepositoryLocator.getRepository();

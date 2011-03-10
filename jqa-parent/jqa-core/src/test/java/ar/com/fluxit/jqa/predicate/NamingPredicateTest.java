@@ -28,7 +28,7 @@ import junit.framework.TestCase;
  * @author Paul Cantrell
  * @author Juan Ignacio Barisich
  */
-public class NamingRuleTest extends TestCase {
+public class NamingPredicateTest extends TestCase {
 
 	public final void testCheck() {
 		testMatches(new NamingPredicate("java.lang.*"),

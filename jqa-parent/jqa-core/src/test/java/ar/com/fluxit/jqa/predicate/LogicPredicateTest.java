@@ -18,26 +18,30 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.predicate;
 
-import ar.com.fluxit.jqa.bce.JavaClass;
-import ar.com.fluxit.jqa.predicate.CheckingContextIgnoringPredicate;
 import ar.com.fluxit.jqa.predicate.Predicate;
+import junit.framework.TestCase;
 
 /**
  * TODO javadoc
  * 
  * @author Juan Ignacio Barisich
  */
-public class FalseRule extends CheckingContextIgnoringPredicate {
+public abstract class LogicPredicateTest extends TestCase {
 
-	public static final Predicate INSTANCE = new FalseRule();
-
-	private FalseRule() {
-		super();
+	protected Predicate[] getFalseFalse() {
+		return new Predicate[] { FalsePredicate.INSTANCE, FalsePredicate.INSTANCE };
 	}
 
-	@Override
-	public boolean check(JavaClass clazz) {
-		return false;
+	protected Predicate[] getFalseTrue() {
+		return new Predicate[] { FalsePredicate.INSTANCE, TruePredicate.INSTANCE };
+	}
+
+	protected Predicate[] getTrueFalse() {
+		return new Predicate[] { TruePredicate.INSTANCE, FalsePredicate.INSTANCE };
+	}
+
+	protected Predicate[] getTrueTrue() {
+		return new Predicate[] { TruePredicate.INSTANCE, TruePredicate.INSTANCE };
 	}
 
 }

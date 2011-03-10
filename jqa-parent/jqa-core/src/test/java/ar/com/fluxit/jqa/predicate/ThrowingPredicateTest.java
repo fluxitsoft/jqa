@@ -41,7 +41,7 @@ import ar.com.fluxit.jqa.predicate.TypingPredicate;
  * 
  * @author Juan Ignacio Barisich
  */
-public class ThrowingRuleTest extends TestCase {
+public class ThrowingPredicateTest extends TestCase {
 
 	private CheckingContext checkingContext;
 

@@ -61,7 +61,7 @@ import ar.com.fluxit.jqa.predicate.UsagePredicate;
  * 
  * @author Juan Ignacio Barisich
  */
-public class UsageRuleTest extends TestCase {
+public class UsagePredicateTest extends TestCase {
 
 	private CheckingContext checkingContext;
 

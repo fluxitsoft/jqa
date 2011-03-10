@@ -24,14 +24,14 @@ import junit.framework.TestCase;
 import ar.com.fluxit.jqa.bce.JavaClass;
 import ar.com.fluxit.jqa.bce.Repository;
 import ar.com.fluxit.jqa.bce.RepositoryLocator;
-import ar.com.fluxit.jqa.predicate.InterfacePredicate;
+import ar.com.fluxit.jqa.predicate.AbstractionPredicate;
 
 /**
  * TODO javadoc
  * 
  * @author Juan Ignacio Barisich
  */
-public class InterfaceRuleTest extends TestCase {
+public class AbstractionPredicateTest extends TestCase {
 
 	public final void testCheck() throws ClassNotFoundException {
 		final Repository repository = RepositoryLocator.getRepository();
@@ -40,13 +40,13 @@ public class InterfaceRuleTest extends TestCase {
 				.lookupClass(Serializable.class);
 		final JavaClass abstractClazz = repository.lookupClass(Number.class);
 
-		assertFalse(new InterfacePredicate(true).check(concreteClazz));
-		assertTrue(new InterfacePredicate(true).check(interfaceClazz));
-		assertFalse(new InterfacePredicate(true).check(abstractClazz));
+		assertFalse(new AbstractionPredicate(true).check(concreteClazz));
+		assertTrue(new AbstractionPredicate(true).check(interfaceClazz));
+		assertTrue(new AbstractionPredicate(true).check(abstractClazz));
 
-		assertTrue(new InterfacePredicate(false).check(concreteClazz));
-		assertFalse(new InterfacePredicate(false).check(interfaceClazz));
-		assertTrue(new InterfacePredicate(false).check(abstractClazz));
+		assertTrue(new AbstractionPredicate(false).check(concreteClazz));
+		assertFalse(new AbstractionPredicate(false).check(interfaceClazz));
+		assertFalse(new AbstractionPredicate(false).check(abstractClazz));
 	}
 
 }

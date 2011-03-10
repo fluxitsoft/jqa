@@ -18,26 +18,35 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.predicate;
 
+import java.io.Serializable;
+
+import junit.framework.TestCase;
 import ar.com.fluxit.jqa.bce.JavaClass;
-import ar.com.fluxit.jqa.predicate.CheckingContextIgnoringPredicate;
-import ar.com.fluxit.jqa.predicate.Predicate;
+import ar.com.fluxit.jqa.bce.Repository;
+import ar.com.fluxit.jqa.bce.RepositoryLocator;
+import ar.com.fluxit.jqa.predicate.InterfacePredicate;
 
 /**
  * TODO javadoc
  * 
  * @author Juan Ignacio Barisich
  */
-public class TrueRule extends CheckingContextIgnoringPredicate {
+public class InterfacePredicateTest extends TestCase {
 
-	public static final Predicate INSTANCE = new TrueRule();
+	public final void testCheck() throws ClassNotFoundException {
+		final Repository repository = RepositoryLocator.getRepository();
+		final JavaClass concreteClazz = repository.lookupClass(Integer.class);
+		final JavaClass interfaceClazz = repository
+				.lookupClass(Serializable.class);
+		final JavaClass abstractClazz = repository.lookupClass(Number.class);
 
-	private TrueRule() {
-		super();
-	}
+		assertFalse(new InterfacePredicate(true).check(concreteClazz));
+		assertTrue(new InterfacePredicate(true).check(interfaceClazz));
+		assertFalse(new InterfacePredicate(true).check(abstractClazz));
 
-	@Override
-	public boolean check(JavaClass clazz) {
-		return true;
+		assertTrue(new InterfacePredicate(false).check(concreteClazz));
+		assertFalse(new InterfacePredicate(false).check(interfaceClazz));
+		assertTrue(new InterfacePredicate(false).check(abstractClazz));
 	}
 
 }

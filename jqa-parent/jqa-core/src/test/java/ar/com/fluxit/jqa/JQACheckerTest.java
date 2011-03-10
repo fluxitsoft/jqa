@@ -31,9 +31,9 @@ import org.slf4j.LoggerFactory;
 import ar.com.fluxit.jqa.config.Check;
 import ar.com.fluxit.jqa.config.Configuration;
 import ar.com.fluxit.jqa.mock.ClassA;
-import ar.com.fluxit.jqa.predicate.FalseRule;
+import ar.com.fluxit.jqa.predicate.FalsePredicate;
 import ar.com.fluxit.jqa.predicate.Predicate;
-import ar.com.fluxit.jqa.predicate.TrueRule;
+import ar.com.fluxit.jqa.predicate.TruePredicate;
 import ar.com.fluxit.jqa.result.CheckingResult;
 import ar.com.fluxit.jqa.util.FileUtils;
 
@@ -81,7 +81,7 @@ public class JQACheckerTest extends TestCase {
 		final Collection<File> classFiles = FileUtils.INSTANCE
 				.getClassFiles(ClassA.class);
 		final Configuration configuration = createConfiguration(
-				TrueRule.INSTANCE, FalseRule.INSTANCE);
+				TruePredicate.INSTANCE, FalsePredicate.INSTANCE);
 		final CheckingResult result = getChecker().check(classFiles,
 				configuration, getLog());
 		assertNotNull(result);
@@ -94,7 +94,7 @@ public class JQACheckerTest extends TestCase {
 		final Collection<File> classFiles = FileUtils.INSTANCE
 				.getClassFiles(ClassA.class);
 		final Configuration configuration = createConfiguration(
-				TrueRule.INSTANCE, TrueRule.INSTANCE);
+				TruePredicate.INSTANCE, TruePredicate.INSTANCE);
 		final CheckingResult result = getChecker().check(classFiles,
 				configuration, getLog());
 		assertNotNull(result);
@@ -118,7 +118,7 @@ public class JQACheckerTest extends TestCase {
 		final Collection<File> classFiles = FileUtils.INSTANCE
 				.getClassFiles(ClassA.class);
 		final Configuration configuration = createConfiguration(
-				TrueRule.INSTANCE, FalseRule.INSTANCE);
+				TruePredicate.INSTANCE, FalsePredicate.INSTANCE);
 		final CheckingResult result = getChecker().check(classFiles,
 				configuration, getLog());
 		assertNotNull(result);
@@ -131,7 +131,7 @@ public class JQACheckerTest extends TestCase {
 		final Collection<File> classFiles = FileUtils.INSTANCE
 				.getClassFiles(ClassA.class);
 		final Configuration configuration = createConfiguration(
-				FalseRule.INSTANCE, FalseRule.INSTANCE);
+				FalsePredicate.INSTANCE, FalsePredicate.INSTANCE);
 		final CheckingResult result = getChecker().check(classFiles,
 				configuration, getLog());
 		assertNotNull(result);

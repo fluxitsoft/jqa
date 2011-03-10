@@ -18,23 +18,26 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.predicate;
 
-import ar.com.fluxit.jqa.predicate.NotPredicate;
-import junit.framework.TestCase;
+import ar.com.fluxit.jqa.bce.JavaClass;
+import ar.com.fluxit.jqa.predicate.CheckingContextIgnoringPredicate;
+import ar.com.fluxit.jqa.predicate.Predicate;
 
 /**
  * TODO javadoc
  * 
  * @author Juan Ignacio Barisich
  */
-public class NotRuleTest extends TestCase {
+public class TruePredicate extends CheckingContextIgnoringPredicate {
 
-	public NotRuleTest() {
+	public static final Predicate INSTANCE = new TruePredicate();
+
+	private TruePredicate() {
 		super();
 	}
 
-	public void testCheck() {
-		assertTrue(new NotPredicate(FalseRule.INSTANCE).evaluate(null, null));
-		assertFalse(new NotPredicate(TrueRule.INSTANCE).evaluate(null, null));
+	@Override
+	public boolean check(JavaClass clazz) {
+		return true;
 	}
 
 }

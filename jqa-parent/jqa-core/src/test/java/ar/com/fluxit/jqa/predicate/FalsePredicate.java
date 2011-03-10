@@ -18,24 +18,26 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.predicate;
 
-import ar.com.fluxit.jqa.predicate.AndPredicate;
+import ar.com.fluxit.jqa.bce.JavaClass;
+import ar.com.fluxit.jqa.predicate.CheckingContextIgnoringPredicate;
+import ar.com.fluxit.jqa.predicate.Predicate;
 
 /**
  * TODO javadoc
  * 
  * @author Juan Ignacio Barisich
  */
-public class AndRuleTest extends LogicRuleTest {
+public class FalsePredicate extends CheckingContextIgnoringPredicate {
 
-	public AndRuleTest() {
+	public static final Predicate INSTANCE = new FalsePredicate();
+
+	private FalsePredicate() {
 		super();
 	}
 
-	public void testCheck() {
-		assertTrue(new AndPredicate(getTrueTrue()).evaluate(null, null));
-		assertFalse(new AndPredicate(getTrueFalse()).evaluate(null, null));
-		assertFalse(new AndPredicate(getFalseTrue()).evaluate(null, null));
-		assertFalse(new AndPredicate(getFalseFalse()).evaluate(null, null));
+	@Override
+	public boolean check(JavaClass clazz) {
+		return false;
 	}
 
 }

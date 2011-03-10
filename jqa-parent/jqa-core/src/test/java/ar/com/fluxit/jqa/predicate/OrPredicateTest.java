@@ -18,30 +18,24 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.predicate;
 
-import ar.com.fluxit.jqa.predicate.Predicate;
-import junit.framework.TestCase;
+import ar.com.fluxit.jqa.predicate.OrPredicate;
 
 /**
  * TODO javadoc
  * 
  * @author Juan Ignacio Barisich
  */
-public abstract class LogicRuleTest extends TestCase {
+public class OrPredicateTest extends LogicPredicateTest {
 
-	protected Predicate[] getFalseFalse() {
-		return new Predicate[] { FalseRule.INSTANCE, FalseRule.INSTANCE };
+	public OrPredicateTest() {
+		super();
 	}
 
-	protected Predicate[] getFalseTrue() {
-		return new Predicate[] { FalseRule.INSTANCE, TrueRule.INSTANCE };
-	}
-
-	protected Predicate[] getTrueFalse() {
-		return new Predicate[] { TrueRule.INSTANCE, FalseRule.INSTANCE };
-	}
-
-	protected Predicate[] getTrueTrue() {
-		return new Predicate[] { TrueRule.INSTANCE, TrueRule.INSTANCE };
+	public void testCheck() {
+		assertTrue(new OrPredicate(getTrueTrue()).evaluate(null, null));
+		assertTrue(new OrPredicate(getTrueFalse()).evaluate(null, null));
+		assertTrue(new OrPredicate(getFalseTrue()).evaluate(null, null));
+		assertFalse(new OrPredicate(getFalseFalse()).evaluate(null, null));
 	}
 
 }

@@ -25,9 +25,9 @@ import ar.com.fluxit.jqa.predicate.XorPredicate;
  * 
  * @author Juan Ignacio Barisich
  */
-public class XorRuleTest extends LogicRuleTest {
+public class XorPredicateTest extends LogicPredicateTest {
 
-	public XorRuleTest() {
+	public XorPredicateTest() {
 		super();
 	}
 

@@ -37,7 +37,7 @@ import ar.com.fluxit.jqa.predicate.TypingPredicate;
  * 
  * @author Juan Ignacio Barisich
  */
-public class AllocationRuleTest extends TestCase {
+public class AllocationPredicateTest extends TestCase {
 
 	private CheckingContext checkingContext;
 

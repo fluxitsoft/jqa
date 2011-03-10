@@ -20,17 +20,17 @@ package ar.com.fluxit.jqa;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
-import ar.com.fluxit.jqa.predicate.AbstractionRuleTest;
-import ar.com.fluxit.jqa.predicate.AllocationRuleTest;
-import ar.com.fluxit.jqa.predicate.AndRuleTest;
-import ar.com.fluxit.jqa.predicate.InterfaceRuleTest;
-import ar.com.fluxit.jqa.predicate.NamingRuleTest;
-import ar.com.fluxit.jqa.predicate.NotRuleTest;
-import ar.com.fluxit.jqa.predicate.OrRuleTest;
-import ar.com.fluxit.jqa.predicate.ThrowingRuleTest;
-import ar.com.fluxit.jqa.predicate.TypingRuleTest;
-import ar.com.fluxit.jqa.predicate.UsageRuleTest;
-import ar.com.fluxit.jqa.predicate.XorRuleTest;
+import ar.com.fluxit.jqa.predicate.AbstractionPredicateTest;
+import ar.com.fluxit.jqa.predicate.AllocationPredicateTest;
+import ar.com.fluxit.jqa.predicate.AndPredicateTest;
+import ar.com.fluxit.jqa.predicate.InterfacePredicateTest;
+import ar.com.fluxit.jqa.predicate.NamingPredicateTest;
+import ar.com.fluxit.jqa.predicate.NotPredicateTest;
+import ar.com.fluxit.jqa.predicate.OrPredicateTest;
+import ar.com.fluxit.jqa.predicate.ThrowingPredicateTest;
+import ar.com.fluxit.jqa.predicate.TypingPredicateTest;
+import ar.com.fluxit.jqa.predicate.UsagePredicateTest;
+import ar.com.fluxit.jqa.predicate.XorPredicateTest;
 
 /**
  * TODO javadoc
@@ -43,17 +43,17 @@ public class AllTests {
 		final TestSuite suite = new TestSuite(AllTests.class.getName());
 		// $JUnit-BEGIN$
 		suite.addTestSuite(JQACheckerTest.class);
-		suite.addTestSuite(UsageRuleTest.class);
-		suite.addTestSuite(XorRuleTest.class);
-		suite.addTestSuite(OrRuleTest.class);
-		suite.addTestSuite(TypingRuleTest.class);
-		suite.addTestSuite(NamingRuleTest.class);
-		suite.addTestSuite(NotRuleTest.class);
-		suite.addTestSuite(AndRuleTest.class);
-		suite.addTestSuite(AbstractionRuleTest.class);
-		suite.addTestSuite(InterfaceRuleTest.class);
-		suite.addTestSuite(AllocationRuleTest.class);
-		suite.addTestSuite(ThrowingRuleTest.class);		
+		suite.addTestSuite(UsagePredicateTest.class);
+		suite.addTestSuite(XorPredicateTest.class);
+		suite.addTestSuite(OrPredicateTest.class);
+		suite.addTestSuite(TypingPredicateTest.class);
+		suite.addTestSuite(NamingPredicateTest.class);
+		suite.addTestSuite(NotPredicateTest.class);
+		suite.addTestSuite(AndPredicateTest.class);
+		suite.addTestSuite(AbstractionPredicateTest.class);
+		suite.addTestSuite(InterfacePredicateTest.class);
+		suite.addTestSuite(AllocationPredicateTest.class);
+		suite.addTestSuite(ThrowingPredicateTest.class);		
 		// $JUnit-END$
 		return suite;
 	}
