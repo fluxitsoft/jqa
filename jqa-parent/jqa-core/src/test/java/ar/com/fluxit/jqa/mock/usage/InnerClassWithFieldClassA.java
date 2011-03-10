@@ -28,7 +28,7 @@ import ar.com.fluxit.jqa.mock.ClassA;
 public class InnerClassWithFieldClassA {
 
 	public class B {
-		private ClassA classA = null;
+		private final ClassA classA = null;
 
 		String dummy() {
 			return classA.toString();

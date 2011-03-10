@@ -34,7 +34,7 @@ import ar.com.fluxit.jqa.bce.RepositoryLocator;
 public class TypingRuleTest extends TestCase {
 
 	public final void testCheck() throws ClassNotFoundException {
-		Repository repository = RepositoryLocator.getRepository();
+		final Repository repository = RepositoryLocator.getRepository();
 		// Test class type
 		testMatches(new TypingRule("java.lang.Number"),
 				new JavaClass[] { repository.lookupClass(Integer.class),

@@ -18,9 +18,8 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.rule;
 
-import ar.com.fluxit.jqa.context.CheckingContext;
-
 import ar.com.fluxit.jqa.bce.JavaClass;
+import ar.com.fluxit.jqa.context.CheckingContext;
 
 /**
  * TODO javadoc

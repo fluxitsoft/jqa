@@ -31,7 +31,7 @@ public class InterfaceRule extends CheckingContextIgnoringRule {
 
 	public InterfaceRule(boolean isAbstract) {
 		super();
-		this.isInterface = isAbstract;
+		isInterface = isAbstract;
 	}
 
 	@Override
@@ -44,7 +44,7 @@ public class InterfaceRule extends CheckingContextIgnoringRule {
 	}
 
 	public void setInterface(boolean isAbstract) {
-		this.isInterface = isAbstract;
+		isInterface = isAbstract;
 	}
 
 }

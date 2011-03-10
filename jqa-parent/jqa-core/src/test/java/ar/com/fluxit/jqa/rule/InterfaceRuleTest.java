@@ -33,7 +33,7 @@ import ar.com.fluxit.jqa.bce.RepositoryLocator;
 public class InterfaceRuleTest extends TestCase {
 
 	public final void testCheck() throws ClassNotFoundException {
-		Repository repository = RepositoryLocator.getRepository();
+		final Repository repository = RepositoryLocator.getRepository();
 		final JavaClass concreteClazz = repository.lookupClass(Integer.class);
 		final JavaClass interfaceClazz = repository
 				.lookupClass(Serializable.class);

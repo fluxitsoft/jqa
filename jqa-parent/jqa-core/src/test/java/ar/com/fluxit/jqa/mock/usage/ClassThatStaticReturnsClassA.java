@@ -27,11 +27,11 @@ import ar.com.fluxit.jqa.mock.ClassA;
  */
 public class ClassThatStaticReturnsClassA {
 
-	public ClassThatStaticReturnsClassA() {
-		super();
-	}
-
 	static ClassA dummy() {
 		return null;
+	}
+
+	public ClassThatStaticReturnsClassA() {
+		super();
 	}
 }

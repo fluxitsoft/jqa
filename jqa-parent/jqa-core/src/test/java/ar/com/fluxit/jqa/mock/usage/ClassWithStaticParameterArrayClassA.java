@@ -27,11 +27,11 @@ import ar.com.fluxit.jqa.mock.ClassA;
  */
 public class ClassWithStaticParameterArrayClassA {
 
-	public ClassWithStaticParameterArrayClassA() {
-		super();
-	}
-
 	static void dummy(ClassA[] classA) {
 		System.out.println(classA);
+	}
+
+	public ClassWithStaticParameterArrayClassA() {
+		super();
 	}
 }

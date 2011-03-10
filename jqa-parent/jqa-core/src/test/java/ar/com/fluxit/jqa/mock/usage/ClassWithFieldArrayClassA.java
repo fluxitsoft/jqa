@@ -27,7 +27,7 @@ import ar.com.fluxit.jqa.mock.ClassA;
  */
 public class ClassWithFieldArrayClassA {
 
-	private ClassA[] classA = null;
+	private final ClassA[] classA = null;
 
 	public ClassWithFieldArrayClassA() {
 		super();

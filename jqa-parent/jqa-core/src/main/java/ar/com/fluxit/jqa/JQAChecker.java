@@ -51,7 +51,7 @@ public class JQAChecker {
 	public CheckingResult check(Collection<File> classFiles,
 			Configuration configuration, Logger log) {
 		final CheckingResult result = new CheckingResult();
-		CheckingContext checkingContext = null; // TODO
+		final CheckingContext checkingContext = null; // TODO
 		for (final File classFile : classFiles) {
 			try {
 				final FileInputStream fis = new FileInputStream(classFile);

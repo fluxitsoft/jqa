@@ -41,9 +41,10 @@ public class AllocationRule extends FilteredRule {
 
 	@Override
 	public boolean check(JavaClass clazz, CheckingContext checkingContext) {
-		final Collection<JavaClass> filteredClasses = RepositoryLocator.getRepository().getAllocations(clazz);
-		for (JavaClass usedClass : filteredClasses) {
-			if(getFilterRule().check(usedClass, checkingContext)) {
+		final Collection<JavaClass> filteredClasses = RepositoryLocator
+				.getRepository().getAllocations(clazz);
+		for (final JavaClass usedClass : filteredClasses) {
+			if (getFilterRule().check(usedClass, checkingContext)) {
 				return true;
 			}
 		}

@@ -3,6 +3,11 @@ package ar.com.fluxit.jqa.mock;
 import ar.com.fluxit.jqa.bce.Repository;
 import ar.com.fluxit.jqa.context.CheckingContext;
 
+/**
+ * TODO javadoc
+ * 
+ * @author Juan Ignacio Barisich
+ */
 public class MockCheckingContext implements CheckingContext {
 
 	@Override

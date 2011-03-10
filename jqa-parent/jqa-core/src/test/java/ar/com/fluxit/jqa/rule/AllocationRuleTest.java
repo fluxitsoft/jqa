@@ -36,19 +36,6 @@ import ar.com.fluxit.jqa.mock.allocation.StaticInnerClassThatAllocatesClassA;
  */
 public class AllocationRuleTest extends TestCase {
 
-	public final void testCheck() throws ClassNotFoundException {
-		final String filterRuleParentClass = ClassA.class.getName();
-
-		testMatches(filterRuleParentClass, ClassA.class, false);
-		testMatches(filterRuleParentClass, ClassThatAllocatesClassA.class, true);
-		testMatches(filterRuleParentClass, InnerClassThatAllocatesClassA.B.class,
-				true);
-		testMatches(filterRuleParentClass,
-				StaticInnerClassThatAllocatesClassA.B.class, true);
-		testMatches(filterRuleParentClass,
-				ClassThatStaticAllocatesClassA.class, true);		
-	}
-
 	private CheckingContext checkingContext;
 
 	private CheckingContext getCheckingContext() {
@@ -56,13 +43,26 @@ public class AllocationRuleTest extends TestCase {
 	}
 
 	@Override
-	protected void tearDown() throws Exception {
-		this.checkingContext = null;
+	protected void setUp() throws Exception {
+		checkingContext = new MockCheckingContext();
 	}
 
 	@Override
-	protected void setUp() throws Exception {
-		this.checkingContext = new MockCheckingContext();
+	protected void tearDown() throws Exception {
+		checkingContext = null;
+	}
+
+	public final void testCheck() throws ClassNotFoundException {
+		final String filterRuleParentClass = ClassA.class.getName();
+
+		testMatches(filterRuleParentClass, ClassA.class, false);
+		testMatches(filterRuleParentClass, ClassThatAllocatesClassA.class, true);
+		testMatches(filterRuleParentClass,
+				InnerClassThatAllocatesClassA.B.class, true);
+		testMatches(filterRuleParentClass,
+				StaticInnerClassThatAllocatesClassA.B.class, true);
+		testMatches(filterRuleParentClass,
+				ClassThatStaticAllocatesClassA.class, true);
 	}
 
 	private void testMatches(String filterRuleParentClass,

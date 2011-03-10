@@ -67,51 +67,74 @@ public class UsageRuleTest extends TestCase {
 	}
 
 	@Override
-	protected void tearDown() throws Exception {
-		this.checkingContext = null;
+	protected void setUp() throws Exception {
+		checkingContext = new MockCheckingContext();
 	}
 
 	@Override
-	protected void setUp() throws Exception {
-		this.checkingContext = new MockCheckingContext();
+	protected void tearDown() throws Exception {
+		checkingContext = null;
 	}
 
 	public final void testCheck() throws ClassNotFoundException {
 		final String filterRuleParentClass = ClassA.class.getName();
-		
+
 		// Simple class
 		testMatches(filterRuleParentClass, ClassA.class, true);
 		testMatches(filterRuleParentClass, ClassWithoutClassA.class, false);
 		testMatches(filterRuleParentClass, ClassThatExtendsClassA.class, true);
 		testMatches(filterRuleParentClass, ClassWithFieldClassA.class, true);
-		testMatches(filterRuleParentClass, ClassWithFieldArrayClassA.class, true);
+		testMatches(filterRuleParentClass, ClassWithFieldArrayClassA.class,
+				true);
 		testMatches(filterRuleParentClass, ClassWithParameterClassA.class, true);
-		testMatches(filterRuleParentClass, ClassWithParameterArrayClassA.class, true);
-		testMatches(filterRuleParentClass, ClassThatReturnsClassA.class, true);	
-		testMatches(filterRuleParentClass, ClassThatReturnsArrayClassA.class, true);
+		testMatches(filterRuleParentClass, ClassWithParameterArrayClassA.class,
+				true);
+		testMatches(filterRuleParentClass, ClassThatReturnsClassA.class, true);
+		testMatches(filterRuleParentClass, ClassThatReturnsArrayClassA.class,
+				true);
 		// Inner class
-		testMatches(filterRuleParentClass, InnerClassThatExtendsClassA.B.class, true); 
-		testMatches(filterRuleParentClass, InnerClassWithFieldClassA.B.class, true);
-		testMatches(filterRuleParentClass, InnerClassWithFieldArrayClassA.B.class, true);
-		testMatches(filterRuleParentClass, InnerClassWithParameterClassA.B.class, true);
-		testMatches(filterRuleParentClass, InnerClassWithParameterArrayClassA.B.class, true);
-		testMatches(filterRuleParentClass, InnerClassThatReturnsClassA.B.class, true);	
-		testMatches(filterRuleParentClass, InnerClassThatReturnsArrayClassA.B.class, true);
+		testMatches(filterRuleParentClass, InnerClassThatExtendsClassA.B.class,
+				true);
+		testMatches(filterRuleParentClass, InnerClassWithFieldClassA.B.class,
+				true);
+		testMatches(filterRuleParentClass,
+				InnerClassWithFieldArrayClassA.B.class, true);
+		testMatches(filterRuleParentClass,
+				InnerClassWithParameterClassA.B.class, true);
+		testMatches(filterRuleParentClass,
+				InnerClassWithParameterArrayClassA.B.class, true);
+		testMatches(filterRuleParentClass, InnerClassThatReturnsClassA.B.class,
+				true);
+		testMatches(filterRuleParentClass,
+				InnerClassThatReturnsArrayClassA.B.class, true);
 		// Inner static class
-		testMatches(filterRuleParentClass, StaticInnerClassThatExtendsClassA.B.class, true);
-		testMatches(filterRuleParentClass, StaticInnerClassWithFieldClassA.B.class, true);
-		testMatches(filterRuleParentClass, StaticInnerClassWithFieldArrayClassA.B.class, true);
-		testMatches(filterRuleParentClass, StaticInnerClassWithParameterClassA.B.class, true);
-		testMatches(filterRuleParentClass, StaticInnerClassWithParameterArrayClassA.B.class, true);
-		testMatches(filterRuleParentClass, StaticInnerClassThatReturnsClassA.B.class, true);	
-		testMatches(filterRuleParentClass, StaticInnerClassThatReturnsArrayClassA.B.class, true);
+		testMatches(filterRuleParentClass,
+				StaticInnerClassThatExtendsClassA.B.class, true);
+		testMatches(filterRuleParentClass,
+				StaticInnerClassWithFieldClassA.B.class, true);
+		testMatches(filterRuleParentClass,
+				StaticInnerClassWithFieldArrayClassA.B.class, true);
+		testMatches(filterRuleParentClass,
+				StaticInnerClassWithParameterClassA.B.class, true);
+		testMatches(filterRuleParentClass,
+				StaticInnerClassWithParameterArrayClassA.B.class, true);
+		testMatches(filterRuleParentClass,
+				StaticInnerClassThatReturnsClassA.B.class, true);
+		testMatches(filterRuleParentClass,
+				StaticInnerClassThatReturnsArrayClassA.B.class, true);
 		// Static methods
-		testMatches(filterRuleParentClass, ClassWithStaticFieldClassA.class, true);
-		testMatches(filterRuleParentClass, ClassWithStaticFieldArrayClassA.class, true);
-		testMatches(filterRuleParentClass, ClassWithStaticParameterClassA.class, true);
-		testMatches(filterRuleParentClass, ClassWithStaticParameterArrayClassA.class, true);
-		testMatches(filterRuleParentClass, ClassThatStaticReturnsClassA.class, true);	
-		testMatches(filterRuleParentClass, ClassThatStaticReturnsArrayClassA.class, true);
+		testMatches(filterRuleParentClass, ClassWithStaticFieldClassA.class,
+				true);
+		testMatches(filterRuleParentClass,
+				ClassWithStaticFieldArrayClassA.class, true);
+		testMatches(filterRuleParentClass,
+				ClassWithStaticParameterClassA.class, true);
+		testMatches(filterRuleParentClass,
+				ClassWithStaticParameterArrayClassA.class, true);
+		testMatches(filterRuleParentClass, ClassThatStaticReturnsClassA.class,
+				true);
+		testMatches(filterRuleParentClass,
+				ClassThatStaticReturnsArrayClassA.class, true);
 	}
 
 	private void testMatches(String filterRuleParentClass,
@@ -120,7 +143,8 @@ public class UsageRuleTest extends TestCase {
 		final Rule filterRule = new TypingRule(filterRuleParentClass);
 		final JavaClass clazz = RepositoryLocator.getRepository().lookupClass(
 				usageRuleclass);
-		assertEquals(matches, new UsageRule(filterRule).check(clazz, getCheckingContext()));
+		assertEquals(matches,
+				new UsageRule(filterRule).check(clazz, getCheckingContext()));
 	}
 
 }

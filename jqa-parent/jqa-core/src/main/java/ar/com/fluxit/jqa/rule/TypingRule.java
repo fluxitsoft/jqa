@@ -21,7 +21,6 @@ package ar.com.fluxit.jqa.rule;
 import ar.com.fluxit.jqa.bce.JavaClass;
 import ar.com.fluxit.jqa.bce.RepositoryLocator;
 
-
 /**
  * TODO javadoc
  * 
@@ -44,7 +43,8 @@ public class TypingRule extends CheckingContextIgnoringRule {
 
 	protected boolean evaluateClass(JavaClass clazz) {
 		try {
-			return RepositoryLocator.getRepository().instanceOf(clazz, getParentJavaClass());
+			return RepositoryLocator.getRepository().instanceOf(clazz,
+					getParentJavaClass());
 		} catch (final ClassNotFoundException e) {
 			throw new IllegalStateException(e);
 		}
@@ -56,7 +56,8 @@ public class TypingRule extends CheckingContextIgnoringRule {
 
 	private JavaClass getParentJavaClass() throws ClassNotFoundException {
 		if (parentJavaClass == null) {
-			parentJavaClass = RepositoryLocator.getRepository().lookupClass(getParentClassName());
+			parentJavaClass = RepositoryLocator.getRepository().lookupClass(
+					getParentClassName());
 		}
 		return parentJavaClass;
 	}

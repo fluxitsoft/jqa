@@ -29,7 +29,7 @@ public class StaticInnerClassWithFieldArrayClassA {
 
 	public static class B {
 
-		private ClassA[] classA = null;
+		private final ClassA[] classA = null;
 
 		void dummy() {
 			System.out.println(classA);
@@ -39,5 +39,5 @@ public class StaticInnerClassWithFieldArrayClassA {
 	public StaticInnerClassWithFieldArrayClassA() {
 		super();
 	}
-	
+
 }

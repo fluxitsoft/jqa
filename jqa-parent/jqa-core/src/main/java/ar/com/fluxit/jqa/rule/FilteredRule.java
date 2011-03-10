@@ -1,6 +1,5 @@
 package ar.com.fluxit.jqa.rule;
 
-
 /**
  * TODO javadoc
  * 
@@ -14,7 +13,6 @@ public abstract class FilteredRule implements Rule {
 		super();
 	}
 
-	
 	public FilteredRule(Rule filterRule) {
 		super();
 		this.filterRule = filterRule;

@@ -27,11 +27,11 @@ import ar.com.fluxit.jqa.mock.ClassA;
  */
 public class ClassThatStaticAllocatesClassA extends ClassA {
 
-	public ClassThatStaticAllocatesClassA() {
-		super();
-	}
-
 	public static void dummy() {
 		new ClassA();
+	}
+
+	public ClassThatStaticAllocatesClassA() {
+		super();
 	}
 }

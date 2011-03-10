@@ -39,23 +39,26 @@ public class UsageRule extends FilteredRule {
 		super(filterRule);
 	}
 
-	public Rule getFilterRule() {
-		return filterRule;
-	}
-
-	public void setFilterRule(Rule filterRule) {
-		this.filterRule = filterRule;
-	}
-
 	@Override
 	public boolean check(JavaClass clazz, CheckingContext checkingContext) {
-		final Collection<JavaClass> filteredClasses = RepositoryLocator.getRepository().getUses(clazz);
-		for (JavaClass usedClass : filteredClasses) {
-			if(getFilterRule().check(usedClass, checkingContext)) {
+		final Collection<JavaClass> filteredClasses = RepositoryLocator
+				.getRepository().getUses(clazz);
+		for (final JavaClass usedClass : filteredClasses) {
+			if (getFilterRule().check(usedClass, checkingContext)) {
 				return true;
 			}
 		}
 		return false;
+	}
+
+	@Override
+	public Rule getFilterRule() {
+		return filterRule;
+	}
+
+	@Override
+	public void setFilterRule(Rule filterRule) {
+		this.filterRule = filterRule;
 	}
 
 }

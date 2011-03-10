@@ -22,13 +22,13 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 import ar.com.fluxit.jqa.rule.AbstractionRuleTest;
 import ar.com.fluxit.jqa.rule.AllocationRuleTest;
-import ar.com.fluxit.jqa.rule.UsageRuleTest;
 import ar.com.fluxit.jqa.rule.AndRuleTest;
 import ar.com.fluxit.jqa.rule.InterfaceRuleTest;
 import ar.com.fluxit.jqa.rule.NamingRuleTest;
 import ar.com.fluxit.jqa.rule.NotRuleTest;
 import ar.com.fluxit.jqa.rule.OrRuleTest;
 import ar.com.fluxit.jqa.rule.TypingRuleTest;
+import ar.com.fluxit.jqa.rule.UsageRuleTest;
 import ar.com.fluxit.jqa.rule.XorRuleTest;
 
 /**
@@ -50,7 +50,7 @@ public class AllTests {
 		suite.addTestSuite(NotRuleTest.class);
 		suite.addTestSuite(AndRuleTest.class);
 		suite.addTestSuite(AbstractionRuleTest.class);
-		suite.addTestSuite(InterfaceRuleTest.class);	
+		suite.addTestSuite(InterfaceRuleTest.class);
 		suite.addTestSuite(AllocationRuleTest.class);
 		// $JUnit-END$
 		return suite;

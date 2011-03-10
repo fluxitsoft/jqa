@@ -18,10 +18,9 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.rule;
 
+import ar.com.fluxit.jqa.bce.JavaClass;
 import ar.com.fluxit.jqa.exception.RegExSyntaxException;
 import ar.com.fluxit.jqa.util.RegEx;
-
-import ar.com.fluxit.jqa.bce.JavaClass;
 
 /**
  * TODO javadoc
