@@ -38,7 +38,6 @@ public class AllocationRuleTest extends TestCase {
 
 		testMatches(filterRuleParentClass, ClassA.class, false);
 		testMatches(filterRuleParentClass, ClassThatAllocatesClassA.class, true);
-
 	}
 
 	private CheckingContext checkingContext;

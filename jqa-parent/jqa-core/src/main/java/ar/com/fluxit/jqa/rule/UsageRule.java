@@ -21,6 +21,7 @@ package ar.com.fluxit.jqa.rule;
 import java.util.Collection;
 
 import ar.com.fluxit.jqa.bce.JavaClass;
+import ar.com.fluxit.jqa.bce.RepositoryLocator;
 import ar.com.fluxit.jqa.context.CheckingContext;
 
 /**
@@ -38,11 +39,19 @@ public class UsageRule extends FilteredRule {
 		super(filterRule);
 	}
 
+	public Rule getFilterRule() {
+		return filterRule;
+	}
+
+	public void setFilterRule(Rule filterRule) {
+		this.filterRule = filterRule;
+	}
+
 	@Override
-	protected boolean check(Collection<JavaClass> filteredClasses,
-			CheckingContext checkingContext) {
+	public boolean check(JavaClass clazz, CheckingContext checkingContext) {
+		final Collection<JavaClass> filteredClasses = RepositoryLocator.getRepository().getUses(clazz);
 		for (JavaClass usedClass : filteredClasses) {
-			if (getFilterRule().check(usedClass, checkingContext)) {
+			if(getFilterRule().check(usedClass, checkingContext)) {
 				return true;
 			}
 		}
