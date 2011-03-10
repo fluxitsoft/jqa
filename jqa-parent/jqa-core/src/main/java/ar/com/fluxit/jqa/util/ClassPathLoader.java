@@ -28,12 +28,11 @@ import java.net.URLClassLoader;
 
 import javax.management.IntrospectionException;
 
+import org.apache.bcel.util.ClassPath;
 import org.slf4j.Logger;
 
 import ar.com.fluxit.jqa.bce.ClassFormatException;
 import ar.com.fluxit.jqa.bce.RepositoryLocator;
-
-import com.sun.org.apache.bcel.internal.util.ClassPath;
 
 /**
  * TODO javadoc
