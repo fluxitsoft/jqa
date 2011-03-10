@@ -27,4 +27,6 @@ public interface Repository {
 	JavaClass parse(FileInputStream classFile, String className)
 			throws ClassFormatException, IOException;
 
+	Collection<JavaClass> getThrows(JavaClass clazz);
+
 }

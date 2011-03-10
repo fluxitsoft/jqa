@@ -27,6 +27,7 @@ import ar.com.fluxit.jqa.rule.InterfaceRuleTest;
 import ar.com.fluxit.jqa.rule.NamingRuleTest;
 import ar.com.fluxit.jqa.rule.NotRuleTest;
 import ar.com.fluxit.jqa.rule.OrRuleTest;
+import ar.com.fluxit.jqa.rule.ThrowingRuleTest;
 import ar.com.fluxit.jqa.rule.TypingRuleTest;
 import ar.com.fluxit.jqa.rule.UsageRuleTest;
 import ar.com.fluxit.jqa.rule.XorRuleTest;
@@ -52,6 +53,7 @@ public class AllTests {
 		suite.addTestSuite(AbstractionRuleTest.class);
 		suite.addTestSuite(InterfaceRuleTest.class);
 		suite.addTestSuite(AllocationRuleTest.class);
+		suite.addTestSuite(ThrowingRuleTest.class);		
 		// $JUnit-END$
 		return suite;
 	}

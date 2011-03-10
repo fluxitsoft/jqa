@@ -16,11 +16,11 @@ import org.apache.bcel.classfile.EmptyVisitor;
 import org.apache.bcel.classfile.Field;
 import org.apache.bcel.classfile.Method;
 import org.apache.bcel.classfile.Visitor;
-import org.apache.bcel.util.ByteSequence;
 
 import ar.com.fluxit.jqa.bce.ClassFormatException;
 import ar.com.fluxit.jqa.bce.JavaClass;
 import ar.com.fluxit.jqa.bce.Repository;
+import ar.com.fluxit.jqa.bce.bcel.util.ByteSequence;
 import ar.com.fluxit.jqa.bce.bcel.util.ClassNameTranslator;
 
 /**
@@ -32,7 +32,9 @@ public class RepositoryImpl implements Repository {
 
 	private static final String VOID = "void";
 	protected static final String NEW_OPCODE_NAME = "new";
-
+	protected static final String THROW_OPCODE_NAME = "athrow";
+	protected static final int SLIDE = 6;
+	
 	@Override
 	public void addClass(JavaClass clazz) {
 		org.apache.bcel.Repository.addClass(getWrappedClass(clazz));
@@ -45,8 +47,8 @@ public class RepositoryImpl implements Repository {
 		final Visitor visitor = new EmptyVisitor() {
 
 			@Override
-			public void visitCode(Code obj) {
-				final ByteSequence stream = new ByteSequence(obj.getCode());
+			public void visitCode(Code code) {
+				final ByteSequence stream = new ByteSequence(code.getCode());
 				short opcode;
 				try {
 					while (stream.available() > 0) {
@@ -158,6 +160,45 @@ public class RepositoryImpl implements Repository {
 		} catch (final org.apache.bcel.classfile.ClassFormatException e) {
 			throw new ClassFormatException(e);
 		}
+	}
+	
+	@Override
+	public Collection<JavaClass> getThrows(final JavaClass clazz) {
+		final List<JavaClass> result = new ArrayList<JavaClass>();
+		getWrappedClass(clazz).getMethods();
+		final Visitor visitor = new EmptyVisitor() {
+
+			@Override
+			public void visitCode(Code code) {
+				final ByteSequence stream = new ByteSequence(code.getCode());
+				short opcode;
+				try {
+					while (stream.available() > 0) {
+						opcode = (short) stream.readUnsignedByte();
+						final String op = Constants.OPCODE_NAMES[opcode];
+						if (THROW_OPCODE_NAME.equals(op)) {
+							for (int i = 0; i < SLIDE; i++) {
+								stream.unreadByte();
+							}
+							final int index = stream.readUnsignedByte();
+							final ConstantPool constantPool = getWrappedClass(
+									clazz).getConstantPool();
+							final String className = constantPool
+									.constantToString(index, (byte) 7);
+							result.add(getClazz(className));
+							for (int i = 0; i < SLIDE - 1; i++) {
+								stream.readUnsignedByte();
+							}
+						}
+					}
+				} catch (final IOException e) {
+					throw new IllegalStateException(e);
+				}
+			}
+
+		};
+		new DescendingVisitor(getWrappedClass(clazz), visitor).visit();
+		return result;
 	}
 
 }
