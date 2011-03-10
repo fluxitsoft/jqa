@@ -35,7 +35,7 @@ public class UsagePredicate extends FilteredPredicate {
 		super();
 	}
 
-	public UsagePredicate(Rule filterRule) {
+	public UsagePredicate(Predicate filterRule) {
 		super(filterRule);
 	}
 
@@ -52,12 +52,12 @@ public class UsagePredicate extends FilteredPredicate {
 	}
 
 	@Override
-	public Rule getFilterRule() {
+	public Predicate getFilterRule() {
 		return filterRule;
 	}
 
 	@Override
-	public void setFilterRule(Rule filterRule) {
+	public void setFilterRule(Predicate filterRule) {
 		this.filterRule = filterRule;
 	}
 

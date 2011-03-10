@@ -18,7 +18,7 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.predicate;
 
-import ar.com.fluxit.jqa.predicate.Rule;
+import ar.com.fluxit.jqa.predicate.Predicate;
 import junit.framework.TestCase;
 
 /**
@@ -28,20 +28,20 @@ import junit.framework.TestCase;
  */
 public abstract class LogicRuleTest extends TestCase {
 
-	protected Rule[] getFalseFalse() {
-		return new Rule[] { FalseRule.INSTANCE, FalseRule.INSTANCE };
+	protected Predicate[] getFalseFalse() {
+		return new Predicate[] { FalseRule.INSTANCE, FalseRule.INSTANCE };
 	}
 
-	protected Rule[] getFalseTrue() {
-		return new Rule[] { FalseRule.INSTANCE, TrueRule.INSTANCE };
+	protected Predicate[] getFalseTrue() {
+		return new Predicate[] { FalseRule.INSTANCE, TrueRule.INSTANCE };
 	}
 
-	protected Rule[] getTrueFalse() {
-		return new Rule[] { TrueRule.INSTANCE, FalseRule.INSTANCE };
+	protected Predicate[] getTrueFalse() {
+		return new Predicate[] { TrueRule.INSTANCE, FalseRule.INSTANCE };
 	}
 
-	protected Rule[] getTrueTrue() {
-		return new Rule[] { TrueRule.INSTANCE, TrueRule.INSTANCE };
+	protected Predicate[] getTrueTrue() {
+		return new Predicate[] { TrueRule.INSTANCE, TrueRule.INSTANCE };
 	}
 
 }

@@ -52,7 +52,7 @@ import ar.com.fluxit.jqa.mock.usage.StaticInnerClassWithFieldArrayClassA;
 import ar.com.fluxit.jqa.mock.usage.StaticInnerClassWithFieldClassA;
 import ar.com.fluxit.jqa.mock.usage.StaticInnerClassWithParameterArrayClassA;
 import ar.com.fluxit.jqa.mock.usage.StaticInnerClassWithParameterClassA;
-import ar.com.fluxit.jqa.predicate.Rule;
+import ar.com.fluxit.jqa.predicate.Predicate;
 import ar.com.fluxit.jqa.predicate.TypingPredicate;
 import ar.com.fluxit.jqa.predicate.UsagePredicate;
 
@@ -143,7 +143,7 @@ public class UsageRuleTest extends TestCase {
 	private void testMatches(String filterRuleParentClass,
 			Class<?> usageRuleclass, boolean matches)
 			throws ClassNotFoundException {
-		final Rule filterRule = new TypingPredicate(filterRuleParentClass);
+		final Predicate filterRule = new TypingPredicate(filterRuleParentClass);
 		final JavaClass clazz = RepositoryLocator.getRepository().lookupClass(
 				usageRuleclass);
 		assertEquals(matches,

@@ -29,7 +29,7 @@ import ar.com.fluxit.jqa.mock.allocation.ClassThatStaticAllocatesClassA;
 import ar.com.fluxit.jqa.mock.allocation.InnerClassThatAllocatesClassA;
 import ar.com.fluxit.jqa.mock.allocation.StaticInnerClassThatAllocatesClassA;
 import ar.com.fluxit.jqa.predicate.AllocationPredicate;
-import ar.com.fluxit.jqa.predicate.Rule;
+import ar.com.fluxit.jqa.predicate.Predicate;
 import ar.com.fluxit.jqa.predicate.TypingPredicate;
 
 /**
@@ -71,7 +71,7 @@ public class AllocationRuleTest extends TestCase {
 	private void testMatches(String filterRuleParentClass,
 			Class<?> usageRuleclass, boolean matches)
 			throws ClassNotFoundException {
-		final Rule filterRule = new TypingPredicate(filterRuleParentClass);
+		final Predicate filterRule = new TypingPredicate(filterRuleParentClass);
 		final JavaClass clazz = RepositoryLocator.getRepository().lookupClass(
 				usageRuleclass);
 		assertEquals(matches, new AllocationPredicate(filterRule).check(clazz,

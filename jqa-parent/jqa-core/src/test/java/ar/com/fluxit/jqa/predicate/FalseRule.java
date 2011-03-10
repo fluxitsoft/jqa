@@ -20,7 +20,7 @@ package ar.com.fluxit.jqa.predicate;
 
 import ar.com.fluxit.jqa.bce.JavaClass;
 import ar.com.fluxit.jqa.predicate.CheckingContextIgnoringPredicate;
-import ar.com.fluxit.jqa.predicate.Rule;
+import ar.com.fluxit.jqa.predicate.Predicate;
 
 /**
  * TODO javadoc
@@ -29,7 +29,7 @@ import ar.com.fluxit.jqa.predicate.Rule;
  */
 public class FalseRule extends CheckingContextIgnoringPredicate {
 
-	public static final Rule INSTANCE = new FalseRule();
+	public static final Predicate INSTANCE = new FalseRule();
 
 	private FalseRule() {
 		super();

@@ -18,7 +18,7 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.config;
 
-import ar.com.fluxit.jqa.predicate.Rule;
+import ar.com.fluxit.jqa.predicate.Predicate;
 
 /**
  * TODO javadoc
@@ -29,22 +29,22 @@ public class Check {
 	/**
 	 * Regla que determina los targets
 	 */
-	private Rule filterRule;
+	private Predicate filterRule;
 	/**
 	 * Regla que se aplica a los target
 	 */
-	private Rule checkRule;
+	private Predicate checkRule;
 
 	/**
 	 * Nombre del Check
 	 */
 	private String name;
 
-	public Rule getCheckRule() {
+	public Predicate getCheckRule() {
 		return checkRule;
 	}
 
-	public Rule getFilterRule() {
+	public Predicate getFilterRule() {
 		return filterRule;
 	}
 
@@ -52,11 +52,11 @@ public class Check {
 		return name;
 	}
 
-	public void setCheckRule(Rule rule) {
+	public void setCheckRule(Predicate rule) {
 		checkRule = rule;
 	}
 
-	public void setFilterRule(Rule targetRule) {
+	public void setFilterRule(Predicate targetRule) {
 		filterRule = targetRule;
 	}
 

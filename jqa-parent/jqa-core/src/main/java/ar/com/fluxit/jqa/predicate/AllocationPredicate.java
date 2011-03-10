@@ -35,7 +35,7 @@ public class AllocationPredicate extends FilteredPredicate {
 		super();
 	}
 
-	public AllocationPredicate(Rule filterRule) {
+	public AllocationPredicate(Predicate filterRule) {
 		super(filterRule);
 	}
 

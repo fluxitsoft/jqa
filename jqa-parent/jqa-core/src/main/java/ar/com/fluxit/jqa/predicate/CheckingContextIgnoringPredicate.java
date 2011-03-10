@@ -8,7 +8,7 @@ import ar.com.fluxit.jqa.context.CheckingContext;
  * 
  * @author Juan Ignacio Barisich
  */
-public abstract class CheckingContextIgnoringPredicate implements Rule {
+public abstract class CheckingContextIgnoringPredicate implements Predicate {
 
 	public abstract boolean check(JavaClass clazz);
 

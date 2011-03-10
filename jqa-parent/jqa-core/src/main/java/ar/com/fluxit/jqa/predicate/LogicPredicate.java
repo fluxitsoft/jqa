@@ -23,24 +23,24 @@ package ar.com.fluxit.jqa.predicate;
  * 
  * @author Juan Ignacio Barisich
  */
-public abstract class LogicPredicate implements Rule {
+public abstract class LogicPredicate implements Predicate {
 
-	private Rule rules[];
+	private Predicate rules[];
 
 	public LogicPredicate() {
 		super();
 	}
 
-	public LogicPredicate(Rule[] rules) {
+	public LogicPredicate(Predicate[] rules) {
 		super();
 		this.rules = rules;
 	}
 
-	public Rule[] getRules() {
+	public Predicate[] getRules() {
 		return rules;
 	}
 
-	public void setRules(Rule[] rules) {
+	public void setRules(Predicate[] rules) {
 		this.rules = rules;
 	}
 

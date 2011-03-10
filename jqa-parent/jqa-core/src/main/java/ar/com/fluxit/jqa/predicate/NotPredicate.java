@@ -26,15 +26,15 @@ import ar.com.fluxit.jqa.context.CheckingContext;
  * 
  * @author Juan Ignacio Barisich
  */
-public class NotPredicate implements Rule {
+public class NotPredicate implements Predicate {
 
-	private Rule rule;
+	private Predicate rule;
 
 	public NotPredicate() {
 		super();
 	}
 
-	public NotPredicate(Rule rule) {
+	public NotPredicate(Predicate rule) {
 		this.rule = rule;
 	}
 
@@ -43,11 +43,11 @@ public class NotPredicate implements Rule {
 		return !getRule().check(clazz, checkingContext);
 	}
 
-	public Rule getRule() {
+	public Predicate getRule() {
 		return rule;
 	}
 
-	public void setRule(Rule rule) {
+	public void setRule(Predicate rule) {
 		this.rule = rule;
 	}
 

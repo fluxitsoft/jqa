@@ -26,7 +26,7 @@ import ar.com.fluxit.jqa.context.CheckingContext;
  * 
  * @author Juan Ignacio Barisich
  */
-public interface Rule {
+public interface Predicate {
 
 	public boolean check(JavaClass clazz, CheckingContext checkingContext);
 

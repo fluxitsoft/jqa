@@ -5,24 +5,24 @@ package ar.com.fluxit.jqa.predicate;
  * 
  * @author Juan Ignacio Barisich
  */
-public abstract class FilteredPredicate implements Rule {
+public abstract class FilteredPredicate implements Predicate {
 
-	protected Rule filterRule;
+	protected Predicate filterRule;
 
 	public FilteredPredicate() {
 		super();
 	}
 
-	public FilteredPredicate(Rule filterRule) {
+	public FilteredPredicate(Predicate filterRule) {
 		super();
 		this.filterRule = filterRule;
 	}
 
-	public Rule getFilterRule() {
+	public Predicate getFilterRule() {
 		return filterRule;
 	}
 
-	public void setFilterRule(Rule filterRule) {
+	public void setFilterRule(Predicate filterRule) {
 		this.filterRule = filterRule;
 	}
 

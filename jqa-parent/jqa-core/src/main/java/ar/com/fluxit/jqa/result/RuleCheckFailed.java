@@ -18,7 +18,7 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.result;
 
-import ar.com.fluxit.jqa.predicate.Rule;
+import ar.com.fluxit.jqa.predicate.Predicate;
 
 /**
  * TODO javadoc
@@ -27,20 +27,20 @@ import ar.com.fluxit.jqa.predicate.Rule;
  */
 public class RuleCheckFailed {
 
-	private Rule rule;
+	private Predicate rule;
 	private String targetClassName;
 
 	public RuleCheckFailed() {
 
 	}
 
-	public RuleCheckFailed(Rule rule, String className) {
+	public RuleCheckFailed(Predicate rule, String className) {
 		super();
 		this.rule = rule;
 		targetClassName = className;
 	}
 
-	protected Rule getRule() {
+	protected Predicate getRule() {
 		return rule;
 	}
 
@@ -48,7 +48,7 @@ public class RuleCheckFailed {
 		return targetClassName;
 	}
 
-	protected void setRule(Rule rule) {
+	protected void setRule(Predicate rule) {
 		this.rule = rule;
 	}
 

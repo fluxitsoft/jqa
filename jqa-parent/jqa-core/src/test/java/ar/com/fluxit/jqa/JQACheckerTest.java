@@ -32,7 +32,7 @@ import ar.com.fluxit.jqa.config.Check;
 import ar.com.fluxit.jqa.config.Configuration;
 import ar.com.fluxit.jqa.mock.ClassA;
 import ar.com.fluxit.jqa.predicate.FalseRule;
-import ar.com.fluxit.jqa.predicate.Rule;
+import ar.com.fluxit.jqa.predicate.Predicate;
 import ar.com.fluxit.jqa.predicate.TrueRule;
 import ar.com.fluxit.jqa.result.CheckingResult;
 import ar.com.fluxit.jqa.util.FileUtils;
@@ -46,7 +46,7 @@ public class JQACheckerTest extends TestCase {
 
 	private Logger log;
 
-	private Configuration createConfiguration(Rule filterRule, Rule checkRule) {
+	private Configuration createConfiguration(Predicate filterRule, Predicate checkRule) {
 		final Configuration result = new Configuration();
 		final List<Check> checks = new ArrayList<Check>();
 		final Check check = new Check();

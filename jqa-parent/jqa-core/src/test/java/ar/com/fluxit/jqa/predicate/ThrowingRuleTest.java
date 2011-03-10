@@ -32,7 +32,7 @@ import ar.com.fluxit.jqa.mock.throwing.ClassThatThrowsExceptionAOnStaticMethod;
 import ar.com.fluxit.jqa.mock.throwing.ClassThatThrowsUncheckedExceptionOnConstructor;
 import ar.com.fluxit.jqa.mock.throwing.ClassThatThrowsUncheckedExceptionOnMethod;
 import ar.com.fluxit.jqa.mock.throwing.ClassThatThrowsUncheckedExceptionOnStaticMethod;
-import ar.com.fluxit.jqa.predicate.Rule;
+import ar.com.fluxit.jqa.predicate.Predicate;
 import ar.com.fluxit.jqa.predicate.ThrowingPredicate;
 import ar.com.fluxit.jqa.predicate.TypingPredicate;
 
@@ -86,7 +86,7 @@ public class ThrowingRuleTest extends TestCase {
 	private void testMatches(String filterRuleParentClass,
 			Class<?> usageRuleclass, boolean matches)
 			throws ClassNotFoundException {
-		final Rule filterRule = new TypingPredicate(filterRuleParentClass);
+		final Predicate filterRule = new TypingPredicate(filterRuleParentClass);
 		final JavaClass clazz = RepositoryLocator.getRepository().lookupClass(
 				usageRuleclass);
 		assertEquals(matches,

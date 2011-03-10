@@ -32,13 +32,13 @@ public class AndPredicate extends LogicPredicate {
 		super();
 	}
 
-	public AndPredicate(Rule[] rules) {
+	public AndPredicate(Predicate[] rules) {
 		super(rules);
 	}
 
 	@Override
 	public boolean check(JavaClass clazz, CheckingContext checkingContext) {
-		for (final Rule rule : getRules()) {
+		for (final Predicate rule : getRules()) {
 			if (!rule.check(clazz, checkingContext)) {
 				return false;
 			}
