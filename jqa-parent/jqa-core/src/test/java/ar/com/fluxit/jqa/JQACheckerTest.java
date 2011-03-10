@@ -31,10 +31,10 @@ import org.slf4j.LoggerFactory;
 import ar.com.fluxit.jqa.config.Check;
 import ar.com.fluxit.jqa.config.Configuration;
 import ar.com.fluxit.jqa.mock.ClassA;
+import ar.com.fluxit.jqa.predicate.FalseRule;
+import ar.com.fluxit.jqa.predicate.Rule;
+import ar.com.fluxit.jqa.predicate.TrueRule;
 import ar.com.fluxit.jqa.result.CheckingResult;
-import ar.com.fluxit.jqa.rule.FalseRule;
-import ar.com.fluxit.jqa.rule.Rule;
-import ar.com.fluxit.jqa.rule.TrueRule;
 import ar.com.fluxit.jqa.util.FileUtils;
 
 /**

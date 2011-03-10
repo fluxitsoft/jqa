@@ -18,7 +18,7 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.config;
 
-import ar.com.fluxit.jqa.rule.Rule;
+import ar.com.fluxit.jqa.predicate.Rule;
 
 /**
  * TODO javadoc

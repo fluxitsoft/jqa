@@ -39,9 +39,9 @@ import org.slf4j.Logger;
 import ar.com.fluxit.jqa.config.Check;
 import ar.com.fluxit.jqa.config.Configuration;
 import ar.com.fluxit.jqa.log.MavenLogLoggerAdapter;
+import ar.com.fluxit.jqa.predicate.NamingRule;
+import ar.com.fluxit.jqa.predicate.TypingRule;
 import ar.com.fluxit.jqa.result.CheckingResult;
-import ar.com.fluxit.jqa.rule.NamingRule;
-import ar.com.fluxit.jqa.rule.TypingRule;
 import ar.com.fluxit.jqa.util.ClassPathLoader;
 
 import com.thoughtworks.xstream.XStream;

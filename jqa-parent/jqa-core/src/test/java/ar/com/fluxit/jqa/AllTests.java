@@ -20,17 +20,17 @@ package ar.com.fluxit.jqa;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
-import ar.com.fluxit.jqa.rule.AbstractionRuleTest;
-import ar.com.fluxit.jqa.rule.AllocationRuleTest;
-import ar.com.fluxit.jqa.rule.AndRuleTest;
-import ar.com.fluxit.jqa.rule.InterfaceRuleTest;
-import ar.com.fluxit.jqa.rule.NamingRuleTest;
-import ar.com.fluxit.jqa.rule.NotRuleTest;
-import ar.com.fluxit.jqa.rule.OrRuleTest;
-import ar.com.fluxit.jqa.rule.ThrowingRuleTest;
-import ar.com.fluxit.jqa.rule.TypingRuleTest;
-import ar.com.fluxit.jqa.rule.UsageRuleTest;
-import ar.com.fluxit.jqa.rule.XorRuleTest;
+import ar.com.fluxit.jqa.predicate.AbstractionRuleTest;
+import ar.com.fluxit.jqa.predicate.AllocationRuleTest;
+import ar.com.fluxit.jqa.predicate.AndRuleTest;
+import ar.com.fluxit.jqa.predicate.InterfaceRuleTest;
+import ar.com.fluxit.jqa.predicate.NamingRuleTest;
+import ar.com.fluxit.jqa.predicate.NotRuleTest;
+import ar.com.fluxit.jqa.predicate.OrRuleTest;
+import ar.com.fluxit.jqa.predicate.ThrowingRuleTest;
+import ar.com.fluxit.jqa.predicate.TypingRuleTest;
+import ar.com.fluxit.jqa.predicate.UsageRuleTest;
+import ar.com.fluxit.jqa.predicate.XorRuleTest;
 
 /**
  * TODO javadoc
