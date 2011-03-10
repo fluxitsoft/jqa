@@ -32,10 +32,10 @@ public class XorRuleTest extends LogicRuleTest {
 	}
 
 	public void testCheck() {
-		assertFalse(new XorPredicate(getTrueTrue()).check(null, null));
-		assertTrue(new XorPredicate(getTrueFalse()).check(null, null));
-		assertTrue(new XorPredicate(getFalseTrue()).check(null, null));
-		assertFalse(new XorPredicate(getFalseFalse()).check(null, null));
+		assertFalse(new XorPredicate(getTrueTrue()).evaluate(null, null));
+		assertTrue(new XorPredicate(getTrueFalse()).evaluate(null, null));
+		assertTrue(new XorPredicate(getFalseTrue()).evaluate(null, null));
+		assertFalse(new XorPredicate(getFalseFalse()).evaluate(null, null));
 	}
 
 }

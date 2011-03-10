@@ -28,6 +28,6 @@ import ar.com.fluxit.jqa.context.CheckingContext;
  */
 public interface Predicate {
 
-	public boolean check(JavaClass clazz, CheckingContext checkingContext);
+	public boolean evaluate(JavaClass clazz, CheckingContext checkingContext);
 
 }

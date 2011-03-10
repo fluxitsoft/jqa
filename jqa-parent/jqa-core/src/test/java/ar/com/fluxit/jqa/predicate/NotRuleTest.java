@@ -33,8 +33,8 @@ public class NotRuleTest extends TestCase {
 	}
 
 	public void testCheck() {
-		assertTrue(new NotPredicate(FalseRule.INSTANCE).check(null, null));
-		assertFalse(new NotPredicate(TrueRule.INSTANCE).check(null, null));
+		assertTrue(new NotPredicate(FalseRule.INSTANCE).evaluate(null, null));
+		assertFalse(new NotPredicate(TrueRule.INSTANCE).evaluate(null, null));
 	}
 
 }

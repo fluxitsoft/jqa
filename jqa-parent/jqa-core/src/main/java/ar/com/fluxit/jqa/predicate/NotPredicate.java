@@ -39,8 +39,8 @@ public class NotPredicate implements Predicate {
 	}
 
 	@Override
-	public boolean check(JavaClass clazz, CheckingContext checkingContext) {
-		return !getRule().check(clazz, checkingContext);
+	public boolean evaluate(JavaClass clazz, CheckingContext checkingContext) {
+		return !getRule().evaluate(clazz, checkingContext);
 	}
 
 	public Predicate getRule() {

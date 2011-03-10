@@ -37,9 +37,9 @@ public class OrPredicate extends LogicPredicate {
 	}
 
 	@Override
-	public boolean check(JavaClass clazz, CheckingContext checkingContext) {
+	public boolean evaluate(JavaClass clazz, CheckingContext checkingContext) {
 		for (final Predicate rule : getRules()) {
-			if (rule.check(clazz, checkingContext)) {
+			if (rule.evaluate(clazz, checkingContext)) {
 				return true;
 			}
 		}

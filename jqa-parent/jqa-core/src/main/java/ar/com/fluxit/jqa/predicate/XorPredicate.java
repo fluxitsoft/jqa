@@ -37,10 +37,10 @@ public class XorPredicate extends LogicPredicate {
 	}
 
 	@Override
-	public boolean check(JavaClass clazz, CheckingContext checkingContext) {
+	public boolean evaluate(JavaClass clazz, CheckingContext checkingContext) {
 		boolean match = false;
 		for (final Predicate rule : getRules()) {
-			if (rule.check(clazz, checkingContext)) {
+			if (rule.evaluate(clazz, checkingContext)) {
 				if (match) {
 					return false;
 				}

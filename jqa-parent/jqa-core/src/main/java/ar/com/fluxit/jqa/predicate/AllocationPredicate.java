@@ -40,11 +40,11 @@ public class AllocationPredicate extends FilteredPredicate {
 	}
 
 	@Override
-	public boolean check(JavaClass clazz, CheckingContext checkingContext) {
+	public boolean evaluate(JavaClass clazz, CheckingContext checkingContext) {
 		final Collection<JavaClass> filteredClasses = RepositoryLocator
 				.getRepository().getAllocations(clazz);
 		for (final JavaClass usedClass : filteredClasses) {
-			if (getFilterRule().check(usedClass, checkingContext)) {
+			if (getFilterRule().evaluate(usedClass, checkingContext)) {
 				return true;
 			}
 		}

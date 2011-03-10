@@ -32,10 +32,10 @@ public class AndRuleTest extends LogicRuleTest {
 	}
 
 	public void testCheck() {
-		assertTrue(new AndPredicate(getTrueTrue()).check(null, null));
-		assertFalse(new AndPredicate(getTrueFalse()).check(null, null));
-		assertFalse(new AndPredicate(getFalseTrue()).check(null, null));
-		assertFalse(new AndPredicate(getFalseFalse()).check(null, null));
+		assertTrue(new AndPredicate(getTrueTrue()).evaluate(null, null));
+		assertFalse(new AndPredicate(getTrueFalse()).evaluate(null, null));
+		assertFalse(new AndPredicate(getFalseTrue()).evaluate(null, null));
+		assertFalse(new AndPredicate(getFalseFalse()).evaluate(null, null));
 	}
 
 }

@@ -40,11 +40,11 @@ public class ThrowingPredicate extends FilteredPredicate {
 	}
 
 	@Override
-	public boolean check(JavaClass clazz, CheckingContext checkingContext) {
+	public boolean evaluate(JavaClass clazz, CheckingContext checkingContext) {
 		final Collection<JavaClass> throwedClasses = RepositoryLocator
 				.getRepository().getThrows(clazz);
 		for (final JavaClass throwedClass : throwedClasses) {
-			if (getFilterRule().check(throwedClass, checkingContext)) {
+			if (getFilterRule().evaluate(throwedClass, checkingContext)) {
 				return true;
 			}
 		}

@@ -59,8 +59,8 @@ public class JQAChecker {
 						.parse(fis, null);
 				fis.close();
 				for (final Check ruleset : configuration.getChecks()) {
-					if (ruleset.getFilterRule().check(clazz, checkingContext)) {
-						if (!ruleset.getCheckRule().check(clazz,
+					if (ruleset.getFilterRule().evaluate(clazz, checkingContext)) {
+						if (!ruleset.getCheckRule().evaluate(clazz,
 								checkingContext)) {
 							result.addRuleExecutionFailed(new RuleCheckFailed(
 									ruleset.getCheckRule(), clazz

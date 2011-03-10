@@ -32,10 +32,10 @@ public class OrRuleTest extends LogicRuleTest {
 	}
 
 	public void testCheck() {
-		assertTrue(new OrPredicate(getTrueTrue()).check(null, null));
-		assertTrue(new OrPredicate(getTrueFalse()).check(null, null));
-		assertTrue(new OrPredicate(getFalseTrue()).check(null, null));
-		assertFalse(new OrPredicate(getFalseFalse()).check(null, null));
+		assertTrue(new OrPredicate(getTrueTrue()).evaluate(null, null));
+		assertTrue(new OrPredicate(getTrueFalse()).evaluate(null, null));
+		assertTrue(new OrPredicate(getFalseTrue()).evaluate(null, null));
+		assertFalse(new OrPredicate(getFalseFalse()).evaluate(null, null));
 	}
 
 }

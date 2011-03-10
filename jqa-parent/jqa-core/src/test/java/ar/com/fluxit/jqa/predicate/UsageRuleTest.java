@@ -147,7 +147,7 @@ public class UsageRuleTest extends TestCase {
 		final JavaClass clazz = RepositoryLocator.getRepository().lookupClass(
 				usageRuleclass);
 		assertEquals(matches,
-				new UsagePredicate(filterRule).check(clazz, getCheckingContext()));
+				new UsagePredicate(filterRule).evaluate(clazz, getCheckingContext()));
 	}
 
 }

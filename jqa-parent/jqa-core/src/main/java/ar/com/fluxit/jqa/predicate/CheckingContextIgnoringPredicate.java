@@ -13,7 +13,7 @@ public abstract class CheckingContextIgnoringPredicate implements Predicate {
 	public abstract boolean check(JavaClass clazz);
 
 	@Override
-	public final boolean check(JavaClass clazz, CheckingContext checkingContext) {
+	public final boolean evaluate(JavaClass clazz, CheckingContext checkingContext) {
 		return check(clazz);
 	}
 

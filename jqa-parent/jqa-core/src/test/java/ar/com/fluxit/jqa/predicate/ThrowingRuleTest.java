@@ -90,7 +90,7 @@ public class ThrowingRuleTest extends TestCase {
 		final JavaClass clazz = RepositoryLocator.getRepository().lookupClass(
 				usageRuleclass);
 		assertEquals(matches,
-				new ThrowingPredicate(filterRule).check(clazz, getCheckingContext()));
+				new ThrowingPredicate(filterRule).evaluate(clazz, getCheckingContext()));
 	}
 
 }

@@ -74,7 +74,7 @@ public class AllocationRuleTest extends TestCase {
 		final Predicate filterRule = new TypingPredicate(filterRuleParentClass);
 		final JavaClass clazz = RepositoryLocator.getRepository().lookupClass(
 				usageRuleclass);
-		assertEquals(matches, new AllocationPredicate(filterRule).check(clazz,
+		assertEquals(matches, new AllocationPredicate(filterRule).evaluate(clazz,
 				getCheckingContext()));
 	}
 
