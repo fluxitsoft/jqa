@@ -16,55 +16,50 @@
  * You should have received a copy of the GNU General Public License
  * along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package ar.com.fluxit.jqa.predicate;
+package ar.com.fluxit.jqa.predicate.lang;
+
+import java.util.Collection;
 
 import ar.com.fluxit.jqa.bce.JavaClass;
+import ar.com.fluxit.jqa.bce.RepositoryLocator;
+import ar.com.fluxit.jqa.predicate.FilteredPredicate;
+import ar.com.fluxit.jqa.predicate.Predicate;
 
 /**
  * TODO javadoc
  * 
  * @author Juan Ignacio Barisich
  */
-public class AbstractionPredicate extends AbstractPredicate {
+public class UsagePredicate extends FilteredPredicate {
 
-	public enum AbstractionType {
-		ABSTRACT() {
-			public boolean evaluate(JavaClass clazz) {
-				return clazz.isAbstract();
-			}
-		},
-		INTERFACE() {
-			public boolean evaluate(JavaClass clazz) {
-				return clazz.isInterface();
-			}
-		},
-		CONCRETE() {
-			public boolean evaluate(JavaClass clazz) {
-				return !(clazz.isAbstract() || clazz.isInterface());
-			}
-		};
-
-		abstract boolean evaluate(JavaClass clazz);
-	}
-
-	private AbstractionType abstractionType;
-
-	public AbstractionType getAbstractionType() {
-		return abstractionType;
-	}
-
-	public void setAbstractionType(AbstractionType abstractionType) {
-		this.abstractionType = abstractionType;
-	}
-
-	public AbstractionPredicate(AbstractionType abstractionType) {
+	public UsagePredicate() {
 		super();
-		this.abstractionType = abstractionType;
+	}
+
+	public UsagePredicate(Predicate filterRule) {
+		super(filterRule);
 	}
 
 	@Override
 	public boolean evaluate(JavaClass clazz) {
-		return getAbstractionType().evaluate(clazz);
+		final Collection<JavaClass> filteredClasses = RepositoryLocator
+				.getRepository().getUses(clazz);
+		for (final JavaClass usedClass : filteredClasses) {
+			if (getFilterRule().evaluate(usedClass)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	@Override
+	public Predicate getFilterRule() {
+		return filterRule;
+	}
+
+	@Override
+	public void setFilterRule(Predicate filterRule) {
+		this.filterRule = filterRule;
 	}
 
 }

@@ -16,54 +16,53 @@
  * You should have received a copy of the GNU General Public License
  * along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package ar.com.fluxit.jqa.predicate;
+package ar.com.fluxit.jqa.predicate.lang;
 
 import ar.com.fluxit.jqa.bce.JavaClass;
-import ar.com.fluxit.jqa.bce.RepositoryLocator;
+import ar.com.fluxit.jqa.exception.RegExSyntaxException;
+import ar.com.fluxit.jqa.predicate.AbstractPredicate;
+import ar.com.fluxit.jqa.util.RegEx;
 
 /**
  * TODO javadoc
  * 
  * @author Juan Ignacio Barisich
  */
-public class TypingPredicate extends AbstractPredicate {
+public class NamingPredicate extends AbstractPredicate {
 
-	private String parentClassName;
-	private transient JavaClass parentJavaClass;
+	private String classNamePattern;
+	private transient RegEx regEx;
 
-	public TypingPredicate(String parentClassName) {
+	public NamingPredicate(String classNamePattern) {
 		super();
-		this.parentClassName = parentClassName;
+		this.classNamePattern = classNamePattern;
 	}
 
 	@Override
 	public boolean evaluate(JavaClass clazz) {
-		return evaluateClass(clazz);
+		return evaluateClassName(clazz.getClassName());
 	}
 
-	protected boolean evaluateClass(JavaClass clazz) {
+	protected boolean evaluateClassName(String className) {
 		try {
-			return RepositoryLocator.getRepository().instanceOf(clazz,
-					getParentJavaClass());
-		} catch (final ClassNotFoundException e) {
+			return getRegEx().matches(className);
+		} catch (final RegExSyntaxException e) {
 			throw new IllegalStateException(e);
 		}
 	}
 
-	public String getParentClassName() {
-		return parentClassName;
+	public String getClassNamePattern() {
+		return classNamePattern;
 	}
 
-	private JavaClass getParentJavaClass() throws ClassNotFoundException {
-		if (parentJavaClass == null) {
-			parentJavaClass = RepositoryLocator.getRepository().lookupClass(
-					getParentClassName());
+	private RegEx getRegEx() throws RegExSyntaxException {
+		if (regEx == null) {
+			regEx = new RegEx(getClassNamePattern());
 		}
-		return parentJavaClass;
+		return regEx;
 	}
 
-	public void setParentClassName(String clazzName) {
-		parentClassName = clazzName;
+	public void setClassNamePattern(String pattern) {
+		classNamePattern = pattern;
 	}
-
 }

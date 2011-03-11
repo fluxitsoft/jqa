@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package ar.com.fluxit.jqa.predicate;
+package ar.com.fluxit.jqa.predicate.lang;
 
 import junit.framework.TestCase;
 import ar.com.fluxit.jqa.bce.JavaClass;
@@ -26,6 +26,9 @@ import ar.com.fluxit.jqa.mock.allocation.ClassThatAllocatesClassA;
 import ar.com.fluxit.jqa.mock.allocation.ClassThatStaticAllocatesClassA;
 import ar.com.fluxit.jqa.mock.allocation.InnerClassThatAllocatesClassA;
 import ar.com.fluxit.jqa.mock.allocation.StaticInnerClassThatAllocatesClassA;
+import ar.com.fluxit.jqa.predicate.Predicate;
+import ar.com.fluxit.jqa.predicate.lang.AllocationPredicate;
+import ar.com.fluxit.jqa.predicate.lang.TypingPredicate;
 
 /**
  * TODO javadoc

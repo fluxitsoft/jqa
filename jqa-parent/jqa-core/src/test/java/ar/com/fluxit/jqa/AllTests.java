@@ -20,12 +20,12 @@ package ar.com.fluxit.jqa;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
-import ar.com.fluxit.jqa.predicate.AbstractionPredicateTest;
-import ar.com.fluxit.jqa.predicate.AllocationPredicateTest;
-import ar.com.fluxit.jqa.predicate.NamingPredicateTest;
-import ar.com.fluxit.jqa.predicate.ThrowingPredicateTest;
-import ar.com.fluxit.jqa.predicate.TypingPredicateTest;
-import ar.com.fluxit.jqa.predicate.UsagePredicateTest;
+import ar.com.fluxit.jqa.predicate.lang.AbstractionPredicateTest;
+import ar.com.fluxit.jqa.predicate.lang.AllocationPredicateTest;
+import ar.com.fluxit.jqa.predicate.lang.NamingPredicateTest;
+import ar.com.fluxit.jqa.predicate.lang.ThrowingPredicateTest;
+import ar.com.fluxit.jqa.predicate.lang.TypingPredicateTest;
+import ar.com.fluxit.jqa.predicate.lang.UsagePredicateTest;
 import ar.com.fluxit.jqa.predicate.logic.AndPredicateTest;
 import ar.com.fluxit.jqa.predicate.logic.NotPredicateTest;
 import ar.com.fluxit.jqa.predicate.logic.OrPredicateTest;

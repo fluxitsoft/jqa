@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package ar.com.fluxit.jqa.predicate;
+package ar.com.fluxit.jqa.predicate.lang;
 
 import java.io.Serializable;
 
@@ -24,7 +24,8 @@ import junit.framework.TestCase;
 import ar.com.fluxit.jqa.bce.JavaClass;
 import ar.com.fluxit.jqa.bce.Repository;
 import ar.com.fluxit.jqa.bce.RepositoryLocator;
-import ar.com.fluxit.jqa.predicate.AbstractionPredicate.AbstractionType;
+import ar.com.fluxit.jqa.predicate.lang.AbstractionPredicate;
+import ar.com.fluxit.jqa.predicate.lang.AbstractionPredicate.AbstractionType;
 
 /**
  * TODO javadoc

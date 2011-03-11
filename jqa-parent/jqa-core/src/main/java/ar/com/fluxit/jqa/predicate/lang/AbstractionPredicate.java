@@ -16,48 +16,56 @@
  * You should have received a copy of the GNU General Public License
  * along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package ar.com.fluxit.jqa.predicate;
-
-import java.util.Collection;
+package ar.com.fluxit.jqa.predicate.lang;
 
 import ar.com.fluxit.jqa.bce.JavaClass;
-import ar.com.fluxit.jqa.bce.RepositoryLocator;
+import ar.com.fluxit.jqa.predicate.AbstractPredicate;
 
 /**
  * TODO javadoc
  * 
  * @author Juan Ignacio Barisich
  */
-public class UsagePredicate extends FilteredPredicate {
+public class AbstractionPredicate extends AbstractPredicate {
 
-	public UsagePredicate() {
-		super();
+	public enum AbstractionType {
+		ABSTRACT() {
+			public boolean evaluate(JavaClass clazz) {
+				return clazz.isAbstract();
+			}
+		},
+		INTERFACE() {
+			public boolean evaluate(JavaClass clazz) {
+				return clazz.isInterface();
+			}
+		},
+		CONCRETE() {
+			public boolean evaluate(JavaClass clazz) {
+				return !(clazz.isAbstract() || clazz.isInterface());
+			}
+		};
+
+		abstract boolean evaluate(JavaClass clazz);
 	}
 
-	public UsagePredicate(Predicate filterRule) {
-		super(filterRule);
+	private AbstractionType abstractionType;
+
+	public AbstractionType getAbstractionType() {
+		return abstractionType;
+	}
+
+	public void setAbstractionType(AbstractionType abstractionType) {
+		this.abstractionType = abstractionType;
+	}
+
+	public AbstractionPredicate(AbstractionType abstractionType) {
+		super();
+		this.abstractionType = abstractionType;
 	}
 
 	@Override
 	public boolean evaluate(JavaClass clazz) {
-		final Collection<JavaClass> filteredClasses = RepositoryLocator
-				.getRepository().getUses(clazz);
-		for (final JavaClass usedClass : filteredClasses) {
-			if (getFilterRule().evaluate(usedClass)) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	@Override
-	public Predicate getFilterRule() {
-		return filterRule;
-	}
-
-	@Override
-	public void setFilterRule(Predicate filterRule) {
-		this.filterRule = filterRule;
+		return getAbstractionType().evaluate(clazz);
 	}
 
 }

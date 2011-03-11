@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package ar.com.fluxit.jqa.predicate;
+package ar.com.fluxit.jqa.predicate.lang;
 
 import junit.framework.TestCase;
 import ar.com.fluxit.jqa.bce.JavaClass;
@@ -50,6 +50,9 @@ import ar.com.fluxit.jqa.mock.usage.StaticInnerClassWithFieldArrayClassA;
 import ar.com.fluxit.jqa.mock.usage.StaticInnerClassWithFieldClassA;
 import ar.com.fluxit.jqa.mock.usage.StaticInnerClassWithParameterArrayClassA;
 import ar.com.fluxit.jqa.mock.usage.StaticInnerClassWithParameterClassA;
+import ar.com.fluxit.jqa.predicate.Predicate;
+import ar.com.fluxit.jqa.predicate.lang.TypingPredicate;
+import ar.com.fluxit.jqa.predicate.lang.UsagePredicate;
 
 /**
  * TODO javadoc

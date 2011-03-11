@@ -16,52 +16,55 @@
  * You should have received a copy of the GNU General Public License
  * along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package ar.com.fluxit.jqa.predicate;
+package ar.com.fluxit.jqa.predicate.lang;
 
 import ar.com.fluxit.jqa.bce.JavaClass;
-import ar.com.fluxit.jqa.exception.RegExSyntaxException;
-import ar.com.fluxit.jqa.util.RegEx;
+import ar.com.fluxit.jqa.bce.RepositoryLocator;
+import ar.com.fluxit.jqa.predicate.AbstractPredicate;
 
 /**
  * TODO javadoc
  * 
  * @author Juan Ignacio Barisich
  */
-public class NamingPredicate extends AbstractPredicate {
+public class TypingPredicate extends AbstractPredicate {
 
-	private String classNamePattern;
-	private transient RegEx regEx;
+	private String parentClassName;
+	private transient JavaClass parentJavaClass;
 
-	public NamingPredicate(String classNamePattern) {
+	public TypingPredicate(String parentClassName) {
 		super();
-		this.classNamePattern = classNamePattern;
+		this.parentClassName = parentClassName;
 	}
 
 	@Override
 	public boolean evaluate(JavaClass clazz) {
-		return evaluateClassName(clazz.getClassName());
+		return evaluateClass(clazz);
 	}
 
-	protected boolean evaluateClassName(String className) {
+	protected boolean evaluateClass(JavaClass clazz) {
 		try {
-			return getRegEx().matches(className);
-		} catch (final RegExSyntaxException e) {
+			return RepositoryLocator.getRepository().instanceOf(clazz,
+					getParentJavaClass());
+		} catch (final ClassNotFoundException e) {
 			throw new IllegalStateException(e);
 		}
 	}
 
-	public String getClassNamePattern() {
-		return classNamePattern;
+	public String getParentClassName() {
+		return parentClassName;
 	}
 
-	private RegEx getRegEx() throws RegExSyntaxException {
-		if (regEx == null) {
-			regEx = new RegEx(getClassNamePattern());
+	private JavaClass getParentJavaClass() throws ClassNotFoundException {
+		if (parentJavaClass == null) {
+			parentJavaClass = RepositoryLocator.getRepository().lookupClass(
+					getParentClassName());
 		}
-		return regEx;
+		return parentJavaClass;
 	}
 
-	public void setClassNamePattern(String pattern) {
-		classNamePattern = pattern;
+	public void setParentClassName(String clazzName) {
+		parentClassName = clazzName;
 	}
+
 }

@@ -17,9 +17,9 @@
  * Place, Suite 330 / Boston, MA 02111-1307 / USA.
  *______________________________________________________________________________
  */
-package ar.com.fluxit.jqa.predicate;
+package ar.com.fluxit.jqa.predicate.lang;
 
-import ar.com.fluxit.jqa.predicate.NamingPredicate;
+import ar.com.fluxit.jqa.predicate.lang.NamingPredicate;
 import junit.framework.TestCase;
 
 /**

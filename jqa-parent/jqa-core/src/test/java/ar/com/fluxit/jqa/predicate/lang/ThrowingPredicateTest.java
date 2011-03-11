@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package ar.com.fluxit.jqa.predicate;
+package ar.com.fluxit.jqa.predicate.lang;
 
 import junit.framework.TestCase;
 import ar.com.fluxit.jqa.bce.JavaClass;
@@ -30,6 +30,9 @@ import ar.com.fluxit.jqa.mock.throwing.ClassThatThrowsExceptionAOnStaticMethod;
 import ar.com.fluxit.jqa.mock.throwing.ClassThatThrowsUncheckedExceptionOnConstructor;
 import ar.com.fluxit.jqa.mock.throwing.ClassThatThrowsUncheckedExceptionOnMethod;
 import ar.com.fluxit.jqa.mock.throwing.ClassThatThrowsUncheckedExceptionOnStaticMethod;
+import ar.com.fluxit.jqa.predicate.Predicate;
+import ar.com.fluxit.jqa.predicate.lang.ThrowingPredicate;
+import ar.com.fluxit.jqa.predicate.lang.TypingPredicate;
 
 /**
  * TODO javadoc
