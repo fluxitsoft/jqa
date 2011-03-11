@@ -36,7 +36,7 @@ public class BcelJavaClass implements JavaClass {
 
 	@Override
 	public boolean isAbstract() {
-		return wrapped.isAbstract() && (!wrapped.isInterface());
+		return wrapped.isAbstract() && !wrapped.isInterface();
 	}
 
 	@Override

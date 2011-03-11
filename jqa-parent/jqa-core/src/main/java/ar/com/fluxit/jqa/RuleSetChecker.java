@@ -77,10 +77,8 @@ public class RuleSetChecker {
 			for (final Rule rule : ruleset.getRules()) {
 				if (rule.getFilterPredicate().evaluate(clazz)) {
 					if (!rule.getCheckPredicate().evaluate(clazz)) {
-						result
-								.addRuleExecutionFailed(new RuleCheckFailed(
-										rule.getCheckPredicate(), clazz
-												.getClassName()));
+						result.addRuleExecutionFailed(new RuleCheckFailed(rule
+								.getCheckPredicate(), clazz.getClassName()));
 					}
 				}
 			}

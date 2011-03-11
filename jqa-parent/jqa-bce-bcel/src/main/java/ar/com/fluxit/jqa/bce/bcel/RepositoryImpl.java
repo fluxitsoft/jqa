@@ -34,7 +34,7 @@ public class RepositoryImpl implements Repository {
 	protected static final String NEW_OPCODE_NAME = "new";
 	protected static final String THROW_OPCODE_NAME = "athrow";
 	protected static final int SLIDE = 6;
-	
+
 	@Override
 	public void addClass(JavaClass clazz) {
 		org.apache.bcel.Repository.addClass(getWrappedClass(clazz));
@@ -73,10 +73,6 @@ public class RepositoryImpl implements Repository {
 		return result;
 	}
 
-	private ConstantPool getConstantPool(JavaClass clazz) {
-		return getWrappedClass(clazz).getConstantPool();
-	}
-
 	private JavaClass getClazz(ConstantClass constantClass, JavaClass clazz) {
 		final ConstantPool cp = getConstantPool(clazz);
 		return getClazz(constantClass.getBytes(cp));
@@ -88,6 +84,49 @@ public class RepositoryImpl implements Repository {
 		final org.apache.bcel.classfile.JavaClass usedClass = org.apache.bcel.Repository
 				.lookupClass(usedClassName);
 		return new BcelJavaClass(usedClass);
+	}
+
+	private ConstantPool getConstantPool(JavaClass clazz) {
+		return getWrappedClass(clazz).getConstantPool();
+	}
+
+	@Override
+	public Collection<JavaClass> getThrows(final JavaClass clazz) {
+		final List<JavaClass> result = new ArrayList<JavaClass>();
+		getWrappedClass(clazz).getMethods();
+		final Visitor visitor = new EmptyVisitor() {
+
+			@Override
+			public void visitCode(Code code) {
+				final ByteSequence stream = new ByteSequence(code.getCode());
+				short opcode;
+				try {
+					while (stream.available() > 0) {
+						opcode = (short) stream.readUnsignedByte();
+						final String op = Constants.OPCODE_NAMES[opcode];
+						if (THROW_OPCODE_NAME.equals(op)) {
+							for (int i = 0; i < SLIDE; i++) {
+								stream.unreadByte();
+							}
+							final int index = stream.readUnsignedByte();
+							final ConstantPool constantPool = getWrappedClass(
+									clazz).getConstantPool();
+							final String className = constantPool
+									.constantToString(index, (byte) 7);
+							result.add(getClazz(className));
+							for (int i = 0; i < SLIDE - 1; i++) {
+								stream.readUnsignedByte();
+							}
+						}
+					}
+				} catch (final IOException e) {
+					throw new IllegalStateException(e);
+				}
+			}
+
+		};
+		new DescendingVisitor(getWrappedClass(clazz), visitor).visit();
+		return result;
 	}
 
 	@Override
@@ -127,16 +166,14 @@ public class RepositoryImpl implements Repository {
 		return result;
 	}
 
-	private org.apache.bcel.classfile.JavaClass getWrappedClass(
-			JavaClass clazz) {
+	private org.apache.bcel.classfile.JavaClass getWrappedClass(JavaClass clazz) {
 		return ((BcelJavaClass) clazz).getWrapped();
 	}
 
 	@Override
 	public boolean instanceOf(JavaClass clazz, JavaClass parentJavaClass)
 			throws ClassNotFoundException {
-		return org.apache.bcel.Repository.instanceOf(
-				getWrappedClass(clazz),
+		return org.apache.bcel.Repository.instanceOf(getWrappedClass(clazz),
 				getWrappedClass(parentJavaClass));
 	}
 
@@ -160,45 +197,6 @@ public class RepositoryImpl implements Repository {
 		} catch (final org.apache.bcel.classfile.ClassFormatException e) {
 			throw new ClassFormatException(e);
 		}
-	}
-	
-	@Override
-	public Collection<JavaClass> getThrows(final JavaClass clazz) {
-		final List<JavaClass> result = new ArrayList<JavaClass>();
-		getWrappedClass(clazz).getMethods();
-		final Visitor visitor = new EmptyVisitor() {
-
-			@Override
-			public void visitCode(Code code) {
-				final ByteSequence stream = new ByteSequence(code.getCode());
-				short opcode;
-				try {
-					while (stream.available() > 0) {
-						opcode = (short) stream.readUnsignedByte();
-						final String op = Constants.OPCODE_NAMES[opcode];
-						if (THROW_OPCODE_NAME.equals(op)) {
-							for (int i = 0; i < SLIDE; i++) {
-								stream.unreadByte();
-							}
-							final int index = stream.readUnsignedByte();
-							final ConstantPool constantPool = getWrappedClass(
-									clazz).getConstantPool();
-							final String className = constantPool
-									.constantToString(index, (byte) 7);
-							result.add(getClazz(className));
-							for (int i = 0; i < SLIDE - 1; i++) {
-								stream.readUnsignedByte();
-							}
-						}
-					}
-				} catch (final IOException e) {
-					throw new IllegalStateException(e);
-				}
-			}
-
-		};
-		new DescendingVisitor(getWrappedClass(clazz), visitor).visit();
-		return result;
 	}
 
 }

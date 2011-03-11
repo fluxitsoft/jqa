@@ -28,11 +28,11 @@ import ar.com.fluxit.jqa.mock.ExceptionA;
  */
 public class ClassThatThrowsExceptionAOnStaticMethod extends ClassA {
 
-	public ClassThatThrowsExceptionAOnStaticMethod() {
-		super();
-	}
-
 	public static void dummy() throws ExceptionA {
 		throw new ExceptionA();
+	}
+
+	public ClassThatThrowsExceptionAOnStaticMethod() {
+		super();
 	}
 }

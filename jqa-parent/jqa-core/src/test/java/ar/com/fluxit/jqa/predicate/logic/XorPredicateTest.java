@@ -18,9 +18,6 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.predicate.logic;
 
-import ar.com.fluxit.jqa.predicate.logic.XorPredicate;
-
-
 /**
  * TODO javadoc
  * 

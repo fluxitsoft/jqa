@@ -19,7 +19,6 @@
  */
 package ar.com.fluxit.jqa.predicate.lang;
 
-import ar.com.fluxit.jqa.predicate.lang.NamingPredicate;
 import junit.framework.TestCase;
 
 /**

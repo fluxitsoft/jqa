@@ -31,8 +31,6 @@ import ar.com.fluxit.jqa.mock.throwing.ClassThatThrowsUncheckedExceptionOnConstr
 import ar.com.fluxit.jqa.mock.throwing.ClassThatThrowsUncheckedExceptionOnMethod;
 import ar.com.fluxit.jqa.mock.throwing.ClassThatThrowsUncheckedExceptionOnStaticMethod;
 import ar.com.fluxit.jqa.predicate.Predicate;
-import ar.com.fluxit.jqa.predicate.lang.ThrowingPredicate;
-import ar.com.fluxit.jqa.predicate.lang.TypingPredicate;
 
 /**
  * TODO javadoc

@@ -27,8 +27,6 @@ import ar.com.fluxit.jqa.mock.allocation.ClassThatStaticAllocatesClassA;
 import ar.com.fluxit.jqa.mock.allocation.InnerClassThatAllocatesClassA;
 import ar.com.fluxit.jqa.mock.allocation.StaticInnerClassThatAllocatesClassA;
 import ar.com.fluxit.jqa.predicate.Predicate;
-import ar.com.fluxit.jqa.predicate.lang.AllocationPredicate;
-import ar.com.fluxit.jqa.predicate.lang.TypingPredicate;
 
 /**
  * TODO javadoc
@@ -56,8 +54,8 @@ public class AllocationPredicateTest extends TestCase {
 		final Predicate filterRule = new TypingPredicate(filterRuleParentClass);
 		final JavaClass clazz = RepositoryLocator.getRepository().lookupClass(
 				usageRuleclass);
-		assertEquals(matches, new AllocationPredicate(filterRule)
-				.evaluate(clazz));
+		assertEquals(matches,
+				new AllocationPredicate(filterRule).evaluate(clazz));
 	}
 
 }

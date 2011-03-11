@@ -10,15 +10,24 @@ import java.lang.reflect.Method;
  */
 public class ByteSequence {
 
-	private org.apache.bcel.util.ByteSequence wrapped;
+	private final org.apache.bcel.util.ByteSequence wrapped;
 	private Method method;
 
 	public ByteSequence(byte[] code) {
-		this.wrapped = new org.apache.bcel.util.ByteSequence(code);
+		wrapped = new org.apache.bcel.util.ByteSequence(code);
 	}
 
 	public int available() throws IOException {
 		return wrapped.available();
+	}
+
+	private Method getUnreadByteMethod() throws NoSuchMethodException {
+		if (method == null) {
+			method = wrapped.getClass().getDeclaredMethod("unreadByte",
+					new Class[0]);
+			method.setAccessible(true);
+		}
+		return method;
 	}
 
 	public int readUnsignedByte() throws IOException {
@@ -32,16 +41,8 @@ public class ByteSequence {
 	public void unreadByte() throws IllegalStateException {
 		try {
 			getUnreadByteMethod().invoke(wrapped, new Object[0]);
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			throw new IllegalStateException(e);
 		}
-	}
-
-	private Method getUnreadByteMethod() throws NoSuchMethodException {
-		if (method == null) {
-			method = wrapped.getClass().getDeclaredMethod("unreadByte", new Class[0]);
-			method.setAccessible(true); 
-		}
-		return method;
 	}
 }

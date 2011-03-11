@@ -28,11 +28,11 @@ import ar.com.fluxit.jqa.mock.ExceptionA;
  */
 public class ClassThatThrowsUncheckedExceptionOnStaticMethod extends ClassA {
 
-	public ClassThatThrowsUncheckedExceptionOnStaticMethod() {
-		super();
-	}
-
 	public static void dummy() throws ExceptionA {
 		throw new IllegalStateException();
+	}
+
+	public ClassThatThrowsUncheckedExceptionOnStaticMethod() {
+		super();
 	}
 }

@@ -30,16 +30,19 @@ public class AbstractionPredicate extends AbstractPredicate {
 
 	public enum AbstractionType {
 		ABSTRACT() {
+			@Override
 			public boolean evaluate(JavaClass clazz) {
 				return clazz.isAbstract();
 			}
 		},
 		INTERFACE() {
+			@Override
 			public boolean evaluate(JavaClass clazz) {
 				return clazz.isInterface();
 			}
 		},
 		CONCRETE() {
+			@Override
 			public boolean evaluate(JavaClass clazz) {
 				return !(clazz.isAbstract() || clazz.isInterface());
 			}
@@ -50,14 +53,6 @@ public class AbstractionPredicate extends AbstractPredicate {
 
 	private AbstractionType abstractionType;
 
-	public AbstractionType getAbstractionType() {
-		return abstractionType;
-	}
-
-	public void setAbstractionType(AbstractionType abstractionType) {
-		this.abstractionType = abstractionType;
-	}
-
 	public AbstractionPredicate(AbstractionType abstractionType) {
 		super();
 		this.abstractionType = abstractionType;
@@ -66,6 +61,14 @@ public class AbstractionPredicate extends AbstractPredicate {
 	@Override
 	public boolean evaluate(JavaClass clazz) {
 		return getAbstractionType().evaluate(clazz);
+	}
+
+	public AbstractionType getAbstractionType() {
+		return abstractionType;
+	}
+
+	public void setAbstractionType(AbstractionType abstractionType) {
+		this.abstractionType = abstractionType;
 	}
 
 }

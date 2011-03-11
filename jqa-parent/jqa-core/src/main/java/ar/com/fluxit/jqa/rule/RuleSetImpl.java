@@ -21,10 +21,12 @@ class RuleSetImpl implements RuleSet {
 		getRules().add(rule);
 	}
 
+	@Override
 	public String getName() {
 		return name;
 	}
 
+	@Override
 	public List<Rule> getRules() {
 		return rules;
 	}

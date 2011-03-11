@@ -51,7 +51,7 @@ public class AllTests {
 		suite.addTestSuite(AndPredicateTest.class);
 		suite.addTestSuite(AbstractionPredicateTest.class);
 		suite.addTestSuite(AllocationPredicateTest.class);
-		suite.addTestSuite(ThrowingPredicateTest.class);		
+		suite.addTestSuite(ThrowingPredicateTest.class);
 		// $JUnit-END$
 		return suite;
 	}

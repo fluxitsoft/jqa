@@ -13,14 +13,17 @@ class RuleImpl implements Rule {
 	private Predicate checkPredicate;
 	private String name;
 
+	@Override
 	public Predicate getCheckPredicate() {
 		return checkPredicate;
 	}
 
+	@Override
 	public Predicate getFilterPredicate() {
 		return filterPredicate;
 	}
 
+	@Override
 	public String getName() {
 		return name;
 	}

@@ -18,8 +18,8 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.predicate.logic;
 
-import ar.com.fluxit.jqa.predicate.Predicate;
 import junit.framework.TestCase;
+import ar.com.fluxit.jqa.predicate.Predicate;
 
 /**
  * TODO javadoc
@@ -29,15 +29,18 @@ import junit.framework.TestCase;
 public abstract class LogicPredicateTest extends TestCase {
 
 	protected Predicate[] getFalseFalse() {
-		return new Predicate[] { FalsePredicate.INSTANCE, FalsePredicate.INSTANCE };
+		return new Predicate[] { FalsePredicate.INSTANCE,
+				FalsePredicate.INSTANCE };
 	}
 
 	protected Predicate[] getFalseTrue() {
-		return new Predicate[] { FalsePredicate.INSTANCE, TruePredicate.INSTANCE };
+		return new Predicate[] { FalsePredicate.INSTANCE,
+				TruePredicate.INSTANCE };
 	}
 
 	protected Predicate[] getTrueFalse() {
-		return new Predicate[] { TruePredicate.INSTANCE, FalsePredicate.INSTANCE };
+		return new Predicate[] { TruePredicate.INSTANCE,
+				FalsePredicate.INSTANCE };
 	}
 
 	protected Predicate[] getTrueTrue() {

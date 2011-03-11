@@ -15,6 +15,8 @@ public interface Repository {
 
 	Collection<JavaClass> getAllocations(JavaClass clazz);
 
+	Collection<JavaClass> getThrows(JavaClass clazz);
+
 	Collection<JavaClass> getUses(JavaClass clazz);
 
 	boolean instanceOf(JavaClass clazz, JavaClass parentClass)
@@ -26,7 +28,5 @@ public interface Repository {
 
 	JavaClass parse(FileInputStream classFile, String className)
 			throws ClassFormatException, IOException;
-
-	Collection<JavaClass> getThrows(JavaClass clazz);
 
 }

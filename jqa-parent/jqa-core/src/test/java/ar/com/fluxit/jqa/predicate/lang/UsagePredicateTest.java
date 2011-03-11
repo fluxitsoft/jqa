@@ -51,8 +51,6 @@ import ar.com.fluxit.jqa.mock.usage.StaticInnerClassWithFieldClassA;
 import ar.com.fluxit.jqa.mock.usage.StaticInnerClassWithParameterArrayClassA;
 import ar.com.fluxit.jqa.mock.usage.StaticInnerClassWithParameterClassA;
 import ar.com.fluxit.jqa.predicate.Predicate;
-import ar.com.fluxit.jqa.predicate.lang.TypingPredicate;
-import ar.com.fluxit.jqa.predicate.lang.UsagePredicate;
 
 /**
  * TODO javadoc

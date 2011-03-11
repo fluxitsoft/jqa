@@ -18,7 +18,6 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.predicate.logic;
 
-import ar.com.fluxit.jqa.predicate.logic.NotPredicate;
 import junit.framework.TestCase;
 
 /**

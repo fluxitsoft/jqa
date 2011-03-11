@@ -52,14 +52,14 @@ public class JQACheckerTest extends TestCase {
 	}
 
 	private RuleSet createRuleSet(Predicate instance, Predicate instance2) {
-		MockRuleSet result = new MockRuleSet();
+		final MockRuleSet result = new MockRuleSet();
 		result.addRule(createRule(instance, instance2));
 		return result;
 	}
 
 	private Collection<RuleSet> createRuleSets(Predicate predicate,
 			Predicate predicate2) {
-		Collection<RuleSet> result = new ArrayList<RuleSet>();
+		final Collection<RuleSet> result = new ArrayList<RuleSet>();
 		result.add(createRuleSet(predicate, predicate2));
 		return result;
 	}
@@ -87,7 +87,7 @@ public class JQACheckerTest extends TestCase {
 	public final void testCheckRuleFail() {
 		final Collection<File> classFiles = FileUtils.INSTANCE
 				.getClassFiles(ClassA.class);
-		Collection<RuleSet> configuration = createRuleSets(
+		final Collection<RuleSet> configuration = createRuleSets(
 				TruePredicate.INSTANCE, FalsePredicate.INSTANCE);
 		final CheckingResult result = getChecker().check(classFiles,
 				configuration, getLog());
@@ -100,7 +100,7 @@ public class JQACheckerTest extends TestCase {
 	public final void testCheckRuleSuccess() {
 		final Collection<File> classFiles = FileUtils.INSTANCE
 				.getClassFiles(ClassA.class);
-		Collection<RuleSet> configuration = createRuleSets(
+		final Collection<RuleSet> configuration = createRuleSets(
 				TruePredicate.INSTANCE, TruePredicate.INSTANCE);
 		final CheckingResult result = getChecker().check(classFiles,
 				configuration, getLog());
@@ -112,7 +112,7 @@ public class JQACheckerTest extends TestCase {
 
 	public final void testCheckWithNoFiles() {
 		final Collection<File> classFiles = new ArrayList<File>();
-		Collection<RuleSet> configuration = createRuleSets(
+		final Collection<RuleSet> configuration = createRuleSets(
 				TruePredicate.INSTANCE, TruePredicate.INSTANCE);
 		final CheckingResult result = getChecker().check(classFiles,
 				configuration, getLog());
@@ -126,7 +126,7 @@ public class JQACheckerTest extends TestCase {
 		final Collection<File> classFiles = FileUtils.INSTANCE
 				.getClassFiles(ClassA.class);
 
-		Collection<RuleSet> configuration = createRuleSets(
+		final Collection<RuleSet> configuration = createRuleSets(
 				TruePredicate.INSTANCE, FalsePredicate.INSTANCE);
 		final CheckingResult result = getChecker().check(classFiles,
 				configuration, getLog());
@@ -139,7 +139,7 @@ public class JQACheckerTest extends TestCase {
 	public final void testFilterRuleSuccess() {
 		final Collection<File> classFiles = FileUtils.INSTANCE
 				.getClassFiles(ClassA.class);
-		Collection<RuleSet> configuration = createRuleSets(
+		final Collection<RuleSet> configuration = createRuleSets(
 				TruePredicate.INSTANCE, TruePredicate.INSTANCE);
 		final CheckingResult result = getChecker().check(classFiles,
 				configuration, getLog());
