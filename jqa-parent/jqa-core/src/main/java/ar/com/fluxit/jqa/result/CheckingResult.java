@@ -23,8 +23,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * TODO javadoc TODO talvez esta clase debe almacenar mas info, por ejemplo el
- * ruleset
+ * TODO javadoc TODO ¿hold more info (like ruleset)?
  * 
  * @author Juan Ignacio Barisich
  */
