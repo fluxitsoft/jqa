@@ -39,11 +39,11 @@ import ar.com.fluxit.jqa.rule.RuleSet;
  * 
  * @author Juan Ignacio Barisich
  */
-public class JQARuleSetChecker {
+public class RuleSetChecker {
 
-	public static final JQARuleSetChecker INSTANCE = new JQARuleSetChecker();
+	public static final RuleSetChecker INSTANCE = new RuleSetChecker();
 
-	private JQARuleSetChecker() {
+	private RuleSetChecker() {
 		super();
 	}
 

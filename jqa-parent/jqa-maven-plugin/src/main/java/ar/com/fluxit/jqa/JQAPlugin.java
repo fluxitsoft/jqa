@@ -137,7 +137,7 @@ public class JQAPlugin extends AbstractMojo {
 			// xs.fromXML(fis);
 			fis.close();
 			// Check the rules
-			final CheckingResult result = JQARuleSetChecker.INSTANCE.check(classFiles,
+			final CheckingResult result = RuleSetChecker.INSTANCE.check(classFiles,
 					null, getLogger());
 			// Writes the results
 			getLog().debug("Writing the results on " + getResultsFile());
