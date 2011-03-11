@@ -4,7 +4,7 @@ import java.util.Collection;
 
 import ar.com.fluxit.jqa.rule.RuleSet;
 
-public interface QAContext {
+public interface JQAContext {
 
 	Collection<RuleSet> getRuleSets();
 

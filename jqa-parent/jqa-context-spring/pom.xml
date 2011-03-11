@@ -9,22 +9,19 @@
 		<version>1.0</version>
 	</parent>
 	<groupId>ar.com.fluxit</groupId>
-	<artifactId>jqa-bce-bcel</artifactId>
-	<name>jqa-bce-bcel</name>
-	<url>http://code.google.com/p/jqa-project/</url>
-	<dependencies>
-		<dependency>
-			<groupId>ar.com.fluxit</groupId>
-			<artifactId>jqa-bce-api</artifactId>
-			<version>${jqa.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>bcel</groupId>
-			<artifactId>bcel</artifactId>
-			<version>5.1</version>
-		</dependency>
-	</dependencies>
+	<artifactId>jqa-context-spring</artifactId>
+	<name>jqa-context-spring</name>
+	<url>http://maven.apache.org</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>ar.com.fluxit</groupId>
+			<artifactId>jqa-context-api</artifactId>
+			<version>${jqa.version}</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+	</dependencies>
 </project>
