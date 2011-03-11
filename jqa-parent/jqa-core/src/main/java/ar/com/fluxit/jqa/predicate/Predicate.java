@@ -27,6 +27,6 @@ import ar.com.fluxit.jqa.bce.JavaClass;
  */
 public interface Predicate {
 
-	public boolean evaluate(JavaClass clazz);
+	boolean evaluate(JavaClass clazz);
 
 }
