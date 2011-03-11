@@ -18,7 +18,6 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.predicate;
 
-import ar.com.fluxit.jqa.predicate.OrPredicate;
 
 /**
  * TODO javadoc
@@ -32,10 +31,10 @@ public class OrPredicateTest extends LogicPredicateTest {
 	}
 
 	public void testCheck() {
-		assertTrue(new OrPredicate(getTrueTrue()).evaluate(null, null));
-		assertTrue(new OrPredicate(getTrueFalse()).evaluate(null, null));
-		assertTrue(new OrPredicate(getFalseTrue()).evaluate(null, null));
-		assertFalse(new OrPredicate(getFalseFalse()).evaluate(null, null));
+		assertTrue(new OrPredicate(getTrueTrue()).evaluate(null));
+		assertTrue(new OrPredicate(getTrueFalse()).evaluate(null));
+		assertTrue(new OrPredicate(getFalseTrue()).evaluate(null));
+		assertFalse(new OrPredicate(getFalseFalse()).evaluate(null));
 	}
 
 }

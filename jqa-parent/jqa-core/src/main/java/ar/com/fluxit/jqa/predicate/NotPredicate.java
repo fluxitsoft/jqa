@@ -19,14 +19,13 @@
 package ar.com.fluxit.jqa.predicate;
 
 import ar.com.fluxit.jqa.bce.JavaClass;
-import ar.com.fluxit.jqa.context.CheckingContext;
 
 /**
  * TODO javadoc
  * 
  * @author Juan Ignacio Barisich
  */
-public class NotPredicate implements Predicate {
+public class NotPredicate extends AbstractPredicate {
 
 	private Predicate rule;
 
@@ -39,8 +38,8 @@ public class NotPredicate implements Predicate {
 	}
 
 	@Override
-	public boolean evaluate(JavaClass clazz, CheckingContext checkingContext) {
-		return !getRule().evaluate(clazz, checkingContext);
+	public boolean evaluate(JavaClass clazz) {
+		return !getRule().evaluate(clazz);
 	}
 
 	public Predicate getRule() {

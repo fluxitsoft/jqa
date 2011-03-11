@@ -26,7 +26,7 @@ import ar.com.fluxit.jqa.bce.RepositoryLocator;
  * 
  * @author Juan Ignacio Barisich
  */
-public class TypingPredicate extends CheckingContextIgnoringPredicate {
+public class TypingPredicate extends AbstractPredicate {
 
 	private String parentClassName;
 	private transient JavaClass parentJavaClass;
@@ -37,7 +37,7 @@ public class TypingPredicate extends CheckingContextIgnoringPredicate {
 	}
 
 	@Override
-	public boolean check(JavaClass clazz) {
+	public boolean evaluate(JavaClass clazz) {
 		return evaluateClass(clazz);
 	}
 

@@ -21,11 +21,11 @@ package ar.com.fluxit.jqa.predicate;
 import ar.com.fluxit.jqa.bce.JavaClass;
 
 /**
- * TODO javadoc
+ * TODO javadoc TODO enumerativo con abstract, interface, concrete
  * 
  * @author Juan Ignacio Barisich
  */
-public class AbstractionPredicate extends CheckingContextIgnoringPredicate {
+public class AbstractionPredicate extends AbstractPredicate {
 
 	private boolean isAbstract;
 
@@ -35,7 +35,7 @@ public class AbstractionPredicate extends CheckingContextIgnoringPredicate {
 	}
 
 	@Override
-	public boolean check(JavaClass clazz) {
+	public boolean evaluate(JavaClass clazz) {
 		return clazz.isAbstract() == isAbstract();
 	}
 

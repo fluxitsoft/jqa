@@ -19,7 +19,6 @@
 package ar.com.fluxit.jqa.predicate;
 
 import ar.com.fluxit.jqa.bce.JavaClass;
-import ar.com.fluxit.jqa.context.CheckingContext;
 
 /**
  * TODO javadoc
@@ -37,9 +36,9 @@ public class OrPredicate extends LogicPredicate {
 	}
 
 	@Override
-	public boolean evaluate(JavaClass clazz, CheckingContext checkingContext) {
+	public boolean evaluate(JavaClass clazz) {
 		for (final Predicate rule : getRules()) {
-			if (rule.evaluate(clazz, checkingContext)) {
+			if (rule.evaluate(clazz)) {
 				return true;
 			}
 		}

@@ -18,7 +18,6 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.predicate;
 
-import ar.com.fluxit.jqa.predicate.AndPredicate;
 
 /**
  * TODO javadoc
@@ -32,10 +31,10 @@ public class AndPredicateTest extends LogicPredicateTest {
 	}
 
 	public void testCheck() {
-		assertTrue(new AndPredicate(getTrueTrue()).evaluate(null, null));
-		assertFalse(new AndPredicate(getTrueFalse()).evaluate(null, null));
-		assertFalse(new AndPredicate(getFalseTrue()).evaluate(null, null));
-		assertFalse(new AndPredicate(getFalseFalse()).evaluate(null, null));
+		assertTrue(new AndPredicate(getTrueTrue()).evaluate(null));
+		assertFalse(new AndPredicate(getTrueFalse()).evaluate(null));
+		assertFalse(new AndPredicate(getFalseTrue()).evaluate(null));
+		assertFalse(new AndPredicate(getFalseFalse()).evaluate(null));
 	}
 
 }

@@ -21,16 +21,11 @@ package ar.com.fluxit.jqa.predicate;
 import junit.framework.TestCase;
 import ar.com.fluxit.jqa.bce.JavaClass;
 import ar.com.fluxit.jqa.bce.RepositoryLocator;
-import ar.com.fluxit.jqa.context.CheckingContext;
 import ar.com.fluxit.jqa.mock.ClassA;
-import ar.com.fluxit.jqa.mock.MockCheckingContext;
 import ar.com.fluxit.jqa.mock.allocation.ClassThatAllocatesClassA;
 import ar.com.fluxit.jqa.mock.allocation.ClassThatStaticAllocatesClassA;
 import ar.com.fluxit.jqa.mock.allocation.InnerClassThatAllocatesClassA;
 import ar.com.fluxit.jqa.mock.allocation.StaticInnerClassThatAllocatesClassA;
-import ar.com.fluxit.jqa.predicate.AllocationPredicate;
-import ar.com.fluxit.jqa.predicate.Predicate;
-import ar.com.fluxit.jqa.predicate.TypingPredicate;
 
 /**
  * TODO javadoc
@@ -38,22 +33,6 @@ import ar.com.fluxit.jqa.predicate.TypingPredicate;
  * @author Juan Ignacio Barisich
  */
 public class AllocationPredicateTest extends TestCase {
-
-	private CheckingContext checkingContext;
-
-	private CheckingContext getCheckingContext() {
-		return checkingContext;
-	}
-
-	@Override
-	protected void setUp() throws Exception {
-		checkingContext = new MockCheckingContext();
-	}
-
-	@Override
-	protected void tearDown() throws Exception {
-		checkingContext = null;
-	}
 
 	public final void testCheck() throws ClassNotFoundException {
 		final String filterRuleParentClass = ClassA.class.getName();
@@ -74,8 +53,8 @@ public class AllocationPredicateTest extends TestCase {
 		final Predicate filterRule = new TypingPredicate(filterRuleParentClass);
 		final JavaClass clazz = RepositoryLocator.getRepository().lookupClass(
 				usageRuleclass);
-		assertEquals(matches, new AllocationPredicate(filterRule).evaluate(clazz,
-				getCheckingContext()));
+		assertEquals(matches, new AllocationPredicate(filterRule)
+				.evaluate(clazz));
 	}
 
 }

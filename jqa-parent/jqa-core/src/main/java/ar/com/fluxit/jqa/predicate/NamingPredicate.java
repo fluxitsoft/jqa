@@ -27,7 +27,7 @@ import ar.com.fluxit.jqa.util.RegEx;
  * 
  * @author Juan Ignacio Barisich
  */
-public class NamingPredicate extends CheckingContextIgnoringPredicate {
+public class NamingPredicate extends AbstractPredicate {
 
 	private String classNamePattern;
 	private transient RegEx regEx;
@@ -38,7 +38,7 @@ public class NamingPredicate extends CheckingContextIgnoringPredicate {
 	}
 
 	@Override
-	public boolean check(JavaClass clazz) {
+	public boolean evaluate(JavaClass clazz) {
 		return evaluateClassName(clazz.getClassName());
 	}
 

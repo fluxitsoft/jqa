@@ -18,7 +18,6 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.predicate;
 
-import ar.com.fluxit.jqa.predicate.NotPredicate;
 import junit.framework.TestCase;
 
 /**
@@ -33,8 +32,8 @@ public class NotPredicateTest extends TestCase {
 	}
 
 	public void testCheck() {
-		assertTrue(new NotPredicate(FalsePredicate.INSTANCE).evaluate(null, null));
-		assertFalse(new NotPredicate(TruePredicate.INSTANCE).evaluate(null, null));
+		assertTrue(new NotPredicate(FalsePredicate.INSTANCE).evaluate(null));
+		assertFalse(new NotPredicate(TruePredicate.INSTANCE).evaluate(null));
 	}
 
 }

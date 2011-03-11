@@ -21,10 +21,8 @@ package ar.com.fluxit.jqa.predicate;
 import junit.framework.TestCase;
 import ar.com.fluxit.jqa.bce.JavaClass;
 import ar.com.fluxit.jqa.bce.RepositoryLocator;
-import ar.com.fluxit.jqa.context.CheckingContext;
 import ar.com.fluxit.jqa.mock.ClassA;
 import ar.com.fluxit.jqa.mock.ExceptionA;
-import ar.com.fluxit.jqa.mock.MockCheckingContext;
 import ar.com.fluxit.jqa.mock.throwing.ClassThatDoesntThrowsExceptionA;
 import ar.com.fluxit.jqa.mock.throwing.ClassThatThrowsExceptionAOnConstructor;
 import ar.com.fluxit.jqa.mock.throwing.ClassThatThrowsExceptionAOnMethod;
@@ -32,9 +30,6 @@ import ar.com.fluxit.jqa.mock.throwing.ClassThatThrowsExceptionAOnStaticMethod;
 import ar.com.fluxit.jqa.mock.throwing.ClassThatThrowsUncheckedExceptionOnConstructor;
 import ar.com.fluxit.jqa.mock.throwing.ClassThatThrowsUncheckedExceptionOnMethod;
 import ar.com.fluxit.jqa.mock.throwing.ClassThatThrowsUncheckedExceptionOnStaticMethod;
-import ar.com.fluxit.jqa.predicate.Predicate;
-import ar.com.fluxit.jqa.predicate.ThrowingPredicate;
-import ar.com.fluxit.jqa.predicate.TypingPredicate;
 
 /**
  * TODO javadoc
@@ -42,22 +37,6 @@ import ar.com.fluxit.jqa.predicate.TypingPredicate;
  * @author Juan Ignacio Barisich
  */
 public class ThrowingPredicateTest extends TestCase {
-
-	private CheckingContext checkingContext;
-
-	private CheckingContext getCheckingContext() {
-		return checkingContext;
-	}
-
-	@Override
-	protected void setUp() throws Exception {
-		checkingContext = new MockCheckingContext();
-	}
-
-	@Override
-	protected void tearDown() throws Exception {
-		checkingContext = null;
-	}
 
 	public final void testCheck() throws ClassNotFoundException {
 		final String filterRuleParentClass = ExceptionA.class.getName();
@@ -89,8 +68,7 @@ public class ThrowingPredicateTest extends TestCase {
 		final Predicate filterRule = new TypingPredicate(filterRuleParentClass);
 		final JavaClass clazz = RepositoryLocator.getRepository().lookupClass(
 				usageRuleclass);
-		assertEquals(matches,
-				new ThrowingPredicate(filterRule).evaluate(clazz, getCheckingContext()));
+		assertEquals(matches, new ThrowingPredicate(filterRule).evaluate(clazz));
 	}
 
 }

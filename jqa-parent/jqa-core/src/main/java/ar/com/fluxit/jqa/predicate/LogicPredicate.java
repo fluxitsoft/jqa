@@ -23,7 +23,7 @@ package ar.com.fluxit.jqa.predicate;
  * 
  * @author Juan Ignacio Barisich
  */
-public abstract class LogicPredicate implements Predicate {
+public abstract class LogicPredicate extends AbstractPredicate {
 
 	private Predicate rules[];
 

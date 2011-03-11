@@ -19,7 +19,6 @@
 package ar.com.fluxit.jqa.predicate;
 
 import ar.com.fluxit.jqa.bce.JavaClass;
-import ar.com.fluxit.jqa.context.CheckingContext;
 
 /**
  * TODO javadoc
@@ -28,6 +27,6 @@ import ar.com.fluxit.jqa.context.CheckingContext;
  */
 public interface Predicate {
 
-	public boolean evaluate(JavaClass clazz, CheckingContext checkingContext);
+	public boolean evaluate(JavaClass clazz);
 
 }

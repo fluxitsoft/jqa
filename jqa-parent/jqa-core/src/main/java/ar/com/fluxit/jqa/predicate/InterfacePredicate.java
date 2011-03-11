@@ -25,7 +25,7 @@ import ar.com.fluxit.jqa.bce.JavaClass;
  * 
  * @author Juan Ignacio Barisich
  */
-public class InterfacePredicate extends CheckingContextIgnoringPredicate {
+public class InterfacePredicate extends AbstractPredicate {
 
 	private boolean isInterface;
 
@@ -35,7 +35,7 @@ public class InterfacePredicate extends CheckingContextIgnoringPredicate {
 	}
 
 	@Override
-	public boolean check(JavaClass clazz) {
+	public boolean evaluate(JavaClass clazz) {
 		return clazz.isInterface() == isInterface();
 	}
 

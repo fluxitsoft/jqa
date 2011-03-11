@@ -5,7 +5,7 @@ package ar.com.fluxit.jqa.predicate;
  * 
  * @author Juan Ignacio Barisich
  */
-public abstract class FilteredPredicate implements Predicate {
+public abstract class FilteredPredicate extends AbstractPredicate {
 
 	protected Predicate filterRule;
 

@@ -24,7 +24,6 @@ import junit.framework.TestCase;
 import ar.com.fluxit.jqa.bce.JavaClass;
 import ar.com.fluxit.jqa.bce.Repository;
 import ar.com.fluxit.jqa.bce.RepositoryLocator;
-import ar.com.fluxit.jqa.predicate.InterfacePredicate;
 
 /**
  * TODO javadoc
@@ -40,13 +39,12 @@ public class InterfacePredicateTest extends TestCase {
 				.lookupClass(Serializable.class);
 		final JavaClass abstractClazz = repository.lookupClass(Number.class);
 
-		assertFalse(new InterfacePredicate(true).check(concreteClazz));
-		assertTrue(new InterfacePredicate(true).check(interfaceClazz));
-		assertFalse(new InterfacePredicate(true).check(abstractClazz));
+		assertFalse(new InterfacePredicate(true).evaluate(concreteClazz));
+		assertTrue(new InterfacePredicate(true).evaluate(interfaceClazz));
+		assertFalse(new InterfacePredicate(true).evaluate(abstractClazz));
 
-		assertTrue(new InterfacePredicate(false).check(concreteClazz));
-		assertFalse(new InterfacePredicate(false).check(interfaceClazz));
-		assertTrue(new InterfacePredicate(false).check(abstractClazz));
+		assertTrue(new InterfacePredicate(false).evaluate(concreteClazz));
+		assertFalse(new InterfacePredicate(false).evaluate(interfaceClazz));
+		assertTrue(new InterfacePredicate(false).evaluate(abstractClazz));
 	}
-
 }

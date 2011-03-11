@@ -24,7 +24,6 @@ import junit.framework.TestCase;
 import ar.com.fluxit.jqa.bce.JavaClass;
 import ar.com.fluxit.jqa.bce.Repository;
 import ar.com.fluxit.jqa.bce.RepositoryLocator;
-import ar.com.fluxit.jqa.predicate.AbstractionPredicate;
 
 /**
  * TODO javadoc
@@ -40,13 +39,13 @@ public class AbstractionPredicateTest extends TestCase {
 				.lookupClass(Serializable.class);
 		final JavaClass abstractClazz = repository.lookupClass(Number.class);
 
-		assertFalse(new AbstractionPredicate(true).check(concreteClazz));
-		assertTrue(new AbstractionPredicate(true).check(interfaceClazz));
-		assertTrue(new AbstractionPredicate(true).check(abstractClazz));
+		assertFalse(new AbstractionPredicate(true).evaluate(concreteClazz));
+		assertTrue(new AbstractionPredicate(true).evaluate(interfaceClazz));
+		assertTrue(new AbstractionPredicate(true).evaluate(abstractClazz));
 
-		assertTrue(new AbstractionPredicate(false).check(concreteClazz));
-		assertFalse(new AbstractionPredicate(false).check(interfaceClazz));
-		assertFalse(new AbstractionPredicate(false).check(abstractClazz));
+		assertTrue(new AbstractionPredicate(false).evaluate(concreteClazz));
+		assertFalse(new AbstractionPredicate(false).evaluate(interfaceClazz));
+		assertFalse(new AbstractionPredicate(false).evaluate(abstractClazz));
 	}
 
 }

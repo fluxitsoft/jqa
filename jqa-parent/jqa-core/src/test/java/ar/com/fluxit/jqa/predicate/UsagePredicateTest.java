@@ -21,9 +21,7 @@ package ar.com.fluxit.jqa.predicate;
 import junit.framework.TestCase;
 import ar.com.fluxit.jqa.bce.JavaClass;
 import ar.com.fluxit.jqa.bce.RepositoryLocator;
-import ar.com.fluxit.jqa.context.CheckingContext;
 import ar.com.fluxit.jqa.mock.ClassA;
-import ar.com.fluxit.jqa.mock.MockCheckingContext;
 import ar.com.fluxit.jqa.mock.usage.ClassThatExtendsClassA;
 import ar.com.fluxit.jqa.mock.usage.ClassThatReturnsArrayClassA;
 import ar.com.fluxit.jqa.mock.usage.ClassThatReturnsClassA;
@@ -52,9 +50,6 @@ import ar.com.fluxit.jqa.mock.usage.StaticInnerClassWithFieldArrayClassA;
 import ar.com.fluxit.jqa.mock.usage.StaticInnerClassWithFieldClassA;
 import ar.com.fluxit.jqa.mock.usage.StaticInnerClassWithParameterArrayClassA;
 import ar.com.fluxit.jqa.mock.usage.StaticInnerClassWithParameterClassA;
-import ar.com.fluxit.jqa.predicate.Predicate;
-import ar.com.fluxit.jqa.predicate.TypingPredicate;
-import ar.com.fluxit.jqa.predicate.UsagePredicate;
 
 /**
  * TODO javadoc
@@ -62,22 +57,6 @@ import ar.com.fluxit.jqa.predicate.UsagePredicate;
  * @author Juan Ignacio Barisich
  */
 public class UsagePredicateTest extends TestCase {
-
-	private CheckingContext checkingContext;
-
-	private CheckingContext getCheckingContext() {
-		return checkingContext;
-	}
-
-	@Override
-	protected void setUp() throws Exception {
-		checkingContext = new MockCheckingContext();
-	}
-
-	@Override
-	protected void tearDown() throws Exception {
-		checkingContext = null;
-	}
 
 	public final void testCheck() throws ClassNotFoundException {
 		final String filterRuleParentClass = ClassA.class.getName();
@@ -146,8 +125,7 @@ public class UsagePredicateTest extends TestCase {
 		final Predicate filterRule = new TypingPredicate(filterRuleParentClass);
 		final JavaClass clazz = RepositoryLocator.getRepository().lookupClass(
 				usageRuleclass);
-		assertEquals(matches,
-				new UsagePredicate(filterRule).evaluate(clazz, getCheckingContext()));
+		assertEquals(matches, new UsagePredicate(filterRule).evaluate(clazz));
 	}
 
 }

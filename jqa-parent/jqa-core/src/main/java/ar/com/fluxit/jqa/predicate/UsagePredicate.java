@@ -22,7 +22,6 @@ import java.util.Collection;
 
 import ar.com.fluxit.jqa.bce.JavaClass;
 import ar.com.fluxit.jqa.bce.RepositoryLocator;
-import ar.com.fluxit.jqa.context.CheckingContext;
 
 /**
  * TODO javadoc
@@ -40,11 +39,11 @@ public class UsagePredicate extends FilteredPredicate {
 	}
 
 	@Override
-	public boolean evaluate(JavaClass clazz, CheckingContext checkingContext) {
+	public boolean evaluate(JavaClass clazz) {
 		final Collection<JavaClass> filteredClasses = RepositoryLocator
 				.getRepository().getUses(clazz);
 		for (final JavaClass usedClass : filteredClasses) {
-			if (getFilterRule().evaluate(usedClass, checkingContext)) {
+			if (getFilterRule().evaluate(usedClass)) {
 				return true;
 			}
 		}

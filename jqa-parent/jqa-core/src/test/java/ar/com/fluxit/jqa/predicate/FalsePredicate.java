@@ -19,15 +19,13 @@
 package ar.com.fluxit.jqa.predicate;
 
 import ar.com.fluxit.jqa.bce.JavaClass;
-import ar.com.fluxit.jqa.predicate.CheckingContextIgnoringPredicate;
-import ar.com.fluxit.jqa.predicate.Predicate;
 
 /**
  * TODO javadoc
  * 
  * @author Juan Ignacio Barisich
  */
-public class FalsePredicate extends CheckingContextIgnoringPredicate {
+public class FalsePredicate extends AbstractPredicate {
 
 	public static final Predicate INSTANCE = new FalsePredicate();
 
@@ -36,7 +34,7 @@ public class FalsePredicate extends CheckingContextIgnoringPredicate {
 	}
 
 	@Override
-	public boolean check(JavaClass clazz) {
+	public boolean evaluate(JavaClass clazz) {
 		return false;
 	}
 

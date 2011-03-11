@@ -31,7 +31,6 @@ import ar.com.fluxit.jqa.bce.JavaClass;
 import ar.com.fluxit.jqa.bce.RepositoryLocator;
 import ar.com.fluxit.jqa.config.Check;
 import ar.com.fluxit.jqa.config.Configuration;
-import ar.com.fluxit.jqa.context.CheckingContext;
 import ar.com.fluxit.jqa.result.CheckingResult;
 import ar.com.fluxit.jqa.result.RuleCheckFailed;
 
@@ -51,7 +50,6 @@ public class JQAChecker {
 	public CheckingResult check(Collection<File> classFiles,
 			Configuration configuration, Logger log) {
 		final CheckingResult result = new CheckingResult();
-		final CheckingContext checkingContext = null; // TODO
 		for (final File classFile : classFiles) {
 			try {
 				final FileInputStream fis = new FileInputStream(classFile);
@@ -59,9 +57,8 @@ public class JQAChecker {
 						.parse(fis, null);
 				fis.close();
 				for (final Check ruleset : configuration.getChecks()) {
-					if (ruleset.getFilterRule().evaluate(clazz, checkingContext)) {
-						if (!ruleset.getCheckRule().evaluate(clazz,
-								checkingContext)) {
+					if (ruleset.getFilterRule().evaluate(clazz)) {
+						if (!ruleset.getCheckRule().evaluate(clazz)) {
 							result.addRuleExecutionFailed(new RuleCheckFailed(
 									ruleset.getCheckRule(), clazz
 											.getClassName()));
