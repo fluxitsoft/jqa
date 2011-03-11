@@ -64,8 +64,8 @@ public class JQACheckerTest extends TestCase {
 		return result;
 	}
 
-	public JQAChecker getChecker() {
-		return JQAChecker.INSTANCE;
+	public JQARuleSetChecker getChecker() {
+		return JQARuleSetChecker.INSTANCE;
 	}
 
 	protected Logger getLog() {
