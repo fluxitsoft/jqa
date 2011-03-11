@@ -21,30 +21,50 @@ package ar.com.fluxit.jqa.predicate;
 import ar.com.fluxit.jqa.bce.JavaClass;
 
 /**
- * TODO javadoc TODO enumerativo con abstract, interface, concrete
+ * TODO javadoc
  * 
  * @author Juan Ignacio Barisich
  */
 public class AbstractionPredicate extends AbstractPredicate {
 
-	private boolean isAbstract;
+	public enum AbstractionType {
+		ABSTRACT() {
+			public boolean evaluate(JavaClass clazz) {
+				return clazz.isAbstract();
+			}
+		},
+		INTERFACE() {
+			public boolean evaluate(JavaClass clazz) {
+				return clazz.isInterface();
+			}
+		},
+		CONCRETE() {
+			public boolean evaluate(JavaClass clazz) {
+				return !(clazz.isAbstract() || clazz.isInterface());
+			}
+		};
 
-	public AbstractionPredicate(boolean isAbstract) {
+		abstract boolean evaluate(JavaClass clazz);
+	}
+
+	private AbstractionType abstractionType;
+
+	public AbstractionType getAbstractionType() {
+		return abstractionType;
+	}
+
+	public void setAbstractionType(AbstractionType abstractionType) {
+		this.abstractionType = abstractionType;
+	}
+
+	public AbstractionPredicate(AbstractionType abstractionType) {
 		super();
-		this.isAbstract = isAbstract;
+		this.abstractionType = abstractionType;
 	}
 
 	@Override
 	public boolean evaluate(JavaClass clazz) {
-		return clazz.isAbstract() == isAbstract();
-	}
-
-	public boolean isAbstract() {
-		return isAbstract;
-	}
-
-	public void setAbstract(boolean isAbstract) {
-		this.isAbstract = isAbstract;
+		return getAbstractionType().evaluate(clazz);
 	}
 
 }

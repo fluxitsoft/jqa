@@ -23,7 +23,6 @@ import junit.framework.TestSuite;
 import ar.com.fluxit.jqa.predicate.AbstractionPredicateTest;
 import ar.com.fluxit.jqa.predicate.AllocationPredicateTest;
 import ar.com.fluxit.jqa.predicate.AndPredicateTest;
-import ar.com.fluxit.jqa.predicate.InterfacePredicateTest;
 import ar.com.fluxit.jqa.predicate.NamingPredicateTest;
 import ar.com.fluxit.jqa.predicate.NotPredicateTest;
 import ar.com.fluxit.jqa.predicate.OrPredicateTest;
@@ -51,7 +50,6 @@ public class AllTests {
 		suite.addTestSuite(NotPredicateTest.class);
 		suite.addTestSuite(AndPredicateTest.class);
 		suite.addTestSuite(AbstractionPredicateTest.class);
-		suite.addTestSuite(InterfacePredicateTest.class);
 		suite.addTestSuite(AllocationPredicateTest.class);
 		suite.addTestSuite(ThrowingPredicateTest.class);		
 		// $JUnit-END$

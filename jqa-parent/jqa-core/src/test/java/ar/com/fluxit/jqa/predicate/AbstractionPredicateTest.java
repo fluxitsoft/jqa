@@ -24,6 +24,7 @@ import junit.framework.TestCase;
 import ar.com.fluxit.jqa.bce.JavaClass;
 import ar.com.fluxit.jqa.bce.Repository;
 import ar.com.fluxit.jqa.bce.RepositoryLocator;
+import ar.com.fluxit.jqa.predicate.AbstractionPredicate.AbstractionType;
 
 /**
  * TODO javadoc
@@ -39,13 +40,18 @@ public class AbstractionPredicateTest extends TestCase {
 				.lookupClass(Serializable.class);
 		final JavaClass abstractClazz = repository.lookupClass(Number.class);
 
-		assertFalse(new AbstractionPredicate(true).evaluate(concreteClazz));
-		assertTrue(new AbstractionPredicate(true).evaluate(interfaceClazz));
-		assertTrue(new AbstractionPredicate(true).evaluate(abstractClazz));
-
-		assertTrue(new AbstractionPredicate(false).evaluate(concreteClazz));
-		assertFalse(new AbstractionPredicate(false).evaluate(interfaceClazz));
-		assertFalse(new AbstractionPredicate(false).evaluate(abstractClazz));
+		// Is Abstract ?
+		assertFalse(new AbstractionPredicate(AbstractionType.ABSTRACT).evaluate(concreteClazz));
+		assertFalse(new AbstractionPredicate(AbstractionType.ABSTRACT).evaluate(interfaceClazz));
+		assertTrue(new AbstractionPredicate(AbstractionType.ABSTRACT).evaluate(abstractClazz));
+		// Is Interface ?
+		assertFalse(new AbstractionPredicate(AbstractionType.INTERFACE).evaluate(concreteClazz));
+		assertTrue(new AbstractionPredicate(AbstractionType.INTERFACE).evaluate(interfaceClazz));
+		assertFalse(new AbstractionPredicate(AbstractionType.INTERFACE).evaluate(abstractClazz));
+		// Is Concrete ?
+		assertTrue(new AbstractionPredicate(AbstractionType.CONCRETE).evaluate(concreteClazz));
+		assertFalse(new AbstractionPredicate(AbstractionType.CONCRETE).evaluate(interfaceClazz));
+		assertFalse(new AbstractionPredicate(AbstractionType.CONCRETE).evaluate(abstractClazz));
 	}
 
 }
