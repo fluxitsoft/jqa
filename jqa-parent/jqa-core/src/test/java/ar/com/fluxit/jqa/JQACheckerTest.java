@@ -21,20 +21,21 @@ package ar.com.fluxit.jqa;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 import junit.framework.TestCase;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ar.com.fluxit.jqa.config.Check;
-import ar.com.fluxit.jqa.config.Configuration;
 import ar.com.fluxit.jqa.mock.ClassA;
 import ar.com.fluxit.jqa.predicate.FalsePredicate;
 import ar.com.fluxit.jqa.predicate.Predicate;
 import ar.com.fluxit.jqa.predicate.TruePredicate;
 import ar.com.fluxit.jqa.result.CheckingResult;
+import ar.com.fluxit.jqa.rule.MockRule;
+import ar.com.fluxit.jqa.rule.MockRuleSet;
+import ar.com.fluxit.jqa.rule.Rule;
+import ar.com.fluxit.jqa.rule.RuleSet;
 import ar.com.fluxit.jqa.util.FileUtils;
 
 /**
@@ -46,14 +47,20 @@ public class JQACheckerTest extends TestCase {
 
 	private Logger log;
 
-	private Configuration createConfiguration(Predicate filterRule, Predicate checkRule) {
-		final Configuration result = new Configuration();
-		final List<Check> checks = new ArrayList<Check>();
-		final Check check = new Check();
-		check.setFilterRule(filterRule);
-		check.setCheckRule(checkRule);
-		checks.add(check);
-		result.setChecks(checks);
+	private Rule createRule(Predicate instance, Predicate instance2) {
+		return new MockRule(instance, instance2);
+	}
+
+	private RuleSet createRuleSet(Predicate instance, Predicate instance2) {
+		MockRuleSet result = new MockRuleSet();
+		result.addRule(createRule(instance, instance2));
+		return result;
+	}
+
+	private Collection<RuleSet> createRuleSets(Predicate predicate,
+			Predicate predicate2) {
+		Collection<RuleSet> result = new ArrayList<RuleSet>();
+		result.add(createRuleSet(predicate, predicate2));
 		return result;
 	}
 
@@ -80,7 +87,7 @@ public class JQACheckerTest extends TestCase {
 	public final void testCheckRuleFail() {
 		final Collection<File> classFiles = FileUtils.INSTANCE
 				.getClassFiles(ClassA.class);
-		final Configuration configuration = createConfiguration(
+		Collection<RuleSet> configuration = createRuleSets(
 				TruePredicate.INSTANCE, FalsePredicate.INSTANCE);
 		final CheckingResult result = getChecker().check(classFiles,
 				configuration, getLog());
@@ -93,7 +100,7 @@ public class JQACheckerTest extends TestCase {
 	public final void testCheckRuleSuccess() {
 		final Collection<File> classFiles = FileUtils.INSTANCE
 				.getClassFiles(ClassA.class);
-		final Configuration configuration = createConfiguration(
+		Collection<RuleSet> configuration = createRuleSets(
 				TruePredicate.INSTANCE, TruePredicate.INSTANCE);
 		final CheckingResult result = getChecker().check(classFiles,
 				configuration, getLog());
@@ -104,8 +111,9 @@ public class JQACheckerTest extends TestCase {
 	}
 
 	public final void testCheckWithNoFiles() {
-		final Configuration configuration = new Configuration();
 		final Collection<File> classFiles = new ArrayList<File>();
+		Collection<RuleSet> configuration = createRuleSets(
+				TruePredicate.INSTANCE, TruePredicate.INSTANCE);
 		final CheckingResult result = getChecker().check(classFiles,
 				configuration, getLog());
 		assertNotNull(result);
@@ -117,7 +125,8 @@ public class JQACheckerTest extends TestCase {
 	public final void testFilterRuleFail() {
 		final Collection<File> classFiles = FileUtils.INSTANCE
 				.getClassFiles(ClassA.class);
-		final Configuration configuration = createConfiguration(
+
+		Collection<RuleSet> configuration = createRuleSets(
 				TruePredicate.INSTANCE, FalsePredicate.INSTANCE);
 		final CheckingResult result = getChecker().check(classFiles,
 				configuration, getLog());
@@ -130,8 +139,8 @@ public class JQACheckerTest extends TestCase {
 	public final void testFilterRuleSuccess() {
 		final Collection<File> classFiles = FileUtils.INSTANCE
 				.getClassFiles(ClassA.class);
-		final Configuration configuration = createConfiguration(
-				FalsePredicate.INSTANCE, FalsePredicate.INSTANCE);
+		Collection<RuleSet> configuration = createRuleSets(
+				TruePredicate.INSTANCE, TruePredicate.INSTANCE);
 		final CheckingResult result = getChecker().check(classFiles,
 				configuration, getLog());
 		assertNotNull(result);

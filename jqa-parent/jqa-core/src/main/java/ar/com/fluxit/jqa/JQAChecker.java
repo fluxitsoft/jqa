@@ -29,10 +29,10 @@ import org.slf4j.Logger;
 import ar.com.fluxit.jqa.bce.ClassFormatException;
 import ar.com.fluxit.jqa.bce.JavaClass;
 import ar.com.fluxit.jqa.bce.RepositoryLocator;
-import ar.com.fluxit.jqa.config.Check;
-import ar.com.fluxit.jqa.config.Configuration;
 import ar.com.fluxit.jqa.result.CheckingResult;
 import ar.com.fluxit.jqa.result.RuleCheckFailed;
+import ar.com.fluxit.jqa.rule.Rule;
+import ar.com.fluxit.jqa.rule.RuleSet;
 
 /**
  * TODO javadoc
@@ -48,7 +48,7 @@ public class JQAChecker {
 	}
 
 	public CheckingResult check(Collection<File> classFiles,
-			Configuration configuration, Logger log) {
+			Collection<RuleSet> ruleSets, Logger log) {
 		final CheckingResult result = new CheckingResult();
 		for (final File classFile : classFiles) {
 			try {
@@ -56,12 +56,15 @@ public class JQAChecker {
 				final JavaClass clazz = RepositoryLocator.getRepository()
 						.parse(fis, null);
 				fis.close();
-				for (final Check ruleset : configuration.getChecks()) {
-					if (ruleset.getFilterRule().evaluate(clazz)) {
-						if (!ruleset.getCheckRule().evaluate(clazz)) {
-							result.addRuleExecutionFailed(new RuleCheckFailed(
-									ruleset.getCheckRule(), clazz
-											.getClassName()));
+				for (final RuleSet ruleset : ruleSets) {
+					for (final Rule rule : ruleset.getRules()) {
+						if (rule.getFilterPredicate().evaluate(clazz)) {
+							if (!rule.getCheckPredicate().evaluate(clazz)) {
+								result
+										.addRuleExecutionFailed(new RuleCheckFailed(
+												rule.getCheckPredicate(), clazz
+														.getClassName()));
+							}
 						}
 					}
 				}

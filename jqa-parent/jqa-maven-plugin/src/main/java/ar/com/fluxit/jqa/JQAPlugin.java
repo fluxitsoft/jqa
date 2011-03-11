@@ -22,7 +22,6 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.io.Writer;
 import java.util.Collection;
 import java.util.Set;
@@ -36,11 +35,7 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.project.MavenProject;
 import org.slf4j.Logger;
 
-import ar.com.fluxit.jqa.config.Check;
-import ar.com.fluxit.jqa.config.Configuration;
 import ar.com.fluxit.jqa.log.MavenLogLoggerAdapter;
-import ar.com.fluxit.jqa.predicate.NamingPredicate;
-import ar.com.fluxit.jqa.predicate.TypingPredicate;
 import ar.com.fluxit.jqa.result.CheckingResult;
 import ar.com.fluxit.jqa.util.ClassPathLoader;
 
@@ -59,32 +54,32 @@ public class JQAPlugin extends AbstractMojo {
 	private static final String CLASS_SUFFIX = "class";
 
 	// FIXME volar este metodo
-	public static void main(String[] args) throws IOException {
-		final Configuration configuration = new Configuration();
-
-		final Check ruleset1 = new Check();
-		ruleset1.setFilterRule(new NamingPredicate("**.entities.**"));
-		ruleset1.setCheckRule(new TypingPredicate(
-				"ar.com.osde.framework.entities.FrameworkEntity"));
-
-		final Check ruleset2 = new Check();
-		ruleset2.setFilterRule(new NamingPredicate("**.bo.**"));
-		ruleset2.setCheckRule(new TypingPredicate(
-				"ar.com.osde.framework.business.base.BusinessObject"));
-
-		final XStream xs = new XStream();
-		configuration.addCheck(ruleset1);
-		configuration.addCheck(ruleset2);
-		final Writer w = new FileWriter(
-				"/home/jbarisich/qa-java-apps-ruleset.xml");
-		final Writer out = new BufferedWriter(w);
-		xs.toXML(configuration, out);
-		out.close();
-		w.close();
-
-		System.out.println(xs.fromXML(new FileInputStream(
-				"/home/jbarisich/qa-java-apps-ruleset.xml")));
-	}
+	// public static void main(String[] args) throws IOException {
+	// final Configuration configuration = new Configuration();
+	//
+	// final Check ruleset1 = new Check();
+	// ruleset1.setFilterRule(new NamingPredicate("**.entities.**"));
+	// ruleset1.setCheckRule(new TypingPredicate(
+	// "ar.com.osde.framework.entities.FrameworkEntity"));
+	//
+	// final Check ruleset2 = new Check();
+	// ruleset2.setFilterRule(new NamingPredicate("**.bo.**"));
+	// ruleset2.setCheckRule(new TypingPredicate(
+	// "ar.com.osde.framework.business.base.BusinessObject"));
+	//
+	// final XStream xs = new XStream();
+	// configuration.addCheck(ruleset1);
+	// configuration.addCheck(ruleset2);
+	// final Writer w = new FileWriter(
+	// "/home/jbarisich/qa-java-apps-ruleset.xml");
+	// final Writer out = new BufferedWriter(w);
+	// xs.toXML(configuration, out);
+	// out.close();
+	// w.close();
+	//
+	// System.out.println(xs.fromXML(new FileInputStream(
+	// "/home/jbarisich/qa-java-apps-ruleset.xml")));
+	// }
 
 	/**
 	 * @parameter expression="${project}"
@@ -138,11 +133,12 @@ public class JQAPlugin extends AbstractMojo {
 			getLog().debug("Reading configuration from " + getRulesFile());
 
 			final FileInputStream fis = new FileInputStream(getRulesFile());
-			final Configuration configuration = (Configuration) xs.fromXML(fis);
+			// final Configuration configuration = (Configuration)
+			// xs.fromXML(fis);
 			fis.close();
 			// Check the rules
 			final CheckingResult result = JQAChecker.INSTANCE.check(classFiles,
-					configuration, getLogger());
+					null, getLogger());
 			// Writes the results
 			getLog().debug("Writing the results on " + getResultsFile());
 			final Writer w = new FileWriter(getResultsFile());
