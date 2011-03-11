@@ -50,24 +50,14 @@ public class JQARuleSetChecker {
 	public CheckingResult check(Collection<File> classFiles,
 			Collection<RuleSet> ruleSets, Logger log) {
 		final CheckingResult result = new CheckingResult();
+		// Iterate class files
 		for (final File classFile : classFiles) {
 			try {
 				final FileInputStream fis = new FileInputStream(classFile);
 				final JavaClass clazz = RepositoryLocator.getRepository()
 						.parse(fis, null);
 				fis.close();
-				for (final RuleSet ruleset : ruleSets) {
-					for (final Rule rule : ruleset.getRules()) {
-						if (rule.getFilterPredicate().evaluate(clazz)) {
-							if (!rule.getCheckPredicate().evaluate(clazz)) {
-								result
-										.addRuleExecutionFailed(new RuleCheckFailed(
-												rule.getCheckPredicate(), clazz
-														.getClassName()));
-							}
-						}
-					}
-				}
+				check(ruleSets, result, clazz);
 			} catch (final ClassFormatException e) {
 				log.debug("Can not check file " + classFile, e);
 			} catch (final FileNotFoundException e) {
@@ -77,6 +67,24 @@ public class JQARuleSetChecker {
 			}
 		}
 		return result;
+	}
+
+	private void check(Collection<RuleSet> ruleSets,
+			final CheckingResult result, final JavaClass clazz) {
+		// Iterate rulesets
+		for (final RuleSet ruleset : ruleSets) {
+			// Iterate rules
+			for (final Rule rule : ruleset.getRules()) {
+				if (rule.getFilterPredicate().evaluate(clazz)) {
+					if (!rule.getCheckPredicate().evaluate(clazz)) {
+						result
+								.addRuleExecutionFailed(new RuleCheckFailed(
+										rule.getCheckPredicate(), clazz
+												.getClassName()));
+					}
+				}
+			}
+		}
 	}
 
 }
