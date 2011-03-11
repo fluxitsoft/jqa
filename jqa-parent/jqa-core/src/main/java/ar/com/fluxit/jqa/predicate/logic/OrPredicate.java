@@ -16,24 +16,34 @@
  * You should have received a copy of the GNU General Public License
  * along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package ar.com.fluxit.jqa.predicate;
+package ar.com.fluxit.jqa.predicate.logic;
 
-import junit.framework.TestCase;
+import ar.com.fluxit.jqa.bce.JavaClass;
+import ar.com.fluxit.jqa.predicate.Predicate;
 
 /**
  * TODO javadoc
  * 
  * @author Juan Ignacio Barisich
  */
-public class NotPredicateTest extends TestCase {
+public class OrPredicate extends LogicPredicate {
 
-	public NotPredicateTest() {
+	public OrPredicate() {
 		super();
 	}
 
-	public void testCheck() {
-		assertTrue(new NotPredicate(FalsePredicate.INSTANCE).evaluate(null));
-		assertFalse(new NotPredicate(TruePredicate.INSTANCE).evaluate(null));
+	public OrPredicate(Predicate[] rules) {
+		super(rules);
+	}
+
+	@Override
+	public boolean evaluate(JavaClass clazz) {
+		for (final Predicate rule : getRules()) {
+			if (rule.evaluate(clazz)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 }

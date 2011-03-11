@@ -22,14 +22,14 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 import ar.com.fluxit.jqa.predicate.AbstractionPredicateTest;
 import ar.com.fluxit.jqa.predicate.AllocationPredicateTest;
-import ar.com.fluxit.jqa.predicate.AndPredicateTest;
 import ar.com.fluxit.jqa.predicate.NamingPredicateTest;
-import ar.com.fluxit.jqa.predicate.NotPredicateTest;
-import ar.com.fluxit.jqa.predicate.OrPredicateTest;
 import ar.com.fluxit.jqa.predicate.ThrowingPredicateTest;
 import ar.com.fluxit.jqa.predicate.TypingPredicateTest;
 import ar.com.fluxit.jqa.predicate.UsagePredicateTest;
-import ar.com.fluxit.jqa.predicate.XorPredicateTest;
+import ar.com.fluxit.jqa.predicate.logic.AndPredicateTest;
+import ar.com.fluxit.jqa.predicate.logic.NotPredicateTest;
+import ar.com.fluxit.jqa.predicate.logic.OrPredicateTest;
+import ar.com.fluxit.jqa.predicate.logic.XorPredicateTest;
 
 /**
  * TODO javadoc

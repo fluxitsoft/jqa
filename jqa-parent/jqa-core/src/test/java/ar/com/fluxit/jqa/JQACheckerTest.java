@@ -28,9 +28,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ar.com.fluxit.jqa.mock.ClassA;
-import ar.com.fluxit.jqa.predicate.FalsePredicate;
 import ar.com.fluxit.jqa.predicate.Predicate;
-import ar.com.fluxit.jqa.predicate.TruePredicate;
+import ar.com.fluxit.jqa.predicate.logic.FalsePredicate;
+import ar.com.fluxit.jqa.predicate.logic.TruePredicate;
 import ar.com.fluxit.jqa.result.CheckingResult;
 import ar.com.fluxit.jqa.rule.MockRule;
 import ar.com.fluxit.jqa.rule.MockRuleSet;

@@ -16,32 +16,27 @@
  * You should have received a copy of the GNU General Public License
  * along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package ar.com.fluxit.jqa.predicate;
+package ar.com.fluxit.jqa.predicate.logic;
+
+import ar.com.fluxit.jqa.predicate.logic.XorPredicate;
+
 
 /**
  * TODO javadoc
  * 
  * @author Juan Ignacio Barisich
  */
-public abstract class LogicPredicate extends AbstractPredicate {
+public class XorPredicateTest extends LogicPredicateTest {
 
-	private Predicate rules[];
-
-	public LogicPredicate() {
+	public XorPredicateTest() {
 		super();
 	}
 
-	public LogicPredicate(Predicate[] rules) {
-		super();
-		this.rules = rules;
-	}
-
-	public Predicate[] getRules() {
-		return rules;
-	}
-
-	public void setRules(Predicate[] rules) {
-		this.rules = rules;
+	public void testCheck() {
+		assertFalse(new XorPredicate(getTrueTrue()).evaluate(null));
+		assertTrue(new XorPredicate(getTrueFalse()).evaluate(null));
+		assertTrue(new XorPredicate(getFalseTrue()).evaluate(null));
+		assertFalse(new XorPredicate(getFalseFalse()).evaluate(null));
 	}
 
 }

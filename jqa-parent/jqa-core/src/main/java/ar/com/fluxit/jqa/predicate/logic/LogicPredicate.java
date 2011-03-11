@@ -16,38 +16,35 @@
  * You should have received a copy of the GNU General Public License
  * along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package ar.com.fluxit.jqa.predicate;
+package ar.com.fluxit.jqa.predicate.logic;
 
-import ar.com.fluxit.jqa.bce.JavaClass;
+import ar.com.fluxit.jqa.predicate.AbstractPredicate;
+import ar.com.fluxit.jqa.predicate.Predicate;
 
 /**
  * TODO javadoc
  * 
  * @author Juan Ignacio Barisich
  */
-public class NotPredicate extends AbstractPredicate {
+public abstract class LogicPredicate extends AbstractPredicate {
 
-	private Predicate rule;
+	private Predicate rules[];
 
-	public NotPredicate() {
+	public LogicPredicate() {
 		super();
 	}
 
-	public NotPredicate(Predicate rule) {
-		this.rule = rule;
+	public LogicPredicate(Predicate[] rules) {
+		super();
+		this.rules = rules;
 	}
 
-	@Override
-	public boolean evaluate(JavaClass clazz) {
-		return !getRule().evaluate(clazz);
+	public Predicate[] getRules() {
+		return rules;
 	}
 
-	public Predicate getRule() {
-		return rule;
-	}
-
-	public void setRule(Predicate rule) {
-		this.rule = rule;
+	public void setRules(Predicate[] rules) {
+		this.rules = rules;
 	}
 
 }
