@@ -20,9 +20,9 @@ package ar.com.fluxit.jqa;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
+import ar.com.fluxit.jqa.predicate.ContextProvidedPredicateTest;
 import ar.com.fluxit.jqa.predicate.lang.AbstractionPredicateTest;
 import ar.com.fluxit.jqa.predicate.lang.AllocationPredicateTest;
-import ar.com.fluxit.jqa.predicate.lang.NamingPredicateTest;
 import ar.com.fluxit.jqa.predicate.lang.ThrowingPredicateTest;
 import ar.com.fluxit.jqa.predicate.lang.TypingPredicateTest;
 import ar.com.fluxit.jqa.predicate.lang.UsagePredicateTest;
@@ -46,12 +46,13 @@ public class AllTests {
 		suite.addTestSuite(XorPredicateTest.class);
 		suite.addTestSuite(OrPredicateTest.class);
 		suite.addTestSuite(TypingPredicateTest.class);
-		suite.addTestSuite(NamingPredicateTest.class);
+		suite.addTestSuite(ContextProvidedPredicateTest.class);
 		suite.addTestSuite(NotPredicateTest.class);
 		suite.addTestSuite(AndPredicateTest.class);
 		suite.addTestSuite(AbstractionPredicateTest.class);
 		suite.addTestSuite(AllocationPredicateTest.class);
 		suite.addTestSuite(ThrowingPredicateTest.class);
+		suite.addTestSuite(ContextProvidedPredicateTest.class);
 		// $JUnit-END$
 		return suite;
 	}

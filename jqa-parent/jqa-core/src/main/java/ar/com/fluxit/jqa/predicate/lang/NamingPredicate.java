@@ -33,11 +33,6 @@ public class NamingPredicate extends IgnoringContextPredicate {
 	private String classNamePattern;
 	private transient RegEx regEx;
 
-	public NamingPredicate(String classNamePattern) {
-		super();
-		this.classNamePattern = classNamePattern;
-	}
-
 	@Override
 	public boolean evaluate(JavaClass clazz) {
 		return evaluateClassName(clazz.getClassName());

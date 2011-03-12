@@ -53,11 +53,6 @@ public class AbstractionPredicate extends IgnoringContextPredicate {
 
 	private AbstractionType abstractionType;
 
-	public AbstractionPredicate(AbstractionType abstractionType) {
-		super();
-		this.abstractionType = abstractionType;
-	}
-
 	@Override
 	public boolean evaluate(JavaClass clazz) {
 		return getAbstractionType().evaluate(clazz);

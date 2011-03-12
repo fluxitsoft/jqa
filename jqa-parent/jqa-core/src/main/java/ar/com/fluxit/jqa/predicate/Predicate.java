@@ -30,4 +30,6 @@ public interface Predicate {
 
 	boolean evaluate(JavaClass clazz, RulesContext context);
 
+	String getName();
+
 }

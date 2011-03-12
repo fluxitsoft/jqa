@@ -8,16 +8,16 @@ import ar.com.fluxit.jqa.context.RulesContext;
  * 
  * @author Juan Ignacio Barisich
  */
-public abstract class IgnoringContextPredicate implements Predicate {
+public abstract class IgnoringContextPredicate extends AbstractPredicate {
 
 	public IgnoringContextPredicate() {
 		super();
 	}
 
+	public abstract boolean evaluate(JavaClass clazz);
+
 	@Override
 	public final boolean evaluate(JavaClass clazz, RulesContext context) {
 		return evaluate(clazz);
 	}
-
-	public abstract boolean evaluate(JavaClass clazz);
 }

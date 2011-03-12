@@ -32,11 +32,6 @@ public class TypingPredicate extends IgnoringContextPredicate {
 	private String parentClassName;
 	private transient JavaClass parentJavaClass;
 
-	public TypingPredicate(String parentClassName) {
-		super();
-		this.parentClassName = parentClassName;
-	}
-
 	@Override
 	public boolean evaluate(JavaClass clazz) {
 		return evaluateClass(clazz);

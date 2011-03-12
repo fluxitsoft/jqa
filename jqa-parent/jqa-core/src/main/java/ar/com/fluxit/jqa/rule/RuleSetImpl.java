@@ -8,7 +8,7 @@ import java.util.List;
  * 
  * @author Juan Ignacio Barisich
  */
-class RuleSetImpl implements RuleSet {
+public class RuleSetImpl implements RuleSet {
 
 	private List<Rule> rules;
 	private String name;

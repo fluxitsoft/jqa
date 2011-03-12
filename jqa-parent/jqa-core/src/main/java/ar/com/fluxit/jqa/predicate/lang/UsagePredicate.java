@@ -37,10 +37,6 @@ public class UsagePredicate extends FilteredPredicate {
 		super();
 	}
 
-	public UsagePredicate(Predicate filterRule) {
-		super(filterRule);
-	}
-
 	@Override
 	public boolean evaluate(JavaClass clazz, RulesContext context) {
 		final Collection<JavaClass> filteredClasses = RepositoryLocator

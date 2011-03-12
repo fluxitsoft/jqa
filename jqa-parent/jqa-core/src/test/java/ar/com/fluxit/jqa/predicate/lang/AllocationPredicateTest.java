@@ -26,7 +26,6 @@ import ar.com.fluxit.jqa.mock.allocation.ClassThatAllocatesClassA;
 import ar.com.fluxit.jqa.mock.allocation.ClassThatStaticAllocatesClassA;
 import ar.com.fluxit.jqa.mock.allocation.InnerClassThatAllocatesClassA;
 import ar.com.fluxit.jqa.mock.allocation.StaticInnerClassThatAllocatesClassA;
-import ar.com.fluxit.jqa.predicate.Predicate;
 
 /**
  * TODO javadoc
@@ -51,11 +50,13 @@ public class AllocationPredicateTest extends TestCase {
 	private void testMatches(String filterRuleParentClass,
 			Class<?> usageRuleclass, boolean matches)
 			throws ClassNotFoundException {
-		final Predicate filterRule = new TypingPredicate(filterRuleParentClass);
+		final TypingPredicate filterPredicate = new TypingPredicate();
+		filterPredicate.setParentClassName(filterRuleParentClass);
 		final JavaClass clazz = RepositoryLocator.getRepository().lookupClass(
 				usageRuleclass);
-		assertEquals(matches, new AllocationPredicate(filterRule).evaluate(
-				clazz, null));
+		AllocationPredicate allocationPredicate = new AllocationPredicate();
+		allocationPredicate.setFilterRule(filterPredicate);
+		assertEquals(matches, allocationPredicate.evaluate(clazz, null));
 	}
 
 }

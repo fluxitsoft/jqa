@@ -37,10 +37,6 @@ public class ThrowingPredicate extends FilteredPredicate {
 		super();
 	}
 
-	public ThrowingPredicate(Predicate filterRule) {
-		super(filterRule);
-	}
-
 	@Override
 	public boolean evaluate(JavaClass clazz, RulesContext context) {
 		final Collection<JavaClass> throwedClasses = RepositoryLocator

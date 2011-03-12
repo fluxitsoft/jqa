@@ -33,20 +33,26 @@ import ar.com.fluxit.jqa.bce.RepositoryLocator;
  */
 public class TypingPredicateTest extends TestCase {
 
+	private TypingPredicate createTypingPredicate(String string) {
+		TypingPredicate result = new TypingPredicate();
+		result.setParentClassName(string);
+		return result;
+	}
+
 	public final void testCheck() throws ClassNotFoundException {
 		final Repository repository = RepositoryLocator.getRepository();
 		// Test class type
-		testMatches(new TypingPredicate("java.lang.Number"),
-				new JavaClass[] { repository.lookupClass(Integer.class),
-						repository.lookupClass(Long.class) },
-				new JavaClass[] { repository.lookupClass(String.class),
-						repository.lookupClass(Exception.class) });
+		testMatches(createTypingPredicate("java.lang.Number"), new JavaClass[] {
+				repository.lookupClass(Integer.class),
+				repository.lookupClass(Long.class) }, new JavaClass[] {
+				repository.lookupClass(String.class),
+				repository.lookupClass(Exception.class) });
 		// Test interface type
-		testMatches(new TypingPredicate("java.util.List"),
-				new JavaClass[] { repository.lookupClass(ArrayList.class),
-						repository.lookupClass(Vector.class) },
-				new JavaClass[] { repository.lookupClass(String.class),
-						repository.lookupClass(Integer.class) });
+		testMatches(createTypingPredicate("java.util.List"), new JavaClass[] {
+				repository.lookupClass(ArrayList.class),
+				repository.lookupClass(Vector.class) }, new JavaClass[] {
+				repository.lookupClass(String.class),
+				repository.lookupClass(Integer.class) });
 	}
 
 	private void testMatches(TypingPredicate rule, JavaClass[] positive,

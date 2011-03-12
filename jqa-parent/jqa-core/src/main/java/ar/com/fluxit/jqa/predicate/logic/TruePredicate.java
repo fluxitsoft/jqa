@@ -40,4 +40,9 @@ public class TruePredicate extends IgnoringContextPredicate {
 		return true;
 	}
 
+	@Override
+	public String getName() {
+		return "AlwaysTruePredicate";
+	}
+
 }

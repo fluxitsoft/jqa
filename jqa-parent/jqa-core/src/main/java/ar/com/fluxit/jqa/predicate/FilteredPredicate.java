@@ -13,11 +13,6 @@ public abstract class FilteredPredicate extends AbstractPredicate {
 		super();
 	}
 
-	public FilteredPredicate(Predicate filterRule) {
-		super();
-		this.filterRule = filterRule;
-	}
-
 	public Predicate getFilterRule() {
 		return filterRule;
 	}

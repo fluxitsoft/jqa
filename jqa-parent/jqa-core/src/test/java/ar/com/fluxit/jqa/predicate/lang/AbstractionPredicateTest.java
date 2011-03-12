@@ -33,6 +33,12 @@ import ar.com.fluxit.jqa.predicate.lang.AbstractionPredicate.AbstractionType;
  */
 public class AbstractionPredicateTest extends TestCase {
 
+	private AbstractionPredicate createPredicate(AbstractionType abstractionType) {
+		AbstractionPredicate result = new AbstractionPredicate();
+		result.setAbstractionType(abstractionType);
+		return result;
+	}
+
 	public final void testCheck() throws ClassNotFoundException {
 		final Repository repository = RepositoryLocator.getRepository();
 		final JavaClass concreteClazz = repository.lookupClass(Integer.class);
@@ -41,26 +47,26 @@ public class AbstractionPredicateTest extends TestCase {
 		final JavaClass abstractClazz = repository.lookupClass(Number.class);
 
 		// Is Abstract ?
-		assertFalse(new AbstractionPredicate(AbstractionType.ABSTRACT)
-				.evaluate(concreteClazz));
-		assertFalse(new AbstractionPredicate(AbstractionType.ABSTRACT)
-				.evaluate(interfaceClazz));
-		assertTrue(new AbstractionPredicate(AbstractionType.ABSTRACT)
-				.evaluate(abstractClazz));
+		assertFalse(createPredicate(AbstractionType.ABSTRACT).evaluate(
+				concreteClazz));
+		assertFalse(createPredicate(AbstractionType.ABSTRACT).evaluate(
+				interfaceClazz));
+		assertTrue(createPredicate(AbstractionType.ABSTRACT).evaluate(
+				abstractClazz));
 		// Is Interface ?
-		assertFalse(new AbstractionPredicate(AbstractionType.INTERFACE)
-				.evaluate(concreteClazz));
-		assertTrue(new AbstractionPredicate(AbstractionType.INTERFACE)
-				.evaluate(interfaceClazz));
-		assertFalse(new AbstractionPredicate(AbstractionType.INTERFACE)
-				.evaluate(abstractClazz));
+		assertFalse(createPredicate(AbstractionType.INTERFACE).evaluate(
+				concreteClazz));
+		assertTrue(createPredicate(AbstractionType.INTERFACE).evaluate(
+				interfaceClazz));
+		assertFalse(createPredicate(AbstractionType.INTERFACE).evaluate(
+				abstractClazz));
 		// Is Concrete ?
-		assertTrue(new AbstractionPredicate(AbstractionType.CONCRETE)
-				.evaluate(concreteClazz));
-		assertFalse(new AbstractionPredicate(AbstractionType.CONCRETE)
-				.evaluate(interfaceClazz));
-		assertFalse(new AbstractionPredicate(AbstractionType.CONCRETE)
-				.evaluate(abstractClazz));
+		assertTrue(createPredicate(AbstractionType.CONCRETE).evaluate(
+				concreteClazz));
+		assertFalse(createPredicate(AbstractionType.CONCRETE).evaluate(
+				interfaceClazz));
+		assertFalse(createPredicate(AbstractionType.CONCRETE).evaluate(
+				abstractClazz));
 	}
 
 }

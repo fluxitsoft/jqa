@@ -29,35 +29,41 @@ import junit.framework.TestCase;
  */
 public class NamingPredicateTest extends TestCase {
 
+	private NamingPredicate createNamingPredicate(String string) {
+		NamingPredicate result = new NamingPredicate();
+		result.setClassNamePattern(string);
+		return result;
+	}
+
 	public final void testCheck() {
-		testMatches(new NamingPredicate("java.lang.*"),
+		testMatches(createNamingPredicate("java.lang.*"),
 				new String[] { "java.lang.String" },
 				new String[] { "java.lang.reflect.Method",
 						"java.language.MadeUpClass" });
-		testMatches(new NamingPredicate("java.lang.**"), new String[] {
+		testMatches(createNamingPredicate("java.lang.**"), new String[] {
 				"java.lang.String", "java.lang.reflect.Method" },
 				new String[] { "java.language.MadeUpClass" });
-		testMatches(new NamingPredicate("java.lang**"), new String[] {
+		testMatches(createNamingPredicate("java.lang**"), new String[] {
 				"java.lang.String", "java.lang.reflect.Method",
 				"java.language.MadeUpClass" }, new String[0]);
-		testMatches(new NamingPredicate("String"), new String[] { "String" },
+		testMatches(createNamingPredicate("String"), new String[] { "String" },
 				new String[] { "java.lang.String" });
-		testMatches(new NamingPredicate("java.lang.String"),
+		testMatches(createNamingPredicate("java.lang.String"),
 				new String[] { "java.lang.String" }, new String[] { "String" });
-		testMatches(new NamingPredicate("String"), new String[] { "String" },
+		testMatches(createNamingPredicate("String"), new String[] { "String" },
 				new String[] { "java.lang.String", "java.lang.StringBuffer",
 						"java.text.AttributedString" });
-		testMatches(new NamingPredicate("**String*"), new String[] { "String",
-				"java.lang.String", "java.lang.StringBuffer",
+		testMatches(createNamingPredicate("**String*"), new String[] {
+				"String", "java.lang.String", "java.lang.StringBuffer",
 				"java.text.AttributedString" }, new String[0]);
-		testMatches(new NamingPredicate("**String"), new String[] { "String",
+		testMatches(createNamingPredicate("**String"), new String[] { "String",
 				"java.lang.String", "java.text.AttributedString" },
 				new String[] { "java.lang.StringBuffer" });
-		testMatches(new NamingPredicate("**.String*"), new String[] { "String",
-				"java.lang.String", "java.lang.StringBuffer" },
+		testMatches(createNamingPredicate("**.String*"), new String[] {
+				"String", "java.lang.String", "java.lang.StringBuffer" },
 				new String[] { "java.text.AttributedString" });
-		testMatches(new NamingPredicate("a.b"), new String[] { "a.b", "a$b" },
-				new String[] { "" });
+		testMatches(createNamingPredicate("a.b"),
+				new String[] { "a.b", "a$b" }, new String[] { "" });
 	}
 
 	private void testMatches(NamingPredicate rule, String[] positive,

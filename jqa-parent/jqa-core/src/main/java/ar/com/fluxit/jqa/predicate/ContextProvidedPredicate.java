@@ -8,31 +8,31 @@ import ar.com.fluxit.jqa.context.RulesContext;
  * 
  * @author Juan Ignacio Barisich
  */
-public class ContextProvidedPredicate implements Predicate {
+public class ContextProvidedPredicate extends AbstractPredicate {
 
-	private String name;
+	private String providedPredicateName;
 
 	public ContextProvidedPredicate() {
 		super();
 	}
 
-	public ContextProvidedPredicate(String name) {
+	public ContextProvidedPredicate(String providedPredicateName) {
 		super();
-		this.name = name;
+		this.providedPredicateName = providedPredicateName;
 	}
 
 	@Override
 	public final boolean evaluate(JavaClass clazz, RulesContext context) {
 		final Predicate providedPredicate = context
-				.getGlobalPredicate(getName());
+				.getGlobalPredicate(getProvidedPredicateName());
 		return providedPredicate.evaluate(clazz, context);
 	}
 
-	public String getName() {
-		return name;
+	public String getProvidedPredicateName() {
+		return providedPredicateName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setProvidedPredicateName(String providedPredicateName) {
+		this.providedPredicateName = providedPredicateName;
 	}
 }
