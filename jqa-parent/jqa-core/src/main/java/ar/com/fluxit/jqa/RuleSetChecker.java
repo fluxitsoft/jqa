@@ -29,6 +29,7 @@ import org.slf4j.Logger;
 import ar.com.fluxit.jqa.bce.ClassFormatException;
 import ar.com.fluxit.jqa.bce.JavaClass;
 import ar.com.fluxit.jqa.bce.RepositoryLocator;
+import ar.com.fluxit.jqa.context.RulesContext;
 import ar.com.fluxit.jqa.result.CheckingResult;
 import ar.com.fluxit.jqa.result.RuleCheckFailed;
 import ar.com.fluxit.jqa.rule.Rule;
@@ -48,7 +49,7 @@ public class RuleSetChecker {
 	}
 
 	public CheckingResult check(Collection<File> classFiles,
-			Collection<RuleSet> ruleSets, Logger log) {
+			RulesContext context, Logger log) {
 		final CheckingResult result = new CheckingResult();
 		// Iterate class files
 		for (final File classFile : classFiles) {
@@ -57,7 +58,7 @@ public class RuleSetChecker {
 				final JavaClass clazz = RepositoryLocator.getRepository()
 						.parse(fis, null);
 				fis.close();
-				check(ruleSets, result, clazz);
+				check(context, result, clazz);
 			} catch (final ClassFormatException e) {
 				log.debug("Can not check file " + classFile, e);
 			} catch (final FileNotFoundException e) {
@@ -69,14 +70,14 @@ public class RuleSetChecker {
 		return result;
 	}
 
-	private void check(Collection<RuleSet> ruleSets,
-			final CheckingResult result, final JavaClass clazz) {
+	private void check(RulesContext context, final CheckingResult result,
+			final JavaClass clazz) {
 		// Iterate rulesets
-		for (final RuleSet ruleset : ruleSets) {
+		for (final RuleSet ruleset : context.getRuleSets()) {
 			// Iterate rules
 			for (final Rule rule : ruleset.getRules()) {
 				if (rule.getFilterPredicate().evaluate(clazz, null)) {
-					if (!rule.getCheckPredicate().evaluate(clazz, null)) {
+					if (!rule.getCheckPredicate().evaluate(clazz, context)) {
 						result.addRuleExecutionFailed(new RuleCheckFailed(rule
 								.getCheckPredicate(), clazz.getClassName()));
 					}

@@ -27,6 +27,8 @@ import junit.framework.TestCase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import ar.com.fluxit.jqa.context.RulesContext;
+import ar.com.fluxit.jqa.context.RulesContextImpl;
 import ar.com.fluxit.jqa.mock.ClassA;
 import ar.com.fluxit.jqa.predicate.Predicate;
 import ar.com.fluxit.jqa.predicate.logic.FalsePredicate;
@@ -49,6 +51,12 @@ public class JQACheckerTest extends TestCase {
 
 	private Rule createRule(Predicate instance, Predicate instance2) {
 		return new MockRule(instance, instance2);
+	}
+
+	private RulesContext createRulesContext(Collection<RuleSet> configuration) {
+		RulesContextImpl result = new RulesContextImpl();
+		result.addAll(configuration);
+		return result;
 	}
 
 	private RuleSet createRuleSet(Predicate instance, Predicate instance2) {
@@ -89,8 +97,9 @@ public class JQACheckerTest extends TestCase {
 				.getClassFiles(ClassA.class);
 		final Collection<RuleSet> configuration = createRuleSets(
 				TruePredicate.INSTANCE, FalsePredicate.INSTANCE);
-		final CheckingResult result = getChecker().check(classFiles,
-				configuration, getLog());
+		RulesContext context = createRulesContext(configuration);
+		final CheckingResult result = getChecker().check(classFiles, context,
+				getLog());
 		assertNotNull(result);
 		assertNotNull(result.getDate());
 		assertNotNull(result.getRuleExecutionsFailed());
@@ -102,8 +111,9 @@ public class JQACheckerTest extends TestCase {
 				.getClassFiles(ClassA.class);
 		final Collection<RuleSet> configuration = createRuleSets(
 				TruePredicate.INSTANCE, TruePredicate.INSTANCE);
-		final CheckingResult result = getChecker().check(classFiles,
-				configuration, getLog());
+		RulesContext context = createRulesContext(configuration);
+		final CheckingResult result = getChecker().check(classFiles, context,
+				getLog());
 		assertNotNull(result);
 		assertNotNull(result.getDate());
 		assertNotNull(result.getRuleExecutionsFailed());
@@ -114,8 +124,9 @@ public class JQACheckerTest extends TestCase {
 		final Collection<File> classFiles = new ArrayList<File>();
 		final Collection<RuleSet> configuration = createRuleSets(
 				TruePredicate.INSTANCE, TruePredicate.INSTANCE);
-		final CheckingResult result = getChecker().check(classFiles,
-				configuration, getLog());
+		RulesContext context = createRulesContext(configuration);
+		final CheckingResult result = getChecker().check(classFiles, context,
+				getLog());
 		assertNotNull(result);
 		assertNotNull(result.getDate());
 		assertNotNull(result.getRuleExecutionsFailed());
@@ -128,8 +139,9 @@ public class JQACheckerTest extends TestCase {
 
 		final Collection<RuleSet> configuration = createRuleSets(
 				TruePredicate.INSTANCE, FalsePredicate.INSTANCE);
-		final CheckingResult result = getChecker().check(classFiles,
-				configuration, getLog());
+		RulesContext context = createRulesContext(configuration);
+		final CheckingResult result = getChecker().check(classFiles, context,
+				getLog());
 		assertNotNull(result);
 		assertNotNull(result.getDate());
 		assertNotNull(result.getRuleExecutionsFailed());
@@ -141,8 +153,9 @@ public class JQACheckerTest extends TestCase {
 				.getClassFiles(ClassA.class);
 		final Collection<RuleSet> configuration = createRuleSets(
 				TruePredicate.INSTANCE, TruePredicate.INSTANCE);
-		final CheckingResult result = getChecker().check(classFiles,
-				configuration, getLog());
+		RulesContext context = createRulesContext(configuration);
+		final CheckingResult result = getChecker().check(classFiles, context,
+				getLog());
 		assertNotNull(result);
 		assertNotNull(result.getDate());
 		assertNotNull(result.getRuleExecutionsFailed());
