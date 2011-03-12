@@ -19,6 +19,7 @@
 package ar.com.fluxit.jqa.predicate;
 
 import ar.com.fluxit.jqa.bce.JavaClass;
+import ar.com.fluxit.jqa.context.RulesContext;
 
 /**
  * TODO javadoc
@@ -27,6 +28,6 @@ import ar.com.fluxit.jqa.bce.JavaClass;
  */
 public interface Predicate {
 
-	boolean evaluate(JavaClass clazz);
+	boolean evaluate(JavaClass clazz, RulesContext context);
 
 }

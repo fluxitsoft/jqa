@@ -32,8 +32,10 @@ public class NotPredicateTest extends TestCase {
 	}
 
 	public void testCheck() {
-		assertTrue(new NotPredicate(FalsePredicate.INSTANCE).evaluate(null));
-		assertFalse(new NotPredicate(TruePredicate.INSTANCE).evaluate(null));
+		assertTrue(new NotPredicate(FalsePredicate.INSTANCE).evaluate(null,
+				null));
+		assertFalse(new NotPredicate(TruePredicate.INSTANCE).evaluate(null,
+				null));
 	}
 
 }

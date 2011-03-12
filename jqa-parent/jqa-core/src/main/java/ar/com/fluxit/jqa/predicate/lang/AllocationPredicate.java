@@ -22,6 +22,7 @@ import java.util.Collection;
 
 import ar.com.fluxit.jqa.bce.JavaClass;
 import ar.com.fluxit.jqa.bce.RepositoryLocator;
+import ar.com.fluxit.jqa.context.RulesContext;
 import ar.com.fluxit.jqa.predicate.FilteredPredicate;
 import ar.com.fluxit.jqa.predicate.Predicate;
 
@@ -41,11 +42,11 @@ public class AllocationPredicate extends FilteredPredicate {
 	}
 
 	@Override
-	public boolean evaluate(JavaClass clazz) {
+	public boolean evaluate(JavaClass clazz, RulesContext context) {
 		final Collection<JavaClass> filteredClasses = RepositoryLocator
 				.getRepository().getAllocations(clazz);
 		for (final JavaClass usedClass : filteredClasses) {
-			if (getFilterRule().evaluate(usedClass)) {
+			if (getFilterRule().evaluate(usedClass,context)) {
 				return true;
 			}
 		}

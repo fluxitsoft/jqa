@@ -30,10 +30,10 @@ public class XorPredicateTest extends LogicPredicateTest {
 	}
 
 	public void testCheck() {
-		assertFalse(new XorPredicate(getTrueTrue()).evaluate(null));
-		assertTrue(new XorPredicate(getTrueFalse()).evaluate(null));
-		assertTrue(new XorPredicate(getFalseTrue()).evaluate(null));
-		assertFalse(new XorPredicate(getFalseFalse()).evaluate(null));
+		assertFalse(new XorPredicate(getTrueTrue()).evaluate(null, null));
+		assertTrue(new XorPredicate(getTrueFalse()).evaluate(null, null));
+		assertTrue(new XorPredicate(getFalseTrue()).evaluate(null, null));
+		assertFalse(new XorPredicate(getFalseFalse()).evaluate(null, null));
 	}
 
 }

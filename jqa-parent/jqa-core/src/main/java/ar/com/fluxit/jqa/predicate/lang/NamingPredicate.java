@@ -20,7 +20,7 @@ package ar.com.fluxit.jqa.predicate.lang;
 
 import ar.com.fluxit.jqa.bce.JavaClass;
 import ar.com.fluxit.jqa.exception.RegExSyntaxException;
-import ar.com.fluxit.jqa.predicate.AbstractPredicate;
+import ar.com.fluxit.jqa.predicate.IgnoringContextPredicate;
 import ar.com.fluxit.jqa.util.RegEx;
 
 /**
@@ -28,7 +28,7 @@ import ar.com.fluxit.jqa.util.RegEx;
  * 
  * @author Juan Ignacio Barisich
  */
-public class NamingPredicate extends AbstractPredicate {
+public class NamingPredicate extends IgnoringContextPredicate {
 
 	private String classNamePattern;
 	private transient RegEx regEx;

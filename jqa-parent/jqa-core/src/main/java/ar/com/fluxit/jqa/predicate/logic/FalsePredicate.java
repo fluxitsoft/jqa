@@ -19,7 +19,7 @@
 package ar.com.fluxit.jqa.predicate.logic;
 
 import ar.com.fluxit.jqa.bce.JavaClass;
-import ar.com.fluxit.jqa.predicate.AbstractPredicate;
+import ar.com.fluxit.jqa.predicate.IgnoringContextPredicate;
 import ar.com.fluxit.jqa.predicate.Predicate;
 
 /**
@@ -27,17 +27,17 @@ import ar.com.fluxit.jqa.predicate.Predicate;
  * 
  * @author Juan Ignacio Barisich
  */
-public class TruePredicate extends AbstractPredicate {
+public class FalsePredicate extends IgnoringContextPredicate {
 
-	public static final Predicate INSTANCE = new TruePredicate();
+	public static final Predicate INSTANCE = new FalsePredicate();
 
-	private TruePredicate() {
+	private FalsePredicate() {
 		super();
 	}
 
 	@Override
 	public boolean evaluate(JavaClass clazz) {
-		return true;
+		return false;
 	}
 
 }

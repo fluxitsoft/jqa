@@ -20,14 +20,14 @@ package ar.com.fluxit.jqa.predicate.lang;
 
 import ar.com.fluxit.jqa.bce.JavaClass;
 import ar.com.fluxit.jqa.bce.RepositoryLocator;
-import ar.com.fluxit.jqa.predicate.AbstractPredicate;
+import ar.com.fluxit.jqa.predicate.IgnoringContextPredicate;
 
 /**
  * TODO javadoc
  * 
  * @author Juan Ignacio Barisich
  */
-public class TypingPredicate extends AbstractPredicate {
+public class TypingPredicate extends IgnoringContextPredicate {
 
 	private String parentClassName;
 	private transient JavaClass parentJavaClass;

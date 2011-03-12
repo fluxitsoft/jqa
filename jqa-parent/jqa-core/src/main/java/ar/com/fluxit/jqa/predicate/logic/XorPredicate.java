@@ -19,6 +19,7 @@
 package ar.com.fluxit.jqa.predicate.logic;
 
 import ar.com.fluxit.jqa.bce.JavaClass;
+import ar.com.fluxit.jqa.context.RulesContext;
 import ar.com.fluxit.jqa.predicate.Predicate;
 
 /**
@@ -37,10 +38,10 @@ public class XorPredicate extends LogicPredicate {
 	}
 
 	@Override
-	public boolean evaluate(JavaClass clazz) {
+	public boolean evaluate(JavaClass clazz, RulesContext context) {
 		boolean match = false;
 		for (final Predicate rule : getRules()) {
-			if (rule.evaluate(clazz)) {
+			if (rule.evaluate(clazz, context)) {
 				if (match) {
 					return false;
 				}

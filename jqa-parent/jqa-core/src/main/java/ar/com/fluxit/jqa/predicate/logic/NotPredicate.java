@@ -19,6 +19,7 @@
 package ar.com.fluxit.jqa.predicate.logic;
 
 import ar.com.fluxit.jqa.bce.JavaClass;
+import ar.com.fluxit.jqa.context.RulesContext;
 import ar.com.fluxit.jqa.predicate.AbstractPredicate;
 import ar.com.fluxit.jqa.predicate.Predicate;
 
@@ -40,8 +41,8 @@ public class NotPredicate extends AbstractPredicate {
 	}
 
 	@Override
-	public boolean evaluate(JavaClass clazz) {
-		return !getRule().evaluate(clazz);
+	public boolean evaluate(JavaClass clazz, RulesContext context) {
+		return !getRule().evaluate(clazz, context);
 	}
 
 	public Predicate getRule() {

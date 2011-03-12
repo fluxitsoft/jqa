@@ -19,14 +19,14 @@
 package ar.com.fluxit.jqa.predicate.lang;
 
 import ar.com.fluxit.jqa.bce.JavaClass;
-import ar.com.fluxit.jqa.predicate.AbstractPredicate;
+import ar.com.fluxit.jqa.predicate.IgnoringContextPredicate;
 
 /**
  * TODO javadoc
  * 
  * @author Juan Ignacio Barisich
  */
-public class AbstractionPredicate extends AbstractPredicate {
+public class AbstractionPredicate extends IgnoringContextPredicate {
 
 	public enum AbstractionType {
 		ABSTRACT() {

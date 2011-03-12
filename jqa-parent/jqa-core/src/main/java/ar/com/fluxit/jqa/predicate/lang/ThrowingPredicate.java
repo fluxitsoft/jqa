@@ -22,6 +22,7 @@ import java.util.Collection;
 
 import ar.com.fluxit.jqa.bce.JavaClass;
 import ar.com.fluxit.jqa.bce.RepositoryLocator;
+import ar.com.fluxit.jqa.context.RulesContext;
 import ar.com.fluxit.jqa.predicate.FilteredPredicate;
 import ar.com.fluxit.jqa.predicate.Predicate;
 
@@ -41,11 +42,11 @@ public class ThrowingPredicate extends FilteredPredicate {
 	}
 
 	@Override
-	public boolean evaluate(JavaClass clazz) {
+	public boolean evaluate(JavaClass clazz, RulesContext context) {
 		final Collection<JavaClass> throwedClasses = RepositoryLocator
 				.getRepository().getThrows(clazz);
 		for (final JavaClass throwedClass : throwedClasses) {
-			if (getFilterRule().evaluate(throwedClass)) {
+			if (getFilterRule().evaluate(throwedClass, context)) {
 				return true;
 			}
 		}

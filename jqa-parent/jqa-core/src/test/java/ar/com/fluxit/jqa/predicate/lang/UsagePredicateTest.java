@@ -126,7 +126,8 @@ public class UsagePredicateTest extends TestCase {
 		final Predicate filterRule = new TypingPredicate(filterRuleParentClass);
 		final JavaClass clazz = RepositoryLocator.getRepository().lookupClass(
 				usageRuleclass);
-		assertEquals(matches, new UsagePredicate(filterRule).evaluate(clazz));
+		assertEquals(matches, new UsagePredicate(filterRule).evaluate(clazz,
+				null));
 	}
 
 }

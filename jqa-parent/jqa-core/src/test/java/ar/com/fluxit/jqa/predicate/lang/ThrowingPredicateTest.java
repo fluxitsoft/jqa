@@ -69,7 +69,8 @@ public class ThrowingPredicateTest extends TestCase {
 		final Predicate filterRule = new TypingPredicate(filterRuleParentClass);
 		final JavaClass clazz = RepositoryLocator.getRepository().lookupClass(
 				usageRuleclass);
-		assertEquals(matches, new ThrowingPredicate(filterRule).evaluate(clazz));
+		assertEquals(matches, new ThrowingPredicate(filterRule).evaluate(clazz,
+				null));
 	}
 
 }
