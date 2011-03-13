@@ -66,15 +66,15 @@ public class NamingPredicateTest extends TestCase {
 				new String[] { "a.b", "a$b" }, new String[] { "" });
 	}
 
-	private void testMatches(NamingPredicate rule, String[] positive,
+	private void testMatches(NamingPredicate predicate, String[] positive,
 			String[] negative) {
 		for (final String element : positive) {
-			assertTrue("\"" + rule + "\" should match \"" + element + "\"",
-					rule.evaluateClassName(element));
+			assertTrue("\"" + predicate + "\" should match \"" + element + "\"",
+					predicate.evaluateClassName(element));
 		}
 		for (int n = 0; n < negative.length; n++) {
-			assertTrue("\"" + rule + "\" shouldn't match \"" + negative[n]
-					+ "\"", !rule.evaluateClassName(negative[n]));
+			assertTrue("\"" + predicate + "\" shouldn't match \"" + negative[n]
+					+ "\"", !predicate.evaluateClassName(negative[n]));
 		}
 	}
 

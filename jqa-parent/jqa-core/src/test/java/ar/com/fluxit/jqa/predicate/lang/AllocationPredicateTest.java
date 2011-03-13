@@ -35,27 +35,28 @@ import ar.com.fluxit.jqa.mock.allocation.StaticInnerClassThatAllocatesClassA;
 public class AllocationPredicateTest extends TestCase {
 
 	public final void testCheck() throws ClassNotFoundException {
-		final String filterRuleParentClass = ClassA.class.getName();
+		final String filterPredicateParentClass = ClassA.class.getName();
 
-		testMatches(filterRuleParentClass, ClassA.class, false);
-		testMatches(filterRuleParentClass, ClassThatAllocatesClassA.class, true);
-		testMatches(filterRuleParentClass,
+		testMatches(filterPredicateParentClass, ClassA.class, false);
+		testMatches(filterPredicateParentClass, ClassThatAllocatesClassA.class,
+				true);
+		testMatches(filterPredicateParentClass,
 				InnerClassThatAllocatesClassA.B.class, true);
-		testMatches(filterRuleParentClass,
+		testMatches(filterPredicateParentClass,
 				StaticInnerClassThatAllocatesClassA.B.class, true);
-		testMatches(filterRuleParentClass,
+		testMatches(filterPredicateParentClass,
 				ClassThatStaticAllocatesClassA.class, true);
 	}
 
-	private void testMatches(String filterRuleParentClass,
-			Class<?> usageRuleclass, boolean matches)
+	private void testMatches(String filterPredicateParentClass,
+			Class<?> usagePredicateclass, boolean matches)
 			throws ClassNotFoundException {
 		final TypingPredicate filterPredicate = new TypingPredicate();
-		filterPredicate.setParentClassName(filterRuleParentClass);
+		filterPredicate.setParentClassName(filterPredicateParentClass);
 		final JavaClass clazz = RepositoryLocator.getRepository().lookupClass(
-				usageRuleclass);
+				usagePredicateclass);
 		AllocationPredicate allocationPredicate = new AllocationPredicate();
-		allocationPredicate.setFilterRule(filterPredicate);
+		allocationPredicate.setFilterPredicate(filterPredicate);
 		assertEquals(matches, allocationPredicate.evaluate(clazz, null));
 	}
 

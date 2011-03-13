@@ -41,7 +41,7 @@ public class AllocationPredicate extends FilteredPredicate {
 		final Collection<JavaClass> filteredClasses = RepositoryLocator
 				.getRepository().getAllocations(clazz);
 		for (final JavaClass usedClass : filteredClasses) {
-			if (getFilterRule().evaluate(usedClass, context)) {
+			if (getFilterPredicate().evaluate(usedClass, context)) {
 				return true;
 			}
 		}

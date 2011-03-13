@@ -39,17 +39,17 @@ import ar.com.fluxit.jqa.mock.throwing.ClassThatThrowsUncheckedExceptionOnStatic
 public class ThrowingPredicateTest extends TestCase {
 
 	public final void testCheck() throws ClassNotFoundException {
-		final String filterRuleParentClass = ExceptionA.class.getName();
+		final String filterPredicateParentClass = ExceptionA.class.getName();
 		// No exceptions
-		testMatches(filterRuleParentClass, ClassA.class, false);
-		testMatches(filterRuleParentClass,
+		testMatches(filterPredicateParentClass, ClassA.class, false);
+		testMatches(filterPredicateParentClass,
 				ClassThatDoesntThrowsExceptionA.class, false);
 		// Checked exceptions
-		testMatches(filterRuleParentClass,
+		testMatches(filterPredicateParentClass,
 				ClassThatThrowsExceptionAOnConstructor.class, true);
-		testMatches(filterRuleParentClass,
+		testMatches(filterPredicateParentClass,
 				ClassThatThrowsExceptionAOnMethod.class, true);
-		testMatches(filterRuleParentClass,
+		testMatches(filterPredicateParentClass,
 				ClassThatThrowsExceptionAOnStaticMethod.class, true);
 		// Unchecked exceptions
 		final String runtimeExceptionClassName = RuntimeException.class
@@ -62,15 +62,15 @@ public class ThrowingPredicateTest extends TestCase {
 				ClassThatThrowsUncheckedExceptionOnStaticMethod.class, true);
 	}
 
-	private void testMatches(String filterRuleParentClass,
-			Class<?> usageRuleclass, boolean matches)
+	private void testMatches(String filterPredicateParentClass,
+			Class<?> usagePredicateClass, boolean matches)
 			throws ClassNotFoundException {
-		final TypingPredicate filterRule = new TypingPredicate();
-		filterRule.setParentClassName(filterRuleParentClass);
+		final TypingPredicate filterPredicate = new TypingPredicate();
+		filterPredicate.setParentClassName(filterPredicateParentClass);
 		final JavaClass clazz = RepositoryLocator.getRepository().lookupClass(
-				usageRuleclass);
+				usagePredicateClass);
 		ThrowingPredicate throwingPredicate = new ThrowingPredicate();
-		throwingPredicate.setFilterRule(filterRule);
+		throwingPredicate.setFilterPredicate(filterPredicate);
 		assertEquals(matches, throwingPredicate.evaluate(clazz, null));
 	}
 

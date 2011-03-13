@@ -33,14 +33,14 @@ public class OrPredicate extends LogicPredicate {
 		super();
 	}
 
-	public OrPredicate(Predicate[] rules) {
-		super(rules);
+	public OrPredicate(Predicate[] predicates) {
+		super(predicates);
 	}
 
 	@Override
 	public boolean evaluate(JavaClass clazz, RulesContext context) {
-		for (final Predicate rule : getRules()) {
-			if (rule.evaluate(clazz, context)) {
+		for (final Predicate predicate : getPredicates()) {
+			if (predicate.evaluate(clazz, context)) {
 				return true;
 			}
 		}

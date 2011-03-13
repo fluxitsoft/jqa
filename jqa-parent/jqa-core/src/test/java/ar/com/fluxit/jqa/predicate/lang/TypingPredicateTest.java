@@ -55,15 +55,16 @@ public class TypingPredicateTest extends TestCase {
 				repository.lookupClass(Integer.class) });
 	}
 
-	private void testMatches(TypingPredicate rule, JavaClass[] positive,
+	private void testMatches(TypingPredicate predicate, JavaClass[] positive,
 			JavaClass[] negative) {
 		for (final JavaClass element : positive) {
-			assertTrue("\"" + rule + "\" should match \"" + element + "\"",
-					rule.evaluateClass(element));
+			assertTrue(
+					"\"" + predicate + "\" should match \"" + element + "\"",
+					predicate.evaluateClass(element));
 		}
 		for (final JavaClass element : negative) {
-			assertTrue("\"" + rule + "\" shouldn't match \"" + element + "\"",
-					!rule.evaluateClass(element));
+			assertTrue("\"" + predicate + "\" shouldn't match \"" + element
+					+ "\"", !predicate.evaluateClass(element));
 		}
 	}
 }

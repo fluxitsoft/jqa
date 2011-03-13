@@ -7,18 +7,18 @@ package ar.com.fluxit.jqa.predicate;
  */
 public abstract class FilteredPredicate extends AbstractPredicate {
 
-	protected Predicate filterRule;
+	protected Predicate filterPredicate;
 
 	public FilteredPredicate() {
 		super();
 	}
 
-	public Predicate getFilterRule() {
-		return filterRule;
+	public Predicate getFilterPredicate() {
+		return filterPredicate;
 	}
 
-	public void setFilterRule(Predicate filterRule) {
-		this.filterRule = filterRule;
+	public void setFilterPredicate(Predicate filterPredicate) {
+		this.filterPredicate = filterPredicate;
 	}
 
 }

@@ -92,7 +92,7 @@ public class JQACheckerTest extends TestCase {
 		log = null;
 	}
 
-	public final void testCheckRuleFail() {
+	public final void testCheckPredicateFail() {
 		final Collection<File> classFiles = FileUtils.INSTANCE
 				.getClassFiles(ClassA.class);
 		final Collection<RuleSet> configuration = createRuleSets(
@@ -106,7 +106,7 @@ public class JQACheckerTest extends TestCase {
 		assertEquals(1, result.getRuleExecutionsFailed().size());
 	}
 
-	public final void testCheckRuleSuccess() {
+	public final void testCheckPredicateSuccess() {
 		final Collection<File> classFiles = FileUtils.INSTANCE
 				.getClassFiles(ClassA.class);
 		final Collection<RuleSet> configuration = createRuleSets(
@@ -133,7 +133,7 @@ public class JQACheckerTest extends TestCase {
 		assertTrue(result.getRuleExecutionsFailed().isEmpty());
 	}
 
-	public final void testFilterRuleFail() {
+	public final void testFilterPredicateFail() {
 		final Collection<File> classFiles = FileUtils.INSTANCE
 				.getClassFiles(ClassA.class);
 
@@ -148,7 +148,7 @@ public class JQACheckerTest extends TestCase {
 		assertEquals(1, result.getRuleExecutionsFailed().size());
 	}
 
-	public final void testFilterRuleSuccess() {
+	public final void testFilterPredicateSuccess() {
 		final Collection<File> classFiles = FileUtils.INSTANCE
 				.getClassFiles(ClassA.class);
 		final Collection<RuleSet> configuration = createRuleSets(

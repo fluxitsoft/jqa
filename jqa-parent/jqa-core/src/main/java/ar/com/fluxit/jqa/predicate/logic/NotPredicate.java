@@ -30,27 +30,27 @@ import ar.com.fluxit.jqa.predicate.Predicate;
  */
 public class NotPredicate extends AbstractPredicate {
 
-	private Predicate rule;
+	private Predicate predicate;
 
 	public NotPredicate() {
 		super();
 	}
 
-	public NotPredicate(Predicate rule) {
-		this.rule = rule;
+	public NotPredicate(Predicate predicate) {
+		this.predicate = predicate;
 	}
 
 	@Override
 	public boolean evaluate(JavaClass clazz, RulesContext context) {
-		return !getRule().evaluate(clazz, context);
+		return !getPredicate().evaluate(clazz, context);
 	}
 
-	public Predicate getRule() {
-		return rule;
+	public Predicate getPredicate() {
+		return predicate;
 	}
 
-	public void setRule(Predicate rule) {
-		this.rule = rule;
+	public void setPredicate(Predicate predicate) {
+		this.predicate = predicate;
 	}
 
 }

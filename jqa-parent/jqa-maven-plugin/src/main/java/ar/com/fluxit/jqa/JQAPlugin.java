@@ -58,13 +58,13 @@ public class JQAPlugin extends AbstractMojo {
 	// final Configuration configuration = new Configuration();
 	//
 	// final Check ruleset1 = new Check();
-	// ruleset1.setFilterRule(new NamingPredicate("**.entities.**"));
-	// ruleset1.setCheckRule(new TypingPredicate(
+	// ruleset1.setFilterPredicate(new NamingPredicate("**.entities.**"));
+	// ruleset1.setCheckPredicate(new TypingPredicate(
 	// "ar.com.osde.framework.entities.FrameworkEntity"));
 	//
 	// final Check ruleset2 = new Check();
-	// ruleset2.setFilterRule(new NamingPredicate("**.bo.**"));
-	// ruleset2.setCheckRule(new TypingPredicate(
+	// ruleset2.setFilterPredicate(new NamingPredicate("**.bo.**"));
+	// ruleset2.setCheckPredicate(new TypingPredicate(
 	// "ar.com.osde.framework.business.base.BusinessObject"));
 	//
 	// final XStream xs = new XStream();

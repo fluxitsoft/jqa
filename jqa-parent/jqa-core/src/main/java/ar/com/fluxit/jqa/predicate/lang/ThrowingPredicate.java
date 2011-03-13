@@ -24,7 +24,6 @@ import ar.com.fluxit.jqa.bce.JavaClass;
 import ar.com.fluxit.jqa.bce.RepositoryLocator;
 import ar.com.fluxit.jqa.context.RulesContext;
 import ar.com.fluxit.jqa.predicate.FilteredPredicate;
-import ar.com.fluxit.jqa.predicate.Predicate;
 
 /**
  * TODO javadoc
@@ -42,21 +41,11 @@ public class ThrowingPredicate extends FilteredPredicate {
 		final Collection<JavaClass> throwedClasses = RepositoryLocator
 				.getRepository().getThrows(clazz);
 		for (final JavaClass throwedClass : throwedClasses) {
-			if (getFilterRule().evaluate(throwedClass, context)) {
+			if (getFilterPredicate().evaluate(throwedClass, context)) {
 				return true;
 			}
 		}
 		return false;
-	}
-
-	@Override
-	public Predicate getFilterRule() {
-		return filterRule;
-	}
-
-	@Override
-	public void setFilterRule(Predicate filterRule) {
-		this.filterRule = filterRule;
 	}
 
 }

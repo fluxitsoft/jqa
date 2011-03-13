@@ -28,23 +28,23 @@ import ar.com.fluxit.jqa.predicate.Predicate;
  */
 public abstract class LogicPredicate extends AbstractPredicate {
 
-	private Predicate rules[];
+	private Predicate predicates[];
 
 	public LogicPredicate() {
 		super();
 	}
 
-	public LogicPredicate(Predicate[] rules) {
+	public LogicPredicate(Predicate[] predicates) {
 		super();
-		this.rules = rules;
+		this.predicates = predicates;
 	}
 
-	public Predicate[] getRules() {
-		return rules;
+	public Predicate[] getPredicates() {
+		return predicates;
 	}
 
-	public void setRules(Predicate[] rules) {
-		this.rules = rules;
+	public void setPredicates(Predicate[] predicates) {
+		this.predicates = predicates;
 	}
 
 }

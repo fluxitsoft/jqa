@@ -27,29 +27,29 @@ import ar.com.fluxit.jqa.predicate.Predicate;
  */
 public class RuleCheckFailed {
 
-	private Predicate rule;
+	private Predicate predicate;
 	private String targetClassName;
 
 	public RuleCheckFailed() {
 
 	}
 
-	public RuleCheckFailed(Predicate rule, String className) {
+	public RuleCheckFailed(Predicate predicate, String targetClassName) {
 		super();
-		this.rule = rule;
-		targetClassName = className;
+		this.predicate = predicate;
+		this.targetClassName = targetClassName;
 	}
 
-	protected Predicate getRule() {
-		return rule;
+	protected Predicate getPredicate() {
+		return predicate;
 	}
 
 	protected String getTargetClassName() {
 		return targetClassName;
 	}
 
-	protected void setRule(Predicate rule) {
-		this.rule = rule;
+	protected void setPredicate(Predicate predicate) {
+		this.predicate = predicate;
 	}
 
 	protected void setTargetClassName(String className) {

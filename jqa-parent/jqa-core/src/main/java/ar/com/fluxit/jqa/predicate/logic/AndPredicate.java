@@ -33,14 +33,14 @@ public class AndPredicate extends LogicPredicate {
 		super();
 	}
 
-	public AndPredicate(Predicate[] rules) {
-		super(rules);
+	public AndPredicate(Predicate[] predicates) {
+		super(predicates);
 	}
 
 	@Override
 	public boolean evaluate(JavaClass clazz, RulesContext context) {
-		for (final Predicate rule : getRules()) {
-			if (!rule.evaluate(clazz, context)) {
+		for (final Predicate predicate : getPredicates()) {
+			if (!predicate.evaluate(clazz, context)) {
 				return false;
 			}
 		}

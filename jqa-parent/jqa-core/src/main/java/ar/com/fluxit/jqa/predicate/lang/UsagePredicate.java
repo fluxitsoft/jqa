@@ -24,7 +24,6 @@ import ar.com.fluxit.jqa.bce.JavaClass;
 import ar.com.fluxit.jqa.bce.RepositoryLocator;
 import ar.com.fluxit.jqa.context.RulesContext;
 import ar.com.fluxit.jqa.predicate.FilteredPredicate;
-import ar.com.fluxit.jqa.predicate.Predicate;
 
 /**
  * TODO javadoc
@@ -42,21 +41,11 @@ public class UsagePredicate extends FilteredPredicate {
 		final Collection<JavaClass> filteredClasses = RepositoryLocator
 				.getRepository().getUses(clazz);
 		for (final JavaClass usedClass : filteredClasses) {
-			if (getFilterRule().evaluate(usedClass, context)) {
+			if (getFilterPredicate().evaluate(usedClass, context)) {
 				return true;
 			}
 		}
 		return false;
-	}
-
-	@Override
-	public Predicate getFilterRule() {
-		return filterRule;
-	}
-
-	@Override
-	public void setFilterRule(Predicate filterRule) {
-		this.filterRule = filterRule;
 	}
 
 }

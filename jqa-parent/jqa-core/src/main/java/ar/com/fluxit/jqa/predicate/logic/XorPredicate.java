@@ -33,15 +33,15 @@ public class XorPredicate extends LogicPredicate {
 		super();
 	}
 
-	public XorPredicate(Predicate[] rules) {
-		super(rules);
+	public XorPredicate(Predicate[] predicates) {
+		super(predicates);
 	}
 
 	@Override
 	public boolean evaluate(JavaClass clazz, RulesContext context) {
 		boolean match = false;
-		for (final Predicate rule : getRules()) {
-			if (rule.evaluate(clazz, context)) {
+		for (final Predicate predicate : getPredicates()) {
+			if (predicate.evaluate(clazz, context)) {
 				if (match) {
 					return false;
 				}
