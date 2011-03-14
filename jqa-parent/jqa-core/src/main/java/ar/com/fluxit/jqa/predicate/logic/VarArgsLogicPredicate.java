@@ -26,15 +26,15 @@ import ar.com.fluxit.jqa.predicate.Predicate;
  * 
  * @author Juan Ignacio Barisich
  */
-public abstract class LogicPredicate extends AbstractPredicate {
+public abstract class VarArgsLogicPredicate extends AbstractPredicate {
 
 	private Predicate predicates[];
 
-	public LogicPredicate() {
+	public VarArgsLogicPredicate() {
 		super();
 	}
 
-	public LogicPredicate(Predicate[] predicates) {
+	public VarArgsLogicPredicate(Predicate[] predicates) {
 		super();
 		this.predicates = predicates;
 	}

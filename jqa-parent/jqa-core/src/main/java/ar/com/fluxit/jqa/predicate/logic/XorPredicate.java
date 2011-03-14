@@ -27,7 +27,7 @@ import ar.com.fluxit.jqa.predicate.Predicate;
  * 
  * @author Juan Ignacio Barisich
  */
-public class XorPredicate extends LogicPredicate {
+public class XorPredicate extends VarArgsLogicPredicate {
 
 	public XorPredicate() {
 		super();
