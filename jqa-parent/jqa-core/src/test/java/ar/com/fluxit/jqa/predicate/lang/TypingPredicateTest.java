@@ -34,7 +34,7 @@ import ar.com.fluxit.jqa.bce.RepositoryLocator;
 public class TypingPredicateTest extends TestCase {
 
 	private TypingPredicate createTypingPredicate(String string) {
-		TypingPredicate result = new TypingPredicate();
+		final TypingPredicate result = new TypingPredicate();
 		result.setParentClassName(string);
 		return result;
 	}

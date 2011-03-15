@@ -106,7 +106,9 @@ public class MavenLogLoggerAdapter extends MarkerIgnoringBase {
 
 	@Override
 	public void info(final String _messagePattern, final Object _arg) {
-		logger.info(MessageFormatter.format(_messagePattern, _arg).getMessage());
+		logger
+				.info(MessageFormatter.format(_messagePattern, _arg)
+						.getMessage());
 	}
 
 	@Override
@@ -188,7 +190,9 @@ public class MavenLogLoggerAdapter extends MarkerIgnoringBase {
 
 	@Override
 	public void warn(final String _messagePattern, final Object _arg) {
-		logger.warn(MessageFormatter.format(_messagePattern, _arg).getMessage());
+		logger
+				.warn(MessageFormatter.format(_messagePattern, _arg)
+						.getMessage());
 	}
 
 	@Override

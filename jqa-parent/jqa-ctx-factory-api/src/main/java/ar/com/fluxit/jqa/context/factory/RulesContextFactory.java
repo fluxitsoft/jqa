@@ -1,6 +1,7 @@
 package ar.com.fluxit.jqa.context.factory;
 
 import ar.com.fluxit.jqa.context.RulesContext;
+import ar.com.fluxit.jqa.context.factory.exception.RulesContextFactoryException;
 
 /**
  * TODO javadoc
@@ -9,6 +10,7 @@ import ar.com.fluxit.jqa.context.RulesContext;
  */
 public interface RulesContextFactory {
 
-	RulesContext getRulesContext(Object source);
+	RulesContext getRulesContext(Object source)
+			throws RulesContextFactoryException;
 
 }

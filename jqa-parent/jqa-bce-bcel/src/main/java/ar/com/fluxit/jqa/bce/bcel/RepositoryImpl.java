@@ -185,8 +185,8 @@ public class RepositoryImpl implements Repository {
 	@Override
 	public JavaClass lookupClass(String parentClassName)
 			throws ClassNotFoundException {
-		return new BcelJavaClass(
-				org.apache.bcel.Repository.lookupClass(parentClassName));
+		return new BcelJavaClass(org.apache.bcel.Repository
+				.lookupClass(parentClassName));
 	}
 
 	@Override

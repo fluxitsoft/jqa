@@ -34,7 +34,7 @@ import ar.com.fluxit.jqa.predicate.lang.AbstractionPredicate.AbstractionType;
 public class AbstractionPredicateTest extends TestCase {
 
 	private AbstractionPredicate createPredicate(AbstractionType abstractionType) {
-		AbstractionPredicate result = new AbstractionPredicate();
+		final AbstractionPredicate result = new AbstractionPredicate();
 		result.setAbstractionType(abstractionType);
 		return result;
 	}

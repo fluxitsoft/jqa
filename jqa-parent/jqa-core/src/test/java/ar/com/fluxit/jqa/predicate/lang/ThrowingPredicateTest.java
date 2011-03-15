@@ -69,7 +69,7 @@ public class ThrowingPredicateTest extends TestCase {
 		filterPredicate.setParentClassName(filterPredicateParentClass);
 		final JavaClass clazz = RepositoryLocator.getRepository().lookupClass(
 				usagePredicateClass);
-		ThrowingPredicate throwingPredicate = new ThrowingPredicate();
+		final ThrowingPredicate throwingPredicate = new ThrowingPredicate();
 		throwingPredicate.setFilterPredicate(filterPredicate);
 		assertEquals(matches, throwingPredicate.evaluate(clazz, null));
 	}

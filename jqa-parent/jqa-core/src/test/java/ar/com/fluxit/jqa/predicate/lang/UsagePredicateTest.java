@@ -130,7 +130,7 @@ public class UsagePredicateTest extends TestCase {
 		filterPredicate.setParentClassName(filterPredicateParentClass);
 		final JavaClass clazz = RepositoryLocator.getRepository().lookupClass(
 				usagePredicateClass);
-		UsagePredicate usagePredicate = new UsagePredicate();
+		final UsagePredicate usagePredicate = new UsagePredicate();
 		usagePredicate.setFilterPredicate(filterPredicate);
 		assertEquals(matches, usagePredicate.evaluate(clazz, null));
 	}

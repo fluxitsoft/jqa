@@ -218,9 +218,9 @@ public final class RegEx {
 	}
 
 	private String parseSubexpr(final String exp) {
-		return exp.replace(".", "[\\.\\$]").replace("/", "\\.")
-				.replace("$", "\\$").replace("*", "\uFFFF")
-				.replace("\uFFFF\uFFFF", ".*").replace("\uFFFF", "[^\\.]*");
+		return exp.replace(".", "[\\.\\$]").replace("/", "\\.").replace("$",
+				"\\$").replace("*", "\uFFFF").replace("\uFFFF\uFFFF", ".*")
+				.replace("\uFFFF", "[^\\.]*");
 	}
 
 	private void setMatchCache(final Map<String, Boolean> matchCache) {

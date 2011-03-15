@@ -55,7 +55,7 @@ public class AllocationPredicateTest extends TestCase {
 		filterPredicate.setParentClassName(filterPredicateParentClass);
 		final JavaClass clazz = RepositoryLocator.getRepository().lookupClass(
 				usagePredicateclass);
-		AllocationPredicate allocationPredicate = new AllocationPredicate();
+		final AllocationPredicate allocationPredicate = new AllocationPredicate();
 		allocationPredicate.setFilterPredicate(filterPredicate);
 		assertEquals(matches, allocationPredicate.evaluate(clazz, null));
 	}

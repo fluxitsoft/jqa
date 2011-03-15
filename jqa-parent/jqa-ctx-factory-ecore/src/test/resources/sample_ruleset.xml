@@ -11,6 +11,6 @@
 		</filterPredicate>
 		<checkPredicate xsi:type="jqa:NamingPredicate"
 			classNamePattern="**Service" />
-	</rule>
+	</rule> 
 	
 </jqa:Ruleset>

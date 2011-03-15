@@ -30,7 +30,7 @@ import junit.framework.TestCase;
 public class NamingPredicateTest extends TestCase {
 
 	private NamingPredicate createNamingPredicate(String string) {
-		NamingPredicate result = new NamingPredicate();
+		final NamingPredicate result = new NamingPredicate();
 		result.setClassNamePattern(string);
 		return result;
 	}
@@ -69,7 +69,8 @@ public class NamingPredicateTest extends TestCase {
 	private void testMatches(NamingPredicate predicate, String[] positive,
 			String[] negative) {
 		for (final String element : positive) {
-			assertTrue("\"" + predicate + "\" should match \"" + element + "\"",
+			assertTrue(
+					"\"" + predicate + "\" should match \"" + element + "\"",
 					predicate.evaluateClassName(element));
 		}
 		for (int n = 0; n < negative.length; n++) {
