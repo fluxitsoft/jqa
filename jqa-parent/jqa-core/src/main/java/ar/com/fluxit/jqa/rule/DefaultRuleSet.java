@@ -8,12 +8,12 @@ import java.util.List;
  * 
  * @author Juan Ignacio Barisich
  */
-public class RuleSetImpl implements RuleSet {
+public class DefaultRuleSet implements RuleSet {
 
 	private List<Rule> rules;
 	private String name;
 
-	public RuleSetImpl() {
+	public DefaultRuleSet() {
 		rules = new ArrayList<Rule>();
 	}
 

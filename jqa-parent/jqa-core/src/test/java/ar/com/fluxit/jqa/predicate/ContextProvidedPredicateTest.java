@@ -2,7 +2,7 @@ package ar.com.fluxit.jqa.predicate;
 
 import junit.framework.TestCase;
 import ar.com.fluxit.jqa.context.RulesContext;
-import ar.com.fluxit.jqa.context.RulesContextImpl;
+import ar.com.fluxit.jqa.context.DefaultRulesContext;
 import ar.com.fluxit.jqa.predicate.logic.FalsePredicate;
 import ar.com.fluxit.jqa.predicate.logic.TruePredicate;
 
@@ -14,7 +14,7 @@ import ar.com.fluxit.jqa.predicate.logic.TruePredicate;
 public class ContextProvidedPredicateTest extends TestCase {
 
 	private RulesContext createContext(Predicate globalPredicate) {
-		RulesContextImpl result = new RulesContextImpl();
+		DefaultRulesContext result = new DefaultRulesContext();
 		result.addGlobalPredicate(globalPredicate);
 		return result;
 	}

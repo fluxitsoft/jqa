@@ -7,14 +7,14 @@ import ar.com.fluxit.jqa.predicate.Predicate;
  * 
  * @author Juan Ignacio Barisich
  */
-public class RuleImpl implements Rule {
+public class DefaultRule implements Rule {
 
 	private Predicate filterPredicate;
 
 	private Predicate checkPredicate;
 	private String name;
 
-	public RuleImpl(Predicate filterPredicate, Predicate checkPredicate,
+	public DefaultRule(Predicate filterPredicate, Predicate checkPredicate,
 			String name) {
 		super();
 		this.filterPredicate = filterPredicate;

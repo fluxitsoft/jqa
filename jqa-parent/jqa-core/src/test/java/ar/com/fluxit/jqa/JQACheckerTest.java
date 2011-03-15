@@ -28,16 +28,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ar.com.fluxit.jqa.context.RulesContext;
-import ar.com.fluxit.jqa.context.RulesContextImpl;
+import ar.com.fluxit.jqa.context.DefaultRulesContext;
 import ar.com.fluxit.jqa.mock.ClassA;
 import ar.com.fluxit.jqa.predicate.Predicate;
 import ar.com.fluxit.jqa.predicate.logic.FalsePredicate;
 import ar.com.fluxit.jqa.predicate.logic.TruePredicate;
 import ar.com.fluxit.jqa.result.CheckingResult;
 import ar.com.fluxit.jqa.rule.Rule;
-import ar.com.fluxit.jqa.rule.RuleImpl;
+import ar.com.fluxit.jqa.rule.DefaultRule;
 import ar.com.fluxit.jqa.rule.RuleSet;
-import ar.com.fluxit.jqa.rule.RuleSetImpl;
+import ar.com.fluxit.jqa.rule.DefaultRuleSet;
 import ar.com.fluxit.jqa.util.FileUtils;
 
 /**
@@ -50,17 +50,17 @@ public class JQACheckerTest extends TestCase {
 	private Logger log;
 
 	private Rule createRule(Predicate instance, Predicate instance2) {
-		return new RuleImpl(instance, instance2, "");
+		return new DefaultRule(instance, instance2, "");
 	}
 
 	private RulesContext createRulesContext(Collection<RuleSet> configuration) {
-		RulesContextImpl result = new RulesContextImpl();
+		DefaultRulesContext result = new DefaultRulesContext();
 		result.addAll(configuration);
 		return result;
 	}
 
 	private RuleSet createRuleSet(Predicate instance, Predicate instance2) {
-		final RuleSetImpl result = new RuleSetImpl();
+		final DefaultRuleSet result = new DefaultRuleSet();
 		result.addRule(createRule(instance, instance2));
 		return result;
 	}
