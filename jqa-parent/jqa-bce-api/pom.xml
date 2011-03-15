@@ -10,7 +10,7 @@
   <groupId>ar.com.fluxit</groupId>
   <artifactId>jqa-bce-api</artifactId>
   <name>jqa-bce-api</name>
-  <url>http://maven.apache.org</url>
+  <url>http://code.google.com/p/jqa-project/</url>
   <dependencies>
   </dependencies>
   <properties>

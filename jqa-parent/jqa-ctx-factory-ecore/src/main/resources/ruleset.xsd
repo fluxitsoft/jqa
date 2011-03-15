@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xsd:schema xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:jqa="http://www.fluxit.com.ar/schema/ruleset" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ecore:nsPrefix="jqa" ecore:package="jqa" targetNamespace="http://www.fluxit.com.ar/schema/ruleset">
+  <xsd:element ecore:ignore="true" name="Ruleset" type="jqa:Ruleset"/>
+  <xsd:element ecore:ignore="true" name="Rule" type="jqa:Rule"/>
+  <xsd:element ecore:ignore="true" name="Predicate" type="jqa:Predicate"/>
+  <xsd:element ecore:ignore="true" name="ContextProvidedPredicate" type="jqa:ContextProvidedPredicate"/>
+  <xsd:element ecore:ignore="true" name="FilteredPredicate" type="jqa:FilteredPredicate"/>
+  <xsd:element ecore:ignore="true" name="AbstractionPredicate" type="jqa:AbstractionPredicate"/>
+  <xsd:element ecore:ignore="true" name="AllocationPredicate" type="jqa:AllocationPredicate"/>
+  <xsd:element ecore:ignore="true" name="NamingPredicate" type="jqa:NamingPredicate"/>
+  <xsd:element ecore:ignore="true" name="ThrowingPredicate" type="jqa:ThrowingPredicate"/>
+  <xsd:element ecore:ignore="true" name="TypingPredicate" type="jqa:TypingPredicate"/>
+  <xsd:element ecore:ignore="true" name="UsagePredicate" type="jqa:UsagePredicate"/>
+  <xsd:element ecore:ignore="true" name="VarArgsLogicPredicate" type="jqa:VarArgsLogicPredicate"/>
+  <xsd:element ecore:ignore="true" name="AndPredicate" type="jqa:AndPredicate"/>
+  <xsd:element ecore:ignore="true" name="FalsePredicate" type="jqa:FalsePredicate"/>
+  <xsd:element ecore:ignore="true" name="NotPredicate" type="jqa:NotPredicate"/>
+  <xsd:element ecore:ignore="true" name="OrPredicate" type="jqa:OrPredicate"/>
+  <xsd:element ecore:ignore="true" name="TruePredicate" type="jqa:TruePredicate"/>
+  <xsd:element ecore:ignore="true" name="XORPredicate" type="jqa:XORPredicate"/>
+  <xsd:complexType name="Ruleset">
+    <xsd:sequence>
+      <xsd:element ecore:resolveProxies="true" maxOccurs="unbounded" name="rule" type="jqa:Rule"/>
+    </xsd:sequence>
+    <xsd:attribute name="name" type="xsd:string"/>
+  </xsd:complexType>
+  <xsd:complexType name="Rule">
+    <xsd:sequence>
+      <xsd:element ecore:resolveProxies="true" name="filterPredicate" type="jqa:Predicate"/>
+      <xsd:element ecore:resolveProxies="true" name="checkPredicate" type="jqa:Predicate"/>
+    </xsd:sequence>
+    <xsd:attribute name="name" type="xsd:string"/>
+  </xsd:complexType>
+  <xsd:complexType abstract="true" name="Predicate">
+    <xsd:attribute name="name" type="xsd:string"/>
+  </xsd:complexType>
+  <xsd:complexType name="ContextProvidedPredicate">
+    <xsd:complexContent>
+      <xsd:extension base="jqa:Predicate">
+        <xsd:attribute name="providedPredicateName" type="xsd:string" use="required"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType abstract="true" name="FilteredPredicate">
+    <xsd:complexContent>
+      <xsd:extension base="jqa:Predicate">
+        <xsd:sequence>
+          <xsd:element ecore:resolveProxies="true" name="filterPredicate" type="jqa:Predicate"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="AbstractionPredicate">
+    <xsd:complexContent>
+      <xsd:extension base="jqa:Predicate">
+        <xsd:attribute ecore:unsettable="false" name="abstractionType" type="jqa:AbstractionType" use="required"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:simpleType name="AbstractionType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="ABSTRACT"/>
+      <xsd:enumeration value="INTERFACE"/>
+      <xsd:enumeration value="CONCRETE"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="AllocationPredicate">
+    <xsd:complexContent>
+      <xsd:extension base="jqa:FilteredPredicate"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="NamingPredicate">
+    <xsd:complexContent>
+      <xsd:extension base="jqa:Predicate">
+        <xsd:attribute name="classNamePattern" type="xsd:string" use="required"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="ThrowingPredicate">
+    <xsd:complexContent>
+      <xsd:extension base="jqa:FilteredPredicate"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="TypingPredicate">
+    <xsd:complexContent>
+      <xsd:extension base="jqa:Predicate">
+        <xsd:attribute name="parentClassName" type="xsd:string" use="required"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="UsagePredicate">
+    <xsd:complexContent>
+      <xsd:extension base="jqa:FilteredPredicate"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType abstract="true" name="VarArgsLogicPredicate">
+    <xsd:complexContent>
+      <xsd:extension base="jqa:Predicate">
+        <xsd:sequence>
+          <xsd:element ecore:resolveProxies="true" maxOccurs="unbounded" name="predicate" type="jqa:Predicate"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="AndPredicate">
+    <xsd:complexContent>
+      <xsd:extension base="jqa:VarArgsLogicPredicate"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="FalsePredicate">
+    <xsd:complexContent>
+      <xsd:extension base="jqa:Predicate"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="NotPredicate">
+    <xsd:complexContent>
+      <xsd:extension base="jqa:Predicate">
+        <xsd:sequence>
+          <xsd:element ecore:resolveProxies="true" name="predicate" type="jqa:Predicate"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="OrPredicate">
+    <xsd:complexContent>
+      <xsd:extension base="jqa:VarArgsLogicPredicate"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="TruePredicate">
+    <xsd:complexContent>
+      <xsd:extension base="jqa:Predicate"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="XORPredicate">
+    <xsd:complexContent>
+      <xsd:extension base="jqa:VarArgsLogicPredicate"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+</xsd:schema>
