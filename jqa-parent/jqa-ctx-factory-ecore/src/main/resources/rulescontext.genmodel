@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <genmodel:GenModel xmi:version="2.0"
     xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
-    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/jqa-core/src"
-    modelPluginID="jqa-core" modelName="Ruleset" suppressEMFTypes="true" importerID="org.eclipse.emf.importer.ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/jqa-ctx-factory-ecore/src"
+    modelPluginID="jqa-ctx-factory-ecore" modelName="Rulescontext" importerID="org.eclipse.emf.importer.ecore"
     complianceLevel="6.0" copyrightFields="false">
-  <genAnnotations source="http://www.eclipse.org/emf/2002/GenModel/exporter/org.eclipse.xsd.ecore.exporter">
-    <genAnnotations source="selectedPackages">
-      <details key="http://www.fluxit.com.ar/emf/jqa" value="ruleset.xsd"/>
-    </genAnnotations>
-    <details key="directoryURI" value="."/>
-  </genAnnotations>
-  <foreignModel>ruleset.ecore</foreignModel>
+  <foreignModel>rulescontext.ecore</foreignModel>
+  <genPackages prefix="Jqa_ctx" disposableProviderFactory="true" ecorePackage="rulescontext.ecore#/">
+    <genClasses ecoreClass="rulescontext.ecore#//RulesContext">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference rulescontext.ecore#//RulesContext/ruleSetImport"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference rulescontext.ecore#//RulesContext/globalPredicate"/>
+    </genClasses>
+    <genClasses ecoreClass="rulescontext.ecore#//RuleSetImport">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute rulescontext.ecore#//RuleSetImport/ruleSetName"/>
+    </genClasses>
+  </genPackages>
   <genPackages prefix="Jqa" disposableProviderFactory="true" ecorePackage="ruleset.ecore#/">
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="ruleset.ecore#//AbstractionType">
       <genEnumLiterals ecoreEnumLiteral="ruleset.ecore#//AbstractionType/ABSTRACT"/>
@@ -23,8 +26,8 @@
     </genClasses>
     <genClasses ecoreClass="ruleset.ecore#//Rule">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ruleset.ecore#//Rule/name"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ruleset.ecore#//Rule/filterPredicate"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ruleset.ecore#//Rule/checkPredicate"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ruleset.ecore#//Rule/filterPredicate"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ruleset.ecore#//Rule/checkPredicate"/>
     </genClasses>
     <genClasses image="false" ecoreClass="ruleset.ecore#//Predicate">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ruleset.ecore#//Predicate/name"/>
@@ -33,7 +36,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ruleset.ecore#//ContextProvidedPredicate/providedPredicateName"/>
     </genClasses>
     <genClasses image="false" ecoreClass="ruleset.ecore#//FilteredPredicate">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ruleset.ecore#//FilteredPredicate/filterPredicate"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ruleset.ecore#//FilteredPredicate/filterPredicate"/>
     </genClasses>
     <genClasses ecoreClass="ruleset.ecore#//AbstractionPredicate">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ruleset.ecore#//AbstractionPredicate/abstractionType"/>
@@ -53,7 +56,7 @@
     <genClasses ecoreClass="ruleset.ecore#//AndPredicate"/>
     <genClasses ecoreClass="ruleset.ecore#//FalsePredicate"/>
     <genClasses ecoreClass="ruleset.ecore#//NotPredicate">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ruleset.ecore#//NotPredicate/predicate"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ruleset.ecore#//NotPredicate/predicate"/>
     </genClasses>
     <genClasses ecoreClass="ruleset.ecore#//OrPredicate"/>
     <genClasses ecoreClass="ruleset.ecore#//TruePredicate"/>
