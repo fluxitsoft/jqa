@@ -22,7 +22,6 @@
 		<module>jqa-bce-bcel</module>
 		<module>jqa-maven-plugin</module>
 		<module>jqa-ctx-factory</module>
-		<module>jqa-ctx-factory-ecore</module>
 	</modules>
 
 	<build>
