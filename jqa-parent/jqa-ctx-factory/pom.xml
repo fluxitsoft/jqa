@@ -9,14 +9,42 @@
 		<version>1.0</version>
 	</parent>
 	<groupId>ar.com.fluxit</groupId>
-	<artifactId>jqa-ctx-factory-api</artifactId>
-	<name>jqa-ctx-factory-api</name>
+	<artifactId>jqa-ctx-factory</artifactId>
+	<name>jqa-ctx-factory</name>
 	<url>http://code.google.com/p/jqa-project/</url>
 	<dependencies>
 		<dependency>
 			<groupId>ar.com.fluxit</groupId>
 			<artifactId>jqa-core</artifactId>
 			<version>${jqa.version}</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.emf</groupId>
+			<artifactId>ecore</artifactId>
+			<version>2.4.2</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse</groupId>
+			<artifactId>xsd</artifactId>
+			<version>2.3.0-v200706262000</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.emf</groupId>
+			<artifactId>org.eclipse.emf.common</artifactId>
+			<version>2.6.0.v20100614-1136</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.emf</groupId>
+			<artifactId>ecore-xmi</artifactId>
+			<version>2.4.1</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>

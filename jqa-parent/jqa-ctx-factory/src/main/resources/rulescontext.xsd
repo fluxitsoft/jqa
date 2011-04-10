@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xsd:schema xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:jqa="http://www.fluxit.com.ar/schema/ruleset" xmlns:jqa_ctx="http://www.fluxit.com.ar/schema/rulescontext" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ecore:nsPrefix="jqa_ctx" ecore:package="jqa_ctx" targetNamespace="http://www.fluxit.com.ar/schema/rulescontext">
+  <xsd:import namespace="http://www.fluxit.com.ar/schema/ruleset" schemaLocation="ruleset.xsd"/>
+  <xsd:element ecore:ignore="true" name="RulesContext" type="jqa_ctx:RulesContext"/>
+  <xsd:element ecore:ignore="true" name="RuleSetImport" type="jqa_ctx:RuleSetImport"/>
+  <xsd:complexType name="RulesContext">
+    <xsd:sequence>
+      <xsd:element ecore:resolveProxies="true" maxOccurs="unbounded" name="ruleSetImport" type="jqa_ctx:RuleSetImport"/>
+      <xsd:element ecore:resolveProxies="true" maxOccurs="unbounded" minOccurs="0" name="globalPredicate" type="jqa:Predicate"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="RuleSetImport">
+    <xsd:attribute name="name" type="xsd:string"/>
+    <xsd:attribute name="fileName" type="xsd:string"/>
+  </xsd:complexType>
+</xsd:schema>

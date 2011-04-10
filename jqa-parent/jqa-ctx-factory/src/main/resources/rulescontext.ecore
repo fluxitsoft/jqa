@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="jqa_ctx"
+    nsURI="http://www.fluxit.com.ar/schema/rulescontext" nsPrefix="jqa_ctx">
+  <eClassifiers xsi:type="ecore:EClass" name="RulesContext">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ruleSetImport" lowerBound="1"
+        upperBound="-1" eType="#//RuleSetImport" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="globalPredicate" upperBound="-1"
+        eType="ecore:EClass ruleset.ecore#//Predicate" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RuleSetImport">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="fileName" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
+  </eClassifiers>
+</ecore:EPackage>
