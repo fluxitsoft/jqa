@@ -13,12 +13,12 @@ import ar.com.fluxit.jqa.rule.RuleSet;
  * 
  * @author Juan Ignacio Barisich
  */
-public class DefaultRulesContext implements RulesContext {
+public class RulesContextImpl implements RulesContext {
 
 	private final Collection<RuleSet> ruleSets;
 	private final Map<String, Predicate> globalPredicates;
 
-	public DefaultRulesContext() {
+	public RulesContextImpl() {
 		ruleSets = new ArrayList<RuleSet>();
 		globalPredicates = new HashMap<String, Predicate>();
 	}
