@@ -27,8 +27,8 @@ import junit.framework.TestCase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ar.com.fluxit.jqa.context.DefaultRulesContext;
 import ar.com.fluxit.jqa.context.RulesContext;
+import ar.com.fluxit.jqa.context.RulesContextImpl;
 import ar.com.fluxit.jqa.mock.ClassA;
 import ar.com.fluxit.jqa.predicate.Predicate;
 import ar.com.fluxit.jqa.predicate.logic.FalsePredicate;
@@ -54,7 +54,7 @@ public class JQACheckerTest extends TestCase {
 	}
 
 	private RulesContext createRulesContext(Collection<RuleSet> configuration) {
-		final DefaultRulesContext result = new DefaultRulesContext();
+		final RulesContextImpl result = new RulesContextImpl();
 		result.addAll(configuration);
 		return result;
 	}
