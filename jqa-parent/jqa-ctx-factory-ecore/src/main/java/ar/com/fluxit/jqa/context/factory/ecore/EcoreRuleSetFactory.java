@@ -14,20 +14,19 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.xsd.ecore.XSDEcoreBuilder;
 
-import ar.com.fluxit.jqa.context.RulesContext;
-import ar.com.fluxit.jqa.context.factory.RulesContextFactory;
-import ar.com.fluxit.jqa.context.factory.exception.RulesContextFactoryException;
+import ar.com.fluxit.jqa.context.factory.RuleSetFactory;
+import ar.com.fluxit.jqa.context.factory.exception.RuleSetFactoryException;
+import ar.com.fluxit.jqa.rule.RuleSet;
 
 /**
  * TODO javadoc
  * 
  * @author Juan Ignacio Barisich
  */
-public class EcoreRulesContextFactory implements RulesContextFactory {
+public class EcoreRuleSetFactory implements RuleSetFactory {
 
 	@Override
-	public RulesContext getRulesContext(Object source)
-			throws RulesContextFactoryException {
+	public RuleSet getRuleSet(Object source) throws RuleSetFactoryException {
 		try {
 			if (!(source instanceof File)) {
 				throw new IllegalArgumentException("Source must be a file");
@@ -47,9 +46,10 @@ public class EcoreRulesContextFactory implements RulesContextFactory {
 			final Resource resource = resourceSet.createResource(URI
 					.createFileURI(sourceFile.getPath()));
 			resource.load(options);
+			// TODO
 			return null;
 		} catch (final IOException e) {
-			throw new RulesContextFactoryException(e);
+			throw new RuleSetFactoryException(e);
 		}
 	}
 
