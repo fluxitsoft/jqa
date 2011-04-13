@@ -28,4 +28,32 @@
 			<scope>compile</scope>
 		</dependency>
 	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>xmlbeans-maven-plugin</artifactId>
+				<version>2.3.3</version>
+				<executions>
+					<execution>
+						<id />
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>xmlbeans</goal>
+						</goals>
+					</execution>
+				</executions>
+				<inherited>true</inherited>
+				<configuration>
+					<schemaDirectory>src/main/resources</schemaDirectory>
+					<javaSource>1.5</javaSource>
+					<sourceSchemas>
+						<sourceSchema>rulescontext.xsd</sourceSchema>
+					</sourceSchemas>
+					<sourceGenerationDirectory>src/main/java</sourceGenerationDirectory>
+					<classGenerationDirectory>target/classes</classGenerationDirectory>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>

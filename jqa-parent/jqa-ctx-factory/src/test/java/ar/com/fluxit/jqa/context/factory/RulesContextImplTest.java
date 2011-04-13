@@ -4,7 +4,6 @@ import java.io.File;
 import java.net.URL;
 
 import junit.framework.TestCase;
-import ar.com.fluxit.jqa.context.RulesContext;
 import ar.com.fluxit.jqa.context.factory.exception.RulesContextFactoryException;
 
 /**
@@ -19,10 +18,7 @@ public class RulesContextImplTest extends TestCase {
 				.getRulesContextFactory();
 		URL resource = RulesContextImplTest.class
 				.getResource("/sample_rulescontext.xml");
-		RulesContext rulesContext = rulesContextFactory
-				.getRulesContext(new File(resource.getPath()));
-		assertNotNull(rulesContext);
-		assertNotNull(rulesContext.getGlobalPredicate("test"));
+		rulesContextFactory.getRulesContext(new File(resource.getPath()));
 	}
 
 }
