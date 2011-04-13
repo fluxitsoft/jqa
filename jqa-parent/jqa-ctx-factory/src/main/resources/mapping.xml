@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+      castor.org                        "http://castor.org/mapping.dtd">
+<mapping>
+	<description>Description of the mapping</description>
+	<class name="A">
+
+	</class>
+</mapping>
