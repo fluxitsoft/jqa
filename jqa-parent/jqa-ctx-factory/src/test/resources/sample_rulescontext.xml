@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jqa_ctx:RulesContext xmlns:jqa="http://www.fluxit.com.ar/schema/ruleset"
-	xmlns:jqa_ctx="http://www.fluxit.com.ar/schema/rulescontext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.fluxit.com.ar/schema/rulescontext ../../main/resources/rulescontext.xsd ../classes/rulescontext.xsd">
+<jqa_ctx:RulesContext xmlns:jqa="http://www.fluxit.com.ar/jqa/schema/ruleset"
+	xmlns:jqa_ctx="http://www.fluxit.com.ar/jqa/schema/rulescontext"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.fluxit.com.ar/jqa/schema/rulescontext ../../main/resources/rulescontext.xsd ../classes/rulescontext.xsd ">
 	<ruleSetImport fileName="aFile" />
 	<ruleSetImport name="aName" />
 	<globalPredicate name="test" xsi:type="jqa:TruePredicate" />

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<xsd:schema xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:jqa="http://www.fluxit.com.ar/schema/ruleset" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ecore:nsPrefix="jqa" ecore:package="jqa" targetNamespace="http://www.fluxit.com.ar/schema/ruleset">
+<xsd:schema xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:jqa="http://www.fluxit.com.ar/jqa/schema/ruleset" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ecore:nsPrefix="jqa" ecore:package="jqa" targetNamespace="http://www.fluxit.com.ar/jqa/schema/ruleset">
   <xsd:element ecore:ignore="true" name="Ruleset" type="jqa:Ruleset"/>
   <xsd:element ecore:ignore="true" name="Rule" type="jqa:Rule"/>
   <xsd:element ecore:ignore="true" name="Predicate" type="jqa:Predicate"/>

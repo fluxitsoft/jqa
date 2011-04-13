@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jqa:Ruleset name="Architecture Ruleset" xmlns:jqa="http://www.fluxit.com.ar/schema/ruleset"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.fluxit.com.ar/schema/ruleset ../../main/resources/ruleset.xsd ">
+	xsi:schemaLocation="http://www.fluxit.com.ar/jqa/schema/ruleset ../../main/resources/ruleset.xsd ">
 	
 	<rule name="Service Naming">
 		<filterPredicate xsi:type="jqa:AndPredicate">
