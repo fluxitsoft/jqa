@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN" "http://castor.org/mapping.dtd">
+<mapping>
+	<class name="ar.com.fluxit.jqa.predicate.Predicate" verify-constructable="false"/>
+	
+	<class name="ar.com.fluxit.jqa.predicate.logic.TruePredicate" verify-constructable="false">
+		<field name="name" type="java.lang.String">
+			<bind-xml name="name" node="element" />
+		</field>
+	</class>
+	<!-- <class name="ar.com.fluxit.jqa.predicate.lang.ThrowingPredicate"> <map-to 
+		xml="predicate" /> <field name="filterPredicate" type="ar.com.fluxit.jqa.predicate.Predicate"> 
+		<bind-xml name="filter-predicate" node="element" /> </field> <field name="name" 
+		type="java.lang.String"> <bind-xml name="name" node="element" /> </field> 
+		</class> <class name="ar.com.fluxit.jqa.predicate.lang.UsagePredicate"> <map-to 
+		xml="predicate" /> <field name="filterPredicate" type="ar.com.fluxit.jqa.predicate.Predicate"> 
+		<bind-xml name="filter-predicate" node="element" /> </field> <field name="name" 
+		type="java.lang.String"> <bind-xml name="name" node="element" /> </field> 
+		</class><class name="ar.com.fluxit.jqa.predicate.ContextProvidedPredicate"> 
+		<map-to xml="predicate" /> <field name="providedPredicateName" type="java.lang.String"> 
+		<bind-xml name="provided-predicate-name" node="element" /> </field> <field 
+		name="name" type="java.lang.String"> <bind-xml name="name" node="element" 
+		/> </field> </class> <class name="ar.com.fluxit.jqa.predicate.lang.TypingPredicate"> 
+		<map-to xml="predicate" /> <field name="parentClassName" type="java.lang.String"> 
+		<bind-xml name="parent-class-name" node="element" /> </field> <field name="name" 
+		type="java.lang.String"> <bind-xml name="name" node="element" /> </field> 
+		</class> <class name="ar.com.fluxit.jqa.predicate.logic.XorPredicate"> <map-to 
+		xml="predicate" /> <field name="predicates" type="ar.com.fluxit.jqa.predicate.Predicate" 
+		collection="array"> <bind-xml name="predicates" node="element" /> </field> 
+		<field name="name" type="java.lang.String"> <bind-xml name="name" node="element" 
+		/> </field> </class> <class name="ar.com.fluxit.jqa.predicate.AbstractPredicate"> 
+		<map-to xml="predicate" /> <field name="name" type="java.lang.String"> <bind-xml 
+		name="name" node="element" /> </field> </class> <class name="ar.com.fluxit.jqa.predicate.lang.NamingPredicate"> 
+		<map-to xml="predicate" /> <field name="classNamePattern" type="java.lang.String"> 
+		<bind-xml name="class-name-pattern" node="element" /> </field> <field name="name" 
+		type="java.lang.String"> <bind-xml name="name" node="element" /> </field> 
+		</class> <class name="ar.com.fluxit.jqa.predicate.logic.FalsePredicate" verify-constructable="false"> 
+		<map-to xml="predicate" /> <field name="name" type="java.lang.String"> <bind-xml 
+		name="name" node="element" /> </field> </class> <class name="ar.com.fluxit.jqa.predicate.logic.OrPredicate"> 
+		<map-to xml="predicate" /> <field name="predicates" type="ar.com.fluxit.jqa.predicate.Predicate" 
+		collection="array"> <bind-xml name="predicates" node="element" /> </field> 
+		<field name="name" type="java.lang.String"> <bind-xml name="name" node="element" 
+		/> </field> </class> <class name="ar.com.fluxit.jqa.predicate.Predicate"> 
+		<map-to xml="predicate" /> <field name="name" type="java.lang.String"> <bind-xml 
+		name="name" node="element" /> </field> </class> <class name="ar.com.fluxit.jqa.predicate.lang.AllocationPredicate"> 
+		<map-to xml="predicate" /> <field name="filterPredicate" type="ar.com.fluxit.jqa.predicate.Predicate"> 
+		<bind-xml name="filter-predicate" node="element" /> </field> <field name="name" 
+		type="java.lang.String"> <bind-xml name="name" node="element" /> </field> 
+		</class> <class name="ar.com.fluxit.jqa.predicate.logic.NotPredicate"> <map-to 
+		xml="predicate" /> <field name="predicate" type="ar.com.fluxit.jqa.predicate.Predicate"> 
+		<bind-xml name="predicate" node="element" /> </field> <field name="name" 
+		type="java.lang.String"> <bind-xml name="name" node="element" /> </field> 
+		</class> <class name="ar.com.fluxit.jqa.predicate.logic.AndPredicate"> <map-to 
+		xml="predicate" /> <field name="predicates" type="ar.com.fluxit.jqa.predicate.Predicate" 
+		collection="array"> <bind-xml name="predicates" node="element" /> </field> 
+		<field name="name" type="java.lang.String"> <bind-xml name="name" node="element" 
+		/> </field> </class> -->
+</mapping>

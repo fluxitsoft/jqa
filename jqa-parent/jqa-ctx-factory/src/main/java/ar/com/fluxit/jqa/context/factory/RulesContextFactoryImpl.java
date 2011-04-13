@@ -21,7 +21,8 @@ public class RulesContextFactoryImpl implements RulesContextFactory {
 				File sourceFile = (File) source;
 				// Load Mapping
 				Mapping mapping = new Mapping();
-				mapping.loadMapping("mapping.xml");
+				mapping.loadMapping(getClass().getResource("/rulescontext.map.xml"));
+				//mapping.loadMapping(getClass().getResource("/predicates_mapping.xml"));
 				// Initialize and configure XMLContext
 				XMLContext context = new XMLContext();
 				context.addMapping(mapping);
