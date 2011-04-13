@@ -3,7 +3,6 @@ package ar.com.fluxit.jqa.context;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import ar.com.fluxit.jqa.predicate.Predicate;
@@ -28,7 +27,11 @@ public class RulesContextImpl implements RulesContext {
 		this.ruleSets.addAll(ruleSets);
 	}
 
-	public void addGlobalPredicate(Predicate predicate) {
+	public void add(RuleSet ruleSet) {
+		this.ruleSets.add(ruleSet);
+	}
+
+	public void add(Predicate predicate) {
 		if (predicate.getName() == null) {
 			throw new IllegalArgumentException("Predicate must has a name");
 		}
@@ -43,16 +46,6 @@ public class RulesContextImpl implements RulesContext {
 	@Override
 	public Collection<RuleSet> getRuleSets() {
 		return ruleSets;
-	}
-
-	public void setlGobalPredicates(List<Predicate> globalPredicates) {
-		for (final Predicate predicate : globalPredicates) {
-			addGlobalPredicate(predicate);
-		}
-	}
-
-	public List<Predicate> getGlobalPredicates() {
-		return new ArrayList<Predicate>(globalPredicates.values());
 	}
 
 }

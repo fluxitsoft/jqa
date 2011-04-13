@@ -1,16 +1,23 @@
 package ar.com.fluxit.jqa.context.factory;
 
 import java.io.File;
-import java.io.FileReader;
 
-import org.exolab.castor.mapping.Mapping;
-import org.exolab.castor.xml.Unmarshaller;
-import org.exolab.castor.xml.XMLContext;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import ar.com.fluxit.jqa.context.RulesContext;
-import ar.com.fluxit.jqa.context.RulesContextImpl;
 import ar.com.fluxit.jqa.context.factory.exception.RulesContextFactoryException;
-
+import ar.com.fluxit.jqa.context.factory.parser.NodeParser;
+import ar.com.fluxit.jqa.context.factory.parser.NodeParserLocator;
+/**
+ * TODO javadoc
+ * 
+ * @author Juan Ignacio Barisich
+ */
 public class RulesContextFactoryImpl implements RulesContextFactory {
 
 	@Override
@@ -19,22 +26,13 @@ public class RulesContextFactoryImpl implements RulesContextFactory {
 		if (source instanceof File) {
 			try {
 				File sourceFile = (File) source;
-				// Load Mapping
-				Mapping mapping = new Mapping();
-				mapping.loadMapping(getClass().getResource("/rulescontext.map.xml"));
-				//mapping.loadMapping(getClass().getResource("/predicates_mapping.xml"));
-				// Initialize and configure XMLContext
-				XMLContext context = new XMLContext();
-				context.addMapping(mapping);
-				// Create a Reader to the file to unmarshal from
-				FileReader reader = new FileReader(sourceFile);
-				// Create a new Unmarshaller
-				Unmarshaller unmarshaller = context.createUnmarshaller();
-				unmarshaller.setClass(RulesContextImpl.class);
-				// Unmarshal the object
-				RulesContext result = (RulesContext) unmarshaller
-						.unmarshal(reader);
-				return result;
+				DocumentBuilderFactory factory = DocumentBuilderFactory
+						.newInstance();
+				factory.setValidating(true);
+
+				DocumentBuilder builder = factory.newDocumentBuilder();
+				Document document = builder.parse(sourceFile);
+				return parse(document);
 			} catch (Exception e) {
 				throw new RulesContextFactoryException(e);
 			}
@@ -43,36 +41,19 @@ public class RulesContextFactoryImpl implements RulesContextFactory {
 		}
 	}
 
-	// @Override
-	// public RulesContext getRulesContext(Object source)
-	// throws RulesContextFactoryException {
-	// if (source instanceof File) {
-	// RulesContext result = new RulesContextImpl();
-	// File sourceFile = (File) source;
-	// final XSDEcoreBuilder xsdEcoreBuilder = new XSDEcoreBuilder();
-	// final ResourceSet resourceSet = new ResourceSetImpl();
-	// final Collection<EObject> eCorePackages = xsdEcoreBuilder
-	// .generate(URI.createFileURI(getClass().getResource(
-	// "/rulescontext.xsd").getFile()));
-	// for (final EObject eObject : eCorePackages) {
-	// final EPackage element = (EPackage) eObject;
-	// resourceSet.getPackageRegistry().put(element.getNsURI(),
-	// element);
-	// }
-	// final HashMap<String, Object> options = new HashMap<String, Object>();
-	// options.put(XMLResource.OPTION_EXTENDED_META_DATA, Boolean.TRUE);
-	// URI createFileURI = URI
-	// .createFileURI(sourceFile.getPath());
-	// final Resource resource = resourceSet.createResource(createFileURI);
-	// try {
-	// resource.load(options);
-	// } catch (IOException e) {
-	// throw new RulesContextFactoryException(e);
-	// }
-	// return result;
-	// } else {
-	// throw new IllegalArgumentException("Source must be a File object");
-	// }
-	// }
+	private RulesContext parse(Document document) {
+		NodeList nodeList = document.getChildNodes();
+		if (nodeList.getLength() != 1) {
+			throw new IllegalArgumentException(
+					"XML rules context file must have only one root element");
+		} else {
+			return (RulesContext) parse(nodeList.item(0));
+		}
+	}
+
+	private Object parse(Node node) {
+		NodeParser nodeParser = NodeParserLocator.INSTANCE.getNodeParser(node);
+		return nodeParser.parse(node);
+	}
 
 }

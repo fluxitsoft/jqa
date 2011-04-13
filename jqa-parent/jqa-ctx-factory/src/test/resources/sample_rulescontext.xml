@@ -5,4 +5,7 @@
 	<ruleSetImport fileName="aFile" />
 	<ruleSetImport name="aName" />
 	<globalPredicate name="test" xsi:type="jqa:TruePredicate" />
+	<globalPredicate xsi:type="jqa:NotPredicate">
+		<predicate xsi:type="jqa:TruePredicate" />
+	</globalPredicate>
 </jqa_ctx:RulesContext>

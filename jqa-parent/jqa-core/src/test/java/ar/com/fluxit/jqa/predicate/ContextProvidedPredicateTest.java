@@ -15,7 +15,7 @@ public class ContextProvidedPredicateTest extends TestCase {
 
 	private RulesContext createContext(Predicate globalPredicate) {
 		final RulesContextImpl result = new RulesContextImpl();
-		result.addGlobalPredicate(globalPredicate);
+		result.add(globalPredicate);
 		return result;
 	}
 
