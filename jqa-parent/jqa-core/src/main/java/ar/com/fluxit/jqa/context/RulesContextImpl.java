@@ -23,19 +23,20 @@ public class RulesContextImpl implements RulesContext {
 		globalPredicates = new HashMap<String, Predicate>();
 	}
 
-	public void addAll(Collection<RuleSet> ruleSets) {
-		this.ruleSets.addAll(ruleSets);
+	public void add(Predicate predicate) {
+		if (predicate.getName() == null) {
+			throw new IllegalArgumentException(
+					"Global predicate must has a name");
+		}
+		globalPredicates.put(predicate.getName(), predicate);
 	}
 
 	public void add(RuleSet ruleSet) {
-		this.ruleSets.add(ruleSet);
+		ruleSets.add(ruleSet);
 	}
 
-	public void add(Predicate predicate) {
-		if (predicate.getName() == null) {
-			throw new IllegalArgumentException("Predicate must has a name");
-		}
-		globalPredicates.put(predicate.getName(), predicate);
+	public void addAll(Collection<RuleSet> ruleSets) {
+		this.ruleSets.addAll(ruleSets);
 	}
 
 	@Override

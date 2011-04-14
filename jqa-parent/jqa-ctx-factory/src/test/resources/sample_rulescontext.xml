@@ -5,8 +5,9 @@
 	xsi:schemaLocation="http://www.fluxit.com.ar/jqa/schema/rulescontext ../../main/resources/rulescontext.xsd ../classes/rulescontext.xsd ">
 	<ruleSetImport fileName="aFile" />
 	<ruleSetImport name="aName" />
-	<globalPredicate name="test" xsi:type="jqa:TruePredicate" />
-	<globalPredicate xsi:type="jqa:NotPredicate">
+	<globalPredicate xsi:type="jqa:TruePredicate" />
+	<globalPredicate xsi:type="jqa:FalsePredicate" />
+	<globalPredicate xsi:type="jqa:NotPredicate" name="NotPredicateTest">
 		<predicate xsi:type="jqa:TruePredicate" />
 	</globalPredicate>
 </jqa_ctx:RulesContext>
