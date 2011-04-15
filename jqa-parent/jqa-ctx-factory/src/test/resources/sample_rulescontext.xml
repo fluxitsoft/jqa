@@ -3,11 +3,41 @@
 	xmlns:jqa_ctx="http://www.fluxit.com.ar/jqa/schema/rulescontext"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.fluxit.com.ar/jqa/schema/rulescontext ../../main/resources/rulescontext.xsd ../classes/rulescontext.xsd ">
-	<ruleSetImport fileName="aFile" />
-	<ruleSetImport name="aName" />
-	<globalPredicate xsi:type="jqa:TruePredicate" />
+	<ruleSetImport fileName="sample_ruleset.xml" />
+	<ruleSetImport name="testRuleset" />
+	<globalPredicate name="AbstractionPredicateTest"
+		xsi:type="jqa:AbstractionPredicate" abstractionType="CONCRETE" />
+	<globalPredicate name="AllocationPredicateTest"
+		xsi:type="jqa:AllocationPredicate">
+		<filterPredicate xsi:type="jqa:TruePredicate" />
+	</globalPredicate>
+	<globalPredicate name="AndPredicateTest" xsi:type="jqa:AndPredicate">
+		<predicate xsi:type="jqa:TruePredicate" />
+		<predicate xsi:type="jqa:TruePredicate" />
+	</globalPredicate>
+	<globalPredicate name="ContextProvidedPredicateTest"
+		xsi:type="jqa:ContextProvidedPredicate" providedPredicateName="test" />
 	<globalPredicate xsi:type="jqa:FalsePredicate" />
-	<globalPredicate xsi:type="jqa:NotPredicate" name="NotPredicateTest">
+	<globalPredicate name="NamingPredicateTest" xsi:type="jqa:NamingPredicate"
+		classNamePattern="test" />
+	<globalPredicate name="NotPredicateTest" xsi:type="jqa:NotPredicate">
+		<predicate xsi:type="jqa:TruePredicate" />
+	</globalPredicate>
+	<globalPredicate name="OrPredicateTest" xsi:type="jqa:OrPredicate">
+		<predicate xsi:type="jqa:TruePredicate" />
+		<predicate xsi:type="jqa:TruePredicate" />
+	</globalPredicate>
+	<globalPredicate name="ThrowingPredicateTest" xsi:type="jqa:ThrowingPredicate">
+		<filterPredicate xsi:type="jqa:TruePredicate" />
+	</globalPredicate>
+	<globalPredicate xsi:type="jqa:TruePredicate" />
+	<globalPredicate name="TypingPredicateTest" xsi:type="jqa:TypingPredicate"
+		parentClassName="java.lang.Object" />
+	<globalPredicate name="UsagePredicateTest" xsi:type="jqa:UsagePredicate">
+		<filterPredicate xsi:type="jqa:TruePredicate" />
+	</globalPredicate>
+	<globalPredicate name="XORPredicateTest" xsi:type="jqa:XORPredicate">
+		<predicate xsi:type="jqa:TruePredicate" />
 		<predicate xsi:type="jqa:TruePredicate" />
 	</globalPredicate>
 </jqa_ctx:RulesContext>

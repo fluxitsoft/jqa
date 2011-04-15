@@ -6,9 +6,13 @@ import ar.com.fluxit.jqa.context.RulesContext;
 import ar.com.fluxit.jqa.context.RulesContextImpl;
 import ar.com.fluxit.jqa.context.factory.exception.RulesContextFactoryException;
 import ar.com.fluxit.jqa.predicate.Predicate;
+import ar.com.fluxit.jqa.predicate.lang.AbstractionPredicate.AbstractionType;
 import ar.com.fluxit.jqa.rule.RuleSet;
 import ar.com.fluxit.jqa.schema.rulescontext.RuleSetImport;
 import ar.com.fluxit.jqa.schema.rulescontext.RulesContextDocument;
+import ar.com.fluxit.jqa.schema.ruleset.AbstractionPredicate;
+import ar.com.fluxit.jqa.schema.ruleset.AllocationPredicate;
+import ar.com.fluxit.jqa.schema.ruleset.AndPredicate;
 import ar.com.fluxit.jqa.schema.ruleset.FalsePredicate;
 import ar.com.fluxit.jqa.schema.ruleset.NotPredicate;
 import ar.com.fluxit.jqa.schema.ruleset.TruePredicate;
@@ -37,6 +41,33 @@ public class RulesContextFactoryImpl implements RulesContextFactory {
 		}
 	}
 
+	Predicate parse(AbstractionPredicate predicate) {
+		ar.com.fluxit.jqa.predicate.lang.AbstractionPredicate result = new ar.com.fluxit.jqa.predicate.lang.AbstractionPredicate();
+		result.setName(predicate.getName());
+		result.setAbstractionType(parse(predicate.getAbstractionType()));
+		return result;
+	}
+
+	Predicate parse(AllocationPredicate predicate) {
+		ar.com.fluxit.jqa.predicate.lang.AllocationPredicate result = new ar.com.fluxit.jqa.predicate.lang.AllocationPredicate();
+		result.setName(predicate.getName());
+		result.setFilterPredicate((Predicate) parse(predicate
+				.getFilterPredicate()));
+		return result;
+	}
+
+	Predicate parse(AndPredicate predicate) {
+		ar.com.fluxit.jqa.predicate.logic.AndPredicate result = new ar.com.fluxit.jqa.predicate.logic.AndPredicate();
+		Predicate[] predicates = new Predicate[predicate.getPredicateList()
+				.size()];
+		for (int i = 0; i < predicates.length; i++) {
+			predicates[i] = (Predicate) parse(predicate.getPredicateArray(i));
+		}
+		result.setPredicates(predicates);
+		result.setName(predicate.getName());
+		return result;
+	}
+
 	private RulesContext parse(
 			ar.com.fluxit.jqa.schema.rulescontext.RulesContext rulesContext) {
 		final RulesContextImpl result = new RulesContextImpl();
@@ -48,6 +79,11 @@ public class RulesContextFactoryImpl implements RulesContextFactory {
 			result.add(parse(ruleSetImport));
 		}
 		return result;
+	}
+
+	AbstractionType parse(
+			ar.com.fluxit.jqa.schema.ruleset.AbstractionType.Enum type) {
+		return AbstractionType.valueOf(type.toString());
 	}
 
 	Predicate parse(FalsePredicate predicate) {
