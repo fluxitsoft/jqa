@@ -28,7 +28,7 @@ import ar.com.fluxit.jqa.predicate.logic.XorPredicate;
  */
 public class RulesContextImplTest extends TestCase {
 
-	public static void testA() throws RulesContextFactoryException {
+	public static void testGetRulesContext() throws RulesContextFactoryException {
 		RulesContextFactory rulesContextFactory = RulesContextFactoryLocator
 				.getRulesContextFactory();
 		URL resource = RulesContextImplTest.class
