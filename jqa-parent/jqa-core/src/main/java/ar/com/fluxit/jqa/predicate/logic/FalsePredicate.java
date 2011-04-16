@@ -33,16 +33,12 @@ public class FalsePredicate extends IgnoringContextPredicate {
 
 	private FalsePredicate() {
 		super();
+		setName("AlwaysFalsePredicate");
 	}
 
 	@Override
 	public boolean evaluate(JavaClass clazz) {
 		return false;
-	}
-
-	@Override
-	public String getName() {
-		return "AlwaysFalsePredicate";
 	}
 
 }

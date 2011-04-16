@@ -20,6 +20,8 @@ import ar.com.fluxit.jqa.predicate.logic.NotPredicate;
 import ar.com.fluxit.jqa.predicate.logic.OrPredicate;
 import ar.com.fluxit.jqa.predicate.logic.TruePredicate;
 import ar.com.fluxit.jqa.predicate.logic.XorPredicate;
+import ar.com.fluxit.jqa.rule.Rule;
+import ar.com.fluxit.jqa.rule.RuleSet;
 
 /**
  * TODO javadoc
@@ -28,13 +30,44 @@ import ar.com.fluxit.jqa.predicate.logic.XorPredicate;
  */
 public class RulesContextImplTest extends TestCase {
 
-	public static void testGetRulesContext() throws RulesContextFactoryException {
+	private RulesContext rulesContext;
+
+	private void assertRuleSet(RuleSet ruleSet) {
+		assertNotNull(ruleSet);
+		assertNotNull(ruleSet.getRules());
+		assertEquals(1, ruleSet.getRules().size());
+		Rule rule = ruleSet.getRules().iterator().next();
+		assertEquals("RuleTest", rule.getName());
+		assertTrue(rule.getFilterPredicate() instanceof TruePredicate);
+		assertTrue(rule.getCheckPredicate() instanceof TruePredicate);
+	}
+
+	private RuleSet getRuleSet(RulesContext rulesContext, String ruleSetName) {
+		for (RuleSet ruleSet : rulesContext.getRuleSets()) {
+			if (ruleSetName.equals(ruleSet.getName())) {
+				return ruleSet;
+			}
+		}
+		return null;
+	}
+
+	@Override
+	protected void setUp() throws Exception {
 		RulesContextFactory rulesContextFactory = RulesContextFactoryLocator
 				.getRulesContextFactory();
 		URL resource = RulesContextImplTest.class
 				.getResource("/sample_rulescontext.xml");
-		RulesContext rulesContext = rulesContextFactory
-				.getRulesContext(new File(resource.getPath()));
+		rulesContext = rulesContextFactory.getRulesContext(new File(resource
+				.getPath()));
+	}
+
+	@Override
+	protected void tearDown() throws Exception {
+		rulesContext = null;
+	}
+
+	public void testGetRulesContextGlobalPredicates()
+			throws RulesContextFactoryException {
 		assertNotNull(rulesContext);
 		// AbstractionPredicate
 		assertTrue(rulesContext.getGlobalPredicate("AbstractionPredicateTest") instanceof AbstractionPredicate);
@@ -103,5 +136,18 @@ public class RulesContextImplTest extends TestCase {
 				.getGlobalPredicate("XORPredicateTest")).getPredicates()[0] instanceof TruePredicate);
 		assertTrue(((XorPredicate) rulesContext
 				.getGlobalPredicate("XORPredicateTest")).getPredicates()[1] instanceof TruePredicate);
+	}
+
+	public void testGetRulesContextRuleSetImports()
+			throws RulesContextFactoryException {
+		assertNotNull(rulesContext);
+		assertNotNull(rulesContext.getRuleSets());
+		assertEquals(2, rulesContext.getRuleSets().size());
+		// Ruleset import by file
+		RuleSet ruleSet = getRuleSet(rulesContext, "RulesetTestByFileName");
+		assertRuleSet(ruleSet);
+		// Ruleset import by name
+		RuleSet ruleSet2 = getRuleSet(rulesContext, "RulesetTestByName");
+		assertRuleSet(ruleSet2);
 	}
 }

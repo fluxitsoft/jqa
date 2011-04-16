@@ -2,9 +2,9 @@
 <jqa_ctx:RulesContext xmlns:jqa="http://www.fluxit.com.ar/jqa/schema/ruleset"
 	xmlns:jqa_ctx="http://www.fluxit.com.ar/jqa/schema/rulescontext"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.fluxit.com.ar/jqa/schema/rulescontext ../../main/resources/rulescontext.xsd ../classes/rulescontext.xsd ">
+	xsi:schemaLocation="http://www.fluxit.com.ar/jqa/schema/rulescontext ../../main/resources/schema/rulescontext.xsd ../classes/schema/rulescontext.xsd ">
 	<ruleSetImport fileName="sample_ruleset.xml" />
-	<ruleSetImport name="testRuleset" />
+	<ruleSetImport name="test" />
 	<globalPredicate name="AbstractionPredicateTest"
 		xsi:type="jqa:AbstractionPredicate" abstractionType="CONCRETE" />
 	<globalPredicate name="AllocationPredicateTest"
