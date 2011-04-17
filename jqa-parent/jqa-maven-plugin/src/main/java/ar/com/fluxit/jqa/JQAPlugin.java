@@ -20,7 +20,6 @@ package ar.com.fluxit.jqa;
 
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.Writer;
 import java.util.Collection;
@@ -35,6 +34,8 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.project.MavenProject;
 import org.slf4j.Logger;
 
+import ar.com.fluxit.jqa.context.RulesContext;
+import ar.com.fluxit.jqa.context.factory.RulesContextFactoryLocator;
 import ar.com.fluxit.jqa.log.MavenLogLoggerAdapter;
 import ar.com.fluxit.jqa.result.CheckingResult;
 import ar.com.fluxit.jqa.util.ClassPathLoader;
@@ -52,34 +53,6 @@ import com.thoughtworks.xstream.XStream;
 public class JQAPlugin extends AbstractMojo {
 
 	private static final String CLASS_SUFFIX = "class";
-
-	// FIXME volar este metodo
-	// public static void main(String[] args) throws IOException {
-	// final Configuration configuration = new Configuration();
-	//
-	// final Check ruleset1 = new Check();
-	// ruleset1.setFilterPredicate(new NamingPredicate("**.entities.**"));
-	// ruleset1.setCheckPredicate(new TypingPredicate(
-	// "ar.com.osde.framework.entities.FrameworkEntity"));
-	//
-	// final Check ruleset2 = new Check();
-	// ruleset2.setFilterPredicate(new NamingPredicate("**.bo.**"));
-	// ruleset2.setCheckPredicate(new TypingPredicate(
-	// "ar.com.osde.framework.business.base.BusinessObject"));
-	//
-	// final XStream xs = new XStream();
-	// configuration.addCheck(ruleset1);
-	// configuration.addCheck(ruleset2);
-	// final Writer w = new FileWriter(
-	// "/home/jbarisich/qa-java-apps-ruleset.xml");
-	// final Writer out = new BufferedWriter(w);
-	// xs.toXML(configuration, out);
-	// out.close();
-	// w.close();
-	//
-	// System.out.println(xs.fromXML(new FileInputStream(
-	// "/home/jbarisich/qa-java-apps-ruleset.xml")));
-	// }
 
 	/**
 	 * @parameter expression="${project}"
@@ -101,10 +74,10 @@ public class JQAPlugin extends AbstractMojo {
 	private File resultsFile;
 
 	/**
-	 * @parameter expression="${rulesFile}"
+	 * @parameter expression="${rulesContextFile}"
 	 * @required
 	 */
-	private String rulesFile;
+	private String rulesContextFile;
 
 	private Logger logger;
 
@@ -128,22 +101,18 @@ public class JQAPlugin extends AbstractMojo {
 				ClassPathLoader.INSTANCE.addClassFile(file, getLogger());
 			}
 			// Reads the config file
-			final XStream xs = new XStream();
-			xs.setMode(XStream.NO_REFERENCES);
-			getLog().debug("Reading configuration from " + getRulesFile());
-
-			final FileInputStream fis = new FileInputStream(getRulesFile());
-			// final Configuration configuration = (Configuration)
-			// xs.fromXML(fis);
-			fis.close();
-			// Check the rules
-			final CheckingResult result = RuleSetChecker.INSTANCE.check(
-					classFiles, null, getLogger());
+			RulesContext rulesContext = RulesContextFactoryLocator
+					.getRulesContextFactory().getRulesContext(
+							getRulesContextFile());
+			CheckingResult checkingResult = RuleSetChecker.INSTANCE.check(
+					classFiles, rulesContext, getLogger());
 			// Writes the results
 			getLog().debug("Writing the results on " + getResultsFile());
 			final Writer w = new FileWriter(getResultsFile());
 			final Writer out = new BufferedWriter(w);
-			xs.toXML(result, out);
+			final XStream xs = new XStream();
+			xs.setMode(XStream.NO_REFERENCES);
+			xs.toXML(checkingResult, out);
 			out.close();
 		} catch (final Exception e) {
 			throw new IllegalStateException(e);
@@ -161,15 +130,15 @@ public class JQAPlugin extends AbstractMojo {
 		return resultsFile;
 	}
 
-	public String getRulesFile() {
-		return rulesFile;
+	public String getRulesContextFile() {
+		return rulesContextFile;
 	}
 
 	public void setResultsFile(File resultFile) {
 		resultsFile = resultFile;
 	}
 
-	public void setRulesFile(String rulesFile) {
-		this.rulesFile = rulesFile;
+	public void setRulesContextFile(String rulesFile) {
+		rulesContextFile = rulesFile;
 	}
 }
