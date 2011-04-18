@@ -25,6 +25,9 @@ import junit.framework.TestCase;
 import ar.com.fluxit.jqa.bce.JavaClass;
 import ar.com.fluxit.jqa.bce.Repository;
 import ar.com.fluxit.jqa.bce.RepositoryLocator;
+import ar.com.fluxit.jqa.mock.ExceptionA;
+import ar.com.fluxit.jqa.mock.typing.ClassThatExtendsClassThatImplementsInterfaceA;
+import ar.com.fluxit.jqa.mock.typing.ClassThatImplementsInterfaceA;
 
 /**
  * TODO javadoc
@@ -42,17 +45,26 @@ public class TypingPredicateTest extends TestCase {
 	public final void testCheck() throws ClassNotFoundException {
 		final Repository repository = RepositoryLocator.getRepository();
 		// Test class type
-		testMatches(createTypingPredicate("java.lang.Number"), new JavaClass[] {
-				repository.lookupClass(Integer.class),
-				repository.lookupClass(Long.class) }, new JavaClass[] {
-				repository.lookupClass(String.class),
-				repository.lookupClass(Exception.class) });
+		testMatches(createTypingPredicate("java.lang.Number"),
+				new JavaClass[] { repository.lookupClass(Integer.class),
+						repository.lookupClass(Long.class) },
+				new JavaClass[] { repository.lookupClass(String.class),
+						repository.lookupClass(Exception.class) });
 		// Test interface type
-		testMatches(createTypingPredicate("java.util.List"), new JavaClass[] {
-				repository.lookupClass(ArrayList.class),
-				repository.lookupClass(Vector.class) }, new JavaClass[] {
-				repository.lookupClass(String.class),
-				repository.lookupClass(Integer.class) });
+		testMatches(createTypingPredicate("java.util.List"),
+				new JavaClass[] { repository.lookupClass(ArrayList.class),
+						repository.lookupClass(Vector.class) },
+				new JavaClass[] { repository.lookupClass(String.class),
+						repository.lookupClass(Integer.class) });
+		// Test inherited interfaces
+		testMatches(
+				createTypingPredicate("ar.com.fluxit.jqa.mock.InterfaceA"),
+				new JavaClass[] {
+						repository
+								.lookupClass(ClassThatImplementsInterfaceA.class),
+						repository
+								.lookupClass(ClassThatExtendsClassThatImplementsInterfaceA.class) },
+				new JavaClass[] { repository.lookupClass(ExceptionA.class) });
 	}
 
 	private void testMatches(TypingPredicate predicate, JavaClass[] positive,
