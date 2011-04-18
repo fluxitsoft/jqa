@@ -126,9 +126,15 @@ public class JQAPlugin extends AbstractMojo {
 	}
 
 	private void checkParams() {
+		if (getRulesContextFile() == null)
+			throw new IllegalArgumentException(
+					"Rules context file can not be null");
 		if (!getRulesContextFile().exists())
 			throw new IllegalArgumentException(
 					"Rules context file does not exist" + getRulesContextFile());
+		if (getResultsDirectory() == null)
+			throw new IllegalArgumentException(
+					"Results directory can not be null");
 		if (!getResultsDirectory().exists())
 			throw new IllegalArgumentException(
 					"Results directory does not exist: "
