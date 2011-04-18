@@ -30,8 +30,9 @@ import ar.com.fluxit.jqa.predicate.IgnoringContextPredicate;
 public class TypingPredicate extends IgnoringContextPredicate {
 
 	private String parentClassName;
-	private transient JavaClass parentJavaClass;
-
+	// transient for XML serialization
+	private transient JavaClass parentJavaClass; 
+	
 	@Override
 	public boolean evaluate(JavaClass clazz) {
 		return evaluateClass(clazz);

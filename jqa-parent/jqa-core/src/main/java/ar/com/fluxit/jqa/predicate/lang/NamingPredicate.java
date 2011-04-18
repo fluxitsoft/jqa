@@ -31,6 +31,7 @@ import ar.com.fluxit.jqa.util.RegEx;
 public class NamingPredicate extends IgnoringContextPredicate {
 
 	private String classNamePattern;
+	// transient for XML serialization
 	private transient RegEx regEx;
 
 	@Override
