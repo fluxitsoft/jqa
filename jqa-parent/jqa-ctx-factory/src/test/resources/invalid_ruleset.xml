@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jqa:Ruleset name="RulesetTestByFileName" xmlns:jqa="http://www.fluxit.com.ar/jqa/schema/ruleset"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.fluxit.com.ar/jqa/schema/ruleset ../../main/resources/schema/ruleset.xsd ../classes/schema/ruleset.xsd ">
+
+	<invalidTag/>
+
+</jqa:Ruleset>

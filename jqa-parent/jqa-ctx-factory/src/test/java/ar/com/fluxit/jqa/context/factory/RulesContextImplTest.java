@@ -66,6 +66,34 @@ public class RulesContextImplTest extends TestCase {
 		rulesContext = null;
 	}
 
+	public void testInvalidRulesContextFile()
+			throws RulesContextFactoryException {
+		RulesContextFactory rulesContextFactory = RulesContextFactoryLocator
+				.getRulesContextFactory();
+		URL resource = RulesContextImplTest.class
+				.getResource("/invalid_rulescontext.xml");
+		try {
+			rulesContextFactory.getRulesContext(new File(resource.getPath()));
+			fail("Must throw an RulesContextFactoryException");
+		} catch (RulesContextFactoryException e) {
+			// OK
+		}
+	}
+
+	public void testInvalidRulesetFile()
+			throws RulesContextFactoryException {
+		RulesContextFactory rulesContextFactory = RulesContextFactoryLocator
+				.getRulesContextFactory();
+		URL resource = RulesContextImplTest.class
+				.getResource("/invalid_ruleset_rulescontext.xml");
+		try {
+			rulesContextFactory.getRulesContext(new File(resource.getPath()));
+			fail("Must throw an RulesContextFactoryException");
+		} catch (RulesContextFactoryException e) {
+			// OK
+		}
+	}
+
 	public void testGetRulesContextGlobalPredicates()
 			throws RulesContextFactoryException {
 		assertNotNull(rulesContext);
@@ -81,8 +109,10 @@ public class RulesContextImplTest extends TestCase {
 				.getFilterPredicate() instanceof TruePredicate);
 		// AndPredicate
 		assertTrue(rulesContext.getGlobalPredicate("AndPredicateTest") instanceof AndPredicate);
-		assertEquals(2, ((AndPredicate) rulesContext
-				.getGlobalPredicate("AndPredicateTest")).getPredicates().length);
+		assertEquals(2,
+				((AndPredicate) rulesContext
+						.getGlobalPredicate("AndPredicateTest"))
+						.getPredicates().length);
 		assertTrue(((AndPredicate) rulesContext
 				.getGlobalPredicate("AndPredicateTest")).getPredicates()[0] instanceof TruePredicate);
 		assertTrue(((AndPredicate) rulesContext
@@ -90,24 +120,28 @@ public class RulesContextImplTest extends TestCase {
 		// ContextProvidedPredicate
 		assertTrue(rulesContext
 				.getGlobalPredicate("ContextProvidedPredicateTest") instanceof ContextProvidedPredicate);
-		assertEquals("test", ((ContextProvidedPredicate) rulesContext
-				.getGlobalPredicate("ContextProvidedPredicateTest"))
-				.getProvidedPredicateName());
+		assertEquals("test",
+				((ContextProvidedPredicate) rulesContext
+						.getGlobalPredicate("ContextProvidedPredicateTest"))
+						.getProvidedPredicateName());
 		// FalsePredicate
 		assertTrue(rulesContext.getGlobalPredicate("AlwaysFalsePredicate") instanceof FalsePredicate);
 		// NamingPredicate
 		assertTrue(rulesContext.getGlobalPredicate("NamingPredicateTest") instanceof NamingPredicate);
-		assertEquals("test", ((NamingPredicate) rulesContext
-				.getGlobalPredicate("NamingPredicateTest"))
-				.getClassNamePattern());
+		assertEquals("test",
+				((NamingPredicate) rulesContext
+						.getGlobalPredicate("NamingPredicateTest"))
+						.getClassNamePattern());
 		// NotPredicate
 		assertTrue(rulesContext.getGlobalPredicate("NotPredicateTest") instanceof NotPredicate);
 		assertTrue(((NotPredicate) rulesContext
 				.getGlobalPredicate("NotPredicateTest")).getPredicate() instanceof TruePredicate);
 		// OrPredicate
 		assertTrue(rulesContext.getGlobalPredicate("OrPredicateTest") instanceof OrPredicate);
-		assertEquals(2, ((OrPredicate) rulesContext
-				.getGlobalPredicate("OrPredicateTest")).getPredicates().length);
+		assertEquals(
+				2,
+				((OrPredicate) rulesContext
+						.getGlobalPredicate("OrPredicateTest")).getPredicates().length);
 		assertTrue(((OrPredicate) rulesContext
 				.getGlobalPredicate("OrPredicateTest")).getPredicates()[0] instanceof TruePredicate);
 		assertTrue(((OrPredicate) rulesContext
@@ -121,17 +155,20 @@ public class RulesContextImplTest extends TestCase {
 		assertTrue(rulesContext.getGlobalPredicate("AlwaysTruePredicate") instanceof TruePredicate);
 		// TypingPredicate
 		assertTrue(rulesContext.getGlobalPredicate("TypingPredicateTest") instanceof TypingPredicate);
-		assertEquals("java.lang.Object", ((TypingPredicate) rulesContext
-				.getGlobalPredicate("TypingPredicateTest"))
-				.getParentClassName());
+		assertEquals("java.lang.Object",
+				((TypingPredicate) rulesContext
+						.getGlobalPredicate("TypingPredicateTest"))
+						.getParentClassName());
 		// UsagePredicate
 		assertTrue(rulesContext.getGlobalPredicate("UsagePredicateTest") instanceof UsagePredicate);
 		assertTrue(((UsagePredicate) rulesContext
 				.getGlobalPredicate("UsagePredicateTest")).getFilterPredicate() instanceof TruePredicate);
 		// XORPredicate
 		assertTrue(rulesContext.getGlobalPredicate("XORPredicateTest") instanceof XorPredicate);
-		assertEquals(2, ((XorPredicate) rulesContext
-				.getGlobalPredicate("XORPredicateTest")).getPredicates().length);
+		assertEquals(2,
+				((XorPredicate) rulesContext
+						.getGlobalPredicate("XORPredicateTest"))
+						.getPredicates().length);
 		assertTrue(((XorPredicate) rulesContext
 				.getGlobalPredicate("XORPredicateTest")).getPredicates()[0] instanceof TruePredicate);
 		assertTrue(((XorPredicate) rulesContext

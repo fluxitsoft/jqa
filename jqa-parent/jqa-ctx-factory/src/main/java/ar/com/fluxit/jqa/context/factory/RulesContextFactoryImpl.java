@@ -4,6 +4,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.xmlbeans.XmlObject;
+import org.apache.xmlbeans.XmlOptions;
+
 import ar.com.fluxit.jqa.context.RulesContext;
 import ar.com.fluxit.jqa.context.RulesContextImpl;
 import ar.com.fluxit.jqa.context.factory.exception.RulesContextFactoryException;
@@ -57,6 +60,7 @@ public class RulesContextFactoryImpl implements RulesContextFactory {
 				File sourceFile = (File) source;
 				RulesContextDocument document = RulesContextDocument.Factory
 						.parse(sourceFile);
+				validate(document, sourceFile.toString());
 				return parse(document.getRulesContext(), sourceFile.getParent());
 			} catch (RulesContextFactoryException e) {
 				throw e;
@@ -64,7 +68,22 @@ public class RulesContextFactoryImpl implements RulesContextFactory {
 				throw new RulesContextFactoryException(e);
 			}
 		} else {
-			throw new IllegalArgumentException("Source must be a File object");
+			throw new IllegalArgumentException("Source (" + source
+					+ ") must be a File object");
+		}
+	}
+	
+	private void validate(XmlObject document, String sourceFile) {
+		List<Object> validationErrors = new ArrayList<Object>();
+		XmlOptions voptions = new XmlOptions();
+		voptions.setErrorListener(validationErrors);
+		if(!document.validate(voptions)) {
+			StringBuilder errors = new StringBuilder();
+			for (Object error : validationErrors) {
+				errors.append(error);
+				errors.append("\n");
+			}
+			throw new IllegalArgumentException("Invalid rules context file :" + sourceFile + "\n" + errors);
 		}
 	}
 
@@ -73,6 +92,7 @@ public class RulesContextFactoryImpl implements RulesContextFactory {
 		try {
 			RulesetDocument document = RulesetDocument.Factory
 					.parse(sourceFile);
+			validate(document, sourceFile.toString());
 			return parse(document.getRuleset());
 		} catch (Exception e) {
 			throw new RulesContextFactoryException(e);
