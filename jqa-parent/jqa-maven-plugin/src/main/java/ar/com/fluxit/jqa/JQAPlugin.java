@@ -68,22 +68,23 @@ public class JQAPlugin extends AbstractMojo {
 	private File outputDirectory;
 
 	/**
-	 * @parameter expression="${resultsFile}"
+	 * @parameter expression="${resultsDirectory}"
 	 * @required
 	 */
-	private File resultsFile;
+	private File resultsDirectory;
 
 	/**
 	 * @parameter expression="${rulesContextFile}"
 	 * @required
 	 */
-	private String rulesContextFile;
+	private File rulesContextFile;
 
 	private Logger logger;
 
 	@Override
 	public void execute() throws MojoExecutionException {
 		try {
+			checkParams();
 			// Add project dependencies to classpath
 			getLog().debug("Adding project dependencies to classpath");
 			@SuppressWarnings("unchecked")
@@ -100,15 +101,20 @@ public class JQAPlugin extends AbstractMojo {
 			for (final File file : classFiles) {
 				ClassPathLoader.INSTANCE.addClassFile(file, getLogger());
 			}
+			getLog().debug("End of adding project classes to classpath");
 			// Reads the config file
+			getLog().debug("Reading rules context");
 			RulesContext rulesContext = RulesContextFactoryLocator
 					.getRulesContextFactory().getRulesContext(
 							getRulesContextFile());
+			getLog().debug("Checking rules for " + classFiles.size() + " files");
 			CheckingResult checkingResult = RuleSetChecker.INSTANCE.check(
 					classFiles, rulesContext, getLogger());
 			// Writes the results
-			getLog().debug("Writing the results on " + getResultsFile());
-			final Writer w = new FileWriter(getResultsFile());
+			final File resultsFile = new File(getResultsDirectory(), "results-"
+					+ project.getArtifactId() + ".xml");
+			getLog().debug("Writing the results on " + resultsFile);
+			final Writer w = new FileWriter(resultsFile);
 			final Writer out = new BufferedWriter(w);
 			final XStream xs = new XStream();
 			xs.setMode(XStream.NO_REFERENCES);
@@ -119,6 +125,19 @@ public class JQAPlugin extends AbstractMojo {
 		}
 	}
 
+	private void checkParams() {
+		if (!getRulesContextFile().exists())
+			throw new IllegalArgumentException(
+					"Rules context file does not exist" + getRulesContextFile());
+		if (!getResultsDirectory().exists())
+			throw new IllegalArgumentException(
+					"Results directory does not exist: "
+							+ getResultsDirectory());
+		if (!getResultsDirectory().isDirectory())
+			throw new IllegalArgumentException("Invalid results directory: "
+					+ getResultsDirectory());
+	}
+
 	private Logger getLogger() {
 		if (logger == null) {
 			logger = new MavenLogLoggerAdapter(getLog());
@@ -126,19 +145,19 @@ public class JQAPlugin extends AbstractMojo {
 		return logger;
 	}
 
-	public File getResultsFile() {
-		return resultsFile;
+	public File getResultsDirectory() {
+		return resultsDirectory;
 	}
 
-	public String getRulesContextFile() {
+	public File getRulesContextFile() {
 		return rulesContextFile;
 	}
 
-	public void setResultsFile(File resultFile) {
-		resultsFile = resultFile;
+	public void setResultsDirectory(File resultFile) {
+		resultsDirectory = resultFile;
 	}
 
-	public void setRulesContextFile(String rulesFile) {
+	public void setRulesContextFile(File rulesFile) {
 		rulesContextFile = rulesFile;
 	}
 }
