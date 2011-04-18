@@ -173,12 +173,71 @@ public class RepositoryImpl implements Repository {
 	@Override
 	public boolean instanceOf(JavaClass clazz, JavaClass parentJavaClass)
 			throws ClassNotFoundException {
-		return org.apache.bcel.Repository.instanceOf(getWrappedClass(clazz),
-				getWrappedClass(parentJavaClass));
+		// org.apache.bcel.Repository.instanceOf(String, String) - does not work
+		// Fails on org.apache.bcel.util.ClassLoaderRepository.loadClass(String)
+		if (clazz.equals(parentJavaClass)) {
+			return true;
+		} else {
+			org.apache.bcel.classfile.JavaClass _clazz = getWrappedClass(clazz);
+			org.apache.bcel.classfile.JavaClass _parentJavaClass = getWrappedClass(parentJavaClass);
+			if (_parentJavaClass.isInterface()) {
+				return isSuperInterface(_clazz, parentJavaClass);
+			} else {
+				return isSuperClass(_clazz, _parentJavaClass);
+			}
+		}
+	}
+
+	private boolean isSuperClass(org.apache.bcel.classfile.JavaClass clazz,
+			org.apache.bcel.classfile.JavaClass parentJavaClass)
+			throws ClassNotFoundException {
+		return getSuperClasses(clazz).contains(parentJavaClass);
+	}
+
+	private boolean isSuperInterface(org.apache.bcel.classfile.JavaClass clazz,
+			JavaClass parentJavaClass) throws ClassNotFoundException {
+		List<String> superInterfaces = new ArrayList<String>();
+		// Implemented interfaces
+		for (String interfaceName : clazz.getInterfaceNames()) {
+			superInterfaces.add(interfaceName);
+		}
+		// Inherited interface implementations
+		for (org.apache.bcel.classfile.JavaClass superClass : getSuperClasses(clazz)) {
+			for (String interfaceName : superClass.getInterfaceNames()) {
+				superInterfaces.add(interfaceName);
+			}
+		}
+		for (String interfaceName : superInterfaces) {
+			if (lookupClass(interfaceName).equals(parentJavaClass)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private Collection<org.apache.bcel.classfile.JavaClass> getSuperClasses(
+			org.apache.bcel.classfile.JavaClass clazz)
+			throws ClassNotFoundException {
+		final List<org.apache.bcel.classfile.JavaClass> result = new ArrayList<org.apache.bcel.classfile.JavaClass>();
+		getSuperClasses(clazz.getClassName(), result);
+		return result;
+	}
+
+	private void getSuperClasses(String className,
+			List<org.apache.bcel.classfile.JavaClass> result)
+			throws ClassNotFoundException {
+		final JavaClass lookupClass = lookupClass(className);
+		result.add(((BcelJavaClass) lookupClass).getWrapped());
+		if (!((BcelJavaClass) lookupClass).getWrapped().getSuperclassName()
+				.equals(Object.class.getName())) {
+			getSuperClasses(((BcelJavaClass) lookupClass).getWrapped()
+					.getSuperclassName(), result);
+		}
 	}
 
 	@Override
 	public JavaClass lookupClass(Class<?> clazz) throws ClassNotFoundException {
+		// TODO cache
 		final org.apache.bcel.classfile.JavaClass lookupClass = org.apache.bcel.Repository
 				.lookupClass(clazz);
 		if (lookupClass == null) {
@@ -192,7 +251,13 @@ public class RepositoryImpl implements Repository {
 	@Override
 	public JavaClass lookupClass(String parentClassName)
 			throws ClassNotFoundException {
-		return lookupClass(Class.forName(parentClassName));
+		// TODO cache
+		try {
+			return lookupClass(Class.forName(parentClassName));
+		} catch (ClassNotFoundException e) {
+			return new BcelJavaClass(
+					org.apache.bcel.Repository.lookupClass(parentClassName));
+		}
 	}
 
 	@Override

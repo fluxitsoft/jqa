@@ -17,7 +17,11 @@ public class BcelJavaClass implements JavaClass {
 
 	@Override
 	public boolean equals(Object obj) {
-		return wrapped.equals(obj);
+		if (this == obj)
+			return true;
+		if (!(obj instanceof BcelJavaClass))
+			return false;
+		return ((BcelJavaClass) obj).getClassName().equals(this.getClassName());
 	}
 
 	@Override
@@ -31,7 +35,7 @@ public class BcelJavaClass implements JavaClass {
 
 	@Override
 	public int hashCode() {
-		return wrapped.hashCode();
+		return wrapped.getClassName().hashCode();
 	}
 
 	@Override
