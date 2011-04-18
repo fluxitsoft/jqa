@@ -69,7 +69,7 @@ public class ClassPathLoader {
 					"addURL", new Class[] { URL.class });
 			method.setAccessible(true);
 			method.invoke(systemClassLoader, new Object[] { url });
-			log.debug("Se agrego al classpath " + url);
+			log.debug("File added to classpath " + url);
 		} catch (final Throwable t) {
 			throw new IntrospectionException(
 					"Error when adding url to system ClassLoader");

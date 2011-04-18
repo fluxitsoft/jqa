@@ -54,6 +54,7 @@ public class RuleSetChecker {
 		// Iterate class files
 		for (final File classFile : classFiles) {
 			try {
+				log.debug("Checking file: " + classFile);
 				final FileInputStream fis = new FileInputStream(classFile);
 				final JavaClass clazz = RepositoryLocator.getRepository()
 						.parse(fis, null);
