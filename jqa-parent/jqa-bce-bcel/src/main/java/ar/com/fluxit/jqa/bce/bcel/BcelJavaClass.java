@@ -12,6 +12,9 @@ public class BcelJavaClass implements JavaClass {
 	private final org.apache.bcel.classfile.JavaClass wrapped;
 
 	public BcelJavaClass(org.apache.bcel.classfile.JavaClass parse) {
+		if(parse == null) {
+			throw new IllegalArgumentException("Wrapped class can not be null");
+		}
 		wrapped = parse;
 	}
 
