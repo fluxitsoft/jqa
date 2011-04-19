@@ -20,10 +20,14 @@ package ar.com.fluxit.jqa;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.Writer;
 import java.util.Collection;
 import java.util.Set;
+
+import javax.management.IntrospectionException;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.SuffixFileFilter;
@@ -34,8 +38,10 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.project.MavenProject;
 import org.slf4j.Logger;
 
+import ar.com.fluxit.jqa.bce.ClassFormatException;
 import ar.com.fluxit.jqa.context.RulesContext;
 import ar.com.fluxit.jqa.context.factory.RulesContextFactoryLocator;
+import ar.com.fluxit.jqa.context.factory.exception.RulesContextFactoryException;
 import ar.com.fluxit.jqa.log.MavenLogLoggerAdapter;
 import ar.com.fluxit.jqa.result.CheckingResult;
 import ar.com.fluxit.jqa.util.ClassPathLoader;
@@ -47,12 +53,17 @@ import com.thoughtworks.xstream.XStream;
  * 
  * @goal check
  * @requiresDependencyResolution test
- * @phase generate-sources
+ * @phase test
  * @author Juan Ignacio Barisich
  */
 public class JQAPlugin extends AbstractMojo {
 
 	private static final String CLASS_SUFFIX = "class";
+
+	/**
+	 * @parameter expression="${project.packaging}"
+	 */
+	protected String packaging;
 
 	/**
 	 * @parameter expression="${project}"
@@ -84,44 +95,54 @@ public class JQAPlugin extends AbstractMojo {
 	@Override
 	public void execute() throws MojoExecutionException {
 		try {
-			checkParams();
-			// Add project dependencies to classpath
-			getLog().debug("Adding project dependencies to classpath");
-			@SuppressWarnings("unchecked")
-			final Set<Artifact> artifacts = project.getArtifacts();
-			for (final Artifact artifact : artifacts) {
-				ClassPathLoader.INSTANCE.addArtifactFile(artifact.getFile(),
-						getLogger());
+			if ("pom".equals(packaging)) {
+				getLog().info("Artifact ignored because it has pom packaging");
+			} else {
+				checkParams();
+				doExecute(outputDirectory, project);
 			}
-			// Add project classes to classpath
-			getLog().debug("Adding project classes to classpath");
-			final Collection<File> classFiles = FileUtils.listFiles(
-					outputDirectory, new SuffixFileFilter(CLASS_SUFFIX),
-					TrueFileFilter.INSTANCE);
-			for (final File file : classFiles) {
-				ClassPathLoader.INSTANCE.addClassFile(file, getLogger());
-			}
-			// Reads the config file
-			getLog().debug("Reading rules context");
-			RulesContext rulesContext = RulesContextFactoryLocator
-					.getRulesContextFactory().getRulesContext(
-							getRulesContextFile());
-			getLog().debug("Checking rules for " + classFiles.size() + " files");
-			CheckingResult checkingResult = RuleSetChecker.INSTANCE.check(
-					classFiles, rulesContext, getLogger());
-			// Writes the results
-			final File resultsFile = new File(getResultsDirectory(), "results-"
-					+ project.getArtifactId() + ".xml");
-			getLog().debug("Writing the results on " + resultsFile);
-			final Writer w = new FileWriter(resultsFile);
-			final Writer out = new BufferedWriter(w);
-			final XStream xs = new XStream();
-			xs.setMode(XStream.NO_REFERENCES);
-			xs.toXML(checkingResult, out);
-			out.close();
 		} catch (final Exception e) {
 			throw new IllegalStateException(e);
 		}
+	}
+
+	private void doExecute(File outputDirectory, MavenProject project)
+			throws IntrospectionException, ClassFormatException,
+			FileNotFoundException, IOException, RulesContextFactoryException {
+		// Add project dependencies to classpath
+		getLog().debug("Adding project dependencies to classpath");
+		@SuppressWarnings("unchecked")
+		final Set<Artifact> artifacts = project.getArtifacts();
+		for (final Artifact artifact : artifacts) {
+			ClassPathLoader.INSTANCE.addArtifactFile(artifact.getFile(),
+					getLogger());
+		}
+		// Add project classes to classpath
+		getLog().debug("Adding project classes to classpath");
+		final Collection<File> classFiles = FileUtils.listFiles(
+				outputDirectory, new SuffixFileFilter(CLASS_SUFFIX),
+				TrueFileFilter.INSTANCE);
+		for (final File file : classFiles) {
+			ClassPathLoader.INSTANCE.addClassFile(file, getLogger());
+		}
+		// Reads the config file
+		getLog().debug("Reading rules context");
+		RulesContext rulesContext = RulesContextFactoryLocator
+				.getRulesContextFactory()
+				.getRulesContext(getRulesContextFile());
+		getLog().debug("Checking rules for " + classFiles.size() + " files");
+		CheckingResult checkingResult = RuleSetChecker.INSTANCE.check(
+				classFiles, rulesContext, getLogger());
+		// Writes the results
+		final File resultsFile = new File(getResultsDirectory(), "results-"
+				+ project.getArtifactId() + ".xml");
+		getLog().debug("Writing the results on " + resultsFile);
+		final Writer w = new FileWriter(resultsFile);
+		final Writer out = new BufferedWriter(w);
+		final XStream xs = new XStream();
+		xs.setMode(XStream.NO_REFERENCES);
+		xs.toXML(checkingResult, out);
+		out.close();
 	}
 
 	private void checkParams() {
