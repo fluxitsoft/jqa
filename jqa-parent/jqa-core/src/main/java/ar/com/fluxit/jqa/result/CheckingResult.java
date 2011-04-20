@@ -30,32 +30,32 @@ import java.util.List;
 public class CheckingResult {
 
 	private Date date;
-	private List<RuleCheckFailed> ruleExecutionsFailed;
+	private List<RuleCheckFailed> ruleChecksFailed;
 
 	public CheckingResult() {
-		ruleExecutionsFailed = new ArrayList<RuleCheckFailed>();
+		ruleChecksFailed = new ArrayList<RuleCheckFailed>();
 		date = new Date();
 	}
 
 	public void addRuleExecutionFailed(RuleCheckFailed failed) {
-		getRuleExecutionsFailed().add(failed);
+		getRuleChecksFailed().add(failed);
 	}
 
 	public Date getDate() {
 		return date;
 	}
 
-	public List<RuleCheckFailed> getRuleExecutionsFailed() {
-		return ruleExecutionsFailed;
+	public List<RuleCheckFailed> getRuleChecksFailed() {
+		return ruleChecksFailed;
 	}
 
 	public void setDate(Date date) {
 		this.date = date;
 	}
 
-	public void setRuleExecutionsFailed(
+	public void setRuleChecksFailed(
 			List<RuleCheckFailed> ruleExecutionsFailed) {
-		this.ruleExecutionsFailed = ruleExecutionsFailed;
+		this.ruleChecksFailed = ruleExecutionsFailed;
 	}
 
 }
