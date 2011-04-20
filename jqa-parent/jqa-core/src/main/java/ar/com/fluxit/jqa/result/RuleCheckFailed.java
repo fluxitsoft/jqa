@@ -40,19 +40,19 @@ public class RuleCheckFailed {
 		this.targetClassName = targetClassName;
 	}
 
-	protected Predicate getPredicate() {
+	public Predicate getPredicate() {
 		return predicate;
 	}
 
-	protected String getTargetClassName() {
+	public String getTargetClassName() {
 		return targetClassName;
 	}
 
-	protected void setPredicate(Predicate predicate) {
+	public void setPredicate(Predicate predicate) {
 		this.predicate = predicate;
 	}
 
-	protected void setTargetClassName(String className) {
+	public void setTargetClassName(String className) {
 		targetClassName = className;
 	}
 
