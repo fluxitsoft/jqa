@@ -102,8 +102,8 @@ public class JQACheckerTest extends TestCase {
 				getLog());
 		assertNotNull(result);
 		assertNotNull(result.getDate());
-		assertNotNull(result.getRuleExecutionsFailed());
-		assertEquals(1, result.getRuleExecutionsFailed().size());
+		assertNotNull(result.getRuleChecksFailed());
+		assertEquals(1, result.getRuleChecksFailed().size());
 	}
 
 	public final void testCheckPredicateSuccess() {
@@ -116,8 +116,8 @@ public class JQACheckerTest extends TestCase {
 				getLog());
 		assertNotNull(result);
 		assertNotNull(result.getDate());
-		assertNotNull(result.getRuleExecutionsFailed());
-		assertTrue(result.getRuleExecutionsFailed().isEmpty());
+		assertNotNull(result.getRuleChecksFailed());
+		assertTrue(result.getRuleChecksFailed().isEmpty());
 	}
 
 	public final void testCheckWithNoFiles() {
@@ -129,8 +129,8 @@ public class JQACheckerTest extends TestCase {
 				getLog());
 		assertNotNull(result);
 		assertNotNull(result.getDate());
-		assertNotNull(result.getRuleExecutionsFailed());
-		assertTrue(result.getRuleExecutionsFailed().isEmpty());
+		assertNotNull(result.getRuleChecksFailed());
+		assertTrue(result.getRuleChecksFailed().isEmpty());
 	}
 
 	public final void testFilterPredicateFail() {
@@ -144,8 +144,8 @@ public class JQACheckerTest extends TestCase {
 				getLog());
 		assertNotNull(result);
 		assertNotNull(result.getDate());
-		assertNotNull(result.getRuleExecutionsFailed());
-		assertEquals(1, result.getRuleExecutionsFailed().size());
+		assertNotNull(result.getRuleChecksFailed());
+		assertEquals(1, result.getRuleChecksFailed().size());
 	}
 
 	public final void testFilterPredicateSuccess() {
@@ -158,8 +158,8 @@ public class JQACheckerTest extends TestCase {
 				getLog());
 		assertNotNull(result);
 		assertNotNull(result.getDate());
-		assertNotNull(result.getRuleExecutionsFailed());
-		assertTrue(result.getRuleExecutionsFailed().isEmpty());
+		assertNotNull(result.getRuleChecksFailed());
+		assertTrue(result.getRuleChecksFailed().isEmpty());
 	}
 
 }
