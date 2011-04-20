@@ -59,6 +59,7 @@ public class ClassPathLoader {
 		RepositoryLocator.getRepository().addClass(
 				RepositoryLocator.getRepository().parse(file2, null));
 		file2.close();
+		log.debug("File added to classpath " + file);
 	}
 
 	public void addURL(URL url, Logger log) throws IntrospectionException {
