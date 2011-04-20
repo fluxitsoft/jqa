@@ -1,9 +1,11 @@
 package ar.com.fluxit.jqa.context.factory;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
 
@@ -64,26 +66,18 @@ public class RulesContextFactoryImpl implements RulesContextFactory {
 				return parse(document.getRulesContext(), sourceFile.getParent());
 			} catch (RulesContextFactoryException e) {
 				throw e;
+			} catch (XmlException e) {
+				throw new RulesContextFactoryException(
+						"Invalid rules context file: " + source, e);
+			} catch (IOException e) {
+				throw new RulesContextFactoryException(
+						"Error reading rules context file: " + source, e);
 			} catch (Exception e) {
 				throw new RulesContextFactoryException(e);
 			}
 		} else {
 			throw new IllegalArgumentException("Source (" + source
 					+ ") must be a File object");
-		}
-	}
-	
-	private void validate(XmlObject document, String sourceFile) {
-		List<Object> validationErrors = new ArrayList<Object>();
-		XmlOptions voptions = new XmlOptions();
-		voptions.setErrorListener(validationErrors);
-		if(!document.validate(voptions)) {
-			StringBuilder errors = new StringBuilder();
-			for (Object error : validationErrors) {
-				errors.append(error);
-				errors.append("\n");
-			}
-			throw new IllegalArgumentException("Invalid rules context file :" + sourceFile + "\n" + errors);
 		}
 	}
 
@@ -280,6 +274,22 @@ public class RulesContextFactoryImpl implements RulesContextFactory {
 		ar.com.fluxit.jqa.predicate.logic.XorPredicate result = new ar.com.fluxit.jqa.predicate.logic.XorPredicate();
 		parse(predicate, result);
 		return result;
+	}
+
+	private void validate(XmlObject document, String sourceFile)
+			throws RulesContextFactoryException {
+		List<Object> validationErrors = new ArrayList<Object>();
+		XmlOptions voptions = new XmlOptions();
+		voptions.setErrorListener(validationErrors);
+		if (!document.validate(voptions)) {
+			StringBuilder errors = new StringBuilder();
+			for (Object error : validationErrors) {
+				errors.append(error);
+				errors.append("\n");
+			}
+			throw new RulesContextFactoryException(
+					"Invalid rules context file :" + sourceFile + "\n" + errors);
+		}
 	}
 
 }
