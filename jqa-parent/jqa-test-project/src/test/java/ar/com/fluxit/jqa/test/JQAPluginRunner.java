@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.util.Collections;
 
-import junit.framework.TestCase;
+import junit.framework.Assert;
 
 import org.apache.maven.shared.invoker.DefaultInvocationRequest;
 import org.apache.maven.shared.invoker.DefaultInvoker;
@@ -19,11 +19,16 @@ import ar.com.fluxit.jqa.result.CheckingResult;
 
 import com.thoughtworks.xstream.XStream;
 
-public class JQAPluginTest extends TestCase {
+public class JQAPluginRunner {
 
 	private CheckingResult checkingResult;
 
-	@Override
+	public static void main(String[] args) throws Exception {
+		JQAPluginRunner jqaPluginTest = new JQAPluginRunner();
+		jqaPluginTest.setUp();
+		jqaPluginTest.testRunJQAPlugin();		
+	}
+	
 	protected void setUp() throws Exception {
 		InvocationRequest request = new DefaultInvocationRequest();
 		request.setPomFile(new File(getClass().getClassLoader().getResource(
@@ -44,14 +49,10 @@ public class JQAPluginTest extends TestCase {
 		input.close();
 	}
 
-	@Override
-	protected void tearDown() throws Exception {
-		checkingResult = null;
-	}
 
 	public void testRunJQAPlugin() throws MavenInvocationException, IOException {
-		assertNotNull(checkingResult);
-		assertNotNull(checkingResult.getDate());
+		Assert.assertNotNull(checkingResult);
+		Assert.assertNotNull(checkingResult.getDate());
 		// assertContains(checkingResult, "targetClassName", "predicateName");
 	}
 }

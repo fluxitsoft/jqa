@@ -31,13 +31,6 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>apache-collections</groupId>
-			<artifactId>commons-collections</artifactId>
-			<version>3.1</version>
-			<type>jar</type>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
 			<groupId>ar.com.fluxit</groupId>
 			<artifactId>jqa-test-project-fmk</artifactId>
 			<version>1.0</version>
@@ -65,9 +58,17 @@
 				<groupId>ar.com.fluxit</groupId>
 				<artifactId>jqa-maven-plugin</artifactId>
 				<version>${jqa.version}</version>
+				<executions>
+					<execution>
+						<phase>process-resources</phase>
+						<goals>
+							<goal>check</goal>
+						</goals>
+					</execution>
+				</executions>
 				<configuration>
-					<rulesContextFile>${project.build.testOutputDirectory}/rules_context.xml</rulesContextFile>
-					<resultsDirectory>${project.build.testOutputDirectory}/results/</resultsDirectory>
+					<rulesContextFile>${project.build.testOutputDirectory}/test_rulescontext.xml</rulesContextFile>
+					<resultsDirectory>${project.build.testOutputDirectory}</resultsDirectory>
 				</configuration>
 			</plugin>
 			<plugin>
