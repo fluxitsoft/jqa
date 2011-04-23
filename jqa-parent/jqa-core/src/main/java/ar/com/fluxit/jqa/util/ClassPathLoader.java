@@ -50,7 +50,10 @@ public class ClassPathLoader {
 	public void addArtifactFile(File file, Logger log)
 			throws IntrospectionException, ClassFormatException,
 			FileNotFoundException, IOException {
-		addURL(file.toURI().toURL(), log);
+		// addURL(file.toURI().toURL(), log);
+		System.setProperty("java.class.path", System
+				.getProperty("java.class.path")
+				+ ":" + file.getPath());
 	}
 
 	public void addClassFile(File file, Logger log)

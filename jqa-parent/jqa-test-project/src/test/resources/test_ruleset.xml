@@ -28,6 +28,12 @@
 				abstractionType="INTERFACE" />
 		</checkPredicate>
 	</rule>
-
+	<rule name="Cant use XStream">
+		<filterPredicate xsi:type="jqa:TruePredicate" />
+		<checkPredicate xsi:type="jqa:UsagePredicate">
+			<filterPredicate xsi:type="jqa:TypingPredicate"
+				parentClassName="com.thoughtworks.xstream" />
+		</checkPredicate>
+	</rule>
 
 </jqa:Ruleset>

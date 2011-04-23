@@ -60,15 +60,15 @@
 				<version>${jqa.version}</version>
 				<executions>
 					<execution>
-						<phase>process-resources</phase>
+						<phase>test</phase>
 						<goals>
 							<goal>check</goal>
 						</goals>
 					</execution>
 				</executions>
 				<configuration>
-					<rulesContextFile>${project.build.testOutputDirectory}/test_rulescontext.xml</rulesContextFile>
-					<resultsDirectory>${project.build.testOutputDirectory}</resultsDirectory>
+					<rulesContextFile>src/test/resources/test_rulescontext.xml</rulesContextFile>
+					<resultsDirectory>./</resultsDirectory>
 				</configuration>
 			</plugin>
 			<plugin>
