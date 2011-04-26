@@ -22,13 +22,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.lang.reflect.Method;
-import java.net.URL;
-import java.net.URLClassLoader;
 
 import javax.management.IntrospectionException;
 
-import org.apache.bcel.util.ClassPath;
 import org.slf4j.Logger;
 
 import ar.com.fluxit.jqa.bce.ClassFormatException;
@@ -66,19 +62,20 @@ public class ClassPathLoader {
 		log.debug("File added to classpath " + file);
 	}
 
-	public void addURL(URL url, Logger log) throws IntrospectionException {
-		final URLClassLoader systemClassLoader = (URLClassLoader) ClassPath.SYSTEM_CLASS_PATH
-				.getClass().getClassLoader();
-		try {
-			final Method method = URLClassLoader.class.getDeclaredMethod(
-					"addURL", new Class[] { URL.class });
-			method.setAccessible(true);
-			method.invoke(systemClassLoader, new Object[] { url });
-			log.debug("File added to classpath " + url);
-		} catch (final Throwable t) {
-			throw new IntrospectionException(
-					"Error when adding url to system ClassLoader");
-		}
-	}
+	// public void addURL(URL url, Logger log) throws IntrospectionException {
+	// final URLClassLoader systemClassLoader = (URLClassLoader)
+	// ClassPath.SYSTEM_CLASS_PATH
+	// .getClass().getClassLoader();
+	// try {
+	// final Method method = URLClassLoader.class.getDeclaredMethod(
+	// "addURL", new Class[] { URL.class });
+	// method.setAccessible(true);
+	// method.invoke(systemClassLoader, new Object[] { url });
+	// log.debug("File added to classpath " + url);
+	// } catch (final Throwable t) {
+	// throw new IntrospectionException(
+	// "Error when adding url to system ClassLoader");
+	// }
+	// }
 
 }
