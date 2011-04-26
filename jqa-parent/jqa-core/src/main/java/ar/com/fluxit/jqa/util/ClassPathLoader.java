@@ -54,6 +54,7 @@ public class ClassPathLoader {
 		System.setProperty("java.class.path", System
 				.getProperty("java.class.path")
 				+ ":" + file.getPath());
+		log.debug("File added to classpath " + file);
 	}
 
 	public void addClassFile(File file, Logger log)
