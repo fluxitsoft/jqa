@@ -90,6 +90,26 @@ public class RepositoryImpl implements Repository {
 		return getWrappedClass(clazz).getConstantPool();
 	}
 
+	private Collection<org.apache.bcel.classfile.JavaClass> getSuperClasses(
+			org.apache.bcel.classfile.JavaClass clazz)
+			throws ClassNotFoundException {
+		final List<org.apache.bcel.classfile.JavaClass> result = new ArrayList<org.apache.bcel.classfile.JavaClass>();
+		getSuperClasses(clazz.getClassName(), result);
+		return result;
+	}
+
+	private void getSuperClasses(String className,
+			List<org.apache.bcel.classfile.JavaClass> result)
+			throws ClassNotFoundException {
+		final JavaClass lookupClass = lookupClass(className);
+		result.add(((BcelJavaClass) lookupClass).getWrapped());
+		if (!((BcelJavaClass) lookupClass).getWrapped().getSuperclassName()
+				.equals(Object.class.getName())) {
+			getSuperClasses(((BcelJavaClass) lookupClass).getWrapped()
+					.getSuperclassName(), result);
+		}
+	}
+
 	@Override
 	public Collection<JavaClass> getThrows(final JavaClass clazz) {
 		final List<JavaClass> result = new ArrayList<JavaClass>();
@@ -215,26 +235,6 @@ public class RepositoryImpl implements Repository {
 		return false;
 	}
 
-	private Collection<org.apache.bcel.classfile.JavaClass> getSuperClasses(
-			org.apache.bcel.classfile.JavaClass clazz)
-			throws ClassNotFoundException {
-		final List<org.apache.bcel.classfile.JavaClass> result = new ArrayList<org.apache.bcel.classfile.JavaClass>();
-		getSuperClasses(clazz.getClassName(), result);
-		return result;
-	}
-
-	private void getSuperClasses(String className,
-			List<org.apache.bcel.classfile.JavaClass> result)
-			throws ClassNotFoundException {
-		final JavaClass lookupClass = lookupClass(className);
-		result.add(((BcelJavaClass) lookupClass).getWrapped());
-		if (!((BcelJavaClass) lookupClass).getWrapped().getSuperclassName()
-				.equals(Object.class.getName())) {
-			getSuperClasses(((BcelJavaClass) lookupClass).getWrapped()
-					.getSuperclassName(), result);
-		}
-	}
-
 	@Override
 	public JavaClass lookupClass(Class<?> clazz) throws ClassNotFoundException {
 		// TODO cache
@@ -255,7 +255,7 @@ public class RepositoryImpl implements Repository {
 		final org.apache.bcel.classfile.JavaClass lookupClass = org.apache.bcel.Repository
 				.lookupClass(parentClassName);
 		if (lookupClass == null) {
-			throw new IllegalArgumentException("Can not find class "
+			throw new ClassNotFoundException("Can not find class "
 					+ parentClassName);
 		} else {
 			return new BcelJavaClass(lookupClass);
