@@ -80,7 +80,8 @@ public class RuleSetChecker {
 				if (rule.getFilterPredicate().evaluate(clazz, null)) {
 					if (!rule.getCheckPredicate().evaluate(clazz, context)) {
 						result.addRuleExecutionFailed(new RuleCheckFailed(rule
-								.getCheckPredicate(), clazz.getClassName()));
+								.getName(), rule.getMessage(), clazz
+								.getClassName()));
 					}
 				}
 			}

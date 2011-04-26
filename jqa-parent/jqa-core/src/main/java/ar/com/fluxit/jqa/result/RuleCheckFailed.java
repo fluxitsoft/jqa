@@ -18,8 +18,6 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.result;
 
-import ar.com.fluxit.jqa.predicate.Predicate;
-
 /**
  * TODO javadoc
  * 
@@ -27,29 +25,40 @@ import ar.com.fluxit.jqa.predicate.Predicate;
  */
 public class RuleCheckFailed {
 
-	private Predicate predicate;
+	private String ruleName;
+	private String ruleMessage;
 	private String targetClassName;
 
 	public RuleCheckFailed() {
-
+		super();
 	}
 
-	public RuleCheckFailed(Predicate predicate, String targetClassName) {
+	public RuleCheckFailed(String ruleName, String ruleMessage,
+			String targetClassName) {
 		super();
-		this.predicate = predicate;
+		this.ruleName = ruleName;
+		this.ruleMessage = ruleMessage;
 		this.targetClassName = targetClassName;
 	}
 
-	public Predicate getPredicate() {
-		return predicate;
+	public String getRuleMessage() {
+		return ruleMessage;
+	}
+
+	public String getRuleName() {
+		return ruleName;
 	}
 
 	public String getTargetClassName() {
 		return targetClassName;
 	}
 
-	public void setPredicate(Predicate predicate) {
-		this.predicate = predicate;
+	public void setRuleMessage(String ruleMessage) {
+		this.ruleMessage = ruleMessage;
+	}
+
+	public void setRuleName(String ruleName) {
+		this.ruleName = ruleName;
 	}
 
 	public void setTargetClassName(String className) {

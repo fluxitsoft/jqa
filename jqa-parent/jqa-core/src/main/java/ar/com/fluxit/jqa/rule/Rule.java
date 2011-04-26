@@ -13,6 +13,8 @@ public interface Rule {
 
 	Predicate getFilterPredicate();
 
+	String getMessage();
+
 	String getName();
 
 }

@@ -159,9 +159,11 @@ public class RulesContextFactoryImpl implements RulesContextFactory {
 
 	private Rule parse(ar.com.fluxit.jqa.schema.ruleset.Rule rule) {
 		String name = rule.getName();
+		String message = rule.getMessage();
 		Predicate filterPredicate = (Predicate) parse(rule.getFilterPredicate());
 		Predicate checkPredicate = (Predicate) parse(rule.getCheckPredicate());
-		Rule result = new RuleImpl(filterPredicate, checkPredicate, name);
+		Rule result = new RuleImpl(filterPredicate, checkPredicate, name,
+				message);
 		return result;
 	}
 

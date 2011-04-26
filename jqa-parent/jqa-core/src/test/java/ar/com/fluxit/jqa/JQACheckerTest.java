@@ -34,10 +34,10 @@ import ar.com.fluxit.jqa.predicate.Predicate;
 import ar.com.fluxit.jqa.predicate.logic.FalsePredicate;
 import ar.com.fluxit.jqa.predicate.logic.TruePredicate;
 import ar.com.fluxit.jqa.result.CheckingResult;
-import ar.com.fluxit.jqa.rule.RuleImpl;
-import ar.com.fluxit.jqa.rule.RuleSetImpl;
 import ar.com.fluxit.jqa.rule.Rule;
+import ar.com.fluxit.jqa.rule.RuleImpl;
 import ar.com.fluxit.jqa.rule.RuleSet;
+import ar.com.fluxit.jqa.rule.RuleSetImpl;
 import ar.com.fluxit.jqa.util.FileUtils;
 
 /**
@@ -50,7 +50,7 @@ public class JQACheckerTest extends TestCase {
 	private Logger log;
 
 	private Rule createRule(Predicate instance, Predicate instance2) {
-		return new RuleImpl(instance, instance2, "");
+		return new RuleImpl(instance, instance2, "", "");
 	}
 
 	private RulesContext createRulesContext(Collection<RuleSet> configuration) {

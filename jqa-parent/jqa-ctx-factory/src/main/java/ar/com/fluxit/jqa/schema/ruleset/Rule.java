@@ -16,7 +16,7 @@ package ar.com.fluxit.jqa.schema.ruleset;
 public interface Rule extends org.apache.xmlbeans.XmlObject
 {
     public static final org.apache.xmlbeans.SchemaType type = (org.apache.xmlbeans.SchemaType)
-        org.apache.xmlbeans.XmlBeans.typeSystemForClassLoader(Rule.class.getClassLoader(), "schemaorg_apache_xmlbeans.system.s9E7197F7A4F9B8D98C8E628E8149BE56").resolveHandle("rule9152type");
+        org.apache.xmlbeans.XmlBeans.typeSystemForClassLoader(Rule.class.getClassLoader(), "schemaorg_apache_xmlbeans.system.s1C1A33D1B24A363AAFD86E0D19B67CC1").resolveHandle("rule9152type");
     
     /**
      * Gets the "filterPredicate" element
@@ -77,6 +77,36 @@ public interface Rule extends org.apache.xmlbeans.XmlObject
      * Unsets the "name" attribute
      */
     void unsetName();
+    
+    /**
+     * Gets the "message" attribute
+     */
+    java.lang.String getMessage();
+    
+    /**
+     * Gets (as xml) the "message" attribute
+     */
+    org.apache.xmlbeans.XmlString xgetMessage();
+    
+    /**
+     * True if has "message" attribute
+     */
+    boolean isSetMessage();
+    
+    /**
+     * Sets the "message" attribute
+     */
+    void setMessage(java.lang.String message);
+    
+    /**
+     * Sets (as xml) the "message" attribute
+     */
+    void xsetMessage(org.apache.xmlbeans.XmlString message);
+    
+    /**
+     * Unsets the "message" attribute
+     */
+    void unsetMessage();
     
     /**
      * A factory class with static methods for creating instances

@@ -26,6 +26,8 @@ public class RuleImpl extends org.apache.xmlbeans.impl.values.XmlComplexContentI
         new javax.xml.namespace.QName("", "checkPredicate");
     private static final javax.xml.namespace.QName NAME$4 = 
         new javax.xml.namespace.QName("", "name");
+    private static final javax.xml.namespace.QName MESSAGE$6 = 
+        new javax.xml.namespace.QName("", "message");
     
     
     /**
@@ -217,6 +219,98 @@ public class RuleImpl extends org.apache.xmlbeans.impl.values.XmlComplexContentI
         {
             check_orphaned();
             get_store().remove_attribute(NAME$4);
+        }
+    }
+    
+    /**
+     * Gets the "message" attribute
+     */
+    public java.lang.String getMessage()
+    {
+        synchronized (monitor())
+        {
+            check_orphaned();
+            org.apache.xmlbeans.SimpleValue target = null;
+            target = (org.apache.xmlbeans.SimpleValue)get_store().find_attribute_user(MESSAGE$6);
+            if (target == null)
+            {
+                return null;
+            }
+            return target.getStringValue();
+        }
+    }
+    
+    /**
+     * Gets (as xml) the "message" attribute
+     */
+    public org.apache.xmlbeans.XmlString xgetMessage()
+    {
+        synchronized (monitor())
+        {
+            check_orphaned();
+            org.apache.xmlbeans.XmlString target = null;
+            target = (org.apache.xmlbeans.XmlString)get_store().find_attribute_user(MESSAGE$6);
+            return target;
+        }
+    }
+    
+    /**
+     * True if has "message" attribute
+     */
+    public boolean isSetMessage()
+    {
+        synchronized (monitor())
+        {
+            check_orphaned();
+            return get_store().find_attribute_user(MESSAGE$6) != null;
+        }
+    }
+    
+    /**
+     * Sets the "message" attribute
+     */
+    public void setMessage(java.lang.String message)
+    {
+        synchronized (monitor())
+        {
+            check_orphaned();
+            org.apache.xmlbeans.SimpleValue target = null;
+            target = (org.apache.xmlbeans.SimpleValue)get_store().find_attribute_user(MESSAGE$6);
+            if (target == null)
+            {
+                target = (org.apache.xmlbeans.SimpleValue)get_store().add_attribute_user(MESSAGE$6);
+            }
+            target.setStringValue(message);
+        }
+    }
+    
+    /**
+     * Sets (as xml) the "message" attribute
+     */
+    public void xsetMessage(org.apache.xmlbeans.XmlString message)
+    {
+        synchronized (monitor())
+        {
+            check_orphaned();
+            org.apache.xmlbeans.XmlString target = null;
+            target = (org.apache.xmlbeans.XmlString)get_store().find_attribute_user(MESSAGE$6);
+            if (target == null)
+            {
+                target = (org.apache.xmlbeans.XmlString)get_store().add_attribute_user(MESSAGE$6);
+            }
+            target.set(message);
+        }
+    }
+    
+    /**
+     * Unsets the "message" attribute
+     */
+    public void unsetMessage()
+    {
+        synchronized (monitor())
+        {
+            check_orphaned();
+            get_store().remove_attribute(MESSAGE$6);
         }
     }
 }
