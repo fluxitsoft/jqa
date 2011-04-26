@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<parent>
+		<artifactId>jqa-parent</artifactId>
+		<groupId>ar.com.fluxit</groupId>
+		<version>1.0</version>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>ar.com.fluxit</groupId>
+	<artifactId>jqa-test-parent</artifactId>
+	<packaging>pom</packaging>
+	<name>jqa-test-parent</name>
+	<url>http://code.google.com/p/jqa-project/</url>
+
+	<modules>
+		<module>jqa-test-project</module>
+		<module>jqa-test-project-fmk</module>
+	</modules>
+
+</project>
