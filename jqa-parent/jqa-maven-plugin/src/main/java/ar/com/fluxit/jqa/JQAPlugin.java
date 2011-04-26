@@ -92,17 +92,28 @@ public class JQAPlugin extends AbstractMojo {
 
 	private Logger logger;
 
-	@Override
-	public void execute() throws MojoExecutionException {
-		try {
-			if ("pom".equals(packaging)) {
-				getLog().info("Artifact ignored because it has pom packaging");
-			} else {
-				checkParams();
-				doExecute(outputDirectory, project);
-			}
-		} catch (final Exception e) {
-			throw new IllegalStateException(e);
+	private void checkParams() {
+		if (getRulesContextFile() == null) {
+			throw new IllegalArgumentException(
+					"Rules context file can not be null");
+		}
+		if (!getRulesContextFile().exists()) {
+			throw new IllegalArgumentException(
+					"Rules context file does not exist: "
+							+ getRulesContextFile());
+		}
+		if (getResultsDirectory() == null) {
+			throw new IllegalArgumentException(
+					"Results directory can not be null");
+		}
+		if (!getResultsDirectory().exists()) {
+			throw new IllegalArgumentException(
+					"Results directory does not exist: "
+							+ getResultsDirectory());
+		}
+		if (!getResultsDirectory().isDirectory()) {
+			throw new IllegalArgumentException("Invalid results directory: "
+					+ getResultsDirectory());
 		}
 	}
 
@@ -145,23 +156,18 @@ public class JQAPlugin extends AbstractMojo {
 		out.close();
 	}
 
-	private void checkParams() {
-		if (getRulesContextFile() == null)
-			throw new IllegalArgumentException(
-					"Rules context file can not be null");
-		if (!getRulesContextFile().exists())
-			throw new IllegalArgumentException(
-					"Rules context file does not exist" + getRulesContextFile());
-		if (getResultsDirectory() == null)
-			throw new IllegalArgumentException(
-					"Results directory can not be null");
-		if (!getResultsDirectory().exists())
-			throw new IllegalArgumentException(
-					"Results directory does not exist: "
-							+ getResultsDirectory());
-		if (!getResultsDirectory().isDirectory())
-			throw new IllegalArgumentException("Invalid results directory: "
-					+ getResultsDirectory());
+	@Override
+	public void execute() throws MojoExecutionException {
+		try {
+			if ("pom".equals(packaging)) {
+				getLog().info("Artifact ignored because it has pom packaging");
+			} else {
+				checkParams();
+				doExecute(outputDirectory, project);
+			}
+		} catch (final Exception e) {
+			throw new IllegalStateException(e);
+		}
 	}
 
 	private Logger getLogger() {

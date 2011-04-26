@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jqa:Ruleset name=""
+	xmlns:jqa="http://www.fluxit.com.ar/jqa/schema/ruleset" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.fluxit.com.ar/jqa/schema/ruleset http://jqa-project.googlecode.com/svn/trunk/jqa-parent/jqa-ctx-factory/src/main/resources/schema/ruleset.xsd ">
+
+	<!--	<rule name="Dummy">-->
+	<!--		<filterPredicate xsi:type="jqa:TruePredicate" />-->
+	<!--		<checkPredicate xsi:type="jqa:TruePredicate" />-->
+	<!--	</rule>-->
+
+	<!-- DAO rules	-->
+	<rule name="DAO contract naming">
+		<filterPredicate xsi:type="jqa:AndPredicate">
+			<predicate xsi:type="jqa:TypingPredicate" parentClassName="ar.com.fluxit.jqa.test.fmk.dao.DAO" />
+			<predicate xsi:type="jqa:AbstractionPredicate"
+				abstractionType="INTERFACE" />
+		</filterPredicate>
+		<checkPredicate xsi:type="jqa:AndPredicate">
+			<predicate xsi:type="jqa:NamingPredicate" classNamePattern="**.dao.*DAO" />
+		</checkPredicate>
+	</rule>
+	<rule name="DAO contract naming">
+		<filterPredicate xsi:type="jqa:NamingPredicate"
+			classNamePattern="**DAO" />
+		<checkPredicate xsi:type="jqa:AndPredicate">
+			<predicate xsi:type="jqa:TypingPredicate" parentClassName="ar.com.fluxit.jqa.test.fmk.dao.DAO" />
+			<predicate xsi:type="jqa:AbstractionPredicate"
+				abstractionType="INTERFACE" />
+		</checkPredicate>
+	</rule>
+	<rule name="Cant use XStream">
+		<filterPredicate xsi:type="jqa:TruePredicate" />
+		<checkPredicate xsi:type="jqa:UsagePredicate">
+			<filterPredicate xsi:type="jqa:TypingPredicate"
+				parentClassName="com.thoughtworks.xstream" />
+		</checkPredicate>
+	</rule>
+
+</jqa:Ruleset>

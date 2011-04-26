@@ -18,5 +18,18 @@
 		<module>jqa-test-project</module>
 		<module>jqa-test-project-fmk</module>
 	</modules>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>ar.com.fluxit</groupId>
+				<artifactId>jqa-maven-plugin</artifactId>
+				<version>${jqa.version}</version>
+				<configuration>
+					<rulesContextFile>../test_rulescontext.xml</rulesContextFile>
+					<resultsDirectory>target/</resultsDirectory>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 
 </project>
