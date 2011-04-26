@@ -23,8 +23,7 @@
 		<module>jqa-bce-bcel</module>
 		<module>jqa-maven-plugin</module>
 		<module>jqa-ctx-factory</module>
-		<module>jqa-test-project</module>
-		<module>jqa-test-project-fmk</module>
+		<module>jqa-test-parent</module>
 	</modules>
 
 	<build>
