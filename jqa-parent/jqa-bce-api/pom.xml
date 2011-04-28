@@ -22,10 +22,10 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <artifactId>jqa-parent</artifactId>
-    <groupId>ar.com.fluxit</groupId>
+    <groupId>ar.com.fluxit.jqa</groupId>
     <version>1.0</version>
   </parent>
-  <groupId>ar.com.fluxit</groupId>
+  <groupId>ar.com.fluxit.jqa</groupId>
   <artifactId>jqa-bce-api</artifactId>
   <name>jqa-bce-api</name>
   <url>http://code.google.com/p/jqa-project/</url>
