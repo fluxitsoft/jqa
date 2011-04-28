@@ -14,7 +14,7 @@
  * GNU General Public License for more details.
  * 
  * You should have received a copy of the GNU General Public License
- * along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+ * along with JQA.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 package ar.com.fluxit.jqa;
 
@@ -50,13 +50,11 @@ public class RuleSetChecker {
 		super();
 	}
 
-	public CheckingResult check(Collection<File> classFiles,
-			Collection<File> classPath, RulesContext context, Logger log)
-			throws IntrospectionException, FileNotFoundException,
-			ClassFormatException, IOException {
+	public CheckingResult check(Collection<File> classFiles, Collection<File> classPath, RulesContext context, Logger log) throws IntrospectionException,
+			FileNotFoundException, ClassFormatException, IOException {
 		final CheckingResult result = new CheckingResult();
 		// Add files to classpath
-		for (File classPathFile : classPath) {
+		for (final File classPathFile : classPath) {
 			log.debug("Adding to classpath: " + classPathFile);
 		}
 		RepositoryLocator.getRepository().setClassPath(classPath);
@@ -64,25 +62,21 @@ public class RuleSetChecker {
 		for (final File classFile : classFiles) {
 			log.debug("Checking file: " + classFile);
 			final FileInputStream fis = new FileInputStream(classFile);
-			final JavaClass clazz = RepositoryLocator.getRepository().parse(
-					fis, null);
+			final JavaClass clazz = RepositoryLocator.getRepository().parse(fis, null);
 			fis.close();
 			check(context, result, clazz);
 		}
 		return result;
 	}
 
-	private void check(RulesContext context, final CheckingResult result,
-			final JavaClass clazz) {
+	private void check(RulesContext context, final CheckingResult result, final JavaClass clazz) {
 		// Iterate rulesets
 		for (final RuleSet ruleset : context.getRuleSets()) {
 			// Iterate rules
 			for (final Rule rule : ruleset.getRules()) {
 				if (rule.getFilterPredicate().evaluate(clazz, null)) {
 					if (!rule.getCheckPredicate().evaluate(clazz, context)) {
-						result.addRuleExecutionFailed(new RuleCheckFailed(rule
-								.getName(), rule.getMessage(), clazz
-								.getClassName()));
+						result.addRuleExecutionFailed(new RuleCheckFailed(rule.getName(), rule.getMessage(), clazz.getClassName()));
 					}
 				}
 			}

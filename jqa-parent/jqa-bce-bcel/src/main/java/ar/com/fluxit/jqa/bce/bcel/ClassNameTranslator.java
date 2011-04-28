@@ -44,13 +44,10 @@ final class ClassNameTranslator {
 
 	static {
 		classSuffixRE = Pattern.compile("\\.class$");
-		arrayExtractorRE = Pattern
-				.compile("^(\\[+([BSIJCFDZV])|\\[+L([^;]*);)$");
-		sigExtractorRE = Pattern
-				.compile("^\\(?\\)?(\\[*([BSIJCFDZV])|\\[*L([^;]*);)");
+		arrayExtractorRE = Pattern.compile("^(\\[+([BSIJCFDZV])|\\[+L([^;]*);)$");
+		sigExtractorRE = Pattern.compile("^\\(?\\)?(\\[*([BSIJCFDZV])|\\[*L([^;]*);)");
 		final String javaIdent = "[\\p{Alpha}$_][\\p{Alnum}$_]*";
-		legalJavaIdentRE = Pattern.compile("^(" + javaIdent + ")(\\.("
-				+ javaIdent + "))*$");
+		legalJavaIdentRE = Pattern.compile("^(" + javaIdent + ")(\\.(" + javaIdent + "))*$");
 
 		primitiveTypeMap = new HashMap<String, String>();
 		primitiveTypeMap.put("B", "byte");
@@ -73,8 +70,7 @@ final class ClassNameTranslator {
 	}
 
 	public static String resourceToClassName(final String className) {
-		return classSuffixRE.matcher(className).replaceAll("")
-				.replace('/', '.').intern();
+		return classSuffixRE.matcher(className).replaceAll("").replace('/', '.').intern();
 	}
 
 	public static List<String> signatureToClassNames(final String signature) {
@@ -83,8 +79,7 @@ final class ClassNameTranslator {
 			final String remaining = signature.substring(pos);
 			final Matcher sigMatcher = sigExtractorRE.matcher(remaining);
 			if (!sigMatcher.find()) {
-				throw new IllegalArgumentException(
-						"Unable to extract type info from: " + remaining);
+				throw new IllegalArgumentException("Unable to extract type info from: " + remaining);
 			}
 			if (sigMatcher.group(2) != null) {
 				names.add(primitiveTypeMap.get(sigMatcher.group(2)));

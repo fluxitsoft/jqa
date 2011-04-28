@@ -14,7 +14,7 @@
  * GNU General Public License for more details.
  * 
  * You should have received a copy of the GNU General Public License
- * along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+ * along with JQA.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 package ar.com.fluxit.jqa.predicate.lang;
 
@@ -38,23 +38,16 @@ public class AllocationPredicateTest extends TestCase {
 		final String filterPredicateParentClass = ClassA.class.getName();
 
 		testMatches(filterPredicateParentClass, ClassA.class, false);
-		testMatches(filterPredicateParentClass, ClassThatAllocatesClassA.class,
-				true);
-		testMatches(filterPredicateParentClass,
-				InnerClassThatAllocatesClassA.B.class, true);
-		testMatches(filterPredicateParentClass,
-				StaticInnerClassThatAllocatesClassA.B.class, true);
-		testMatches(filterPredicateParentClass,
-				ClassThatStaticAllocatesClassA.class, true);
+		testMatches(filterPredicateParentClass, ClassThatAllocatesClassA.class, true);
+		testMatches(filterPredicateParentClass, InnerClassThatAllocatesClassA.B.class, true);
+		testMatches(filterPredicateParentClass, StaticInnerClassThatAllocatesClassA.B.class, true);
+		testMatches(filterPredicateParentClass, ClassThatStaticAllocatesClassA.class, true);
 	}
 
-	private void testMatches(String filterPredicateParentClass,
-			Class<?> usagePredicateclass, boolean matches)
-			throws ClassNotFoundException {
+	private void testMatches(String filterPredicateParentClass, Class<?> usagePredicateclass, boolean matches) throws ClassNotFoundException {
 		final TypingPredicate filterPredicate = new TypingPredicate();
 		filterPredicate.setParentClassName(filterPredicateParentClass);
-		final JavaClass clazz = RepositoryLocator.getRepository().lookupClass(
-				usagePredicateclass);
+		final JavaClass clazz = RepositoryLocator.getRepository().lookupClass(usagePredicateclass);
 		final AllocationPredicate allocationPredicate = new AllocationPredicate();
 		allocationPredicate.setFilterPredicate(filterPredicate);
 		assertEquals(matches, allocationPredicate.evaluate(clazz, null));

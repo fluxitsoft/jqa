@@ -14,7 +14,7 @@
  * GNU General Public License for more details.
  * 
  * You should have received a copy of the GNU General Public License
- * along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+ * along with JQA.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 package ar.com.fluxit.jqa.predicate.lang;
 
@@ -38,8 +38,7 @@ public class AllocationPredicate extends FilteredPredicate {
 
 	@Override
 	public boolean evaluate(JavaClass clazz, RulesContext context) {
-		final Collection<JavaClass> filteredClasses = RepositoryLocator
-				.getRepository().getAllocations(clazz);
+		final Collection<JavaClass> filteredClasses = RepositoryLocator.getRepository().getAllocations(clazz);
 		for (final JavaClass usedClass : filteredClasses) {
 			if (getFilterPredicate().evaluate(usedClass, context)) {
 				return true;

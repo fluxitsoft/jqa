@@ -36,46 +36,31 @@ public class NamingPredicateTest extends TestCase {
 	}
 
 	public final void testCheck() {
-		testMatches(createNamingPredicate("java.lang.*"),
-				new String[] { "java.lang.String" },
-				new String[] { "java.lang.reflect.Method",
-						"java.language.MadeUpClass" });
-		testMatches(createNamingPredicate("java.lang.**"), new String[] {
-				"java.lang.String", "java.lang.reflect.Method" },
+		testMatches(createNamingPredicate("java.lang.*"), new String[] { "java.lang.String" }, new String[] { "java.lang.reflect.Method",
+				"java.language.MadeUpClass" });
+		testMatches(createNamingPredicate("java.lang.**"), new String[] { "java.lang.String", "java.lang.reflect.Method" },
 				new String[] { "java.language.MadeUpClass" });
-		testMatches(createNamingPredicate("java.lang**"), new String[] {
-				"java.lang.String", "java.lang.reflect.Method",
-				"java.language.MadeUpClass" }, new String[0]);
-		testMatches(createNamingPredicate("String"), new String[] { "String" },
-				new String[] { "java.lang.String" });
-		testMatches(createNamingPredicate("java.lang.String"),
-				new String[] { "java.lang.String" }, new String[] { "String" });
-		testMatches(createNamingPredicate("String"), new String[] { "String" },
-				new String[] { "java.lang.String", "java.lang.StringBuffer",
-						"java.text.AttributedString" });
-		testMatches(createNamingPredicate("**String*"), new String[] {
-				"String", "java.lang.String", "java.lang.StringBuffer",
-				"java.text.AttributedString" }, new String[0]);
-		testMatches(createNamingPredicate("**String"), new String[] { "String",
-				"java.lang.String", "java.text.AttributedString" },
+		testMatches(createNamingPredicate("java.lang**"), new String[] { "java.lang.String", "java.lang.reflect.Method", "java.language.MadeUpClass" },
+				new String[0]);
+		testMatches(createNamingPredicate("String"), new String[] { "String" }, new String[] { "java.lang.String" });
+		testMatches(createNamingPredicate("java.lang.String"), new String[] { "java.lang.String" }, new String[] { "String" });
+		testMatches(createNamingPredicate("String"), new String[] { "String" }, new String[] { "java.lang.String", "java.lang.StringBuffer",
+				"java.text.AttributedString" });
+		testMatches(createNamingPredicate("**String*"), new String[] { "String", "java.lang.String", "java.lang.StringBuffer", "java.text.AttributedString" },
+				new String[0]);
+		testMatches(createNamingPredicate("**String"), new String[] { "String", "java.lang.String", "java.text.AttributedString" },
 				new String[] { "java.lang.StringBuffer" });
-		testMatches(createNamingPredicate("**.String*"), new String[] {
-				"String", "java.lang.String", "java.lang.StringBuffer" },
+		testMatches(createNamingPredicate("**.String*"), new String[] { "String", "java.lang.String", "java.lang.StringBuffer" },
 				new String[] { "java.text.AttributedString" });
-		testMatches(createNamingPredicate("a.b"),
-				new String[] { "a.b", "a$b" }, new String[] { "" });
+		testMatches(createNamingPredicate("a.b"), new String[] { "a.b", "a$b" }, new String[] { "" });
 	}
 
-	private void testMatches(NamingPredicate predicate, String[] positive,
-			String[] negative) {
+	private void testMatches(NamingPredicate predicate, String[] positive, String[] negative) {
 		for (final String element : positive) {
-			assertTrue(
-					"\"" + predicate + "\" should match \"" + element + "\"",
-					predicate.evaluateClassName(element));
+			assertTrue("\"" + predicate + "\" should match \"" + element + "\"", predicate.evaluateClassName(element));
 		}
 		for (int n = 0; n < negative.length; n++) {
-			assertTrue("\"" + predicate + "\" shouldn't match \"" + negative[n]
-					+ "\"", !predicate.evaluateClassName(negative[n]));
+			assertTrue("\"" + predicate + "\" shouldn't match \"" + negative[n] + "\"", !predicate.evaluateClassName(negative[n]));
 		}
 	}
 

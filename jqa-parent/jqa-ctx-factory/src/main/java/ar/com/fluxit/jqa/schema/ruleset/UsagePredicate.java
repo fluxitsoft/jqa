@@ -16,7 +16,7 @@ package ar.com.fluxit.jqa.schema.ruleset;
 public interface UsagePredicate extends ar.com.fluxit.jqa.schema.ruleset.FilteredPredicate
 {
     public static final org.apache.xmlbeans.SchemaType type = (org.apache.xmlbeans.SchemaType)
-        org.apache.xmlbeans.XmlBeans.typeSystemForClassLoader(UsagePredicate.class.getClassLoader(), "schemaorg_apache_xmlbeans.system.s1C1A33D1B24A363AAFD86E0D19B67CC1").resolveHandle("usagepredicate752ctype");
+        org.apache.xmlbeans.XmlBeans.typeSystemForClassLoader(UsagePredicate.class.getClassLoader(), "schemaorg_apache_xmlbeans.system.s2008CF93048C7151F2CEF83D409DC069").resolveHandle("usagepredicate752ctype");
     
     /**
      * A factory class with static methods for creating instances

@@ -21,13 +21,13 @@ public class ProblematicClass implements DataHolder {
 	}
 
 	@Override
-	public void put(Object key, Object value) {
-
+	public Iterator<?> keys() {
+		return null;
 	}
 
 	@Override
-	public Iterator<?> keys() {
-		return null;
+	public void put(Object key, Object value) {
+
 	}
 
 }

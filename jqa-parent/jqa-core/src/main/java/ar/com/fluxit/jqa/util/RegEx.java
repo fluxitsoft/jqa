@@ -89,8 +89,7 @@ public final class RegEx {
 	private static Pattern allowableNoParts;
 	static {
 		final String varS = "\\$\\{([A-Za-z0-9_\\.\\-]+)\\}";
-		final String partS = "(([A-Za-z_]|[\\(\\)]|\\*|" + varS + ")"
-				+ "([A-Za-z0-9_]|[\\(\\)]|\\*|" + varS + ")*)";
+		final String partS = "(([A-Za-z_]|[\\(\\)]|\\*|" + varS + ")" + "([A-Za-z0-9_]|[\\(\\)]|\\*|" + varS + ")*)";
 		var = Pattern.compile(varS);
 		allowable = Pattern.compile("^([\\$\\./]?" + partS + ")+$");
 		allowableNoParts = Pattern.compile("^" + partS + "$");
@@ -100,8 +99,7 @@ public final class RegEx {
 		this(patternString, true);
 	}
 
-	public RegEx(final String patternString, final boolean allowParts)
-			throws RegExSyntaxException {
+	public RegEx(final String patternString, final boolean allowParts) throws RegExSyntaxException {
 		if (patternString == null) {
 			throw new IllegalArgumentException("patternString == null");
 		}
@@ -181,9 +179,7 @@ public final class RegEx {
 					expEnd = getPatternString().length();
 				}
 				if (pos < expEnd) {
-					getParts().add(
-							new ExpPart(parseSubexpr(getPatternString()
-									.substring(pos, expEnd))));
+					getParts().add(new ExpPart(parseSubexpr(getPatternString().substring(pos, expEnd))));
 				}
 				if (hasAnotherVar) {
 					getParts().add(new VarPart(varMatcher.group(1)));
@@ -218,8 +214,7 @@ public final class RegEx {
 	}
 
 	private String parseSubexpr(final String exp) {
-		return exp.replace(".", "[\\.\\$]").replace("/", "\\.").replace("$",
-				"\\$").replace("*", "\uFFFF").replace("\uFFFF\uFFFF", ".*")
+		return exp.replace(".", "[\\.\\$]").replace("/", "\\.").replace("$", "\\$").replace("*", "\uFFFF").replace("\uFFFF\uFFFF", ".*")
 				.replace("\uFFFF", "[^\\.]*");
 	}
 

@@ -14,7 +14,7 @@
  * GNU General Public License for more details.
  * 
  * You should have received a copy of the GNU General Public License
- * along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+ * along with JQA.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 package ar.com.fluxit.jqa.predicate.lang;
 
@@ -45,38 +45,22 @@ public class TypingPredicateTest extends TestCase {
 	public final void testCheck() throws ClassNotFoundException {
 		final Repository repository = RepositoryLocator.getRepository();
 		// Test class type
-		testMatches(createTypingPredicate("java.lang.Number"),
-				new JavaClass[] { repository.lookupClass(Integer.class),
-						repository.lookupClass(Long.class) },
-				new JavaClass[] { repository.lookupClass(String.class),
-						repository.lookupClass(Exception.class) });
+		testMatches(createTypingPredicate("java.lang.Number"), new JavaClass[] { repository.lookupClass(Integer.class), repository.lookupClass(Long.class) },
+				new JavaClass[] { repository.lookupClass(String.class), repository.lookupClass(Exception.class) });
 		// Test interface type
-		testMatches(createTypingPredicate("java.util.List"),
-				new JavaClass[] { repository.lookupClass(ArrayList.class),
-						repository.lookupClass(Vector.class) },
-				new JavaClass[] { repository.lookupClass(String.class),
-						repository.lookupClass(Integer.class) });
+		testMatches(createTypingPredicate("java.util.List"), new JavaClass[] { repository.lookupClass(ArrayList.class), repository.lookupClass(Vector.class) },
+				new JavaClass[] { repository.lookupClass(String.class), repository.lookupClass(Integer.class) });
 		// Test inherited interfaces
-		testMatches(
-				createTypingPredicate("ar.com.fluxit.jqa.mock.InterfaceA"),
-				new JavaClass[] {
-						repository
-								.lookupClass(ClassThatImplementsInterfaceA.class),
-						repository
-								.lookupClass(ClassThatExtendsClassThatImplementsInterfaceA.class) },
-				new JavaClass[] { repository.lookupClass(ExceptionA.class) });
+		testMatches(createTypingPredicate("ar.com.fluxit.jqa.mock.InterfaceA"), new JavaClass[] { repository.lookupClass(ClassThatImplementsInterfaceA.class),
+				repository.lookupClass(ClassThatExtendsClassThatImplementsInterfaceA.class) }, new JavaClass[] { repository.lookupClass(ExceptionA.class) });
 	}
 
-	private void testMatches(TypingPredicate predicate, JavaClass[] positive,
-			JavaClass[] negative) {
+	private void testMatches(TypingPredicate predicate, JavaClass[] positive, JavaClass[] negative) {
 		for (final JavaClass element : positive) {
-			assertTrue(
-					"\"" + predicate + "\" should match \"" + element + "\"",
-					predicate.evaluateClass(element));
+			assertTrue("\"" + predicate + "\" should match \"" + element + "\"", predicate.evaluateClass(element));
 		}
 		for (final JavaClass element : negative) {
-			assertTrue("\"" + predicate + "\" shouldn't match \"" + element
-					+ "\"", !predicate.evaluateClass(element));
+			assertTrue("\"" + predicate + "\" shouldn't match \"" + element + "\"", !predicate.evaluateClass(element));
 		}
 	}
 }

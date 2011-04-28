@@ -14,7 +14,7 @@
  * GNU General Public License for more details.
  * 
  * You should have received a copy of the GNU General Public License
- * along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+ * along with JQA.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 package ar.com.fluxit.jqa.predicate.lang;
 
@@ -31,8 +31,8 @@ public class TypingPredicate extends IgnoringContextPredicate {
 
 	private String parentClassName;
 	// transient for XML serialization
-	private transient JavaClass parentJavaClass; 
-	
+	private transient JavaClass parentJavaClass;
+
 	@Override
 	public boolean evaluate(JavaClass clazz) {
 		return evaluateClass(clazz);
@@ -40,8 +40,7 @@ public class TypingPredicate extends IgnoringContextPredicate {
 
 	protected boolean evaluateClass(JavaClass clazz) {
 		try {
-			return RepositoryLocator.getRepository().instanceOf(clazz,
-					getParentJavaClass());
+			return RepositoryLocator.getRepository().instanceOf(clazz, getParentJavaClass());
 		} catch (final ClassNotFoundException e) {
 			throw new IllegalStateException(e);
 		}
@@ -53,8 +52,7 @@ public class TypingPredicate extends IgnoringContextPredicate {
 
 	private JavaClass getParentJavaClass() throws ClassNotFoundException {
 		if (parentJavaClass == null) {
-			parentJavaClass = RepositoryLocator.getRepository().lookupClass(
-					getParentClassName());
+			parentJavaClass = RepositoryLocator.getRepository().lookupClass(getParentClassName());
 		}
 		return parentJavaClass;
 	}

@@ -14,7 +14,7 @@
  * GNU General Public License for more details.
  * 
  * You should have received a copy of the GNU General Public License
- * along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+ * along with JQA.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 package ar.com.fluxit.jqa.log;
 
@@ -43,21 +43,17 @@ public class MavenLogLoggerAdapter extends MarkerIgnoringBase {
 
 	@Override
 	public void debug(final String _messagePattern, final Object _arg) {
-		logger.debug(MessageFormatter.format(_messagePattern, _arg)
-				.getMessage());
+		logger.debug(MessageFormatter.format(_messagePattern, _arg).getMessage());
 	}
 
 	@Override
-	public void debug(final String _messagePattern, final Object _arg1,
-			final Object _arg2) {
-		logger.debug(MessageFormatter.format(_messagePattern, _arg1, _arg2)
-				.getMessage());
+	public void debug(final String _messagePattern, final Object _arg1, final Object _arg2) {
+		logger.debug(MessageFormatter.format(_messagePattern, _arg1, _arg2).getMessage());
 	}
 
 	@Override
 	public void debug(final String _messagePattern, final Object[] _args) {
-		logger.debug(MessageFormatter.arrayFormat(_messagePattern, _args)
-				.getMessage());
+		logger.debug(MessageFormatter.arrayFormat(_messagePattern, _args).getMessage());
 	}
 
 	@Override
@@ -72,21 +68,17 @@ public class MavenLogLoggerAdapter extends MarkerIgnoringBase {
 
 	@Override
 	public void error(final String _messagePattern, final Object _arg) {
-		logger.error(MessageFormatter.format(_messagePattern, _arg)
-				.getMessage());
+		logger.error(MessageFormatter.format(_messagePattern, _arg).getMessage());
 	}
 
 	@Override
-	public void error(final String _messagePattern, final Object _arg1,
-			final Object _arg2) {
-		logger.error(MessageFormatter.format(_messagePattern, _arg1, _arg2)
-				.getMessage());
+	public void error(final String _messagePattern, final Object _arg1, final Object _arg2) {
+		logger.error(MessageFormatter.format(_messagePattern, _arg1, _arg2).getMessage());
 	}
 
 	@Override
 	public void error(final String _messagePattern, final Object[] _args) {
-		logger.error(MessageFormatter.arrayFormat(_messagePattern, _args)
-				.getMessage());
+		logger.error(MessageFormatter.arrayFormat(_messagePattern, _args).getMessage());
 	}
 
 	@Override
@@ -106,22 +98,17 @@ public class MavenLogLoggerAdapter extends MarkerIgnoringBase {
 
 	@Override
 	public void info(final String _messagePattern, final Object _arg) {
-		logger
-				.info(MessageFormatter.format(_messagePattern, _arg)
-						.getMessage());
+		logger.info(MessageFormatter.format(_messagePattern, _arg).getMessage());
 	}
 
 	@Override
-	public void info(final String _messagePattern, final Object _arg1,
-			final Object _arg2) {
-		logger.info(MessageFormatter.format(_messagePattern, _arg1, _arg2)
-				.getMessage());
+	public void info(final String _messagePattern, final Object _arg1, final Object _arg2) {
+		logger.info(MessageFormatter.format(_messagePattern, _arg1, _arg2).getMessage());
 	}
 
 	@Override
 	public void info(final String _messagePattern, final Object[] _args) {
-		logger.info(MessageFormatter.arrayFormat(_messagePattern, _args)
-				.getMessage());
+		logger.info(MessageFormatter.arrayFormat(_messagePattern, _args).getMessage());
 	}
 
 	@Override
@@ -161,21 +148,17 @@ public class MavenLogLoggerAdapter extends MarkerIgnoringBase {
 
 	@Override
 	public void trace(final String _messagePattern, final Object _arg) {
-		logger.debug(MessageFormatter.format(_messagePattern, _arg)
-				.getMessage());
+		logger.debug(MessageFormatter.format(_messagePattern, _arg).getMessage());
 	}
 
 	@Override
-	public void trace(final String _messagePattern, final Object _arg1,
-			final Object _arg2) {
-		logger.debug(MessageFormatter.format(_messagePattern, _arg1, _arg2)
-				.getMessage());
+	public void trace(final String _messagePattern, final Object _arg1, final Object _arg2) {
+		logger.debug(MessageFormatter.format(_messagePattern, _arg1, _arg2).getMessage());
 	}
 
 	@Override
 	public void trace(final String _messagePattern, final Object[] _args) {
-		logger.debug(MessageFormatter.arrayFormat(_messagePattern, _args)
-				.getMessage());
+		logger.debug(MessageFormatter.arrayFormat(_messagePattern, _args).getMessage());
 	}
 
 	@Override
@@ -190,22 +173,17 @@ public class MavenLogLoggerAdapter extends MarkerIgnoringBase {
 
 	@Override
 	public void warn(final String _messagePattern, final Object _arg) {
-		logger
-				.warn(MessageFormatter.format(_messagePattern, _arg)
-						.getMessage());
+		logger.warn(MessageFormatter.format(_messagePattern, _arg).getMessage());
 	}
 
 	@Override
-	public void warn(final String _messagePattern, final Object _arg1,
-			final Object _arg2) {
-		logger.warn(MessageFormatter.format(_messagePattern, _arg1, _arg2)
-				.getMessage());
+	public void warn(final String _messagePattern, final Object _arg1, final Object _arg2) {
+		logger.warn(MessageFormatter.format(_messagePattern, _arg1, _arg2).getMessage());
 	}
 
 	@Override
 	public void warn(final String _messagePattern, final Object[] _args) {
-		logger.warn(MessageFormatter.arrayFormat(_messagePattern, _args)
-				.getMessage());
+		logger.warn(MessageFormatter.arrayFormat(_messagePattern, _args).getMessage());
 	}
 
 	@Override

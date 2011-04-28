@@ -14,7 +14,7 @@
  * GNU General Public License for more details.
  * 
  * You should have received a copy of the GNU General Public License
- * along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+ * along with JQA.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 package ar.com.fluxit.jqa.predicate.logic;
 
@@ -32,10 +32,8 @@ public class NotPredicateTest extends TestCase {
 	}
 
 	public void testCheck() {
-		assertTrue(new NotPredicate(FalsePredicate.INSTANCE).evaluate(null,
-				null));
-		assertFalse(new NotPredicate(TruePredicate.INSTANCE).evaluate(null,
-				null));
+		assertTrue(new NotPredicate(FalsePredicate.INSTANCE).evaluate(null, null));
+		assertFalse(new NotPredicate(TruePredicate.INSTANCE).evaluate(null, null));
 	}
 
 }

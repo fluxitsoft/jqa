@@ -14,7 +14,7 @@
  * GNU General Public License for more details.
  * 
  * You should have received a copy of the GNU General Public License
- * along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+ * along with JQA.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 package ar.com.fluxit.jqa.util;
 
@@ -37,8 +37,7 @@ public class FileUtils {
 	}
 
 	public File getClassFile(Class<?> clazz) {
-		final String fileName = clazz.getResource(
-				clazz.getSimpleName() + CLASS_FILE_EXTENSION).getFile();
+		final String fileName = clazz.getResource(clazz.getSimpleName() + CLASS_FILE_EXTENSION).getFile();
 		return new File(fileName);
 	}
 

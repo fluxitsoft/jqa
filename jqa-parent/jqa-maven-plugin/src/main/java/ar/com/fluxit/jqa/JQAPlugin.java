@@ -14,7 +14,7 @@
  * GNU General Public License for more details.
  * 
  * You should have received a copy of the GNU General Public License
- * along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+ * along with JQA.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 package ar.com.fluxit.jqa;
 
@@ -95,33 +95,24 @@ public class JQAPlugin extends AbstractMojo {
 
 	private void checkParams() {
 		if (getRulesContextFile() == null) {
-			throw new IllegalArgumentException(
-					"Rules context file can not be null");
+			throw new IllegalArgumentException("Rules context file can not be null");
 		}
 		if (!getRulesContextFile().exists()) {
-			throw new IllegalArgumentException(
-					"Rules context file does not exist: "
-							+ getRulesContextFile());
+			throw new IllegalArgumentException("Rules context file does not exist: " + getRulesContextFile());
 		}
 		if (getResultsDirectory() == null) {
-			throw new IllegalArgumentException(
-					"Results directory can not be null");
+			throw new IllegalArgumentException("Results directory can not be null");
 		}
 		if (!getResultsDirectory().exists()) {
-			throw new IllegalArgumentException(
-					"Results directory does not exist: "
-							+ getResultsDirectory());
+			throw new IllegalArgumentException("Results directory does not exist: " + getResultsDirectory());
 		}
 		if (!getResultsDirectory().isDirectory()) {
-			throw new IllegalArgumentException("Invalid results directory: "
-					+ getResultsDirectory());
+			throw new IllegalArgumentException("Invalid results directory: " + getResultsDirectory());
 		}
 	}
 
-	private void doExecute(File buildDirectory, File outputDirectory,
-			File testOutputDirectory, MavenProject project)
-			throws IntrospectionException, ClassFormatException,
-			FileNotFoundException, IOException, RulesContextFactoryException {
+	private void doExecute(File buildDirectory, File outputDirectory, File testOutputDirectory, MavenProject project) throws IntrospectionException,
+			ClassFormatException, FileNotFoundException, IOException, RulesContextFactoryException {
 		// Add project dependencies to classpath
 		getLog().debug("Adding project dependencies to classpath");
 		final Collection<File> classPath = new ArrayList<File>();
@@ -138,22 +129,17 @@ public class JQAPlugin extends AbstractMojo {
 			classPath.add(testOutputDirectory);
 		}
 		getLog().debug("Adding project classes to classpath");
-		final Collection<File> classFiles = FileUtils.listFiles(buildDirectory,
-				new SuffixFileFilter(CLASS_SUFFIX), TrueFileFilter.INSTANCE);
+		final Collection<File> classFiles = FileUtils.listFiles(buildDirectory, new SuffixFileFilter(CLASS_SUFFIX), TrueFileFilter.INSTANCE);
 		// TODO for (final File file : classFiles) {
 		// ClassPathLoader.INSTANCE.addClassFile(file, getLogger());
 		// }
 		// Reads the config file
 		getLog().debug("Reading rules context");
-		RulesContext rulesContext = RulesContextFactoryLocator
-				.getRulesContextFactory()
-				.getRulesContext(getRulesContextFile());
+		final RulesContext rulesContext = RulesContextFactoryLocator.getRulesContextFactory().getRulesContext(getRulesContextFile());
 		getLog().debug("Checking rules for " + classFiles.size() + " files");
-		CheckingResult checkingResult = RuleSetChecker.INSTANCE.check(
-				classFiles, classPath, rulesContext, getLogger());
+		final CheckingResult checkingResult = RuleSetChecker.INSTANCE.check(classFiles, classPath, rulesContext, getLogger());
 		// Writes the results
-		final File resultsFile = new File(getResultsDirectory(), "results-"
-				+ project.getArtifactId() + ".xml");
+		final File resultsFile = new File(getResultsDirectory(), "results-" + project.getArtifactId() + ".xml");
 		getLog().debug("Writing the results on " + resultsFile);
 		final Writer w = new FileWriter(resultsFile);
 		final Writer out = new BufferedWriter(w);
@@ -170,9 +156,7 @@ public class JQAPlugin extends AbstractMojo {
 				getLog().info("Artifact ignored because it has pom packaging");
 			} else {
 				checkParams();
-				doExecute(outputDirectory, new File(project.getBuild()
-						.getOutputDirectory()), new File(project.getBuild()
-						.getTestOutputDirectory()), project);
+				doExecute(outputDirectory, new File(project.getBuild().getOutputDirectory()), new File(project.getBuild().getTestOutputDirectory()), project);
 			}
 		} catch (final Exception e) {
 			throw new IllegalStateException(e);

@@ -14,7 +14,7 @@
  * GNU General Public License for more details.
  * 
  * You should have received a copy of the GNU General Public License
- * along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+ * along with JQA.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 package ar.com.fluxit.jqa.result;
 
@@ -53,9 +53,8 @@ public class CheckingResult {
 		this.date = date;
 	}
 
-	public void setRuleChecksFailed(
-			List<RuleCheckFailed> ruleExecutionsFailed) {
-		this.ruleChecksFailed = ruleExecutionsFailed;
+	public void setRuleChecksFailed(List<RuleCheckFailed> ruleExecutionsFailed) {
+		ruleChecksFailed = ruleExecutionsFailed;
 	}
 
 }

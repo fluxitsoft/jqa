@@ -14,7 +14,7 @@
  * GNU General Public License for more details.
  * 
  * You should have received a copy of the GNU General Public License
- * along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+ * along with JQA.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 package ar.com.fluxit.jqa.predicate.lang;
 
@@ -64,72 +64,42 @@ public class UsagePredicateTest extends TestCase {
 		// Simple class
 		testMatches(filterPredicateParentClass, ClassA.class, true);
 		testMatches(filterPredicateParentClass, ClassWithoutClassA.class, false);
-		testMatches(filterPredicateParentClass, ClassThatExtendsClassA.class,
-				true);
-		testMatches(filterPredicateParentClass, ClassWithFieldClassA.class,
-				true);
-		testMatches(filterPredicateParentClass,
-				ClassWithFieldArrayClassA.class, true);
-		testMatches(filterPredicateParentClass, ClassWithParameterClassA.class,
-				true);
-		testMatches(filterPredicateParentClass,
-				ClassWithParameterArrayClassA.class, true);
-		testMatches(filterPredicateParentClass, ClassThatReturnsClassA.class,
-				true);
-		testMatches(filterPredicateParentClass,
-				ClassThatReturnsArrayClassA.class, true);
+		testMatches(filterPredicateParentClass, ClassThatExtendsClassA.class, true);
+		testMatches(filterPredicateParentClass, ClassWithFieldClassA.class, true);
+		testMatches(filterPredicateParentClass, ClassWithFieldArrayClassA.class, true);
+		testMatches(filterPredicateParentClass, ClassWithParameterClassA.class, true);
+		testMatches(filterPredicateParentClass, ClassWithParameterArrayClassA.class, true);
+		testMatches(filterPredicateParentClass, ClassThatReturnsClassA.class, true);
+		testMatches(filterPredicateParentClass, ClassThatReturnsArrayClassA.class, true);
 		// Inner class
-		testMatches(filterPredicateParentClass,
-				InnerClassThatExtendsClassA.B.class, true);
-		testMatches(filterPredicateParentClass,
-				InnerClassWithFieldClassA.B.class, true);
-		testMatches(filterPredicateParentClass,
-				InnerClassWithFieldArrayClassA.B.class, true);
-		testMatches(filterPredicateParentClass,
-				InnerClassWithParameterClassA.B.class, true);
-		testMatches(filterPredicateParentClass,
-				InnerClassWithParameterArrayClassA.B.class, true);
-		testMatches(filterPredicateParentClass,
-				InnerClassThatReturnsClassA.B.class, true);
-		testMatches(filterPredicateParentClass,
-				InnerClassThatReturnsArrayClassA.B.class, true);
+		testMatches(filterPredicateParentClass, InnerClassThatExtendsClassA.B.class, true);
+		testMatches(filterPredicateParentClass, InnerClassWithFieldClassA.B.class, true);
+		testMatches(filterPredicateParentClass, InnerClassWithFieldArrayClassA.B.class, true);
+		testMatches(filterPredicateParentClass, InnerClassWithParameterClassA.B.class, true);
+		testMatches(filterPredicateParentClass, InnerClassWithParameterArrayClassA.B.class, true);
+		testMatches(filterPredicateParentClass, InnerClassThatReturnsClassA.B.class, true);
+		testMatches(filterPredicateParentClass, InnerClassThatReturnsArrayClassA.B.class, true);
 		// Inner static class
-		testMatches(filterPredicateParentClass,
-				StaticInnerClassThatExtendsClassA.B.class, true);
-		testMatches(filterPredicateParentClass,
-				StaticInnerClassWithFieldClassA.B.class, true);
-		testMatches(filterPredicateParentClass,
-				StaticInnerClassWithFieldArrayClassA.B.class, true);
-		testMatches(filterPredicateParentClass,
-				StaticInnerClassWithParameterClassA.B.class, true);
-		testMatches(filterPredicateParentClass,
-				StaticInnerClassWithParameterArrayClassA.B.class, true);
-		testMatches(filterPredicateParentClass,
-				StaticInnerClassThatReturnsClassA.B.class, true);
-		testMatches(filterPredicateParentClass,
-				StaticInnerClassThatReturnsArrayClassA.B.class, true);
+		testMatches(filterPredicateParentClass, StaticInnerClassThatExtendsClassA.B.class, true);
+		testMatches(filterPredicateParentClass, StaticInnerClassWithFieldClassA.B.class, true);
+		testMatches(filterPredicateParentClass, StaticInnerClassWithFieldArrayClassA.B.class, true);
+		testMatches(filterPredicateParentClass, StaticInnerClassWithParameterClassA.B.class, true);
+		testMatches(filterPredicateParentClass, StaticInnerClassWithParameterArrayClassA.B.class, true);
+		testMatches(filterPredicateParentClass, StaticInnerClassThatReturnsClassA.B.class, true);
+		testMatches(filterPredicateParentClass, StaticInnerClassThatReturnsArrayClassA.B.class, true);
 		// Static methods
-		testMatches(filterPredicateParentClass,
-				ClassWithStaticFieldClassA.class, true);
-		testMatches(filterPredicateParentClass,
-				ClassWithStaticFieldArrayClassA.class, true);
-		testMatches(filterPredicateParentClass,
-				ClassWithStaticParameterClassA.class, true);
-		testMatches(filterPredicateParentClass,
-				ClassWithStaticParameterArrayClassA.class, true);
-		testMatches(filterPredicateParentClass,
-				ClassThatStaticReturnsClassA.class, true);
-		testMatches(filterPredicateParentClass,
-				ClassThatStaticReturnsArrayClassA.class, true);
+		testMatches(filterPredicateParentClass, ClassWithStaticFieldClassA.class, true);
+		testMatches(filterPredicateParentClass, ClassWithStaticFieldArrayClassA.class, true);
+		testMatches(filterPredicateParentClass, ClassWithStaticParameterClassA.class, true);
+		testMatches(filterPredicateParentClass, ClassWithStaticParameterArrayClassA.class, true);
+		testMatches(filterPredicateParentClass, ClassThatStaticReturnsClassA.class, true);
+		testMatches(filterPredicateParentClass, ClassThatStaticReturnsArrayClassA.class, true);
 	}
 
-	private void testMatches(String filterPredicateParentClass,
-			Class<?> usagePredicateClass, boolean matches)
-			throws ClassNotFoundException {
+	private void testMatches(String filterPredicateParentClass, Class<?> usagePredicateClass, boolean matches) throws ClassNotFoundException {
 		final TypingPredicate filterPredicate = new TypingPredicate();
 		filterPredicate.setParentClassName(filterPredicateParentClass);
-		final JavaClass clazz = RepositoryLocator.getRepository().lookupClass(
-				usagePredicateClass);
+		final JavaClass clazz = RepositoryLocator.getRepository().lookupClass(usagePredicateClass);
 		final UsagePredicate usagePredicate = new UsagePredicate();
 		usagePredicate.setFilterPredicate(filterPredicate);
 		assertEquals(matches, usagePredicate.evaluate(clazz, null));

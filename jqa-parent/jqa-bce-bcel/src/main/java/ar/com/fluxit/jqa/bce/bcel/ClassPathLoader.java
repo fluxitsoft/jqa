@@ -14,7 +14,7 @@
  * GNU General Public License for more details.
  * 
  * You should have received a copy of the GNU General Public License
- * along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+ * along with JQA.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 package ar.com.fluxit.jqa.bce.bcel;
 
@@ -44,30 +44,24 @@ class ClassPathLoader {
 		super();
 	}
 
-	private void addToClassPath(File file) throws IntrospectionException,
-			ClassFormatException, FileNotFoundException, IOException {
-		System.setProperty("java.class.path", System
-				.getProperty("java.class.path")
-				+ ":" + file.getPath());
+	private void addToClassPath(File file) throws IntrospectionException, ClassFormatException, FileNotFoundException, IOException {
+		System.setProperty("java.class.path", System.getProperty("java.class.path") + ":" + file.getPath());
 	}
 
 	private void reloadBCELClassPath() {
 		try {
-			ClassPath updatedClassPath = new ClassPath(ClassPath.getClassPath());
-			SyntheticRepository repository = SyntheticRepository.getInstance();
-			Field declaredField = repository.getClass().getDeclaredField(
-					"_path");
+			final ClassPath updatedClassPath = new ClassPath(ClassPath.getClassPath());
+			final SyntheticRepository repository = SyntheticRepository.getInstance();
+			final Field declaredField = repository.getClass().getDeclaredField("_path");
 			declaredField.setAccessible(true);
 			declaredField.set(repository, updatedClassPath);
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	public void setClassPath(Collection<File> classPathFiles)
-			throws IntrospectionException, FileNotFoundException,
-			ClassFormatException, IOException {
-		for (File classPathFile : classPathFiles) {
+	public void setClassPath(Collection<File> classPathFiles) throws IntrospectionException, FileNotFoundException, ClassFormatException, IOException {
+		for (final File classPathFile : classPathFiles) {
 			addToClassPath(classPathFile);
 		}
 		reloadBCELClassPath();

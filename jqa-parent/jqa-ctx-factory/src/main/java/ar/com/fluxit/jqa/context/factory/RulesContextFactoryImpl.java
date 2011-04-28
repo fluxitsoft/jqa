@@ -1,3 +1,21 @@
+/*******************************************************************************
+ * JQA (http://code.google.com/p/jqa-project/)
+ * 
+ * Copyright (c) 2011 Juan Ignacio Barisich.
+ * 
+ * JQA is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * JQA is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with JQA.  If not, see <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
 package ar.com.fluxit.jqa.context.factory;
 
 import java.io.File;
@@ -55,123 +73,101 @@ public class RulesContextFactoryImpl implements RulesContextFactory {
 	}
 
 	@Override
-	public RulesContext getRulesContext(Object source)
-			throws RulesContextFactoryException {
+	public RulesContext getRulesContext(Object source) throws RulesContextFactoryException {
 		if (source instanceof File) {
 			try {
-				File sourceFile = (File) source;
-				RulesContextDocument document = RulesContextDocument.Factory
-						.parse(sourceFile);
+				final File sourceFile = (File) source;
+				final RulesContextDocument document = RulesContextDocument.Factory.parse(sourceFile);
 				validate(document, sourceFile.toString());
 				return parse(document.getRulesContext(), sourceFile.getParent());
-			} catch (RulesContextFactoryException e) {
+			} catch (final RulesContextFactoryException e) {
 				throw e;
-			} catch (XmlException e) {
-				throw new RulesContextFactoryException(
-						"Invalid rules context file: " + source, e);
-			} catch (IOException e) {
-				throw new RulesContextFactoryException(
-						"Error reading rules context file: " + source, e);
-			} catch (Exception e) {
+			} catch (final XmlException e) {
+				throw new RulesContextFactoryException("Invalid rules context file: " + source, e);
+			} catch (final IOException e) {
+				throw new RulesContextFactoryException("Error reading rules context file: " + source, e);
+			} catch (final Exception e) {
 				throw new RulesContextFactoryException(e);
 			}
 		} else {
-			throw new IllegalArgumentException("Source (" + source
-					+ ") must be a File object");
+			throw new IllegalArgumentException("Source (" + source + ") must be a File object");
 		}
 	}
 
-	private RuleSet importRuleSet(File sourceFile)
-			throws RulesContextFactoryException {
+	private RuleSet importRuleSet(File sourceFile) throws RulesContextFactoryException {
 		try {
-			RulesetDocument document = RulesetDocument.Factory
-					.parse(sourceFile);
+			final RulesetDocument document = RulesetDocument.Factory.parse(sourceFile);
 			validate(document, sourceFile.toString());
 			return parse(document.getRuleset());
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			throw new RulesContextFactoryException(e);
 		}
 	}
 
-	private RuleSet importRuleSetByFileName(String fileName, String basePath)
-			throws RulesContextFactoryException {
-		File sourceFile = new File(getFilePath(fileName, basePath));
+	private RuleSet importRuleSetByFileName(String fileName, String basePath) throws RulesContextFactoryException {
+		final File sourceFile = new File(getFilePath(fileName, basePath));
 		return importRuleSet(sourceFile);
 	}
 
-	private RuleSet importRuleSetByName(String name)
-			throws RulesContextFactoryException {
-		File sourceFile = new File(ClassLoader.getSystemResource(
-				"rulesets/" + name + ".xml").getFile());
+	private RuleSet importRuleSetByName(String name) throws RulesContextFactoryException {
+		final File sourceFile = new File(ClassLoader.getSystemResource("rulesets/" + name + ".xml").getFile());
 		return importRuleSet(sourceFile);
 	}
 
 	Predicate parse(AbstractionPredicate predicate) {
-		ar.com.fluxit.jqa.predicate.lang.AbstractionPredicate result = new ar.com.fluxit.jqa.predicate.lang.AbstractionPredicate();
+		final ar.com.fluxit.jqa.predicate.lang.AbstractionPredicate result = new ar.com.fluxit.jqa.predicate.lang.AbstractionPredicate();
 		parse(predicate, result);
 		result.setAbstractionType(parse(predicate.getAbstractionType()));
 		return result;
 	}
 
 	Predicate parse(AllocationPredicate predicate) {
-		ar.com.fluxit.jqa.predicate.lang.AllocationPredicate result = new ar.com.fluxit.jqa.predicate.lang.AllocationPredicate();
+		final ar.com.fluxit.jqa.predicate.lang.AllocationPredicate result = new ar.com.fluxit.jqa.predicate.lang.AllocationPredicate();
 		parse(predicate, result);
 		return result;
 	}
 
 	Predicate parse(AndPredicate predicate) {
-		ar.com.fluxit.jqa.predicate.logic.AndPredicate result = new ar.com.fluxit.jqa.predicate.logic.AndPredicate();
+		final ar.com.fluxit.jqa.predicate.logic.AndPredicate result = new ar.com.fluxit.jqa.predicate.logic.AndPredicate();
 		parse(predicate, result);
 		return result;
 	}
 
-	private RulesContext parse(
-			ar.com.fluxit.jqa.schema.rulescontext.RulesContext rulesContext,
-			String basePath) throws RulesContextFactoryException {
+	private RulesContext parse(ar.com.fluxit.jqa.schema.rulescontext.RulesContext rulesContext, String basePath) throws RulesContextFactoryException {
 		final RulesContextImpl result = new RulesContextImpl();
-		for (ar.com.fluxit.jqa.schema.ruleset.Predicate globalPredicate : rulesContext
-				.getGlobalPredicateList()) {
+		for (final ar.com.fluxit.jqa.schema.ruleset.Predicate globalPredicate : rulesContext.getGlobalPredicateList()) {
 			result.add((Predicate) parse(globalPredicate));
 		}
-		for (RuleSetImport ruleSetImport : rulesContext.getRuleSetImportList()) {
+		for (final RuleSetImport ruleSetImport : rulesContext.getRuleSetImportList()) {
 			result.add(parse(ruleSetImport, basePath));
 		}
 		return result;
 	}
 
-	AbstractionType parse(
-			ar.com.fluxit.jqa.schema.ruleset.AbstractionType.Enum type) {
+	AbstractionType parse(ar.com.fluxit.jqa.schema.ruleset.AbstractionType.Enum type) {
 		return AbstractionType.valueOf(type.toString());
 	}
 
-	private void parse(
-			ar.com.fluxit.jqa.schema.ruleset.FilteredPredicate predicate,
-			FilteredPredicate result) {
-		result.setFilterPredicate((Predicate) parse(predicate
-				.getFilterPredicate()));
+	private void parse(ar.com.fluxit.jqa.schema.ruleset.FilteredPredicate predicate, FilteredPredicate result) {
+		result.setFilterPredicate((Predicate) parse(predicate.getFilterPredicate()));
 		parse(predicate, (AbstractPredicate) result);
 	}
 
-	private void parse(ar.com.fluxit.jqa.schema.ruleset.Predicate predicate,
-			AbstractPredicate result) {
+	private void parse(ar.com.fluxit.jqa.schema.ruleset.Predicate predicate, AbstractPredicate result) {
 		result.setName(predicate.getName());
 	}
 
 	private Rule parse(ar.com.fluxit.jqa.schema.ruleset.Rule rule) {
-		String name = rule.getName();
-		String message = rule.getMessage();
-		Predicate filterPredicate = (Predicate) parse(rule.getFilterPredicate());
-		Predicate checkPredicate = (Predicate) parse(rule.getCheckPredicate());
-		Rule result = new RuleImpl(filterPredicate, checkPredicate, name,
-				message);
+		final String name = rule.getName();
+		final String message = rule.getMessage();
+		final Predicate filterPredicate = (Predicate) parse(rule.getFilterPredicate());
+		final Predicate checkPredicate = (Predicate) parse(rule.getCheckPredicate());
+		final Rule result = new RuleImpl(filterPredicate, checkPredicate, name, message);
 		return result;
 	}
 
-	private void parse(
-			ar.com.fluxit.jqa.schema.ruleset.VarArgsLogicPredicate predicate,
-			VarArgsLogicPredicate result) {
-		Predicate[] predicates = new Predicate[predicate.getPredicateList()
-				.size()];
+	private void parse(ar.com.fluxit.jqa.schema.ruleset.VarArgsLogicPredicate predicate, VarArgsLogicPredicate result) {
+		final Predicate[] predicates = new Predicate[predicate.getPredicateList().size()];
 		for (int i = 0; i < predicates.length; i++) {
 			predicates[i] = (Predicate) parse(predicate.getPredicateArray(i));
 		}
@@ -198,7 +194,7 @@ public class RulesContextFactoryImpl implements RulesContextFactory {
 	}
 
 	Predicate parse(NotPredicate predicate) {
-		ar.com.fluxit.jqa.predicate.logic.NotPredicate result = new ar.com.fluxit.jqa.predicate.logic.NotPredicate();
+		final ar.com.fluxit.jqa.predicate.logic.NotPredicate result = new ar.com.fluxit.jqa.predicate.logic.NotPredicate();
 		result.setPredicate((Predicate) parse(predicate.getPredicate()));
 		parse(predicate, result);
 		return result;
@@ -206,45 +202,38 @@ public class RulesContextFactoryImpl implements RulesContextFactory {
 
 	private Object parse(Object source) {
 		try {
-			return getClass().getDeclaredMethod("parse",
-					new Class[] { source.getClass().getInterfaces()[0] })
-					.invoke(this, new Object[] { source });
-		} catch (Exception e) {
+			return getClass().getDeclaredMethod("parse", new Class[] { source.getClass().getInterfaces()[0] }).invoke(this, new Object[] { source });
+		} catch (final Exception e) {
 			throw new IllegalArgumentException("Cannot parse object: " + source);
 		}
 	}
 
 	Predicate parse(OrPredicate predicate) {
-		ar.com.fluxit.jqa.predicate.logic.OrPredicate result = new ar.com.fluxit.jqa.predicate.logic.OrPredicate();
+		final ar.com.fluxit.jqa.predicate.logic.OrPredicate result = new ar.com.fluxit.jqa.predicate.logic.OrPredicate();
 		parse(predicate, result);
 		return result;
 	}
 
 	private RuleSet parse(Ruleset rulesetDocument) {
-		RuleSetImpl result = new RuleSetImpl();
+		final RuleSetImpl result = new RuleSetImpl();
 		result.setName(rulesetDocument.getName());
-		List<Rule> rules = new ArrayList<Rule>(rulesetDocument.getRuleList()
-				.size());
-		for (ar.com.fluxit.jqa.schema.ruleset.Rule rule : rulesetDocument
-				.getRuleList()) {
+		final List<Rule> rules = new ArrayList<Rule>(rulesetDocument.getRuleList().size());
+		for (final ar.com.fluxit.jqa.schema.ruleset.Rule rule : rulesetDocument.getRuleList()) {
 			rules.add(parse(rule));
 		}
 		result.setRules(rules);
 		return result;
 	}
 
-	private RuleSet parse(RuleSetImport ruleSetImport, String basePath)
-			throws RulesContextFactoryException {
+	private RuleSet parse(RuleSetImport ruleSetImport, String basePath) throws RulesContextFactoryException {
 		RuleSet result;
 		if (ruleSetImport.getFileName() != null) {
-			result = importRuleSetByFileName(ruleSetImport.getFileName(),
-					basePath);
+			result = importRuleSetByFileName(ruleSetImport.getFileName(), basePath);
 		} else {
 			result = importRuleSetByName(ruleSetImport.getName());
 		}
 		if (result == null) {
-			throw new IllegalArgumentException("Invalid Ruleset import "
-					+ ruleSetImport);
+			throw new IllegalArgumentException("Invalid Ruleset import " + ruleSetImport);
 		}
 		return result;
 	}
@@ -273,24 +262,22 @@ public class RulesContextFactoryImpl implements RulesContextFactory {
 	}
 
 	Predicate parse(XORPredicate predicate) {
-		ar.com.fluxit.jqa.predicate.logic.XorPredicate result = new ar.com.fluxit.jqa.predicate.logic.XorPredicate();
+		final ar.com.fluxit.jqa.predicate.logic.XorPredicate result = new ar.com.fluxit.jqa.predicate.logic.XorPredicate();
 		parse(predicate, result);
 		return result;
 	}
 
-	private void validate(XmlObject document, String sourceFile)
-			throws RulesContextFactoryException {
-		List<Object> validationErrors = new ArrayList<Object>();
-		XmlOptions voptions = new XmlOptions();
+	private void validate(XmlObject document, String sourceFile) throws RulesContextFactoryException {
+		final List<Object> validationErrors = new ArrayList<Object>();
+		final XmlOptions voptions = new XmlOptions();
 		voptions.setErrorListener(validationErrors);
 		if (!document.validate(voptions)) {
-			StringBuilder errors = new StringBuilder();
-			for (Object error : validationErrors) {
+			final StringBuilder errors = new StringBuilder();
+			for (final Object error : validationErrors) {
 				errors.append(error);
 				errors.append("\n");
 			}
-			throw new RulesContextFactoryException(
-					"Invalid rules context file :" + sourceFile + "\n" + errors);
+			throw new RulesContextFactoryException("Invalid rules context file :" + sourceFile + "\n" + errors);
 		}
 	}
 

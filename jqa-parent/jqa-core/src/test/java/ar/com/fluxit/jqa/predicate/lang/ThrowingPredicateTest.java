@@ -14,7 +14,7 @@
  * GNU General Public License for more details.
  * 
  * You should have received a copy of the GNU General Public License
- * along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+ * along with JQA.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 package ar.com.fluxit.jqa.predicate.lang;
 
@@ -42,33 +42,22 @@ public class ThrowingPredicateTest extends TestCase {
 		final String filterPredicateParentClass = ExceptionA.class.getName();
 		// No exceptions
 		testMatches(filterPredicateParentClass, ClassA.class, false);
-		testMatches(filterPredicateParentClass,
-				ClassThatDoesntThrowsExceptionA.class, false);
+		testMatches(filterPredicateParentClass, ClassThatDoesntThrowsExceptionA.class, false);
 		// Checked exceptions
-		testMatches(filterPredicateParentClass,
-				ClassThatThrowsExceptionAOnConstructor.class, true);
-		testMatches(filterPredicateParentClass,
-				ClassThatThrowsExceptionAOnMethod.class, true);
-		testMatches(filterPredicateParentClass,
-				ClassThatThrowsExceptionAOnStaticMethod.class, true);
+		testMatches(filterPredicateParentClass, ClassThatThrowsExceptionAOnConstructor.class, true);
+		testMatches(filterPredicateParentClass, ClassThatThrowsExceptionAOnMethod.class, true);
+		testMatches(filterPredicateParentClass, ClassThatThrowsExceptionAOnStaticMethod.class, true);
 		// Unchecked exceptions
-		final String runtimeExceptionClassName = RuntimeException.class
-				.getName();
-		testMatches(runtimeExceptionClassName,
-				ClassThatThrowsUncheckedExceptionOnMethod.class, true);
-		testMatches(runtimeExceptionClassName,
-				ClassThatThrowsUncheckedExceptionOnConstructor.class, true);
-		testMatches(runtimeExceptionClassName,
-				ClassThatThrowsUncheckedExceptionOnStaticMethod.class, true);
+		final String runtimeExceptionClassName = RuntimeException.class.getName();
+		testMatches(runtimeExceptionClassName, ClassThatThrowsUncheckedExceptionOnMethod.class, true);
+		testMatches(runtimeExceptionClassName, ClassThatThrowsUncheckedExceptionOnConstructor.class, true);
+		testMatches(runtimeExceptionClassName, ClassThatThrowsUncheckedExceptionOnStaticMethod.class, true);
 	}
 
-	private void testMatches(String filterPredicateParentClass,
-			Class<?> usagePredicateClass, boolean matches)
-			throws ClassNotFoundException {
+	private void testMatches(String filterPredicateParentClass, Class<?> usagePredicateClass, boolean matches) throws ClassNotFoundException {
 		final TypingPredicate filterPredicate = new TypingPredicate();
 		filterPredicate.setParentClassName(filterPredicateParentClass);
-		final JavaClass clazz = RepositoryLocator.getRepository().lookupClass(
-				usagePredicateClass);
+		final JavaClass clazz = RepositoryLocator.getRepository().lookupClass(usagePredicateClass);
 		final ThrowingPredicate throwingPredicate = new ThrowingPredicate();
 		throwingPredicate.setFilterPredicate(filterPredicate);
 		assertEquals(matches, throwingPredicate.evaluate(clazz, null));

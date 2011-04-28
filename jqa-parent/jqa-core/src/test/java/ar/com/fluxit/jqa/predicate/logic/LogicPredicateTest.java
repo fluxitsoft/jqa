@@ -14,7 +14,7 @@
  * GNU General Public License for more details.
  * 
  * You should have received a copy of the GNU General Public License
- * along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+ * along with JQA.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 package ar.com.fluxit.jqa.predicate.logic;
 
@@ -29,18 +29,15 @@ import ar.com.fluxit.jqa.predicate.Predicate;
 public abstract class LogicPredicateTest extends TestCase {
 
 	protected Predicate[] getFalseFalse() {
-		return new Predicate[] { FalsePredicate.INSTANCE,
-				FalsePredicate.INSTANCE };
+		return new Predicate[] { FalsePredicate.INSTANCE, FalsePredicate.INSTANCE };
 	}
 
 	protected Predicate[] getFalseTrue() {
-		return new Predicate[] { FalsePredicate.INSTANCE,
-				TruePredicate.INSTANCE };
+		return new Predicate[] { FalsePredicate.INSTANCE, TruePredicate.INSTANCE };
 	}
 
 	protected Predicate[] getTrueFalse() {
-		return new Predicate[] { TruePredicate.INSTANCE,
-				FalsePredicate.INSTANCE };
+		return new Predicate[] { TruePredicate.INSTANCE, FalsePredicate.INSTANCE };
 	}
 
 	protected Predicate[] getTrueTrue() {
