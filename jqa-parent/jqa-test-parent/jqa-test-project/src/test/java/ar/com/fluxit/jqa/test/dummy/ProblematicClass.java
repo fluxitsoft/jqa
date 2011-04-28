@@ -1,20 +1,33 @@
 package ar.com.fluxit.jqa.test.dummy;
 
-import hidden.org.codehaus.plexus.interpolation.ValueSource;
+import java.util.Iterator;
+
+import com.thoughtworks.xstream.converters.DataHolder;
 
 /**
  * TODO javadoc
  * 
  * @author Juan Ignacio Barisich
  */
-public class ProblematicClass implements ValueSource {
+public class ProblematicClass implements DataHolder {
 
 	public ProblematicClass() {
 		super();
 	}
 
 	@Override
-	public Object getValue(String paramString) {
-		return "";
+	public Object get(Object key) {
+		return null;
 	}
+
+	@Override
+	public void put(Object key, Object value) {
+
+	}
+
+	@Override
+	public Iterator<?> keys() {
+		return null;
+	}
+
 }
