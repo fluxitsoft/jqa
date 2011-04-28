@@ -31,8 +31,9 @@
 			<predicate xsi:type="jqa:AbstractionPredicate"
 				abstractionType="INTERFACE" />
 		</filterPredicate>
-		<checkPredicate xsi:type="jqa:AndPredicate">
+		<checkPredicate xsi:type="jqa:OrPredicate">
 			<predicate xsi:type="jqa:NamingPredicate" classNamePattern="**.bo.*BO" />
+			<predicate xsi:type="jqa:NamingPredicate" classNamePattern="ar.com.fluxit.jqa.test.fmk.bo.BussinesObject" />
 		</checkPredicate>
 	</rule>
 	<rule name="BO contract naming" message="A BO contract must be an interface and must extends ar.com.fluxit.jqa.test.fmk.bo.BusinessObject">
