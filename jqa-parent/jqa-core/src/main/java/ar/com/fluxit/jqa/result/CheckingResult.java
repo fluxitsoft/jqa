@@ -23,7 +23,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * TODO javadoc TODO ¿hold more info (like ruleset)?
+ * TODO javadoc
  * 
  * @author Juan Ignacio Barisich
  */
