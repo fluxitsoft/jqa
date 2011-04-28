@@ -71,10 +71,8 @@ public class RepositoryImpl implements Repository {
 						final String op = Constants.OPCODE_NAMES[opcode];
 						if (NEW_OPCODE_NAME.equals(op)) {
 							final int index = stream.readUnsignedShort();
-							final ConstantPool constantPool = getWrappedClass(
-									clazz).getConstantPool();
-							final String className = constantPool
-									.constantToString(index, (byte) 7);
+							final ConstantPool constantPool = getWrappedClass(clazz).getConstantPool();
+							final String className = constantPool.constantToString(index, (byte) 7);
 							result.add(getClazz(className));
 						}
 					}
@@ -94,10 +92,8 @@ public class RepositoryImpl implements Repository {
 	}
 
 	private JavaClass getClazz(String constantClassName) {
-		final String usedClassName = ClassNameTranslator
-				.typeConstantToClassName(constantClassName);
-		final org.apache.bcel.classfile.JavaClass usedClass = org.apache.bcel.Repository
-				.lookupClass(usedClassName);
+		final String usedClassName = ClassNameTranslator.typeConstantToClassName(constantClassName);
+		final org.apache.bcel.classfile.JavaClass usedClass = org.apache.bcel.Repository.lookupClass(usedClassName);
 		return new BcelJavaClass(usedClass);
 	}
 
@@ -124,10 +120,8 @@ public class RepositoryImpl implements Repository {
 								stream.unreadByte();
 							}
 							final int index = stream.readUnsignedByte();
-							final ConstantPool constantPool = getWrappedClass(
-									clazz).getConstantPool();
-							final String className = constantPool
-									.constantToString(index, (byte) 7);
+							final ConstantPool constantPool = getWrappedClass(clazz).getConstantPool();
+							final String className = constantPool.constantToString(index, (byte) 7);
 							result.add(getClazz(className));
 							for (int i = 0; i < SLIDE - 1; i++) {
 								stream.readUnsignedByte();
@@ -156,19 +150,15 @@ public class RepositoryImpl implements Repository {
 
 			@Override
 			public void visitField(Field field) {
-				// TODO ver si se puede pasar esta logica a
-				// ClassNameTranslator.typeConstantToClassName
 				final String signature = field.getSignature();
 				final int beginIndex = signature.startsWith("[") ? 2 : 1;
-				final String signatureClassName = signature.substring(
-						beginIndex, signature.length() - 1);
+				final String signatureClassName = signature.substring(beginIndex, signature.length() - 1);
 				result.add(getClazz(signatureClassName));
 			};
 
 			@Override
 			public void visitMethod(Method method) {
-				final List<String> classNames = ClassNameTranslator
-						.signatureToClassNames(method.getSignature());
+				final List<String> classNames = ClassNameTranslator.signatureToClassNames(method.getSignature());
 				for (final String className : classNames) {
 					if (!className.equals(VOID)) {
 						result.add(getClazz(className));
@@ -186,46 +176,38 @@ public class RepositoryImpl implements Repository {
 	}
 
 	@Override
-	public boolean instanceOf(JavaClass clazz, JavaClass parentJavaClass)
-			throws ClassNotFoundException {
+	public boolean instanceOf(JavaClass clazz, JavaClass parentJavaClass) throws ClassNotFoundException {
 		if (clazz.equals(parentJavaClass)) {
 			return true;
 		} else {
-			return org.apache.bcel.Repository.instanceOf(
-					getWrappedClass(clazz), getWrappedClass(parentJavaClass));
+			return org.apache.bcel.Repository.instanceOf(getWrappedClass(clazz), getWrappedClass(parentJavaClass));
 		}
 	}
 
 	@Override
 	public JavaClass lookupClass(Class<?> clazz) throws ClassNotFoundException {
 		// TODO cache
-		final org.apache.bcel.classfile.JavaClass lookupClass = org.apache.bcel.Repository
-				.lookupClass(clazz);
+		final org.apache.bcel.classfile.JavaClass lookupClass = org.apache.bcel.Repository.lookupClass(clazz);
 		if (lookupClass == null) {
-			throw new ClassNotFoundException("Class not found: "
-					+ clazz.getName());
+			throw new ClassNotFoundException("Class not found: " + clazz.getName());
 		} else {
 			return new BcelJavaClass(lookupClass);
 		}
 	}
 
 	@Override
-	public JavaClass lookupClass(String parentClassName)
-			throws ClassNotFoundException {
+	public JavaClass lookupClass(String parentClassName) throws ClassNotFoundException {
 		// TODO cache
-		final org.apache.bcel.classfile.JavaClass lookupClass = org.apache.bcel.Repository
-				.lookupClass(parentClassName);
+		final org.apache.bcel.classfile.JavaClass lookupClass = org.apache.bcel.Repository.lookupClass(parentClassName);
 		if (lookupClass == null) {
-			throw new ClassNotFoundException("Can not find class "
-					+ parentClassName);
+			throw new ClassNotFoundException("Can not find class " + parentClassName);
 		} else {
 			return new BcelJavaClass(lookupClass);
 		}
 	}
 
 	@Override
-	public JavaClass parse(FileInputStream fis, String object)
-			throws ClassFormatException, IOException {
+	public JavaClass parse(FileInputStream fis, String object) throws ClassFormatException, IOException {
 		try {
 			return new BcelJavaClass(new ClassParser(fis, object).parse());
 		} catch (final org.apache.bcel.classfile.ClassFormatException e) {
@@ -234,9 +216,7 @@ public class RepositoryImpl implements Repository {
 	}
 
 	@Override
-	public void setClassPath(Collection<File> classPathFiles)
-			throws IntrospectionException, FileNotFoundException,
-			ClassFormatException, IOException {
+	public void setClassPath(Collection<File> classPathFiles) throws IntrospectionException, FileNotFoundException, ClassFormatException, IOException {
 		ClassPathLoader.INSTANCE.setClassPath(classPathFiles);
 	}
 
