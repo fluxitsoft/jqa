@@ -175,8 +175,12 @@ public class RepositoryImpl implements Repository {
 	@Override
 	public boolean instanceOf(JavaClass clazz, JavaClass parentJavaClass)
 			throws ClassNotFoundException {
-		return org.apache.bcel.Repository.instanceOf(getWrappedClass(clazz),
-				getWrappedClass(parentJavaClass));
+		if (clazz.equals(parentJavaClass)) {
+			return true;
+		} else {
+			return org.apache.bcel.Repository.instanceOf(
+					getWrappedClass(clazz), getWrappedClass(parentJavaClass));
+		}
 	}
 
 	@Override
