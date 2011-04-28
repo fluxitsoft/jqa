@@ -44,7 +44,7 @@
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
-			<groupId>ar.com.fluxit</groupId>
+			<groupId>ar.com.fluxit.jqa</groupId>
 			<artifactId>jqa-bce-bcel</artifactId>
 			<type>jar</type>
 			<version>${jqa.version}</version>
