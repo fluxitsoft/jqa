@@ -16,26 +16,27 @@
  * You should have received a copy of the GNU General Public License
  * along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package ar.com.fluxit.jqa.util;
+package ar.com.fluxit.jqa.bce.bcel;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.lang.reflect.Field;
+import java.util.Collection;
 
 import javax.management.IntrospectionException;
 
-import org.slf4j.Logger;
+import org.apache.bcel.util.ClassPath;
+import org.apache.bcel.util.SyntheticRepository;
 
 import ar.com.fluxit.jqa.bce.ClassFormatException;
-import ar.com.fluxit.jqa.bce.RepositoryLocator;
 
 /**
  * TODO javadoc
  * 
  * @author Juan Ignacio Barisich
  */
-public class ClassPathLoader {
+class ClassPathLoader {
 
 	public static ClassPathLoader INSTANCE = new ClassPathLoader();
 
@@ -43,39 +44,33 @@ public class ClassPathLoader {
 		super();
 	}
 
-	public void addArtifactFile(File file, Logger log)
-			throws IntrospectionException, ClassFormatException,
-			FileNotFoundException, IOException {
-		// addURL(file.toURI().toURL(), log);
+	private void addToClassPath(File file) throws IntrospectionException,
+			ClassFormatException, FileNotFoundException, IOException {
 		System.setProperty("java.class.path", System
 				.getProperty("java.class.path")
 				+ ":" + file.getPath());
-		log.debug("File added to classpath " + file);
 	}
 
-	public void addClassFile(File file, Logger log)
-			throws ClassFormatException, IOException {
-		final FileInputStream file2 = new FileInputStream(file);
-		RepositoryLocator.getRepository().addClass(
-				RepositoryLocator.getRepository().parse(file2, null));
-		file2.close();
-		log.debug("File added to classpath " + file);
+	private void reloadBCELClassPath() {
+		try {
+			ClassPath updatedClassPath = new ClassPath(ClassPath.getClassPath());
+			SyntheticRepository repository = SyntheticRepository.getInstance();
+			Field declaredField = repository.getClass().getDeclaredField(
+					"_path");
+			declaredField.setAccessible(true);
+			declaredField.set(repository, updatedClassPath);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
-	// public void addURL(URL url, Logger log) throws IntrospectionException {
-	// final URLClassLoader systemClassLoader = (URLClassLoader)
-	// ClassPath.SYSTEM_CLASS_PATH
-	// .getClass().getClassLoader();
-	// try {
-	// final Method method = URLClassLoader.class.getDeclaredMethod(
-	// "addURL", new Class[] { URL.class });
-	// method.setAccessible(true);
-	// method.invoke(systemClassLoader, new Object[] { url });
-	// log.debug("File added to classpath " + url);
-	// } catch (final Throwable t) {
-	// throw new IntrospectionException(
-	// "Error when adding url to system ClassLoader");
-	// }
-	// }
+	public void setClassPath(Collection<File> classPathFiles)
+			throws IntrospectionException, FileNotFoundException,
+			ClassFormatException, IOException {
+		for (File classPathFile : classPathFiles) {
+			addToClassPath(classPathFile);
+		}
+		reloadBCELClassPath();
+	}
 
 }

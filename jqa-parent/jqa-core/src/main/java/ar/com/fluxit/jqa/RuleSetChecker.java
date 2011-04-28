@@ -24,6 +24,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Collection;
 
+import javax.management.IntrospectionException;
+
 import org.slf4j.Logger;
 
 import ar.com.fluxit.jqa.bce.ClassFormatException;
@@ -49,24 +51,23 @@ public class RuleSetChecker {
 	}
 
 	public CheckingResult check(Collection<File> classFiles,
-			RulesContext context, Logger log) {
+			Collection<File> classPath, RulesContext context, Logger log)
+			throws IntrospectionException, FileNotFoundException,
+			ClassFormatException, IOException {
 		final CheckingResult result = new CheckingResult();
+		// Add files to classpath
+		for (File classPathFile : classPath) {
+			log.debug("Adding to classpath: " + classPathFile);
+		}
+		RepositoryLocator.getRepository().setClassPath(classPath);
 		// Iterate class files
 		for (final File classFile : classFiles) {
-			try {
-				log.debug("Checking file: " + classFile);
-				final FileInputStream fis = new FileInputStream(classFile);
-				final JavaClass clazz = RepositoryLocator.getRepository()
-						.parse(fis, null);
-				fis.close();
-				check(context, result, clazz);
-			} catch (final ClassFormatException e) {
-				log.debug("Can not check file " + classFile, e);
-			} catch (final FileNotFoundException e) {
-				log.debug("Can not check file " + classFile, e);
-			} catch (final IOException e) {
-				log.debug("Can not check file " + classFile, e);
-			}
+			log.debug("Checking file: " + classFile);
+			final FileInputStream fis = new FileInputStream(classFile);
+			final JavaClass clazz = RepositoryLocator.getRepository().parse(
+					fis, null);
+			fis.close();
+			check(context, result, clazz);
 		}
 		return result;
 	}

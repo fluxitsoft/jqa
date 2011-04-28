@@ -18,7 +18,7 @@
  *______________________________________________________________________________
  */
 
-package ar.com.fluxit.jqa.bce.bcel.util;
+package ar.com.fluxit.jqa.bce.bcel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,7 +30,7 @@ import java.util.regex.Pattern;
 /**
  * @author Paul Cantrell
  */
-public final class ClassNameTranslator {
+final class ClassNameTranslator {
 
 	private static Pattern classSuffixRE;
 

@@ -5,9 +5,13 @@ package ar.com.fluxit.jqa.bce;
  * 
  * @author Juan Ignacio Barisich
  */
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Collection;
+
+import javax.management.IntrospectionException;
 
 public interface Repository {
 
@@ -28,5 +32,9 @@ public interface Repository {
 
 	JavaClass parse(FileInputStream classFile, String className)
 			throws ClassFormatException, IOException;
+
+	void setClassPath(Collection<File> classPathFiles)
+			throws IntrospectionException, FileNotFoundException,
+			ClassFormatException, IOException;
 
 }

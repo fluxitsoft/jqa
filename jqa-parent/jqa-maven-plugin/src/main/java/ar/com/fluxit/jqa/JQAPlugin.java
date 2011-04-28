@@ -24,6 +24,7 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Set;
 
@@ -44,7 +45,6 @@ import ar.com.fluxit.jqa.context.factory.RulesContextFactoryLocator;
 import ar.com.fluxit.jqa.context.factory.exception.RulesContextFactoryException;
 import ar.com.fluxit.jqa.log.MavenLogLoggerAdapter;
 import ar.com.fluxit.jqa.result.CheckingResult;
-import ar.com.fluxit.jqa.util.ClassPathLoader;
 
 import com.thoughtworks.xstream.XStream;
 
@@ -73,7 +73,8 @@ public class JQAPlugin extends AbstractMojo {
 	protected MavenProject project;
 
 	/**
-	 * @parameter expression="${project.build.directory}"
+	 * @parameter default-value="${project.build.outputDirectory}"
+	 * @readonly
 	 * @required
 	 */
 	private File outputDirectory;
@@ -117,25 +118,31 @@ public class JQAPlugin extends AbstractMojo {
 		}
 	}
 
-	private void doExecute(File outputDirectory, MavenProject project)
+	private void doExecute(File buildDirectory, File outputDirectory,
+			File testOutputDirectory, MavenProject project)
 			throws IntrospectionException, ClassFormatException,
 			FileNotFoundException, IOException, RulesContextFactoryException {
 		// Add project dependencies to classpath
 		getLog().debug("Adding project dependencies to classpath");
+		final Collection<File> classPath = new ArrayList<File>();
 		@SuppressWarnings("unchecked")
 		final Set<Artifact> artifacts = project.getArtifacts();
 		for (final Artifact artifact : artifacts) {
-			ClassPathLoader.INSTANCE.addArtifactFile(artifact.getFile(),
-					getLogger());
+			classPath.add(artifact.getFile());
 		}
 		// Add project classes to classpath
-		getLog().debug("Adding project classes to classpath");
-		final Collection<File> classFiles = FileUtils.listFiles(
-				outputDirectory, new SuffixFileFilter(CLASS_SUFFIX),
-				TrueFileFilter.INSTANCE);
-		for (final File file : classFiles) {
-			ClassPathLoader.INSTANCE.addClassFile(file, getLogger());
+		if (outputDirectory != null) {
+			classPath.add(outputDirectory);
 		}
+		if (testOutputDirectory != null) {
+			classPath.add(testOutputDirectory);
+		}
+		getLog().debug("Adding project classes to classpath");
+		final Collection<File> classFiles = FileUtils.listFiles(buildDirectory,
+				new SuffixFileFilter(CLASS_SUFFIX), TrueFileFilter.INSTANCE);
+		// TODO for (final File file : classFiles) {
+		// ClassPathLoader.INSTANCE.addClassFile(file, getLogger());
+		// }
 		// Reads the config file
 		getLog().debug("Reading rules context");
 		RulesContext rulesContext = RulesContextFactoryLocator
@@ -143,7 +150,7 @@ public class JQAPlugin extends AbstractMojo {
 				.getRulesContext(getRulesContextFile());
 		getLog().debug("Checking rules for " + classFiles.size() + " files");
 		CheckingResult checkingResult = RuleSetChecker.INSTANCE.check(
-				classFiles, rulesContext, getLogger());
+				classFiles, classPath, rulesContext, getLogger());
 		// Writes the results
 		final File resultsFile = new File(getResultsDirectory(), "results-"
 				+ project.getArtifactId() + ".xml");
@@ -163,7 +170,9 @@ public class JQAPlugin extends AbstractMojo {
 				getLog().info("Artifact ignored because it has pom packaging");
 			} else {
 				checkParams();
-				doExecute(outputDirectory, project);
+				doExecute(outputDirectory, new File(project.getBuild()
+						.getOutputDirectory()), new File(project.getBuild()
+						.getTestOutputDirectory()), project);
 			}
 		} catch (final Exception e) {
 			throw new IllegalStateException(e);

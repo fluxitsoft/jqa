@@ -19,14 +19,20 @@
 package ar.com.fluxit.jqa;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+
+import javax.management.IntrospectionException;
 
 import junit.framework.TestCase;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import ar.com.fluxit.jqa.bce.ClassFormatException;
 import ar.com.fluxit.jqa.context.RulesContext;
 import ar.com.fluxit.jqa.context.RulesContextImpl;
 import ar.com.fluxit.jqa.mock.ClassA;
@@ -92,70 +98,77 @@ public class JQACheckerTest extends TestCase {
 		log = null;
 	}
 
-	public final void testCheckPredicateFail() {
+	public final void testCheckPredicateFail() throws IntrospectionException,
+			FileNotFoundException, ClassFormatException, IOException {
 		final Collection<File> classFiles = FileUtils.INSTANCE
 				.getClassFiles(ClassA.class);
 		final Collection<RuleSet> configuration = createRuleSets(
 				TruePredicate.INSTANCE, FalsePredicate.INSTANCE);
 		final RulesContext context = createRulesContext(configuration);
-		final CheckingResult result = getChecker().check(classFiles, context,
-				getLog());
+		final CheckingResult result = getChecker().check(classFiles,
+				Collections.<File> emptyList(), context, getLog());
 		assertNotNull(result);
 		assertNotNull(result.getDate());
 		assertNotNull(result.getRuleChecksFailed());
 		assertEquals(1, result.getRuleChecksFailed().size());
 	}
 
-	public final void testCheckPredicateSuccess() {
+	public final void testCheckPredicateSuccess()
+			throws IntrospectionException, FileNotFoundException,
+			ClassFormatException, IOException {
 		final Collection<File> classFiles = FileUtils.INSTANCE
 				.getClassFiles(ClassA.class);
 		final Collection<RuleSet> configuration = createRuleSets(
 				TruePredicate.INSTANCE, TruePredicate.INSTANCE);
 		final RulesContext context = createRulesContext(configuration);
-		final CheckingResult result = getChecker().check(classFiles, context,
-				getLog());
+		final CheckingResult result = getChecker().check(classFiles,
+				Collections.<File> emptyList(), context, getLog());
 		assertNotNull(result);
 		assertNotNull(result.getDate());
 		assertNotNull(result.getRuleChecksFailed());
 		assertTrue(result.getRuleChecksFailed().isEmpty());
 	}
 
-	public final void testCheckWithNoFiles() {
+	public final void testCheckWithNoFiles() throws IntrospectionException,
+			FileNotFoundException, ClassFormatException, IOException {
 		final Collection<File> classFiles = new ArrayList<File>();
 		final Collection<RuleSet> configuration = createRuleSets(
 				TruePredicate.INSTANCE, TruePredicate.INSTANCE);
 		final RulesContext context = createRulesContext(configuration);
-		final CheckingResult result = getChecker().check(classFiles, context,
-				getLog());
+		final CheckingResult result = getChecker().check(classFiles,
+				Collections.<File> emptyList(), context, getLog());
 		assertNotNull(result);
 		assertNotNull(result.getDate());
 		assertNotNull(result.getRuleChecksFailed());
 		assertTrue(result.getRuleChecksFailed().isEmpty());
 	}
 
-	public final void testFilterPredicateFail() {
+	public final void testFilterPredicateFail() throws IntrospectionException,
+			FileNotFoundException, ClassFormatException, IOException {
 		final Collection<File> classFiles = FileUtils.INSTANCE
 				.getClassFiles(ClassA.class);
 
 		final Collection<RuleSet> configuration = createRuleSets(
 				TruePredicate.INSTANCE, FalsePredicate.INSTANCE);
 		final RulesContext context = createRulesContext(configuration);
-		final CheckingResult result = getChecker().check(classFiles, context,
-				getLog());
+		final CheckingResult result = getChecker().check(classFiles,
+				Collections.<File> emptyList(), context, getLog());
 		assertNotNull(result);
 		assertNotNull(result.getDate());
 		assertNotNull(result.getRuleChecksFailed());
 		assertEquals(1, result.getRuleChecksFailed().size());
 	}
 
-	public final void testFilterPredicateSuccess() {
+	public final void testFilterPredicateSuccess()
+			throws IntrospectionException, FileNotFoundException,
+			ClassFormatException, IOException {
 		final Collection<File> classFiles = FileUtils.INSTANCE
 				.getClassFiles(ClassA.class);
 		final Collection<RuleSet> configuration = createRuleSets(
 				TruePredicate.INSTANCE, TruePredicate.INSTANCE);
 		final RulesContext context = createRulesContext(configuration);
-		final CheckingResult result = getChecker().check(classFiles, context,
-				getLog());
+		final CheckingResult result = getChecker().check(classFiles,
+				Collections.<File> emptyList(), context, getLog());
 		assertNotNull(result);
 		assertNotNull(result.getDate());
 		assertNotNull(result.getRuleChecksFailed());

@@ -1,4 +1,4 @@
-package ar.com.fluxit.jqa.bce.bcel.util;
+package ar.com.fluxit.jqa.bce.bcel;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
@@ -8,7 +8,7 @@ import java.lang.reflect.Method;
  * 
  * @author Juan Ignacio Barisich
  */
-public class ByteSequence {
+class ByteSequence {
 
 	private final org.apache.bcel.util.ByteSequence wrapped;
 	private Method method;

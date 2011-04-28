@@ -7,12 +7,12 @@ import ar.com.fluxit.jqa.bce.JavaClass;
  * 
  * @author Juan Ignacio Barisich
  */
-public class BcelJavaClass implements JavaClass {
+class BcelJavaClass implements JavaClass {
 
 	private final org.apache.bcel.classfile.JavaClass wrapped;
 
 	public BcelJavaClass(org.apache.bcel.classfile.JavaClass parse) {
-		if(parse == null) {
+		if (parse == null) {
 			throw new IllegalArgumentException("Wrapped class can not be null");
 		}
 		wrapped = parse;
@@ -20,11 +20,13 @@ public class BcelJavaClass implements JavaClass {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (!(obj instanceof BcelJavaClass))
+		}
+		if (!(obj instanceof BcelJavaClass)) {
 			return false;
-		return ((BcelJavaClass) obj).getClassName().equals(this.getClassName());
+		}
+		return ((BcelJavaClass) obj).getClassName().equals(getClassName());
 	}
 
 	@Override
