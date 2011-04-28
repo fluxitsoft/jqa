@@ -45,6 +45,7 @@ class ClassPathLoader {
 	}
 
 	private void addToClassPath(File file) throws IntrospectionException, ClassFormatException, FileNotFoundException, IOException {
+		// the dark side of the moon
 		System.setProperty("java.class.path", System.getProperty("java.class.path") + ":" + file.getPath());
 	}
 
