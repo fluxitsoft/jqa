@@ -130,9 +130,6 @@ public class JQAPlugin extends AbstractMojo {
 		}
 		getLog().debug("Adding project classes to classpath");
 		final Collection<File> classFiles = FileUtils.listFiles(buildDirectory, new SuffixFileFilter(CLASS_SUFFIX), TrueFileFilter.INSTANCE);
-		// TODO for (final File file : classFiles) {
-		// ClassPathLoader.INSTANCE.addClassFile(file, getLogger());
-		// }
 		// Reads the config file
 		getLog().debug("Reading rules context");
 		final RulesContext rulesContext = RulesContextFactoryLocator.getRulesContextFactory().getRulesContext(getRulesContextFile());
