@@ -31,6 +31,8 @@ public class RuleImpl implements Rule {
 	private Predicate checkPredicate;
 	private String name;
 	private String message;
+	private int priority;
+	private boolean bidirectionalCheck;
 
 	public RuleImpl(Predicate filterPredicate, Predicate checkPredicate, String name, String message) {
 		super();
@@ -38,26 +40,40 @@ public class RuleImpl implements Rule {
 		this.checkPredicate = checkPredicate;
 		this.name = name;
 		this.message = message;
+		this.bidirectionalCheck = false;
+		this.priority = 5;
+	}
+
+	public boolean getBidirectionalCheck() {
+		return this.bidirectionalCheck;
 	}
 
 	@Override
 	public Predicate getCheckPredicate() {
-		return checkPredicate;
+		return this.checkPredicate;
 	}
 
 	@Override
 	public Predicate getFilterPredicate() {
-		return filterPredicate;
+		return this.filterPredicate;
 	}
 
 	@Override
 	public String getMessage() {
-		return message;
+		return this.message;
 	}
 
 	@Override
 	public String getName() {
-		return name;
+		return this.name;
+	}
+
+	public int getPriority() {
+		return this.priority;
+	}
+
+	public void setBidirectionalCheck(boolean bidirectionalCheck) {
+		this.bidirectionalCheck = bidirectionalCheck;
 	}
 
 	public void setCheckPredicate(Predicate checkPredicate) {
@@ -74,5 +90,12 @@ public class RuleImpl implements Rule {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public void setPriority(int priority) {
+		if (priority < 0 || priority > 5) {
+			new IllegalArgumentException("Priority must be a numerical value between 1 and 5");
+		}
+		this.priority = priority;
 	}
 }

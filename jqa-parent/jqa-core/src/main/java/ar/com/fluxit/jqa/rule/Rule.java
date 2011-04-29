@@ -27,6 +27,8 @@ import ar.com.fluxit.jqa.predicate.Predicate;
  */
 public interface Rule {
 
+	boolean getBidirectionalCheck();
+
 	Predicate getCheckPredicate();
 
 	Predicate getFilterPredicate();
@@ -34,5 +36,7 @@ public interface Rule {
 	String getMessage();
 
 	String getName();
+
+	int getPriority();
 
 }
