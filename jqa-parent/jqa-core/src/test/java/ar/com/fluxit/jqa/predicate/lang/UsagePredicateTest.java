@@ -31,6 +31,7 @@ import ar.com.fluxit.jqa.mock.usage.ClassWithFieldArrayClassA;
 import ar.com.fluxit.jqa.mock.usage.ClassWithFieldClassA;
 import ar.com.fluxit.jqa.mock.usage.ClassWithParameterArrayClassA;
 import ar.com.fluxit.jqa.mock.usage.ClassWithParameterClassA;
+import ar.com.fluxit.jqa.mock.usage.ClassWithPrimitiveTypes;
 import ar.com.fluxit.jqa.mock.usage.ClassWithStaticFieldArrayClassA;
 import ar.com.fluxit.jqa.mock.usage.ClassWithStaticFieldClassA;
 import ar.com.fluxit.jqa.mock.usage.ClassWithStaticParameterArrayClassA;
@@ -60,7 +61,6 @@ public class UsagePredicateTest extends TestCase {
 
 	public final void testCheck() throws ClassNotFoundException {
 		final String filterPredicateParentClass = ClassA.class.getName();
-
 		// Simple class
 		testMatches(filterPredicateParentClass, ClassA.class, true);
 		testMatches(filterPredicateParentClass, ClassWithoutClassA.class, false);
@@ -94,6 +94,15 @@ public class UsagePredicateTest extends TestCase {
 		testMatches(filterPredicateParentClass, ClassWithStaticParameterArrayClassA.class, true);
 		testMatches(filterPredicateParentClass, ClassThatStaticReturnsClassA.class, true);
 		testMatches(filterPredicateParentClass, ClassThatStaticReturnsArrayClassA.class, true);
+		// Primitive fields
+		testMatches(Boolean.class.getName(), ClassWithPrimitiveTypes.class, true);
+		testMatches(Character.class.getName(), ClassWithPrimitiveTypes.class, true);
+		testMatches(Float.class.getName(), ClassWithPrimitiveTypes.class, true);
+		testMatches(Double.class.getName(), ClassWithPrimitiveTypes.class, true);
+		testMatches(Byte.class.getName(), ClassWithPrimitiveTypes.class, true);
+		testMatches(Short.class.getName(), ClassWithPrimitiveTypes.class, true);
+		testMatches(Integer.class.getName(), ClassWithPrimitiveTypes.class, true);
+		testMatches(Long.class.getName(), ClassWithPrimitiveTypes.class, true);
 	}
 
 	private void testMatches(String filterPredicateParentClass, Class<?> usagePredicateClass, boolean matches) throws ClassNotFoundException {
