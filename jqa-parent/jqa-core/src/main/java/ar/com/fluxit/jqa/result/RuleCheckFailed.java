@@ -64,4 +64,9 @@ public class RuleCheckFailed {
 		targetClassName = className;
 	}
 
+	@Override
+	public String toString() {
+		return "(RuleName='" + getRuleName() + "' TargetClassName=" + getTargetClassName() + ")";
+	}
+
 }

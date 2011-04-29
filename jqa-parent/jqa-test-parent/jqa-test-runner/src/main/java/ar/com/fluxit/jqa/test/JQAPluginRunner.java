@@ -6,7 +6,9 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import junit.framework.Assert;
 
@@ -28,31 +30,31 @@ import com.thoughtworks.xstream.XStream;
  */
 public class JQAPluginRunner {
 
-	public static class Counter {
-		public int count = 0;
-	}
-
-	private static void assertContains(CheckingResult result, String ruleName, String targetClassName, Counter assertsCount) {
-		boolean founded = false;
+	private static RuleCheckFailed assertContains(CheckingResult result, String ruleName, String targetClassName, List<RuleCheckFailed> fails) {
+		RuleCheckFailed founded = null;
 		for (RuleCheckFailed fail : result.getRuleChecksFailed()) {
 			if (ruleName.equals(fail.getRuleName()) && targetClassName.equals(fail.getTargetClassName())) {
-				founded = true;
+				founded = fail;
+				fails.remove(fail);
 			}
 		}
-		Assert.assertTrue("Expected fail: ruleName(" + ruleName + ") targetClassName(" + targetClassName + ")", founded);
-		assertsCount.count++;
+		Assert.assertTrue("Expected fail: ruleName(" + ruleName + ") targetClassName(" + targetClassName + ")", founded != null);
+		return founded;
 	}
 
 	private static void doAsserts(CheckingResult result) {
 		Assert.assertNotNull(result);
-		Counter assertsCount = new Counter();
-		assertContains(result, "BO contract naming", "ar.com.fluxit.jqa.test.bo.BOForTrucks", assertsCount);
-		assertContains(result, "DAO contract naming", "ar.com.fluxit.jqa.test.dao.DAOForTrucks", assertsCount);
-		assertContains(result, "Cant use XStream", "ar.com.fluxit.jqa.test.dummy.ClassThatUsesXStream", assertsCount);
-		assertContains(result, "DAO contract typing", "ar.com.fluxit.jqa.test.dao.InvalidDAO", assertsCount);
-		assertContains(result, "BO contract typing", "ar.com.fluxit.jqa.test.bo.InvalidBO", assertsCount);
-		// assertContains(result, "", "", assertsCount);
-		Assert.assertEquals(result.getRuleChecksFailed().size(), assertsCount.count);
+		final List<RuleCheckFailed> fails = new ArrayList<RuleCheckFailed>(result.getRuleChecksFailed());
+
+		assertContains(result, "BO contract naming", "ar.com.fluxit.jqa.test.bo.BOForTrucks", fails);
+		assertContains(result, "DAO contract naming", "ar.com.fluxit.jqa.test.dao.DAOForTrucks", fails);
+		assertContains(result, "Cant use XStream", "ar.com.fluxit.jqa.test.utils.Commons", fails);
+		assertContains(result, "DAO contract definition", "ar.com.fluxit.jqa.test.dao.MotorcycleDAO", fails);
+		assertContains(result, "BO contract definition", "ar.com.fluxit.jqa.test.bo.MotorcycleBO", fails);
+		assertContains(result, "BO contract definition", "ar.com.fluxit.jqa.test.bo.impl.TruckBO", fails);
+		assertContains(result, "BO implementation naming", "ar.com.fluxit.jqa.test.bo.impl.TruckBO", fails);
+		// assertContains(result, "", "");
+		Assert.assertEquals(fails.size() + " not expected fails: " + fails.toString(), 0, fails.size());
 	}
 
 	private static void installJQAPluginCheck() throws MavenInvocationException {
@@ -71,7 +73,7 @@ public class JQAPluginRunner {
 				String mavenHomeArg = args[0];
 				String jqaVersionArg = args[1];
 				System.setProperty("maven.home", mavenHomeArg);
-				installJQAPluginCheck();
+				// installJQAPluginCheck();
 				runJQAPluginCheck(jqaVersionArg);
 			}
 		} catch (Exception e) {
