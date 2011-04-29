@@ -7,6 +7,6 @@ import ar.com.fluxit.jqa.test.dao.CarDAO;
  * 
  * @author Juan Ignacio Barisich
  */
-public class CarDaOImpl implements CarDAO {
+public class CarDAOImpl implements CarDAO {
 
 }
