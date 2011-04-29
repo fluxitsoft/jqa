@@ -27,6 +27,8 @@ import ar.com.fluxit.jqa.predicate.Predicate;
  */
 public class RuleImpl implements Rule {
 
+	private static final int DEFAULT_PRIORITY = 5;
+	private static final boolean DEFAULT_BIDIRECTIONAL_CHECK = false;
 	private Predicate filterPredicate;
 	private Predicate checkPredicate;
 	private String name;
@@ -40,8 +42,8 @@ public class RuleImpl implements Rule {
 		this.checkPredicate = checkPredicate;
 		this.name = name;
 		this.message = message;
-		this.bidirectionalCheck = false;
-		this.priority = 5;
+		this.bidirectionalCheck = DEFAULT_BIDIRECTIONAL_CHECK;
+		this.priority = DEFAULT_PRIORITY;
 	}
 
 	public boolean getBidirectionalCheck() {
@@ -93,8 +95,8 @@ public class RuleImpl implements Rule {
 	}
 
 	public void setPriority(int priority) {
-		if (priority < 0 || priority > 5) {
-			new IllegalArgumentException("Priority must be a numerical value between 1 and 5");
+		if (priority < 1 || priority > 5) {
+			throw new IllegalArgumentException("Priority must be a numerical value between 1 and 5");
 		}
 		this.priority = priority;
 	}

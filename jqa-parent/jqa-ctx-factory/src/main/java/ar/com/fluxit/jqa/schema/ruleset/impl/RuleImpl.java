@@ -28,6 +28,10 @@ public class RuleImpl extends org.apache.xmlbeans.impl.values.XmlComplexContentI
         new javax.xml.namespace.QName("", "name");
     private static final javax.xml.namespace.QName MESSAGE$6 = 
         new javax.xml.namespace.QName("", "message");
+    private static final javax.xml.namespace.QName PRIORITY$8 = 
+        new javax.xml.namespace.QName("", "priority");
+    private static final javax.xml.namespace.QName BIDIRECTIONALCHECK$10 = 
+        new javax.xml.namespace.QName("", "bidirectionalCheck");
     
     
     /**
@@ -163,18 +167,6 @@ public class RuleImpl extends org.apache.xmlbeans.impl.values.XmlComplexContentI
     }
     
     /**
-     * True if has "name" attribute
-     */
-    public boolean isSetName()
-    {
-        synchronized (monitor())
-        {
-            check_orphaned();
-            return get_store().find_attribute_user(NAME$4) != null;
-        }
-    }
-    
-    /**
      * Sets the "name" attribute
      */
     public void setName(java.lang.String name)
@@ -211,18 +203,6 @@ public class RuleImpl extends org.apache.xmlbeans.impl.values.XmlComplexContentI
     }
     
     /**
-     * Unsets the "name" attribute
-     */
-    public void unsetName()
-    {
-        synchronized (monitor())
-        {
-            check_orphaned();
-            get_store().remove_attribute(NAME$4);
-        }
-    }
-    
-    /**
      * Gets the "message" attribute
      */
     public java.lang.String getMessage()
@@ -251,18 +231,6 @@ public class RuleImpl extends org.apache.xmlbeans.impl.values.XmlComplexContentI
             org.apache.xmlbeans.XmlString target = null;
             target = (org.apache.xmlbeans.XmlString)get_store().find_attribute_user(MESSAGE$6);
             return target;
-        }
-    }
-    
-    /**
-     * True if has "message" attribute
-     */
-    public boolean isSetMessage()
-    {
-        synchronized (monitor())
-        {
-            check_orphaned();
-            return get_store().find_attribute_user(MESSAGE$6) != null;
         }
     }
     
@@ -303,14 +271,186 @@ public class RuleImpl extends org.apache.xmlbeans.impl.values.XmlComplexContentI
     }
     
     /**
-     * Unsets the "message" attribute
+     * Gets the "priority" attribute
      */
-    public void unsetMessage()
+    public int getPriority()
     {
         synchronized (monitor())
         {
             check_orphaned();
-            get_store().remove_attribute(MESSAGE$6);
+            org.apache.xmlbeans.SimpleValue target = null;
+            target = (org.apache.xmlbeans.SimpleValue)get_store().find_attribute_user(PRIORITY$8);
+            if (target == null)
+            {
+                return 0;
+            }
+            return target.getIntValue();
+        }
+    }
+    
+    /**
+     * Gets (as xml) the "priority" attribute
+     */
+    public org.apache.xmlbeans.XmlInt xgetPriority()
+    {
+        synchronized (monitor())
+        {
+            check_orphaned();
+            org.apache.xmlbeans.XmlInt target = null;
+            target = (org.apache.xmlbeans.XmlInt)get_store().find_attribute_user(PRIORITY$8);
+            return target;
+        }
+    }
+    
+    /**
+     * True if has "priority" attribute
+     */
+    public boolean isSetPriority()
+    {
+        synchronized (monitor())
+        {
+            check_orphaned();
+            return get_store().find_attribute_user(PRIORITY$8) != null;
+        }
+    }
+    
+    /**
+     * Sets the "priority" attribute
+     */
+    public void setPriority(int priority)
+    {
+        synchronized (monitor())
+        {
+            check_orphaned();
+            org.apache.xmlbeans.SimpleValue target = null;
+            target = (org.apache.xmlbeans.SimpleValue)get_store().find_attribute_user(PRIORITY$8);
+            if (target == null)
+            {
+                target = (org.apache.xmlbeans.SimpleValue)get_store().add_attribute_user(PRIORITY$8);
+            }
+            target.setIntValue(priority);
+        }
+    }
+    
+    /**
+     * Sets (as xml) the "priority" attribute
+     */
+    public void xsetPriority(org.apache.xmlbeans.XmlInt priority)
+    {
+        synchronized (monitor())
+        {
+            check_orphaned();
+            org.apache.xmlbeans.XmlInt target = null;
+            target = (org.apache.xmlbeans.XmlInt)get_store().find_attribute_user(PRIORITY$8);
+            if (target == null)
+            {
+                target = (org.apache.xmlbeans.XmlInt)get_store().add_attribute_user(PRIORITY$8);
+            }
+            target.set(priority);
+        }
+    }
+    
+    /**
+     * Unsets the "priority" attribute
+     */
+    public void unsetPriority()
+    {
+        synchronized (monitor())
+        {
+            check_orphaned();
+            get_store().remove_attribute(PRIORITY$8);
+        }
+    }
+    
+    /**
+     * Gets the "bidirectionalCheck" attribute
+     */
+    public boolean getBidirectionalCheck()
+    {
+        synchronized (monitor())
+        {
+            check_orphaned();
+            org.apache.xmlbeans.SimpleValue target = null;
+            target = (org.apache.xmlbeans.SimpleValue)get_store().find_attribute_user(BIDIRECTIONALCHECK$10);
+            if (target == null)
+            {
+                return false;
+            }
+            return target.getBooleanValue();
+        }
+    }
+    
+    /**
+     * Gets (as xml) the "bidirectionalCheck" attribute
+     */
+    public org.apache.xmlbeans.XmlBoolean xgetBidirectionalCheck()
+    {
+        synchronized (monitor())
+        {
+            check_orphaned();
+            org.apache.xmlbeans.XmlBoolean target = null;
+            target = (org.apache.xmlbeans.XmlBoolean)get_store().find_attribute_user(BIDIRECTIONALCHECK$10);
+            return target;
+        }
+    }
+    
+    /**
+     * True if has "bidirectionalCheck" attribute
+     */
+    public boolean isSetBidirectionalCheck()
+    {
+        synchronized (monitor())
+        {
+            check_orphaned();
+            return get_store().find_attribute_user(BIDIRECTIONALCHECK$10) != null;
+        }
+    }
+    
+    /**
+     * Sets the "bidirectionalCheck" attribute
+     */
+    public void setBidirectionalCheck(boolean bidirectionalCheck)
+    {
+        synchronized (monitor())
+        {
+            check_orphaned();
+            org.apache.xmlbeans.SimpleValue target = null;
+            target = (org.apache.xmlbeans.SimpleValue)get_store().find_attribute_user(BIDIRECTIONALCHECK$10);
+            if (target == null)
+            {
+                target = (org.apache.xmlbeans.SimpleValue)get_store().add_attribute_user(BIDIRECTIONALCHECK$10);
+            }
+            target.setBooleanValue(bidirectionalCheck);
+        }
+    }
+    
+    /**
+     * Sets (as xml) the "bidirectionalCheck" attribute
+     */
+    public void xsetBidirectionalCheck(org.apache.xmlbeans.XmlBoolean bidirectionalCheck)
+    {
+        synchronized (monitor())
+        {
+            check_orphaned();
+            org.apache.xmlbeans.XmlBoolean target = null;
+            target = (org.apache.xmlbeans.XmlBoolean)get_store().find_attribute_user(BIDIRECTIONALCHECK$10);
+            if (target == null)
+            {
+                target = (org.apache.xmlbeans.XmlBoolean)get_store().add_attribute_user(BIDIRECTIONALCHECK$10);
+            }
+            target.set(bidirectionalCheck);
+        }
+    }
+    
+    /**
+     * Unsets the "bidirectionalCheck" attribute
+     */
+    public void unsetBidirectionalCheck()
+    {
+        synchronized (monitor())
+        {
+            check_orphaned();
+            get_store().remove_attribute(BIDIRECTIONALCHECK$10);
         }
     }
 }

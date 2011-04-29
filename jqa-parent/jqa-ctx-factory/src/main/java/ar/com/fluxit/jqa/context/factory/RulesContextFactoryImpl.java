@@ -160,9 +160,15 @@ public class RulesContextFactoryImpl implements RulesContextFactory {
 	private Rule parse(ar.com.fluxit.jqa.schema.ruleset.Rule rule) {
 		final String name = rule.getName();
 		final String message = rule.getMessage();
+		final boolean bidirectionalCheck = rule.getBidirectionalCheck();
+		final int priority = rule.getPriority();
 		final Predicate filterPredicate = (Predicate) parse(rule.getFilterPredicate());
 		final Predicate checkPredicate = (Predicate) parse(rule.getCheckPredicate());
-		final Rule result = new RuleImpl(filterPredicate, checkPredicate, name, message);
+		final RuleImpl result = new RuleImpl(filterPredicate, checkPredicate, name, message);
+		result.setBidirectionalCheck(bidirectionalCheck);
+		if (priority > 0) {
+			result.setPriority(priority);
+		}
 		return result;
 	}
 

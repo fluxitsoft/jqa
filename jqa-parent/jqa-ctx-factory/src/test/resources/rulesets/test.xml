@@ -19,9 +19,9 @@
 -->
 <jqa:Ruleset name="RulesetTestByName" xmlns:jqa="http://www.fluxit.com.ar/jqa/schema/ruleset"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.fluxit.com.ar/jqa/schema/ruleset ../schema/ruleset.xsd">
+	xsi:schemaLocation="http://www.fluxit.com.ar/jqa/schema/ruleset ../../../main/resources/schema/ruleset.xsd">
 
-	<rule name="RuleTest">
+	<rule name="RuleTest" message="RuleTest">
 		<filterPredicate xsi:type="jqa:TruePredicate" />
 		<checkPredicate xsi:type="jqa:TruePredicate" />
 	</rule>

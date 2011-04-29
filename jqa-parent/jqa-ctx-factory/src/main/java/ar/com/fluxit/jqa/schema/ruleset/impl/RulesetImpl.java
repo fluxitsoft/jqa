@@ -215,18 +215,6 @@ public class RulesetImpl extends org.apache.xmlbeans.impl.values.XmlComplexConte
     }
     
     /**
-     * True if has "name" attribute
-     */
-    public boolean isSetName()
-    {
-        synchronized (monitor())
-        {
-            check_orphaned();
-            return get_store().find_attribute_user(NAME$2) != null;
-        }
-    }
-    
-    /**
      * Sets the "name" attribute
      */
     public void setName(java.lang.String name)
@@ -259,18 +247,6 @@ public class RulesetImpl extends org.apache.xmlbeans.impl.values.XmlComplexConte
                 target = (org.apache.xmlbeans.XmlString)get_store().add_attribute_user(NAME$2);
             }
             target.set(name);
-        }
-    }
-    
-    /**
-     * Unsets the "name" attribute
-     */
-    public void unsetName()
-    {
-        synchronized (monitor())
-        {
-            check_orphaned();
-            get_store().remove_attribute(NAME$2);
         }
     }
 }

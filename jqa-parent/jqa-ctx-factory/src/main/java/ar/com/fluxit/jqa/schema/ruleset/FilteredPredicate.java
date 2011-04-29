@@ -16,7 +16,7 @@ package ar.com.fluxit.jqa.schema.ruleset;
 public interface FilteredPredicate extends ar.com.fluxit.jqa.schema.ruleset.Predicate
 {
     public static final org.apache.xmlbeans.SchemaType type = (org.apache.xmlbeans.SchemaType)
-        org.apache.xmlbeans.XmlBeans.typeSystemForClassLoader(FilteredPredicate.class.getClassLoader(), "schemaorg_apache_xmlbeans.system.s2008CF93048C7151F2CEF83D409DC069").resolveHandle("filteredpredicate4344type");
+        org.apache.xmlbeans.XmlBeans.typeSystemForClassLoader(FilteredPredicate.class.getClassLoader(), "schemaorg_apache_xmlbeans.system.s022253B061784BB18D1DDF66EDAA187A").resolveHandle("filteredpredicate4344type");
     
     /**
      * Gets the "filterPredicate" element

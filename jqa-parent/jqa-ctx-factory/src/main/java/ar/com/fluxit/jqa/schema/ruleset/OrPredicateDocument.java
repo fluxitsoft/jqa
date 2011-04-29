@@ -17,7 +17,7 @@ package ar.com.fluxit.jqa.schema.ruleset;
 public interface OrPredicateDocument extends org.apache.xmlbeans.XmlObject
 {
     public static final org.apache.xmlbeans.SchemaType type = (org.apache.xmlbeans.SchemaType)
-        org.apache.xmlbeans.XmlBeans.typeSystemForClassLoader(OrPredicateDocument.class.getClassLoader(), "schemaorg_apache_xmlbeans.system.s2008CF93048C7151F2CEF83D409DC069").resolveHandle("orpredicate6428doctype");
+        org.apache.xmlbeans.XmlBeans.typeSystemForClassLoader(OrPredicateDocument.class.getClassLoader(), "schemaorg_apache_xmlbeans.system.s022253B061784BB18D1DDF66EDAA187A").resolveHandle("orpredicate6428doctype");
     
     /**
      * Gets the "OrPredicate" element

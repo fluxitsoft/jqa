@@ -26,12 +26,12 @@ import ar.com.fluxit.jqa.context.RulesContext;
 import ar.com.fluxit.jqa.context.factory.exception.RulesContextFactoryException;
 import ar.com.fluxit.jqa.predicate.ContextProvidedPredicate;
 import ar.com.fluxit.jqa.predicate.lang.AbstractionPredicate;
-import ar.com.fluxit.jqa.predicate.lang.AbstractionPredicate.AbstractionType;
 import ar.com.fluxit.jqa.predicate.lang.AllocationPredicate;
 import ar.com.fluxit.jqa.predicate.lang.NamingPredicate;
 import ar.com.fluxit.jqa.predicate.lang.ThrowingPredicate;
 import ar.com.fluxit.jqa.predicate.lang.TypingPredicate;
 import ar.com.fluxit.jqa.predicate.lang.UsagePredicate;
+import ar.com.fluxit.jqa.predicate.lang.AbstractionPredicate.AbstractionType;
 import ar.com.fluxit.jqa.predicate.logic.AndPredicate;
 import ar.com.fluxit.jqa.predicate.logic.FalsePredicate;
 import ar.com.fluxit.jqa.predicate.logic.NotPredicate;
@@ -50,14 +50,25 @@ public class RulesContextImplTest extends TestCase {
 
 	private RulesContext rulesContext;
 
-	private void assertRuleSet(RuleSet ruleSet) {
-		assertNotNull(ruleSet);
-		assertNotNull(ruleSet.getRules());
-		assertEquals(1, ruleSet.getRules().size());
-		final Rule rule = ruleSet.getRules().iterator().next();
+	private void assertRuleSet(rulesCount parameterObject, int rulesCount) {
+		assertNotNull(parameterObject.ruleSet);
+		assertNotNull(parameterObject.ruleSet.getRules());
+		assertEquals(rulesCount, parameterObject.ruleSet.getRules().size());
+		final Rule rule = parameterObject.ruleSet.getRules().iterator().next();
 		assertEquals("RuleTest", rule.getName());
 		assertTrue(rule.getFilterPredicate() instanceof TruePredicate);
 		assertTrue(rule.getCheckPredicate() instanceof TruePredicate);
+	}
+
+	private Rule getRule(String ruleName) {
+		for (RuleSet ruleSet : this.rulesContext.getRuleSets()) {
+			for (Rule rule : ruleSet.getRules()) {
+				if (rule.getName().equals(ruleName)) {
+					return rule;
+				}
+			}
+		}
+		throw new IllegalArgumentException("Can not fin rule with name " + ruleName);
 	}
 
 	private RuleSet getRuleSet(RulesContext rulesContext, String ruleSetName) {
@@ -73,71 +84,72 @@ public class RulesContextImplTest extends TestCase {
 	protected void setUp() throws Exception {
 		final RulesContextFactory rulesContextFactory = RulesContextFactoryLocator.getRulesContextFactory();
 		final URL resource = RulesContextImplTest.class.getResource("/sample_rulescontext.xml");
-		rulesContext = rulesContextFactory.getRulesContext(new File(resource.getPath()));
+		this.rulesContext = rulesContextFactory.getRulesContext(new File(resource.getPath()));
 	}
 
 	@Override
 	protected void tearDown() throws Exception {
-		rulesContext = null;
+		this.rulesContext = null;
 	}
 
 	public void testGetRulesContextGlobalPredicates() throws RulesContextFactoryException {
-		assertNotNull(rulesContext);
+		assertNotNull(this.rulesContext);
 		// AbstractionPredicate
-		assertTrue(rulesContext.getGlobalPredicate("AbstractionPredicateTest") instanceof AbstractionPredicate);
-		assertTrue(((AbstractionPredicate) rulesContext.getGlobalPredicate("AbstractionPredicateTest")).getAbstractionType().equals(AbstractionType.CONCRETE));
+		assertTrue(this.rulesContext.getGlobalPredicate("AbstractionPredicateTest") instanceof AbstractionPredicate);
+		assertTrue(((AbstractionPredicate) this.rulesContext.getGlobalPredicate("AbstractionPredicateTest")).getAbstractionType().equals(
+				AbstractionType.CONCRETE));
 		// AllocationPredicate
-		assertTrue(rulesContext.getGlobalPredicate("AllocationPredicateTest") instanceof AllocationPredicate);
-		assertTrue(((AllocationPredicate) rulesContext.getGlobalPredicate("AllocationPredicateTest")).getFilterPredicate() instanceof TruePredicate);
+		assertTrue(this.rulesContext.getGlobalPredicate("AllocationPredicateTest") instanceof AllocationPredicate);
+		assertTrue(((AllocationPredicate) this.rulesContext.getGlobalPredicate("AllocationPredicateTest")).getFilterPredicate() instanceof TruePredicate);
 		// AndPredicate
-		assertTrue(rulesContext.getGlobalPredicate("AndPredicateTest") instanceof AndPredicate);
-		assertEquals(2, ((AndPredicate) rulesContext.getGlobalPredicate("AndPredicateTest")).getPredicates().length);
-		assertTrue(((AndPredicate) rulesContext.getGlobalPredicate("AndPredicateTest")).getPredicates()[0] instanceof TruePredicate);
-		assertTrue(((AndPredicate) rulesContext.getGlobalPredicate("AndPredicateTest")).getPredicates()[1] instanceof TruePredicate);
+		assertTrue(this.rulesContext.getGlobalPredicate("AndPredicateTest") instanceof AndPredicate);
+		assertEquals(2, ((AndPredicate) this.rulesContext.getGlobalPredicate("AndPredicateTest")).getPredicates().length);
+		assertTrue(((AndPredicate) this.rulesContext.getGlobalPredicate("AndPredicateTest")).getPredicates()[0] instanceof TruePredicate);
+		assertTrue(((AndPredicate) this.rulesContext.getGlobalPredicate("AndPredicateTest")).getPredicates()[1] instanceof TruePredicate);
 		// ContextProvidedPredicate
-		assertTrue(rulesContext.getGlobalPredicate("ContextProvidedPredicateTest") instanceof ContextProvidedPredicate);
-		assertEquals("test", ((ContextProvidedPredicate) rulesContext.getGlobalPredicate("ContextProvidedPredicateTest")).getProvidedPredicateName());
+		assertTrue(this.rulesContext.getGlobalPredicate("ContextProvidedPredicateTest") instanceof ContextProvidedPredicate);
+		assertEquals("test", ((ContextProvidedPredicate) this.rulesContext.getGlobalPredicate("ContextProvidedPredicateTest")).getProvidedPredicateName());
 		// FalsePredicate
-		assertTrue(rulesContext.getGlobalPredicate("AlwaysFalsePredicate") instanceof FalsePredicate);
+		assertTrue(this.rulesContext.getGlobalPredicate("AlwaysFalsePredicate") instanceof FalsePredicate);
 		// NamingPredicate
-		assertTrue(rulesContext.getGlobalPredicate("NamingPredicateTest") instanceof NamingPredicate);
-		assertEquals("test", ((NamingPredicate) rulesContext.getGlobalPredicate("NamingPredicateTest")).getClassNamePattern());
+		assertTrue(this.rulesContext.getGlobalPredicate("NamingPredicateTest") instanceof NamingPredicate);
+		assertEquals("test", ((NamingPredicate) this.rulesContext.getGlobalPredicate("NamingPredicateTest")).getClassNamePattern());
 		// NotPredicate
-		assertTrue(rulesContext.getGlobalPredicate("NotPredicateTest") instanceof NotPredicate);
-		assertTrue(((NotPredicate) rulesContext.getGlobalPredicate("NotPredicateTest")).getPredicate() instanceof TruePredicate);
+		assertTrue(this.rulesContext.getGlobalPredicate("NotPredicateTest") instanceof NotPredicate);
+		assertTrue(((NotPredicate) this.rulesContext.getGlobalPredicate("NotPredicateTest")).getPredicate() instanceof TruePredicate);
 		// OrPredicate
-		assertTrue(rulesContext.getGlobalPredicate("OrPredicateTest") instanceof OrPredicate);
-		assertEquals(2, ((OrPredicate) rulesContext.getGlobalPredicate("OrPredicateTest")).getPredicates().length);
-		assertTrue(((OrPredicate) rulesContext.getGlobalPredicate("OrPredicateTest")).getPredicates()[0] instanceof TruePredicate);
-		assertTrue(((OrPredicate) rulesContext.getGlobalPredicate("OrPredicateTest")).getPredicates()[1] instanceof TruePredicate);
+		assertTrue(this.rulesContext.getGlobalPredicate("OrPredicateTest") instanceof OrPredicate);
+		assertEquals(2, ((OrPredicate) this.rulesContext.getGlobalPredicate("OrPredicateTest")).getPredicates().length);
+		assertTrue(((OrPredicate) this.rulesContext.getGlobalPredicate("OrPredicateTest")).getPredicates()[0] instanceof TruePredicate);
+		assertTrue(((OrPredicate) this.rulesContext.getGlobalPredicate("OrPredicateTest")).getPredicates()[1] instanceof TruePredicate);
 		// ThrowingPredicate
-		assertTrue(rulesContext.getGlobalPredicate("ThrowingPredicateTest") instanceof ThrowingPredicate);
-		assertTrue(((ThrowingPredicate) rulesContext.getGlobalPredicate("ThrowingPredicateTest")).getFilterPredicate() instanceof TruePredicate);
+		assertTrue(this.rulesContext.getGlobalPredicate("ThrowingPredicateTest") instanceof ThrowingPredicate);
+		assertTrue(((ThrowingPredicate) this.rulesContext.getGlobalPredicate("ThrowingPredicateTest")).getFilterPredicate() instanceof TruePredicate);
 		// TruePredicate
-		assertTrue(rulesContext.getGlobalPredicate("AlwaysTruePredicate") instanceof TruePredicate);
+		assertTrue(this.rulesContext.getGlobalPredicate("AlwaysTruePredicate") instanceof TruePredicate);
 		// TypingPredicate
-		assertTrue(rulesContext.getGlobalPredicate("TypingPredicateTest") instanceof TypingPredicate);
-		assertEquals("java.lang.Object", ((TypingPredicate) rulesContext.getGlobalPredicate("TypingPredicateTest")).getParentClassName());
+		assertTrue(this.rulesContext.getGlobalPredicate("TypingPredicateTest") instanceof TypingPredicate);
+		assertEquals("java.lang.Object", ((TypingPredicate) this.rulesContext.getGlobalPredicate("TypingPredicateTest")).getParentClassName());
 		// UsagePredicate
-		assertTrue(rulesContext.getGlobalPredicate("UsagePredicateTest") instanceof UsagePredicate);
-		assertTrue(((UsagePredicate) rulesContext.getGlobalPredicate("UsagePredicateTest")).getFilterPredicate() instanceof TruePredicate);
+		assertTrue(this.rulesContext.getGlobalPredicate("UsagePredicateTest") instanceof UsagePredicate);
+		assertTrue(((UsagePredicate) this.rulesContext.getGlobalPredicate("UsagePredicateTest")).getFilterPredicate() instanceof TruePredicate);
 		// XORPredicate
-		assertTrue(rulesContext.getGlobalPredicate("XORPredicateTest") instanceof XorPredicate);
-		assertEquals(2, ((XorPredicate) rulesContext.getGlobalPredicate("XORPredicateTest")).getPredicates().length);
-		assertTrue(((XorPredicate) rulesContext.getGlobalPredicate("XORPredicateTest")).getPredicates()[0] instanceof TruePredicate);
-		assertTrue(((XorPredicate) rulesContext.getGlobalPredicate("XORPredicateTest")).getPredicates()[1] instanceof TruePredicate);
+		assertTrue(this.rulesContext.getGlobalPredicate("XORPredicateTest") instanceof XorPredicate);
+		assertEquals(2, ((XorPredicate) this.rulesContext.getGlobalPredicate("XORPredicateTest")).getPredicates().length);
+		assertTrue(((XorPredicate) this.rulesContext.getGlobalPredicate("XORPredicateTest")).getPredicates()[0] instanceof TruePredicate);
+		assertTrue(((XorPredicate) this.rulesContext.getGlobalPredicate("XORPredicateTest")).getPredicates()[1] instanceof TruePredicate);
 	}
 
 	public void testGetRulesContextRuleSetImports() throws RulesContextFactoryException {
-		assertNotNull(rulesContext);
-		assertNotNull(rulesContext.getRuleSets());
-		assertEquals(2, rulesContext.getRuleSets().size());
+		assertNotNull(this.rulesContext);
+		assertNotNull(this.rulesContext.getRuleSets());
+		assertEquals(2, this.rulesContext.getRuleSets().size());
 		// Ruleset import by file
-		final RuleSet ruleSet = getRuleSet(rulesContext, "RulesetTestByFileName");
-		assertRuleSet(ruleSet);
+		final RuleSet ruleSet = getRuleSet(this.rulesContext, "RulesetTestByFileName");
+		assertRuleSet(new rulesCount(ruleSet), 3);
 		// Ruleset import by name
-		final RuleSet ruleSet2 = getRuleSet(rulesContext, "RulesetTestByName");
-		assertRuleSet(ruleSet2);
+		final RuleSet ruleSet2 = getRuleSet(this.rulesContext, "RulesetTestByName");
+		assertRuleSet(new rulesCount(ruleSet2), 1);
 	}
 
 	public void testInvalidRulesContextFile() throws RulesContextFactoryException {
@@ -160,5 +172,17 @@ public class RulesContextImplTest extends TestCase {
 		} catch (final RulesContextFactoryException e) {
 			// OK
 		}
+	}
+
+	public void testRuleBidirectionalCheck() throws RulesContextFactoryException {
+		assertNotNull(this.rulesContext);
+		assertTrue(getRule("BidirectionalCheckRule").getBidirectionalCheck());
+		assertFalse(getRule("RuleTest").getBidirectionalCheck());
+	}
+
+	public void testRulePriority() throws RulesContextFactoryException {
+		assertNotNull(this.rulesContext);
+		Rule rule = getRule("PriorityRule");
+		assertEquals(3, rule.getPriority());
 	}
 }

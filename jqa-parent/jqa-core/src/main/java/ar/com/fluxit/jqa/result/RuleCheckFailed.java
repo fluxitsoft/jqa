@@ -28,28 +28,34 @@ public class RuleCheckFailed {
 	private String ruleName;
 	private String ruleMessage;
 	private String targetClassName;
+	private int rulePriority;
 
 	public RuleCheckFailed() {
 		super();
 	}
 
-	public RuleCheckFailed(String ruleName, String ruleMessage, String targetClassName) {
+	public RuleCheckFailed(String ruleName, String ruleMessage, String targetClassName, int rulePriority) {
 		super();
 		this.ruleName = ruleName;
 		this.ruleMessage = ruleMessage;
 		this.targetClassName = targetClassName;
+		this.rulePriority = rulePriority;
 	}
 
 	public String getRuleMessage() {
-		return ruleMessage;
+		return this.ruleMessage;
 	}
 
 	public String getRuleName() {
-		return ruleName;
+		return this.ruleName;
+	}
+
+	public int getRulePriority() {
+		return this.rulePriority;
 	}
 
 	public String getTargetClassName() {
-		return targetClassName;
+		return this.targetClassName;
 	}
 
 	public void setRuleMessage(String ruleMessage) {
@@ -60,8 +66,12 @@ public class RuleCheckFailed {
 		this.ruleName = ruleName;
 	}
 
+	public void setRulePriority(int rulePriority) {
+		this.rulePriority = rulePriority;
+	}
+
 	public void setTargetClassName(String className) {
-		targetClassName = className;
+		this.targetClassName = className;
 	}
 
 	@Override

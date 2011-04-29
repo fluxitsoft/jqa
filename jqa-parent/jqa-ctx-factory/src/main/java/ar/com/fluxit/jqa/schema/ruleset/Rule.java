@@ -16,7 +16,7 @@ package ar.com.fluxit.jqa.schema.ruleset;
 public interface Rule extends org.apache.xmlbeans.XmlObject
 {
     public static final org.apache.xmlbeans.SchemaType type = (org.apache.xmlbeans.SchemaType)
-        org.apache.xmlbeans.XmlBeans.typeSystemForClassLoader(Rule.class.getClassLoader(), "schemaorg_apache_xmlbeans.system.s2008CF93048C7151F2CEF83D409DC069").resolveHandle("rule9152type");
+        org.apache.xmlbeans.XmlBeans.typeSystemForClassLoader(Rule.class.getClassLoader(), "schemaorg_apache_xmlbeans.system.s022253B061784BB18D1DDF66EDAA187A").resolveHandle("rule9152type");
     
     /**
      * Gets the "filterPredicate" element
@@ -59,11 +59,6 @@ public interface Rule extends org.apache.xmlbeans.XmlObject
     org.apache.xmlbeans.XmlString xgetName();
     
     /**
-     * True if has "name" attribute
-     */
-    boolean isSetName();
-    
-    /**
      * Sets the "name" attribute
      */
     void setName(java.lang.String name);
@@ -72,11 +67,6 @@ public interface Rule extends org.apache.xmlbeans.XmlObject
      * Sets (as xml) the "name" attribute
      */
     void xsetName(org.apache.xmlbeans.XmlString name);
-    
-    /**
-     * Unsets the "name" attribute
-     */
-    void unsetName();
     
     /**
      * Gets the "message" attribute
@@ -89,11 +79,6 @@ public interface Rule extends org.apache.xmlbeans.XmlObject
     org.apache.xmlbeans.XmlString xgetMessage();
     
     /**
-     * True if has "message" attribute
-     */
-    boolean isSetMessage();
-    
-    /**
      * Sets the "message" attribute
      */
     void setMessage(java.lang.String message);
@@ -104,9 +89,64 @@ public interface Rule extends org.apache.xmlbeans.XmlObject
     void xsetMessage(org.apache.xmlbeans.XmlString message);
     
     /**
-     * Unsets the "message" attribute
+     * Gets the "priority" attribute
      */
-    void unsetMessage();
+    int getPriority();
+    
+    /**
+     * Gets (as xml) the "priority" attribute
+     */
+    org.apache.xmlbeans.XmlInt xgetPriority();
+    
+    /**
+     * True if has "priority" attribute
+     */
+    boolean isSetPriority();
+    
+    /**
+     * Sets the "priority" attribute
+     */
+    void setPriority(int priority);
+    
+    /**
+     * Sets (as xml) the "priority" attribute
+     */
+    void xsetPriority(org.apache.xmlbeans.XmlInt priority);
+    
+    /**
+     * Unsets the "priority" attribute
+     */
+    void unsetPriority();
+    
+    /**
+     * Gets the "bidirectionalCheck" attribute
+     */
+    boolean getBidirectionalCheck();
+    
+    /**
+     * Gets (as xml) the "bidirectionalCheck" attribute
+     */
+    org.apache.xmlbeans.XmlBoolean xgetBidirectionalCheck();
+    
+    /**
+     * True if has "bidirectionalCheck" attribute
+     */
+    boolean isSetBidirectionalCheck();
+    
+    /**
+     * Sets the "bidirectionalCheck" attribute
+     */
+    void setBidirectionalCheck(boolean bidirectionalCheck);
+    
+    /**
+     * Sets (as xml) the "bidirectionalCheck" attribute
+     */
+    void xsetBidirectionalCheck(org.apache.xmlbeans.XmlBoolean bidirectionalCheck);
+    
+    /**
+     * Unsets the "bidirectionalCheck" attribute
+     */
+    void unsetBidirectionalCheck();
     
     /**
      * A factory class with static methods for creating instances

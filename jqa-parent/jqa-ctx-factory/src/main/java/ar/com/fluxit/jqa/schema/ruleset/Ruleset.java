@@ -16,7 +16,7 @@ package ar.com.fluxit.jqa.schema.ruleset;
 public interface Ruleset extends org.apache.xmlbeans.XmlObject
 {
     public static final org.apache.xmlbeans.SchemaType type = (org.apache.xmlbeans.SchemaType)
-        org.apache.xmlbeans.XmlBeans.typeSystemForClassLoader(Ruleset.class.getClassLoader(), "schemaorg_apache_xmlbeans.system.s2008CF93048C7151F2CEF83D409DC069").resolveHandle("ruleset0d8atype");
+        org.apache.xmlbeans.XmlBeans.typeSystemForClassLoader(Ruleset.class.getClassLoader(), "schemaorg_apache_xmlbeans.system.s022253B061784BB18D1DDF66EDAA187A").resolveHandle("ruleset0d8atype");
     
     /**
      * Gets a List of "rule" elements
@@ -75,11 +75,6 @@ public interface Ruleset extends org.apache.xmlbeans.XmlObject
     org.apache.xmlbeans.XmlString xgetName();
     
     /**
-     * True if has "name" attribute
-     */
-    boolean isSetName();
-    
-    /**
      * Sets the "name" attribute
      */
     void setName(java.lang.String name);
@@ -88,11 +83,6 @@ public interface Ruleset extends org.apache.xmlbeans.XmlObject
      * Sets (as xml) the "name" attribute
      */
     void xsetName(org.apache.xmlbeans.XmlString name);
-    
-    /**
-     * Unsets the "name" attribute
-     */
-    void unsetName();
     
     /**
      * A factory class with static methods for creating instances
