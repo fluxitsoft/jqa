@@ -1,4 +1,4 @@
-package ar.com.fluxit.jqa.test.dummy;
+package ar.com.fluxit.jqa.test.utils;
 
 import java.util.Iterator;
 
@@ -9,9 +9,9 @@ import com.thoughtworks.xstream.converters.DataHolder;
  * 
  * @author Juan Ignacio Barisich
  */
-public class ProblematicClass implements DataHolder {
+public class CustomHolder implements DataHolder {
 
-	public ProblematicClass() {
+	public CustomHolder() {
 		super();
 	}
 

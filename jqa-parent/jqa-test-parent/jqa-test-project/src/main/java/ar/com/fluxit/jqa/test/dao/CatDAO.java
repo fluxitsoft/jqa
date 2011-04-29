@@ -5,6 +5,6 @@ package ar.com.fluxit.jqa.test.dao;
  * 
  * @author Juan Ignacio Barisich
  */
-public class InvalidDAO {
+public class CatDAO {
 
 }

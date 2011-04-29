@@ -5,6 +5,6 @@ package ar.com.fluxit.jqa.test.bo;
  * 
  * @author Juan Ignacio Barisich
  */
-public interface InvalidBO {
+public interface CatBO {
 
 }

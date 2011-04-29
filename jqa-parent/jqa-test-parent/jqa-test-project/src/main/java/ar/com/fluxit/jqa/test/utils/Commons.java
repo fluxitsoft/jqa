@@ -1,4 +1,4 @@
-package ar.com.fluxit.jqa.test.dummy;
+package ar.com.fluxit.jqa.test.utils;
 
 import com.thoughtworks.xstream.XStream;
 
@@ -7,9 +7,9 @@ import com.thoughtworks.xstream.XStream;
  * 
  * @author Juan Ignacio Barisich
  */
-public class ClassThatUsesXStream {
+public class Commons {
 
-	public ClassThatUsesXStream() {
+	public Commons() {
 		new XStream();
 	}
 }
