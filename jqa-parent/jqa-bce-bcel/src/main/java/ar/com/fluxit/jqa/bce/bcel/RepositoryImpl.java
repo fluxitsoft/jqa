@@ -38,6 +38,10 @@ import org.apache.bcel.classfile.EmptyVisitor;
 import org.apache.bcel.classfile.Field;
 import org.apache.bcel.classfile.Method;
 import org.apache.bcel.classfile.Visitor;
+import org.apache.bcel.generic.ArrayType;
+import org.apache.bcel.generic.BasicType;
+import org.apache.bcel.generic.ObjectType;
+import org.apache.bcel.generic.Type;
 
 import ar.com.fluxit.jqa.bce.ClassFormatException;
 import ar.com.fluxit.jqa.bce.JavaClass;
@@ -84,6 +88,18 @@ public class RepositoryImpl implements Repository {
 		};
 		new DescendingVisitor(getWrappedClass(clazz), visitor).visit();
 		return result;
+	}
+
+	private String getClassName(Type type) {
+		String signatureClassName;
+		if (type instanceof BasicType) {
+			signatureClassName = Constants.CLASS_TYPE_NAMES[type.getType()];
+		} else if (type instanceof ObjectType) {
+			signatureClassName = ((ObjectType) type).getClassName();
+		} else {
+			signatureClassName = getClassName(((ArrayType) type).getBasicType());
+		}
+		return signatureClassName;
 	}
 
 	private JavaClass getClazz(ConstantClass constantClass, JavaClass clazz) {
@@ -143,6 +159,7 @@ public class RepositoryImpl implements Repository {
 		final List<JavaClass> result = new ArrayList<JavaClass>();
 		getWrappedClass(clazz).getMethods();
 		final Visitor visitor = new EmptyVisitor() {
+
 			@Override
 			public void visitConstantClass(ConstantClass constantClass) {
 				result.add(getClazz(constantClass, clazz));
@@ -150,11 +167,9 @@ public class RepositoryImpl implements Repository {
 
 			@Override
 			public void visitField(Field field) {
-				final String signature = field.getSignature();
-				final int beginIndex = signature.startsWith("[") ? 2 : 1;
-				final String signatureClassName = signature.substring(beginIndex, signature.length() - 1);
-				result.add(getClazz(signatureClassName));
-			};
+				Type type = Type.getType(field.getSignature());
+				result.add(getClazz(getClassName(type)));
+			}
 
 			@Override
 			public void visitMethod(Method method) {
@@ -182,7 +197,7 @@ public class RepositoryImpl implements Repository {
 		} else {
 			return org.apache.bcel.Repository.instanceOf(getWrappedClass(clazz), getWrappedClass(parentJavaClass));
 		}
-	}
+	};
 
 	@Override
 	public JavaClass lookupClass(Class<?> clazz) throws ClassNotFoundException {
@@ -196,11 +211,11 @@ public class RepositoryImpl implements Repository {
 	}
 
 	@Override
-	public JavaClass lookupClass(String parentClassName) throws ClassNotFoundException {
+	public JavaClass lookupClass(String className) throws ClassNotFoundException {
 		// TODO cache
-		final org.apache.bcel.classfile.JavaClass lookupClass = org.apache.bcel.Repository.lookupClass(parentClassName);
+		final org.apache.bcel.classfile.JavaClass lookupClass = org.apache.bcel.Repository.lookupClass(className);
 		if (lookupClass == null) {
-			throw new ClassNotFoundException("Can not find class " + parentClassName);
+			throw new ClassNotFoundException("Can not find class " + className);
 		} else {
 			return new BcelJavaClass(lookupClass);
 		}
