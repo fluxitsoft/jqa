@@ -2,7 +2,9 @@ package ar.com.fluxit.jqa.test;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 import java.io.Reader;
 import java.util.Collections;
 
@@ -12,6 +14,7 @@ import org.apache.maven.shared.invoker.DefaultInvocationRequest;
 import org.apache.maven.shared.invoker.DefaultInvoker;
 import org.apache.maven.shared.invoker.InvocationRequest;
 import org.apache.maven.shared.invoker.Invoker;
+import org.apache.maven.shared.invoker.MavenInvocationException;
 
 import ar.com.fluxit.jqa.result.CheckingResult;
 import ar.com.fluxit.jqa.result.RuleCheckFailed;
@@ -25,7 +28,7 @@ import com.thoughtworks.xstream.XStream;
  */
 public class JQAPluginRunner {
 
-	private static class Counter {
+	public static class Counter {
 		public int count = 0;
 	}
 
@@ -52,28 +55,42 @@ public class JQAPluginRunner {
 		Assert.assertEquals(result.getRuleChecksFailed().size(), assertsCount.count);
 	}
 
+	private static void installJQAPluginCheck() throws MavenInvocationException {
+		InvocationRequest request = new DefaultInvocationRequest();
+		request.setPomFile(new File("../../pom.xml"));
+		request.setGoals(Collections.singletonList("clean install"));
+		Invoker invoker = new DefaultInvoker();
+		invoker.execute(request);
+	}
+
 	public static void main(String[] args) {
 		try {
 			String mavenHomeArg = args[0];
 			String jqaVersionArg = args[1];
 			System.setProperty("maven.home", mavenHomeArg);
-			InvocationRequest request = new DefaultInvocationRequest();
-			request.setPomFile(new File("../pom.xml"));
-			request.setGoals(Collections.singletonList("ar.com.fluxit.jqa:jqa-maven-plugin:" + jqaVersionArg + ":check"));
-			Invoker invoker = new DefaultInvoker();
-			invoker.execute(request);
-			final File resultsFile = new File("../jqa-test-project/target/results-jqa-test-project.xml");
-			final Reader r = new FileReader(resultsFile);
-			final Reader in = new BufferedReader(r);
-			final XStream xs = new XStream();
-			xs.setMode(XStream.NO_REFERENCES);
-			CheckingResult result = (CheckingResult) xs.fromXML(in);
-			in.close();
-			doAsserts(result);
-			System.out.println("Done, all asserts are OK !");
+			installJQAPluginCheck();
+			runJQAPluginCheck(jqaVersionArg);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	private static void runJQAPluginCheck(String jqaVersionArg) throws MavenInvocationException, FileNotFoundException, IOException {
+		InvocationRequest request = new DefaultInvocationRequest();
+		request.setPomFile(new File("../pom.xml"));
+		request.setGoals(Collections.singletonList("ar.com.fluxit.jqa:jqa-maven-plugin:" + jqaVersionArg + ":check"));
+		request.setDebug(true);
+		Invoker invoker = new DefaultInvoker();
+		invoker.execute(request);
+		final File resultsFile = new File("../jqa-test-project/target/results-jqa-test-project.xml");
+		final Reader r = new FileReader(resultsFile);
+		final Reader in = new BufferedReader(r);
+		final XStream xs = new XStream();
+		xs.setMode(XStream.NO_REFERENCES);
+		CheckingResult result = (CheckingResult) xs.fromXML(in);
+		in.close();
+		doAsserts(result);
+		System.out.println("Done, all asserts are OK !");
 	}
 
 }
