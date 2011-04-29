@@ -65,11 +65,15 @@ public class JQAPluginRunner {
 
 	public static void main(String[] args) {
 		try {
-			String mavenHomeArg = args[0];
-			String jqaVersionArg = args[1];
-			System.setProperty("maven.home", mavenHomeArg);
-			installJQAPluginCheck();
-			runJQAPluginCheck(jqaVersionArg);
+			if (args.length != 2) {
+				System.out.print("Required arguments: mavenPath, JQAVersion");
+			} else {
+				String mavenHomeArg = args[0];
+				String jqaVersionArg = args[1];
+				System.setProperty("maven.home", mavenHomeArg);
+				installJQAPluginCheck();
+				runJQAPluginCheck(jqaVersionArg);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
