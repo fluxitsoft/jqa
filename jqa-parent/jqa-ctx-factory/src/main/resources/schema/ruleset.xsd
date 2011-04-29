@@ -40,15 +40,17 @@
     <xsd:sequence>
       <xsd:element ecore:resolveProxies="true" maxOccurs="unbounded" name="rule" type="jqa:Rule"/>
     </xsd:sequence>
-    <xsd:attribute name="name" type="xsd:string"/>
+    <xsd:attribute name="name" type="xsd:string" use="required"/>
   </xsd:complexType>
   <xsd:complexType name="Rule">
     <xsd:sequence>
       <xsd:element ecore:resolveProxies="true" name="filterPredicate" type="jqa:Predicate"/>
       <xsd:element ecore:resolveProxies="true" name="checkPredicate" type="jqa:Predicate"/>
     </xsd:sequence>
-    <xsd:attribute name="name" type="xsd:string"/>
-    <xsd:attribute name="message" type="xsd:string"/>
+    <xsd:attribute name="name" type="xsd:string" use="required"/>
+    <xsd:attribute name="message" type="xsd:string" use="required"/>
+    <xsd:attribute ecore:unsettable="false" name="priority" type="xsd:int"/>
+    <xsd:attribute ecore:unsettable="false" name="bidirectionalCheck" type="xsd:boolean"/>
   </xsd:complexType>
   <xsd:complexType abstract="true" name="Predicate">
     <xsd:attribute name="name" type="xsd:string"/>
