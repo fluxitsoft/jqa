@@ -46,23 +46,22 @@ public class JQAPluginRunner {
 		Assert.assertNotNull(result);
 		final List<RuleCheckFailed> fails = new ArrayList<RuleCheckFailed>(result.getRuleChecksFailed());
 
-		assertContains(result, "BO contract naming", "ar.com.fluxit.jqa.test.bo.BOForTrucks", fails);
-		assertContains(result, "DAO contract naming", "ar.com.fluxit.jqa.test.dao.DAOForTrucks", fails);
-		assertContains(result, "Cant use XStream", "ar.com.fluxit.jqa.test.utils.Commons", fails);
-		assertContains(result, "DAO contract definition", "ar.com.fluxit.jqa.test.dao.MotorcycleDAO", fails);
-		assertContains(result, "BO contract definition", "ar.com.fluxit.jqa.test.bo.MotorcycleBO", fails);
-		assertContains(result, "BO contract definition", "ar.com.fluxit.jqa.test.bo.impl.TruckBO", fails);
-		assertContains(result, "BO implementation naming", "ar.com.fluxit.jqa.test.bo.impl.TruckBO", fails);
+		assertContains(result, "DAO contract rule", "ar.com.fluxit.jqa.test.dao.DAOForTrucks", fails);
+		assertContains(result, "DAO contract rule", "ar.com.fluxit.jqa.test.dao.CarDAO", fails);
+		assertContains(result, "DAO contract rule", "ar.com.fluxit.jqa.test.daos.TrainDAO", fails);
+
+		// assertContains(result, "BO contract naming",
+		// "ar.com.fluxit.jqa.test.bo.BOForTrucks", fails);
+		// assertContains(result, "Cant use XStream",
+		// "ar.com.fluxit.jqa.test.utils.Commons", fails);
+		// assertContains(result, "BO contract definition",
+		// "ar.com.fluxit.jqa.test.bo.MotorcycleBO", fails);
+		// assertContains(result, "BO contract definition",
+		// "ar.com.fluxit.jqa.test.bo.impl.TruckBO", fails);
+		// assertContains(result, "BO implementation naming",
+		// "ar.com.fluxit.jqa.test.bo.impl.TruckBO", fails);
 		// assertContains(result, "", "");
 		Assert.assertEquals(fails.size() + " not expected fails: " + fails.toString(), 0, fails.size());
-	}
-
-	private static void installJQAPluginCheck() throws MavenInvocationException {
-		InvocationRequest request = new DefaultInvocationRequest();
-		request.setPomFile(new File("../../pom.xml"));
-		request.setGoals(Collections.singletonList("clean install"));
-		Invoker invoker = new DefaultInvoker();
-		invoker.execute(request);
 	}
 
 	public static void main(String[] args) {

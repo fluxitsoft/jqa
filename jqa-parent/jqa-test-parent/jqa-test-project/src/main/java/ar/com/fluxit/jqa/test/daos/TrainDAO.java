@@ -1,4 +1,4 @@
-package ar.com.fluxit.jqa.test.dao;
+package ar.com.fluxit.jqa.test.daos;
 
 import ar.com.fluxit.jqa.test.fmk.dao.DAO;
 
@@ -7,6 +7,6 @@ import ar.com.fluxit.jqa.test.fmk.dao.DAO;
  * 
  * @author Juan Ignacio Barisich
  */
-public class MotorcycleDAO implements DAO {
+public interface TrainDAO extends DAO {
 
 }

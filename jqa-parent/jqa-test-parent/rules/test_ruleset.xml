@@ -4,66 +4,116 @@
 	xsi:schemaLocation="http://www.fluxit.com.ar/jqa/schema/ruleset http://jqa-project.googlecode.com/svn/trunk/jqa-parent/jqa-ctx-factory/src/main/resources/schema/ruleset.xsd ">
 
 	<!-- DAO rules	-->
-	<rule name="DAO contract naming" message="A DAO contract must be named *.dao.*DAO">
+	<rule name="DAO contract rule"
+		message="A DAO contract: 1) must be in *.dao package 2) must be named *DAO 3) must extends to ar.com.fluxit.jqa.test.fmk.dao.DAO">
 		<filterPredicate xsi:type="jqa:AndPredicate">
-			<predicate xsi:type="jqa:TypingPredicate" parentClassName="ar.com.fluxit.jqa.test.fmk.dao.DAO" />
+			<predicate xsi:type="jqa:NamingPredicate" classNamePattern="**DAO*" />
 			<predicate xsi:type="jqa:AbstractionPredicate"
 				abstractionType="INTERFACE" />
 		</filterPredicate>
-		<checkPredicate xsi:type="jqa:NamingPredicate" classNamePattern="**.dao.*DAO" />
-	</rule>
-	<rule name="DAO contract definition" message="A DAO contract must be an interface and must extends ar.com.fluxit.jqa.test.fmk.dao.DAO">
-		<filterPredicate xsi:type="jqa:NamingPredicate"
-			classNamePattern="**DAO" />
 		<checkPredicate xsi:type="jqa:AndPredicate">
+			<predicate xsi:type="jqa:NamingPredicate" classNamePattern="**.dao.*DAO" />
 			<predicate xsi:type="jqa:TypingPredicate" parentClassName="ar.com.fluxit.jqa.test.fmk.dao.DAO" />
-			<predicate xsi:type="jqa:AbstractionPredicate"
-				abstractionType="INTERFACE" />
 		</checkPredicate>
 	</rule>
-	<rule name="DAO implementation naming" message="A DAO implementation must be named *.dao.impl.*DAOImpl">
-		<filterPredicate xsi:type="jqa:AndPredicate">
-			<predicate xsi:type="jqa:TypingPredicate" parentClassName="ar.com.fluxit.jqa.test.fmk.dao.DAO" />
-			<predicate xsi:type="jqa:AbstractionPredicate" abstractionType="CONCRETE" />
-		</filterPredicate>
-		<checkPredicate xsi:type="jqa:NamingPredicate" classNamePattern="**.dao.impl.*DAOImpl" />
-	</rule>
-	
+<!--	<rule name="DAO implementation rule"-->
+<!--		message="A DAO implementation: 1) must be in *.dao.impl package 2) must be named *DAOImpl 3) must implements a valid DAO contract">-->
+<!--		<filterPredicate xsi:type="jqa:AndPredicate">-->
+<!--			<predicate xsi:type="jqa:NamingPredicate" classNamePattern="**DAO*" />-->
+<!--			<predicate xsi:type="jqa:AbstractionPredicate"-->
+<!--				abstractionType="CONCRETE" />-->
+<!--		</filterPredicate>-->
+<!--		<checkPredicate xsi:type="jqa:AndPredicate">-->
+<!--			<predicate xsi:type="jqa:NamingPredicate" classNamePattern="**.dao.*DAOImpl" />-->
+<!--	TODO, para el typing necesito un predicado, no un nombre de clase		-->
+<!--			<predicate xsi:type="jqa:TypingPredicate" parentClassName="ar.com.fluxit.jqa.test.fmk.dao.DAO" />-->
+<!--		</checkPredicate>-->
+<!--	</rule>-->
+	<!--
+		<rule name="DAO implementation naming" message="A DAO implementation
+		must be named *.dao.impl.*DAOImpl">
+	-->
+	<!--		<filterPredicate xsi:type="jqa:AndPredicate">-->
+	<!--
+		<predicate xsi:type="jqa:TypingPredicate"
+		parentClassName="ar.com.fluxit.jqa.test.fmk.dao.DAO" />
+	-->
+	<!--
+		<predicate xsi:type="jqa:AbstractionPredicate"
+		abstractionType="CONCRETE" />
+	-->
+	<!--		</filterPredicate>-->
+	<!--
+		<checkPredicate xsi:type="jqa:NamingPredicate"
+		classNamePattern="**.dao.impl.*DAOImpl" />
+	-->
+	<!--	</rule>-->
+
 	<!-- BO rules -->
-	<rule name="BO contract naming" message="A BusinessObject contract must be named *.bo.*BO">
-		<filterPredicate xsi:type="jqa:AndPredicate">
-			<predicate xsi:type="jqa:TypingPredicate" parentClassName="ar.com.fluxit.jqa.test.fmk.bo.BussinesObject" />
-			<predicate xsi:type="jqa:AbstractionPredicate"
-				abstractionType="INTERFACE" />
-		</filterPredicate>
-		<checkPredicate xsi:type="jqa:NamingPredicate" classNamePattern="**.bo.*BO" />
-	</rule>
-	<rule name="BO contract definition" message="A BO contract must be an interface and must extends ar.com.fluxit.jqa.test.fmk.bo.BusinessObject">
-		<filterPredicate xsi:type="jqa:NamingPredicate"
-			classNamePattern="**BO" />
-		<checkPredicate xsi:type="jqa:AndPredicate">
-			<predicate xsi:type="jqa:TypingPredicate" parentClassName="ar.com.fluxit.jqa.test.fmk.bo.BussinesObject" />
-			<predicate xsi:type="jqa:AbstractionPredicate"
-				abstractionType="INTERFACE" />
-		</checkPredicate>
-	</rule>
-	<rule name="BO implementation naming" message="A BO implementation must be named *.bo.impl.*BOImpl">
-		<filterPredicate xsi:type="jqa:AndPredicate">
-			<predicate xsi:type="jqa:TypingPredicate" parentClassName="ar.com.fluxit.jqa.test.fmk.bo.BussinesObject" />
-			<predicate xsi:type="jqa:AbstractionPredicate" abstractionType="CONCRETE" />
-		</filterPredicate>
-		<checkPredicate xsi:type="jqa:NamingPredicate" classNamePattern="**.bo.impl.*BOImpl" />
-	</rule>
-	
+	<!--
+		<rule name="BO contract naming" message="A BusinessObject contract
+		must be named *.bo.*BO">
+	-->
+	<!--		<filterPredicate xsi:type="jqa:AndPredicate">-->
+	<!--
+		<predicate xsi:type="jqa:TypingPredicate"
+		parentClassName="ar.com.fluxit.jqa.test.fmk.bo.BussinesObject" />
+	-->
+	<!--			<predicate xsi:type="jqa:AbstractionPredicate"-->
+	<!--				abstractionType="INTERFACE" />-->
+	<!--		</filterPredicate>-->
+	<!--
+		<checkPredicate xsi:type="jqa:NamingPredicate"
+		classNamePattern="**.bo.*BO" />
+	-->
+	<!--	</rule>-->
+	<!--
+		<rule name="BO contract definition" message="A BO contract must be an
+		interface and must extends
+		ar.com.fluxit.jqa.test.fmk.bo.BusinessObject">
+	-->
+	<!--		<filterPredicate xsi:type="jqa:NamingPredicate"-->
+	<!--			classNamePattern="**BO" />-->
+	<!--		<checkPredicate xsi:type="jqa:AndPredicate">-->
+	<!--
+		<predicate xsi:type="jqa:TypingPredicate"
+		parentClassName="ar.com.fluxit.jqa.test.fmk.bo.BussinesObject" />
+	-->
+	<!--			<predicate xsi:type="jqa:AbstractionPredicate"-->
+	<!--				abstractionType="INTERFACE" />-->
+	<!--		</checkPredicate>-->
+	<!--	</rule>-->
+	<!--
+		<rule name="BO implementation naming" message="A BO implementation
+		must be named *.bo.impl.*BOImpl">
+	-->
+	<!--		<filterPredicate xsi:type="jqa:AndPredicate">-->
+	<!--
+		<predicate xsi:type="jqa:TypingPredicate"
+		parentClassName="ar.com.fluxit.jqa.test.fmk.bo.BussinesObject" />
+	-->
+	<!--
+		<predicate xsi:type="jqa:AbstractionPredicate"
+		abstractionType="CONCRETE" />
+	-->
+	<!--		</filterPredicate>-->
+	<!--
+		<checkPredicate xsi:type="jqa:NamingPredicate"
+		classNamePattern="**.bo.impl.*BOImpl" />
+	-->
+	<!--	</rule>-->
+
 	<!-- Other rules -->
-	<rule name="Cant use XStream" message="Do not use XStream library">
-		<filterPredicate xsi:type="jqa:TruePredicate" />
-		<checkPredicate xsi:type="jqa:NotPredicate">
-			<predicate xsi:type="jqa:UsagePredicate">
-				<filterPredicate xsi:type="jqa:TypingPredicate"
-					parentClassName="com.thoughtworks.xstream.XStream" />
-			</predicate>
-		</checkPredicate>
-	</rule>
+	<!--
+		<rule name="Cant use XStream" message="Do not use XStream library">
+	-->
+	<!--		<filterPredicate xsi:type="jqa:TruePredicate" />-->
+	<!--		<checkPredicate xsi:type="jqa:NotPredicate">-->
+	<!--			<predicate xsi:type="jqa:UsagePredicate">-->
+	<!--				<filterPredicate xsi:type="jqa:TypingPredicate"-->
+	<!--					parentClassName="com.thoughtworks.xstream.XStream" />-->
+	<!--			</predicate>-->
+	<!--		</checkPredicate>-->
+	<!--	</rule>-->
 
 </jqa:Ruleset>
