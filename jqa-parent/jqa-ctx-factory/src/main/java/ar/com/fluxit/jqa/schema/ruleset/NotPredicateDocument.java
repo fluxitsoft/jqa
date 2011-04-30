@@ -17,7 +17,7 @@ package ar.com.fluxit.jqa.schema.ruleset;
 public interface NotPredicateDocument extends org.apache.xmlbeans.XmlObject
 {
     public static final org.apache.xmlbeans.SchemaType type = (org.apache.xmlbeans.SchemaType)
-        org.apache.xmlbeans.XmlBeans.typeSystemForClassLoader(NotPredicateDocument.class.getClassLoader(), "schemaorg_apache_xmlbeans.system.sA27342670DA8F7949A5E3F708A63BE79").resolveHandle("notpredicate6f8adoctype");
+        org.apache.xmlbeans.XmlBeans.typeSystemForClassLoader(NotPredicateDocument.class.getClassLoader(), "schemaorg_apache_xmlbeans.system.s1C635A293DF928D663002427DDAF6D8E").resolveHandle("notpredicate6f8adoctype");
     
     /**
      * Gets the "NotPredicate" element

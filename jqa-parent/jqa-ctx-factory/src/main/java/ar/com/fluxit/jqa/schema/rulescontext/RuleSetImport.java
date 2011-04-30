@@ -16,7 +16,7 @@ package ar.com.fluxit.jqa.schema.rulescontext;
 public interface RuleSetImport extends org.apache.xmlbeans.XmlObject
 {
     public static final org.apache.xmlbeans.SchemaType type = (org.apache.xmlbeans.SchemaType)
-        org.apache.xmlbeans.XmlBeans.typeSystemForClassLoader(RuleSetImport.class.getClassLoader(), "schemaorg_apache_xmlbeans.system.s97D98DBE8DB20CB8D8A8F0DAD98E4D5A").resolveHandle("rulesetimporte26ftype");
+        org.apache.xmlbeans.XmlBeans.typeSystemForClassLoader(RuleSetImport.class.getClassLoader(), "schemaorg_apache_xmlbeans.system.s1C635A293DF928D663002427DDAF6D8E").resolveHandle("rulesetimporte26ftype");
     
     /**
      * Gets the "name" attribute

@@ -1,107 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jqa:Ruleset name=""
+<jqa:Ruleset name="Sample ruleset"
 	xmlns:jqa="http://www.fluxit.com.ar/jqa/schema/ruleset" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.fluxit.com.ar/jqa/schema/ruleset http://jqa-project.googlecode.com/svn/trunk/jqa-parent/jqa-ctx-factory/src/main/resources/schema/ruleset.xsd ">
 
 	<!-- DAO rules	-->
 	<rule name="DAO contract rule"
-		message="A DAO contract: 1) must be in *.dao package 2) must be named *DAO 3) must extends to ar.com.fluxit.jqa.test.fmk.dao.DAO">
+		message="This DAO contract is not valid. Perhaps its name, package or type are wrong.">
 		<filterPredicate xsi:type="jqa:AndPredicate">
 			<predicate xsi:type="jqa:NamingPredicate" classNamePattern="**DAO*" />
 			<predicate xsi:type="jqa:AbstractionPredicate"
 				abstractionType="INTERFACE" />
 		</filterPredicate>
-		<checkPredicate xsi:type="jqa:AndPredicate">
-			<predicate xsi:type="jqa:NamingPredicate" classNamePattern="**.dao.*DAO" />
-			<predicate xsi:type="jqa:TypingPredicate" parentClassName="ar.com.fluxit.jqa.test.fmk.dao.DAO" />
-		</checkPredicate>
+		<checkPredicate xsi:type="jqa:ContextProvidedPredicate"
+			providedPredicateName="Valid DAO contract" />
 	</rule>
-<!--	<rule name="DAO implementation rule"-->
-<!--		message="A DAO implementation: 1) must be in *.dao.impl package 2) must be named *DAOImpl 3) must implements a valid DAO contract">-->
-<!--		<filterPredicate xsi:type="jqa:AndPredicate">-->
-<!--			<predicate xsi:type="jqa:NamingPredicate" classNamePattern="**DAO*" />-->
-<!--			<predicate xsi:type="jqa:AbstractionPredicate"-->
-<!--				abstractionType="CONCRETE" />-->
-<!--		</filterPredicate>-->
-<!--		<checkPredicate xsi:type="jqa:AndPredicate">-->
-<!--			<predicate xsi:type="jqa:NamingPredicate" classNamePattern="**.dao.*DAOImpl" />-->
-<!--	TODO, para el typing necesito un predicado, no un nombre de clase		-->
-<!--			<predicate xsi:type="jqa:TypingPredicate" parentClassName="ar.com.fluxit.jqa.test.fmk.dao.DAO" />-->
-<!--		</checkPredicate>-->
-<!--	</rule>-->
-	<!--
-		<rule name="DAO implementation naming" message="A DAO implementation
-		must be named *.dao.impl.*DAOImpl">
-	-->
-	<!--		<filterPredicate xsi:type="jqa:AndPredicate">-->
-	<!--
-		<predicate xsi:type="jqa:TypingPredicate"
-		parentClassName="ar.com.fluxit.jqa.test.fmk.dao.DAO" />
-	-->
-	<!--
-		<predicate xsi:type="jqa:AbstractionPredicate"
-		abstractionType="CONCRETE" />
-	-->
-	<!--		</filterPredicate>-->
-	<!--
-		<checkPredicate xsi:type="jqa:NamingPredicate"
-		classNamePattern="**.dao.impl.*DAOImpl" />
-	-->
-	<!--	</rule>-->
-
-	<!-- BO rules -->
-	<!--
-		<rule name="BO contract naming" message="A BusinessObject contract
-		must be named *.bo.*BO">
-	-->
-	<!--		<filterPredicate xsi:type="jqa:AndPredicate">-->
-	<!--
-		<predicate xsi:type="jqa:TypingPredicate"
-		parentClassName="ar.com.fluxit.jqa.test.fmk.bo.BussinesObject" />
-	-->
-	<!--			<predicate xsi:type="jqa:AbstractionPredicate"-->
-	<!--				abstractionType="INTERFACE" />-->
-	<!--		</filterPredicate>-->
-	<!--
-		<checkPredicate xsi:type="jqa:NamingPredicate"
-		classNamePattern="**.bo.*BO" />
-	-->
-	<!--	</rule>-->
-	<!--
-		<rule name="BO contract definition" message="A BO contract must be an
-		interface and must extends
-		ar.com.fluxit.jqa.test.fmk.bo.BusinessObject">
-	-->
-	<!--		<filterPredicate xsi:type="jqa:NamingPredicate"-->
-	<!--			classNamePattern="**BO" />-->
-	<!--		<checkPredicate xsi:type="jqa:AndPredicate">-->
-	<!--
-		<predicate xsi:type="jqa:TypingPredicate"
-		parentClassName="ar.com.fluxit.jqa.test.fmk.bo.BussinesObject" />
-	-->
-	<!--			<predicate xsi:type="jqa:AbstractionPredicate"-->
-	<!--				abstractionType="INTERFACE" />-->
-	<!--		</checkPredicate>-->
-	<!--	</rule>-->
-	<!--
-		<rule name="BO implementation naming" message="A BO implementation
-		must be named *.bo.impl.*BOImpl">
-	-->
-	<!--		<filterPredicate xsi:type="jqa:AndPredicate">-->
-	<!--
-		<predicate xsi:type="jqa:TypingPredicate"
-		parentClassName="ar.com.fluxit.jqa.test.fmk.bo.BussinesObject" />
-	-->
-	<!--
-		<predicate xsi:type="jqa:AbstractionPredicate"
-		abstractionType="CONCRETE" />
-	-->
-	<!--		</filterPredicate>-->
-	<!--
-		<checkPredicate xsi:type="jqa:NamingPredicate"
-		classNamePattern="**.bo.impl.*BOImpl" />
-	-->
-	<!--	</rule>-->
+	<rule name="DAO implementation rule"
+		message="This DAO implementation is not valid. Perhaps its name, package or type are wrong.">
+		<filterPredicate xsi:type="jqa:AndPredicate">
+			<predicate xsi:type="jqa:NamingPredicate" classNamePattern="**DAO*" />
+			<predicate xsi:type="jqa:AbstractionPredicate"
+				abstractionType="CONCRETE" />
+		</filterPredicate>
+		<checkPredicate xsi:type="jqa:ContextProvidedPredicate"
+			providedPredicateName="Valid DAO implementation" />
+	</rule>
 
 	<!-- Other rules -->
 	<!--

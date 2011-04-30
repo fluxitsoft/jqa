@@ -50,16 +50,16 @@ public class JQAPluginRunner {
 		assertContains(result, "DAO contract rule", "ar.com.fluxit.jqa.test.dao.CarDAO", fails);
 		assertContains(result, "DAO contract rule", "ar.com.fluxit.jqa.test.daos.TrainDAO", fails);
 
-		// assertContains(result, "BO contract naming",
-		// "ar.com.fluxit.jqa.test.bo.BOForTrucks", fails);
-		// assertContains(result, "Cant use XStream",
-		// "ar.com.fluxit.jqa.test.utils.Commons", fails);
-		// assertContains(result, "BO contract definition",
-		// "ar.com.fluxit.jqa.test.bo.MotorcycleBO", fails);
-		// assertContains(result, "BO contract definition",
-		// "ar.com.fluxit.jqa.test.bo.impl.TruckBO", fails);
-		// assertContains(result, "BO implementation naming",
-		// "ar.com.fluxit.jqa.test.bo.impl.TruckBO", fails);
+		assertContains(result, "DAO implementation rule", "ar.com.fluxit.jqa.test.dao.MotorcycleDAO", fails);
+		assertContains(result, "DAO implementation rule", "ar.com.fluxit.jqa.test.dao.impl.CarDAOImpl", fails);
+		assertContains(result, "DAO implementation rule", "ar.com.fluxit.jqa.test.dao.impl.DAOForTrucksImpl", fails);
+		assertContains(result, "DAO implementation rule", "ar.com.fluxit.jqa.test.dao.impl.MotorcycleDAO", fails);
+		assertContains(result, "DAO implementation rule", "ar.com.fluxit.jqa.test.daos.impl.TrainDAOImpl", fails);
+
+		// assertContains(result, "DAO implementation rule", "", fails);
+		// assertContains(result, "DAO implementation rule", "", fails);
+		// assertContains(result, "DAO implementation rule", "", fails);
+
 		// assertContains(result, "", "");
 		Assert.assertEquals(fails.size() + " not expected fails: " + fails.toString(), 0, fails.size());
 	}

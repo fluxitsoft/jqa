@@ -1,6 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jqa_ctx:RulesContext xmlns:jqa="http://www.fluxit.com.ar/jqa/schema/ruleset" xmlns:jqa_ctx="http://www.fluxit.com.ar/jqa/schema/rulescontext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.fluxit.com.ar/jqa/schema/rulescontext http://jqa-project.googlecode.com/svn/trunk/jqa-parent/jqa-ctx-factory/src/main/resources/schema/rulescontext.xsd ">
-  
-  <ruleSetImport fileName="test_ruleset.xml"/>
-  
+<jqa_ctx:RulesContext xmlns:jqa="http://www.fluxit.com.ar/jqa/schema/ruleset"
+	xmlns:jqa_ctx="http://www.fluxit.com.ar/jqa/schema/rulescontext"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.fluxit.com.ar/jqa/schema/rulescontext http://jqa-project.googlecode.com/svn/trunk/jqa-parent/jqa-ctx-factory/src/main/resources/schema/rulescontext.xsd ">
+
+	<!-- Ruleset imports -->
+	<ruleSetImport fileName="test_ruleset.xml" />
+
+	<!-- DAO predicates -->
+	<globalPredicate name="Valid DAO contract" xsi:type="jqa:AndPredicate">
+		<predicate xsi:type="jqa:AbstractionPredicate"
+			abstractionType="INTERFACE" />
+		<predicate xsi:type="jqa:NamingPredicate" classNamePattern="**.dao.*DAO" />
+		<predicate xsi:type="jqa:TypingPredicate">
+			<filterPredicate xsi:type="jqa:NamingPredicate"
+				classNamePattern="ar.com.fluxit.jqa.test.fmk.dao.DAO" />
+		</predicate>
+	</globalPredicate>
+	<globalPredicate name="Valid DAO implementation"
+		xsi:type="jqa:AndPredicate">
+		<predicate xsi:type="jqa:AbstractionPredicate"
+			abstractionType="CONCRETE" />
+		<predicate xsi:type="jqa:NamingPredicate" classNamePattern="**.dao.impl.*DAOImpl" />
+		<predicate xsi:type="jqa:TypingPredicate">
+			<filterPredicate xsi:type="jqa:ContextProvidedPredicate"
+				providedPredicateName="Valid DAO contract" />
+		</predicate>
+	</globalPredicate>
+
 </jqa_ctx:RulesContext>
