@@ -82,7 +82,7 @@ public class RuleSetChecker {
 			final FileInputStream fis = new FileInputStream(classFile);
 			final JavaClass clazz = RepositoryLocator.getRepository().parse(fis, null);
 			fis.close();
-			if (filterPredicate.evaluate(clazz, null)) {
+			if (filterPredicate.evaluate(clazz, context)) {
 				if (!checkPredicate.evaluate(clazz, context)) {
 					result.addRuleExecutionFailed(new RuleCheckFailed(ruleName, ruleMessage, clazz.getClassName(), rulePriority));
 				}
