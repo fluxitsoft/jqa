@@ -55,8 +55,10 @@ public class JQACheckerTest extends TestCase {
 
 	private Logger log;
 
-	private Rule createRule(Predicate instance, Predicate instance2) {
-		return new RuleImpl(instance, instance2, "", "");
+	private Rule createRule(Predicate instance, Predicate instance2, boolean bidirectionalCheckRule) {
+		RuleImpl ruleImpl = new RuleImpl(instance, instance2, "", "");
+		ruleImpl.setBidirectionalCheck(bidirectionalCheckRule);
+		return ruleImpl;
 	}
 
 	private RulesContext createRulesContext(Collection<RuleSet> configuration) {
@@ -65,15 +67,19 @@ public class JQACheckerTest extends TestCase {
 		return result;
 	}
 
-	private RuleSet createRuleSet(Predicate instance, Predicate instance2) {
+	private RuleSet createRuleSet(Predicate instance, Predicate instance2, boolean bidirectionalCheckRule) {
 		final RuleSetImpl result = new RuleSetImpl();
-		result.addRule(createRule(instance, instance2));
+		result.addRule(createRule(instance, instance2, bidirectionalCheckRule));
 		return result;
 	}
 
 	private Collection<RuleSet> createRuleSets(Predicate predicate, Predicate predicate2) {
+		return createRuleSets(predicate, predicate2, false);
+	}
+
+	private Collection<RuleSet> createRuleSets(Predicate predicate, Predicate predicate2, boolean bidirectionalCheckRule) {
 		final Collection<RuleSet> result = new ArrayList<RuleSet>();
-		result.add(createRuleSet(predicate, predicate2));
+		result.add(createRuleSet(predicate, predicate2, bidirectionalCheckRule));
 		return result;
 	}
 
@@ -82,19 +88,30 @@ public class JQACheckerTest extends TestCase {
 	}
 
 	protected Logger getLog() {
-		return log;
+		return this.log;
 	}
 
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		log = LoggerFactory.getLogger(JQACheckerTest.class);
+		this.log = LoggerFactory.getLogger(JQACheckerTest.class);
 	}
 
 	@Override
 	protected void tearDown() throws Exception {
 		super.tearDown();
-		log = null;
+		this.log = null;
+	}
+
+	public final void testBidirectionalCheckRule() throws IntrospectionException, FileNotFoundException, ClassFormatException, IOException {
+		final Collection<File> classFiles = FileUtils.INSTANCE.getClassFiles(ClassA.class);
+		final Collection<RuleSet> configuration = createRuleSets(FalsePredicate.INSTANCE, TruePredicate.INSTANCE, true);
+		final RulesContext context = createRulesContext(configuration);
+		final CheckingResult result = getChecker().check(classFiles, Collections.<File> emptyList(), context, getLog());
+		assertNotNull(result);
+		assertNotNull(result.getDate());
+		assertNotNull(result.getRuleChecksFailed());
+		assertEquals(1, result.getRuleChecksFailed().size());
 	}
 
 	public final void testCheckPredicateFail() throws IntrospectionException, FileNotFoundException, ClassFormatException, IOException {
@@ -132,8 +149,7 @@ public class JQACheckerTest extends TestCase {
 
 	public final void testFilterPredicateFail() throws IntrospectionException, FileNotFoundException, ClassFormatException, IOException {
 		final Collection<File> classFiles = FileUtils.INSTANCE.getClassFiles(ClassA.class);
-
-		final Collection<RuleSet> configuration = createRuleSets(TruePredicate.INSTANCE, FalsePredicate.INSTANCE);
+		final Collection<RuleSet> configuration = createRuleSets(TruePredicate.INSTANCE, FalsePredicate.INSTANCE, true);
 		final RulesContext context = createRulesContext(configuration);
 		final CheckingResult result = getChecker().check(classFiles, Collections.<File> emptyList(), context, getLog());
 		assertNotNull(result);

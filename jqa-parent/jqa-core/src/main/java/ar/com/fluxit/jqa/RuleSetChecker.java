@@ -32,6 +32,7 @@ import ar.com.fluxit.jqa.bce.ClassFormatException;
 import ar.com.fluxit.jqa.bce.JavaClass;
 import ar.com.fluxit.jqa.bce.RepositoryLocator;
 import ar.com.fluxit.jqa.context.RulesContext;
+import ar.com.fluxit.jqa.predicate.Predicate;
 import ar.com.fluxit.jqa.result.CheckingResult;
 import ar.com.fluxit.jqa.result.RuleCheckFailed;
 import ar.com.fluxit.jqa.rule.Rule;
@@ -58,29 +59,34 @@ public class RuleSetChecker {
 			log.debug("Adding to classpath: " + classPathFile);
 		}
 		RepositoryLocator.getRepository().setClassPath(classPath);
-		// Iterate class files
-		for (final File classFile : classFiles) {
-			log.debug("Checking file: " + classFile);
-			final FileInputStream fis = new FileInputStream(classFile);
-			final JavaClass clazz = RepositoryLocator.getRepository().parse(fis, null);
-			fis.close();
-			check(context, result, clazz);
-		}
-		return result;
-	}
-
-	private void check(RulesContext context, final CheckingResult result, final JavaClass clazz) {
 		// Iterate rulesets
 		for (final RuleSet ruleset : context.getRuleSets()) {
 			// Iterate rules
 			for (final Rule rule : ruleset.getRules()) {
-				if (rule.getFilterPredicate().evaluate(clazz, null)) {
-					if (!rule.getCheckPredicate().evaluate(clazz, context)) {
-						result.addRuleExecutionFailed(new RuleCheckFailed(rule.getName(), rule.getMessage(), clazz.getClassName(), rule.getPriority()));
-					}
+				log.debug("Checking rule (in normal mode): " + rule.getName());
+				check(classFiles, rule.getFilterPredicate(), rule.getCheckPredicate(), result, context, rule.getPriority(), rule.getMessage(), rule.getName());
+				if (rule.getBidirectionalCheck()) {
+					log.debug("Checking rule (in inverse mode): " + rule.getName());
+					check(classFiles, rule.getCheckPredicate(), rule.getFilterPredicate(), result, context, rule.getPriority(), rule.getMessage(), rule
+							.getName());
+				}
+			}
+		}
+		return result;
+	}
+
+	private void check(Collection<File> classFiles, Predicate filterPredicate, Predicate checkPredicate, CheckingResult result, RulesContext context,
+			int rulePriority, String ruleMessage, String ruleName) throws ClassFormatException, IOException {
+		// Iterate class files
+		for (final File classFile : classFiles) {
+			final FileInputStream fis = new FileInputStream(classFile);
+			final JavaClass clazz = RepositoryLocator.getRepository().parse(fis, null);
+			fis.close();
+			if (filterPredicate.evaluate(clazz, null)) {
+				if (!checkPredicate.evaluate(clazz, context)) {
+					result.addRuleExecutionFailed(new RuleCheckFailed(ruleName, ruleMessage, clazz.getClassName(), rulePriority));
 				}
 			}
 		}
 	}
-
 }
