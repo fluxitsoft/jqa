@@ -34,6 +34,15 @@ public class NamingPredicate extends IgnoringContextPredicate {
 	// transient for XML serialization
 	private transient RegEx regEx;
 
+	public NamingPredicate() {
+		super();
+	}
+
+	public NamingPredicate(String classNamePattern) {
+		super();
+		this.classNamePattern = classNamePattern;
+	}
+
 	@Override
 	public boolean evaluate(JavaClass clazz) {
 		return evaluateClassName(clazz.getClassName());
@@ -48,17 +57,17 @@ public class NamingPredicate extends IgnoringContextPredicate {
 	}
 
 	public String getClassNamePattern() {
-		return classNamePattern;
+		return this.classNamePattern;
 	}
 
 	private RegEx getRegEx() throws RegExSyntaxException {
-		if (regEx == null) {
-			regEx = new RegEx(getClassNamePattern());
+		if (this.regEx == null) {
+			this.regEx = new RegEx(getClassNamePattern());
 		}
-		return regEx;
+		return this.regEx;
 	}
 
 	public void setClassNamePattern(String pattern) {
-		classNamePattern = pattern;
+		this.classNamePattern = pattern;
 	}
 }

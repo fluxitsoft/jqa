@@ -129,7 +129,10 @@ public class RulesContextImplTest extends TestCase {
 		assertTrue(this.rulesContext.getGlobalPredicate("AlwaysTruePredicate") instanceof TruePredicate);
 		// TypingPredicate
 		assertTrue(this.rulesContext.getGlobalPredicate("TypingPredicateTest") instanceof TypingPredicate);
-		assertEquals("java.lang.Object", ((TypingPredicate) this.rulesContext.getGlobalPredicate("TypingPredicateTest")).getParentClassName());
+		TypingPredicate typingPredicate = (TypingPredicate) this.rulesContext.getGlobalPredicate("TypingPredicateTest");
+		assertTrue(typingPredicate.getFilterPredicate() instanceof NamingPredicate);
+		NamingPredicate namingPredicate = (NamingPredicate) typingPredicate.getFilterPredicate();
+		assertEquals("java.lang.Object", namingPredicate.getClassNamePattern());
 		// UsagePredicate
 		assertTrue(this.rulesContext.getGlobalPredicate("UsagePredicateTest") instanceof UsagePredicate);
 		assertTrue(((UsagePredicate) this.rulesContext.getGlobalPredicate("UsagePredicateTest")).getFilterPredicate() instanceof TruePredicate);

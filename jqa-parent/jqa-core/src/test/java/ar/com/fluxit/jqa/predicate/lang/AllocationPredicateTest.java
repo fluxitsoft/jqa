@@ -46,7 +46,7 @@ public class AllocationPredicateTest extends TestCase {
 
 	private void testMatches(String filterPredicateParentClass, Class<?> usagePredicateclass, boolean matches) throws ClassNotFoundException {
 		final TypingPredicate filterPredicate = new TypingPredicate();
-		filterPredicate.setParentClassName(filterPredicateParentClass);
+		filterPredicate.setFilterPredicate(new NamingPredicate(filterPredicateParentClass));
 		final JavaClass clazz = RepositoryLocator.getRepository().lookupClass(usagePredicateclass);
 		final AllocationPredicate allocationPredicate = new AllocationPredicate();
 		allocationPredicate.setFilterPredicate(filterPredicate);

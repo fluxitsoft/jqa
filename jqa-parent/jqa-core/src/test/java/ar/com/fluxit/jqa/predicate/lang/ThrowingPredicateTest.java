@@ -56,11 +56,10 @@ public class ThrowingPredicateTest extends TestCase {
 
 	private void testMatches(String filterPredicateParentClass, Class<?> usagePredicateClass, boolean matches) throws ClassNotFoundException {
 		final TypingPredicate filterPredicate = new TypingPredicate();
-		filterPredicate.setParentClassName(filterPredicateParentClass);
+		filterPredicate.setFilterPredicate(new NamingPredicate(filterPredicateParentClass));
 		final JavaClass clazz = RepositoryLocator.getRepository().lookupClass(usagePredicateClass);
 		final ThrowingPredicate throwingPredicate = new ThrowingPredicate();
 		throwingPredicate.setFilterPredicate(filterPredicate);
 		assertEquals(matches, throwingPredicate.evaluate(clazz, null));
 	}
-
 }

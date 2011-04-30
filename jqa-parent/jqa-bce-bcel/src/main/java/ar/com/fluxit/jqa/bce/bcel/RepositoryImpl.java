@@ -118,6 +118,26 @@ public class RepositoryImpl implements Repository {
 	}
 
 	@Override
+	public Collection<JavaClass> getInterfaces(JavaClass clazz) {
+		final org.apache.bcel.classfile.JavaClass[] interfaces = org.apache.bcel.Repository.getInterfaces(getWrappedClass(clazz));
+		final List<JavaClass> result = new ArrayList<JavaClass>(interfaces.length);
+		for (org.apache.bcel.classfile.JavaClass interfaz : interfaces) {
+			result.add(new BcelJavaClass(interfaz));
+		}
+		return result;
+	}
+
+	@Override
+	public Collection<JavaClass> getSuperClasses(JavaClass clazz) {
+		final org.apache.bcel.classfile.JavaClass[] superClasses = org.apache.bcel.Repository.getSuperClasses(getWrappedClass(clazz));
+		final List<JavaClass> result = new ArrayList<JavaClass>(superClasses.length);
+		for (org.apache.bcel.classfile.JavaClass superClass : superClasses) {
+			result.add(new BcelJavaClass(superClass));
+		}
+		return result;
+	}
+
+	@Override
 	public Collection<JavaClass> getThrows(final JavaClass clazz) {
 		final List<JavaClass> result = new ArrayList<JavaClass>();
 		getWrappedClass(clazz).getMethods();
@@ -189,15 +209,6 @@ public class RepositoryImpl implements Repository {
 	private org.apache.bcel.classfile.JavaClass getWrappedClass(JavaClass clazz) {
 		return ((BcelJavaClass) clazz).getWrapped();
 	}
-
-	@Override
-	public boolean instanceOf(JavaClass clazz, JavaClass parentJavaClass) throws ClassNotFoundException {
-		if (clazz.equals(parentJavaClass)) {
-			return true;
-		} else {
-			return org.apache.bcel.Repository.instanceOf(getWrappedClass(clazz), getWrappedClass(parentJavaClass));
-		}
-	};
 
 	@Override
 	public JavaClass lookupClass(Class<?> clazz) throws ClassNotFoundException {

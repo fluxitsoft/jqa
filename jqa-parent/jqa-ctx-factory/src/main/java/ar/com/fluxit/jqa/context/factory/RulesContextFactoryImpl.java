@@ -257,7 +257,6 @@ public class RulesContextFactoryImpl implements RulesContextFactory {
 	Predicate parse(TypingPredicate predicate) {
 		final ar.com.fluxit.jqa.predicate.lang.TypingPredicate result = new ar.com.fluxit.jqa.predicate.lang.TypingPredicate();
 		parse(predicate, result);
-		result.setParentClassName(predicate.getParentClassName());
 		return result;
 	}
 

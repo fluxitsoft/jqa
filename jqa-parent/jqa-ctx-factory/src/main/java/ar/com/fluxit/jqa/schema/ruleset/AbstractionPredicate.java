@@ -16,7 +16,7 @@ package ar.com.fluxit.jqa.schema.ruleset;
 public interface AbstractionPredicate extends ar.com.fluxit.jqa.schema.ruleset.Predicate
 {
     public static final org.apache.xmlbeans.SchemaType type = (org.apache.xmlbeans.SchemaType)
-        org.apache.xmlbeans.XmlBeans.typeSystemForClassLoader(AbstractionPredicate.class.getClassLoader(), "schemaorg_apache_xmlbeans.system.s022253B061784BB18D1DDF66EDAA187A").resolveHandle("abstractionpredicated487type");
+        org.apache.xmlbeans.XmlBeans.typeSystemForClassLoader(AbstractionPredicate.class.getClassLoader(), "schemaorg_apache_xmlbeans.system.sA27342670DA8F7949A5E3F708A63BE79").resolveHandle("abstractionpredicated487type");
     
     /**
      * Gets the "abstractionType" attribute

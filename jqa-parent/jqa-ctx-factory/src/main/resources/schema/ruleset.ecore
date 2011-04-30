@@ -63,10 +63,7 @@
         eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ThrowingPredicate" eSuperTypes="#//FilteredPredicate"/>
-  <eClassifiers xsi:type="ecore:EClass" name="TypingPredicate" eSuperTypes="#//Predicate">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="parentClassName" lowerBound="1"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
-  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TypingPredicate" eSuperTypes="#//FilteredPredicate"/>
   <eClassifiers xsi:type="ecore:EClass" name="UsagePredicate" eSuperTypes="#//FilteredPredicate"/>
   <eClassifiers xsi:type="ecore:EClass" name="VarArgsLogicPredicate" abstract="true"
       eSuperTypes="#//Predicate">

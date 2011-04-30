@@ -49,8 +49,9 @@
 		<filterPredicate xsi:type="jqa:TruePredicate" />
 	</globalPredicate>
 	<globalPredicate xsi:type="jqa:TruePredicate" />
-	<globalPredicate name="TypingPredicateTest" xsi:type="jqa:TypingPredicate"
-		parentClassName="java.lang.Object" />
+	<globalPredicate name="TypingPredicateTest" xsi:type="jqa:TypingPredicate">
+		<filterPredicate xsi:type="jqa:NamingPredicate" classNamePattern="java.lang.Object"/>
+	</globalPredicate>
 	<globalPredicate name="UsagePredicateTest" xsi:type="jqa:UsagePredicate">
 		<filterPredicate xsi:type="jqa:TruePredicate" />
 	</globalPredicate>

@@ -104,9 +104,7 @@
   </xsd:complexType>
   <xsd:complexType name="TypingPredicate">
     <xsd:complexContent>
-      <xsd:extension base="jqa:Predicate">
-        <xsd:attribute name="parentClassName" type="xsd:string" use="required"/>
-      </xsd:extension>
+      <xsd:extension base="jqa:FilteredPredicate"/>
     </xsd:complexContent>
   </xsd:complexType>
   <xsd:complexType name="UsagePredicate">

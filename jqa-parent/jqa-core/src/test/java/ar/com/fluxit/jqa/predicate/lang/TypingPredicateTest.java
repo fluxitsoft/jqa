@@ -38,7 +38,7 @@ public class TypingPredicateTest extends TestCase {
 
 	private TypingPredicate createTypingPredicate(String string) {
 		final TypingPredicate result = new TypingPredicate();
-		result.setParentClassName(string);
+		result.setFilterPredicate(new NamingPredicate(string));
 		return result;
 	}
 
@@ -57,10 +57,10 @@ public class TypingPredicateTest extends TestCase {
 
 	private void testMatches(TypingPredicate predicate, JavaClass[] positive, JavaClass[] negative) {
 		for (final JavaClass element : positive) {
-			assertTrue("\"" + predicate + "\" should match \"" + element + "\"", predicate.evaluateClass(element));
+			assertTrue("\"" + predicate + "\" should match \"" + element + "\"", predicate.evaluate(element, null));
 		}
 		for (final JavaClass element : negative) {
-			assertTrue("\"" + predicate + "\" shouldn't match \"" + element + "\"", !predicate.evaluateClass(element));
+			assertTrue("\"" + predicate + "\" shouldn't match \"" + element + "\"", !predicate.evaluate(element, null));
 		}
 	}
 }

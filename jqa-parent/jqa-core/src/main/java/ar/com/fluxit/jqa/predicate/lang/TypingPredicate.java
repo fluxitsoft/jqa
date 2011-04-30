@@ -18,47 +18,42 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.predicate.lang;
 
+import java.util.Collection;
+
 import ar.com.fluxit.jqa.bce.JavaClass;
 import ar.com.fluxit.jqa.bce.RepositoryLocator;
-import ar.com.fluxit.jqa.predicate.IgnoringContextPredicate;
+import ar.com.fluxit.jqa.context.RulesContext;
+import ar.com.fluxit.jqa.predicate.FilteredPredicate;
 
 /**
  * TODO javadoc
  * 
  * @author Juan Ignacio Barisich
  */
-public class TypingPredicate extends IgnoringContextPredicate {
+public class TypingPredicate extends FilteredPredicate {
 
-	private String parentClassName;
-	// transient for XML serialization
-	private transient JavaClass parentJavaClass;
+	public TypingPredicate() {
+		super();
+	}
 
 	@Override
-	public boolean evaluate(JavaClass clazz) {
-		return evaluateClass(clazz);
-	}
-
-	protected boolean evaluateClass(JavaClass clazz) {
-		try {
-			return RepositoryLocator.getRepository().instanceOf(clazz, getParentJavaClass());
-		} catch (final ClassNotFoundException e) {
-			throw new IllegalStateException(e);
+	public boolean evaluate(JavaClass clazz, RulesContext context) {
+		final Collection<JavaClass> superClasses = RepositoryLocator.getRepository().getSuperClasses(clazz);
+		// superclases
+		for (final JavaClass superClass : superClasses) {
+			if (getFilterPredicate().evaluate(superClass, context)) {
+				return true;
+			}
 		}
-	}
-
-	public String getParentClassName() {
-		return parentClassName;
-	}
-
-	private JavaClass getParentJavaClass() throws ClassNotFoundException {
-		if (parentJavaClass == null) {
-			parentJavaClass = RepositoryLocator.getRepository().lookupClass(getParentClassName());
+		// superinterfaces
+		final Collection<JavaClass> interfaces = RepositoryLocator.getRepository().getInterfaces(clazz);
+		for (final JavaClass interfaz : interfaces) {
+			if (getFilterPredicate().evaluate(interfaz, context)) {
+				return true;
+			}
 		}
-		return parentJavaClass;
-	}
-
-	public void setParentClassName(String clazzName) {
-		parentClassName = clazzName;
+		// the class
+		return getFilterPredicate().evaluate(clazz, context);
 	}
 
 }

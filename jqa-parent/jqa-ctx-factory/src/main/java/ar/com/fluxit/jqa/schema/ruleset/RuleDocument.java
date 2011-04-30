@@ -17,7 +17,7 @@ package ar.com.fluxit.jqa.schema.ruleset;
 public interface RuleDocument extends org.apache.xmlbeans.XmlObject
 {
     public static final org.apache.xmlbeans.SchemaType type = (org.apache.xmlbeans.SchemaType)
-        org.apache.xmlbeans.XmlBeans.typeSystemForClassLoader(RuleDocument.class.getClassLoader(), "schemaorg_apache_xmlbeans.system.s022253B061784BB18D1DDF66EDAA187A").resolveHandle("rule2f62doctype");
+        org.apache.xmlbeans.XmlBeans.typeSystemForClassLoader(RuleDocument.class.getClassLoader(), "schemaorg_apache_xmlbeans.system.sA27342670DA8F7949A5E3F708A63BE79").resolveHandle("rule2f62doctype");
     
     /**
      * Gets the "Rule" element
