@@ -37,19 +37,26 @@ public class RulesContextImpl implements RulesContext {
 	private final Map<String, Predicate> globalPredicates;
 
 	public RulesContextImpl() {
-		ruleSets = new ArrayList<RuleSet>();
-		globalPredicates = new HashMap<String, Predicate>();
+		this.ruleSets = new ArrayList<RuleSet>();
+		this.globalPredicates = new HashMap<String, Predicate>();
 	}
 
 	public void add(Predicate predicate) {
 		if (predicate.getName() == null) {
 			throw new IllegalArgumentException("Global predicate must has a name");
 		}
-		globalPredicates.put(predicate.getName(), predicate);
+		this.globalPredicates.put(predicate.getName(), predicate);
+	}
+
+	public void add(RulesContext context) {
+		addAll(context.getRuleSets());
+		for (Predicate predicate : context.getGlobalPredicates()) {
+			add(predicate);
+		}
 	}
 
 	public void add(RuleSet ruleSet) {
-		ruleSets.add(ruleSet);
+		this.ruleSets.add(ruleSet);
 	}
 
 	public void addAll(Collection<RuleSet> ruleSets) {
@@ -58,12 +65,17 @@ public class RulesContextImpl implements RulesContext {
 
 	@Override
 	public Predicate getGlobalPredicate(String name) {
-		return globalPredicates.get(name);
+		return this.globalPredicates.get(name);
+	}
+
+	@Override
+	public Collection<Predicate> getGlobalPredicates() {
+		return this.globalPredicates.values();
 	}
 
 	@Override
 	public Collection<RuleSet> getRuleSets() {
-		return ruleSets;
+		return this.ruleSets;
 	}
 
 }

@@ -16,7 +16,7 @@ package ar.com.fluxit.jqa.schema.ruleset;
 public interface AndPredicate extends ar.com.fluxit.jqa.schema.ruleset.VarArgsLogicPredicate
 {
     public static final org.apache.xmlbeans.SchemaType type = (org.apache.xmlbeans.SchemaType)
-        org.apache.xmlbeans.XmlBeans.typeSystemForClassLoader(AndPredicate.class.getClassLoader(), "schemaorg_apache_xmlbeans.system.s1C635A293DF928D663002427DDAF6D8E").resolveHandle("andpredicate6cf6type");
+        org.apache.xmlbeans.XmlBeans.typeSystemForClassLoader(AndPredicate.class.getClassLoader(), "schemaorg_apache_xmlbeans.system.sF9E27A87AB0EF51FC7D6933A8CD44427").resolveHandle("andpredicate6cf6type");
     
     /**
      * A factory class with static methods for creating instances

@@ -16,7 +16,53 @@ package ar.com.fluxit.jqa.schema.rulescontext;
 public interface RulesContext extends org.apache.xmlbeans.XmlObject
 {
     public static final org.apache.xmlbeans.SchemaType type = (org.apache.xmlbeans.SchemaType)
-        org.apache.xmlbeans.XmlBeans.typeSystemForClassLoader(RulesContext.class.getClassLoader(), "schemaorg_apache_xmlbeans.system.s1C635A293DF928D663002427DDAF6D8E").resolveHandle("rulescontextfdb0type");
+        org.apache.xmlbeans.XmlBeans.typeSystemForClassLoader(RulesContext.class.getClassLoader(), "schemaorg_apache_xmlbeans.system.sF9E27A87AB0EF51FC7D6933A8CD44427").resolveHandle("rulescontextfdb0type");
+    
+    /**
+     * Gets a List of "rulesContextImport" elements
+     */
+    java.util.List<ar.com.fluxit.jqa.schema.rulescontext.RulesContextImport> getRulesContextImportList();
+    
+    /**
+     * Gets array of all "rulesContextImport" elements
+     * @deprecated
+     */
+    ar.com.fluxit.jqa.schema.rulescontext.RulesContextImport[] getRulesContextImportArray();
+    
+    /**
+     * Gets ith "rulesContextImport" element
+     */
+    ar.com.fluxit.jqa.schema.rulescontext.RulesContextImport getRulesContextImportArray(int i);
+    
+    /**
+     * Returns number of "rulesContextImport" element
+     */
+    int sizeOfRulesContextImportArray();
+    
+    /**
+     * Sets array of all "rulesContextImport" element
+     */
+    void setRulesContextImportArray(ar.com.fluxit.jqa.schema.rulescontext.RulesContextImport[] rulesContextImportArray);
+    
+    /**
+     * Sets ith "rulesContextImport" element
+     */
+    void setRulesContextImportArray(int i, ar.com.fluxit.jqa.schema.rulescontext.RulesContextImport rulesContextImport);
+    
+    /**
+     * Inserts and returns a new empty value (as xml) as the ith "rulesContextImport" element
+     */
+    ar.com.fluxit.jqa.schema.rulescontext.RulesContextImport insertNewRulesContextImport(int i);
+    
+    /**
+     * Appends and returns a new empty value (as xml) as the last "rulesContextImport" element
+     */
+    ar.com.fluxit.jqa.schema.rulescontext.RulesContextImport addNewRulesContextImport();
+    
+    /**
+     * Removes the ith "rulesContextImport" element
+     */
+    void removeRulesContextImport(int i);
     
     /**
      * Gets a List of "ruleSetImport" elements
@@ -109,6 +155,36 @@ public interface RulesContext extends org.apache.xmlbeans.XmlObject
      * Removes the ith "globalPredicate" element
      */
     void removeGlobalPredicate(int i);
+    
+    /**
+     * Gets the "name" attribute
+     */
+    java.lang.String getName();
+    
+    /**
+     * Gets (as xml) the "name" attribute
+     */
+    org.apache.xmlbeans.XmlString xgetName();
+    
+    /**
+     * True if has "name" attribute
+     */
+    boolean isSetName();
+    
+    /**
+     * Sets the "name" attribute
+     */
+    void setName(java.lang.String name);
+    
+    /**
+     * Sets (as xml) the "name" attribute
+     */
+    void xsetName(org.apache.xmlbeans.XmlString name);
+    
+    /**
+     * Unsets the "name" attribute
+     */
+    void unsetName();
     
     /**
      * A factory class with static methods for creating instances

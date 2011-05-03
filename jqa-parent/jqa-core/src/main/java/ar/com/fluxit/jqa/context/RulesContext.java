@@ -32,6 +32,8 @@ public interface RulesContext {
 
 	Predicate getGlobalPredicate(String name);
 
+	Collection<Predicate> getGlobalPredicates();
+
 	Collection<RuleSet> getRuleSets();
 
 }

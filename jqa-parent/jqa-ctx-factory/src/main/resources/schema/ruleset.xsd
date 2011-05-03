@@ -1,22 +1,4 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--
-  JQA (http://code.google.com/p/jqa-project/)
-  
-  Copyright (c) 2011 Juan Ignacio Barisich.
-  
-  JQA is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
-  
-  JQA is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-  
-  You should have received a copy of the GNU General Public License
-  along with JQA.  If not, see <http://www.gnu.org/licenses/>.
--->
 <xsd:schema xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:jqa="http://www.fluxit.com.ar/jqa/schema/ruleset" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ecore:nsPrefix="jqa" ecore:package="jqa" targetNamespace="http://www.fluxit.com.ar/jqa/schema/ruleset">
   <xsd:element ecore:ignore="true" name="Ruleset" type="jqa:Ruleset"/>
   <xsd:element ecore:ignore="true" name="Rule" type="jqa:Rule"/>

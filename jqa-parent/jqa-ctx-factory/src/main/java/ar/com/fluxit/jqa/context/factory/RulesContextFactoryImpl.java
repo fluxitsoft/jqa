@@ -20,6 +20,7 @@ package ar.com.fluxit.jqa.context.factory;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,6 +42,7 @@ import ar.com.fluxit.jqa.rule.RuleSet;
 import ar.com.fluxit.jqa.rule.RuleSetImpl;
 import ar.com.fluxit.jqa.schema.rulescontext.RuleSetImport;
 import ar.com.fluxit.jqa.schema.rulescontext.RulesContextDocument;
+import ar.com.fluxit.jqa.schema.rulescontext.RulesContextImport;
 import ar.com.fluxit.jqa.schema.ruleset.AbstractionPredicate;
 import ar.com.fluxit.jqa.schema.ruleset.AllocationPredicate;
 import ar.com.fluxit.jqa.schema.ruleset.AndPredicate;
@@ -94,6 +96,30 @@ public class RulesContextFactoryImpl implements RulesContextFactory {
 		}
 	}
 
+	private RulesContext importRulesContext(File sourceFile, String basePath) throws RulesContextFactoryException {
+		try {
+			final RulesContextDocument document = RulesContextDocument.Factory.parse(sourceFile);
+			validate(document, sourceFile.toString());
+			return parse(document.getRulesContext(), basePath);
+		} catch (final Exception e) {
+			throw new RulesContextFactoryException(e);
+		}
+	}
+
+	private RulesContext importRulesContextByFileName(String fileName, String basePath) throws RulesContextFactoryException {
+		final File sourceFile = new File(getFilePath(fileName, basePath));
+		return importRulesContext(sourceFile, basePath);
+	}
+
+	private RulesContext importRulesContextByName(String name, String basePath) throws RulesContextFactoryException {
+		URL resourceURL = ClassLoader.getSystemResource("rulesContexts/" + name + ".xml");
+		if (resourceURL == null) {
+			throw new RulesContextFactoryException("RulesContext import is invalid. Inexistent RulesContext with name: " + name);
+		}
+		final File sourceFile = new File(resourceURL.getFile());
+		return importRulesContext(sourceFile, basePath);
+	}
+
 	private RuleSet importRuleSet(File sourceFile) throws RulesContextFactoryException {
 		try {
 			final RulesetDocument document = RulesetDocument.Factory.parse(sourceFile);
@@ -110,7 +136,11 @@ public class RulesContextFactoryImpl implements RulesContextFactory {
 	}
 
 	private RuleSet importRuleSetByName(String name) throws RulesContextFactoryException {
-		final File sourceFile = new File(ClassLoader.getSystemResource("rulesets/" + name + ".xml").getFile());
+		URL resourceURL = ClassLoader.getSystemResource("ruleSets/" + name + ".xml");
+		if (resourceURL == null) {
+			throw new RulesContextFactoryException("RulesSet import is invalid. Inexistent RuleSet with name: " + name);
+		}
+		final File sourceFile = new File(resourceURL.getFile());
 		return importRuleSet(sourceFile);
 	}
 
@@ -137,6 +167,9 @@ public class RulesContextFactoryImpl implements RulesContextFactory {
 		final RulesContextImpl result = new RulesContextImpl();
 		for (final ar.com.fluxit.jqa.schema.ruleset.Predicate globalPredicate : rulesContext.getGlobalPredicateList()) {
 			result.add((Predicate) parse(globalPredicate));
+		}
+		for (final RulesContextImport rulesContextImport : rulesContext.getRulesContextImportList()) {
+			result.add(parse(rulesContextImport, basePath));
 		}
 		for (final RuleSetImport ruleSetImport : rulesContext.getRuleSetImportList()) {
 			result.add(parse(ruleSetImport, basePath));
@@ -220,6 +253,19 @@ public class RulesContextFactoryImpl implements RulesContextFactory {
 		return result;
 	}
 
+	private RulesContext parse(RulesContextImport rulesContextImport, String basePath) throws RulesContextFactoryException {
+		RulesContext result;
+		if (rulesContextImport.getFileName() != null) {
+			result = importRulesContextByFileName(rulesContextImport.getFileName(), basePath);
+		} else {
+			result = importRulesContextByName(rulesContextImport.getName(), basePath);
+		}
+		if (result == null) {
+			throw new IllegalArgumentException("Invalid Ruleset import " + rulesContextImport);
+		}
+		return result;
+	}
+
 	private RuleSet parse(Ruleset rulesetDocument) {
 		final RuleSetImpl result = new RuleSetImpl();
 		result.setName(rulesetDocument.getName());
@@ -282,7 +328,7 @@ public class RulesContextFactoryImpl implements RulesContextFactory {
 				errors.append(error);
 				errors.append("\n");
 			}
-			throw new RulesContextFactoryException("Invalid rules context file :" + sourceFile + "\n" + errors);
+			throw new RulesContextFactoryException("Invalid file :" + sourceFile + "\n" + errors);
 		}
 	}
 

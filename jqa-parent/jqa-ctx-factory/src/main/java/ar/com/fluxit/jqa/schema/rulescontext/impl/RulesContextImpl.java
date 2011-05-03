@@ -20,11 +20,171 @@ public class RulesContextImpl extends org.apache.xmlbeans.impl.values.XmlComplex
         super(sType);
     }
     
-    private static final javax.xml.namespace.QName RULESETIMPORT$0 = 
+    private static final javax.xml.namespace.QName RULESCONTEXTIMPORT$0 = 
+        new javax.xml.namespace.QName("", "rulesContextImport");
+    private static final javax.xml.namespace.QName RULESETIMPORT$2 = 
         new javax.xml.namespace.QName("", "ruleSetImport");
-    private static final javax.xml.namespace.QName GLOBALPREDICATE$2 = 
+    private static final javax.xml.namespace.QName GLOBALPREDICATE$4 = 
         new javax.xml.namespace.QName("", "globalPredicate");
+    private static final javax.xml.namespace.QName NAME$6 = 
+        new javax.xml.namespace.QName("", "name");
     
+    
+    /**
+     * Gets a List of "rulesContextImport" elements
+     */
+    public java.util.List<ar.com.fluxit.jqa.schema.rulescontext.RulesContextImport> getRulesContextImportList()
+    {
+        final class RulesContextImportList extends java.util.AbstractList<ar.com.fluxit.jqa.schema.rulescontext.RulesContextImport>
+        {
+            public ar.com.fluxit.jqa.schema.rulescontext.RulesContextImport get(int i)
+                { return RulesContextImpl.this.getRulesContextImportArray(i); }
+            
+            public ar.com.fluxit.jqa.schema.rulescontext.RulesContextImport set(int i, ar.com.fluxit.jqa.schema.rulescontext.RulesContextImport o)
+            {
+                ar.com.fluxit.jqa.schema.rulescontext.RulesContextImport old = RulesContextImpl.this.getRulesContextImportArray(i);
+                RulesContextImpl.this.setRulesContextImportArray(i, o);
+                return old;
+            }
+            
+            public void add(int i, ar.com.fluxit.jqa.schema.rulescontext.RulesContextImport o)
+                { RulesContextImpl.this.insertNewRulesContextImport(i).set(o); }
+            
+            public ar.com.fluxit.jqa.schema.rulescontext.RulesContextImport remove(int i)
+            {
+                ar.com.fluxit.jqa.schema.rulescontext.RulesContextImport old = RulesContextImpl.this.getRulesContextImportArray(i);
+                RulesContextImpl.this.removeRulesContextImport(i);
+                return old;
+            }
+            
+            public int size()
+                { return RulesContextImpl.this.sizeOfRulesContextImportArray(); }
+            
+        }
+        
+        synchronized (monitor())
+        {
+            check_orphaned();
+            return new RulesContextImportList();
+        }
+    }
+    
+    /**
+     * Gets array of all "rulesContextImport" elements
+     * @deprecated
+     */
+    public ar.com.fluxit.jqa.schema.rulescontext.RulesContextImport[] getRulesContextImportArray()
+    {
+        synchronized (monitor())
+        {
+            check_orphaned();
+            java.util.List<ar.com.fluxit.jqa.schema.rulescontext.RulesContextImport> targetList = new java.util.ArrayList<ar.com.fluxit.jqa.schema.rulescontext.RulesContextImport>();
+            get_store().find_all_element_users(RULESCONTEXTIMPORT$0, targetList);
+            ar.com.fluxit.jqa.schema.rulescontext.RulesContextImport[] result = new ar.com.fluxit.jqa.schema.rulescontext.RulesContextImport[targetList.size()];
+            targetList.toArray(result);
+            return result;
+        }
+    }
+    
+    /**
+     * Gets ith "rulesContextImport" element
+     */
+    public ar.com.fluxit.jqa.schema.rulescontext.RulesContextImport getRulesContextImportArray(int i)
+    {
+        synchronized (monitor())
+        {
+            check_orphaned();
+            ar.com.fluxit.jqa.schema.rulescontext.RulesContextImport target = null;
+            target = (ar.com.fluxit.jqa.schema.rulescontext.RulesContextImport)get_store().find_element_user(RULESCONTEXTIMPORT$0, i);
+            if (target == null)
+            {
+                throw new IndexOutOfBoundsException();
+            }
+            return target;
+        }
+    }
+    
+    /**
+     * Returns number of "rulesContextImport" element
+     */
+    public int sizeOfRulesContextImportArray()
+    {
+        synchronized (monitor())
+        {
+            check_orphaned();
+            return get_store().count_elements(RULESCONTEXTIMPORT$0);
+        }
+    }
+    
+    /**
+     * Sets array of all "rulesContextImport" element
+     */
+    public void setRulesContextImportArray(ar.com.fluxit.jqa.schema.rulescontext.RulesContextImport[] rulesContextImportArray)
+    {
+        synchronized (monitor())
+        {
+            check_orphaned();
+            arraySetterHelper(rulesContextImportArray, RULESCONTEXTIMPORT$0);
+        }
+    }
+    
+    /**
+     * Sets ith "rulesContextImport" element
+     */
+    public void setRulesContextImportArray(int i, ar.com.fluxit.jqa.schema.rulescontext.RulesContextImport rulesContextImport)
+    {
+        synchronized (monitor())
+        {
+            check_orphaned();
+            ar.com.fluxit.jqa.schema.rulescontext.RulesContextImport target = null;
+            target = (ar.com.fluxit.jqa.schema.rulescontext.RulesContextImport)get_store().find_element_user(RULESCONTEXTIMPORT$0, i);
+            if (target == null)
+            {
+                throw new IndexOutOfBoundsException();
+            }
+            target.set(rulesContextImport);
+        }
+    }
+    
+    /**
+     * Inserts and returns a new empty value (as xml) as the ith "rulesContextImport" element
+     */
+    public ar.com.fluxit.jqa.schema.rulescontext.RulesContextImport insertNewRulesContextImport(int i)
+    {
+        synchronized (monitor())
+        {
+            check_orphaned();
+            ar.com.fluxit.jqa.schema.rulescontext.RulesContextImport target = null;
+            target = (ar.com.fluxit.jqa.schema.rulescontext.RulesContextImport)get_store().insert_element_user(RULESCONTEXTIMPORT$0, i);
+            return target;
+        }
+    }
+    
+    /**
+     * Appends and returns a new empty value (as xml) as the last "rulesContextImport" element
+     */
+    public ar.com.fluxit.jqa.schema.rulescontext.RulesContextImport addNewRulesContextImport()
+    {
+        synchronized (monitor())
+        {
+            check_orphaned();
+            ar.com.fluxit.jqa.schema.rulescontext.RulesContextImport target = null;
+            target = (ar.com.fluxit.jqa.schema.rulescontext.RulesContextImport)get_store().add_element_user(RULESCONTEXTIMPORT$0);
+            return target;
+        }
+    }
+    
+    /**
+     * Removes the ith "rulesContextImport" element
+     */
+    public void removeRulesContextImport(int i)
+    {
+        synchronized (monitor())
+        {
+            check_orphaned();
+            get_store().remove_element(RULESCONTEXTIMPORT$0, i);
+        }
+    }
     
     /**
      * Gets a List of "ruleSetImport" elements
@@ -75,7 +235,7 @@ public class RulesContextImpl extends org.apache.xmlbeans.impl.values.XmlComplex
         {
             check_orphaned();
             java.util.List<ar.com.fluxit.jqa.schema.rulescontext.RuleSetImport> targetList = new java.util.ArrayList<ar.com.fluxit.jqa.schema.rulescontext.RuleSetImport>();
-            get_store().find_all_element_users(RULESETIMPORT$0, targetList);
+            get_store().find_all_element_users(RULESETIMPORT$2, targetList);
             ar.com.fluxit.jqa.schema.rulescontext.RuleSetImport[] result = new ar.com.fluxit.jqa.schema.rulescontext.RuleSetImport[targetList.size()];
             targetList.toArray(result);
             return result;
@@ -91,7 +251,7 @@ public class RulesContextImpl extends org.apache.xmlbeans.impl.values.XmlComplex
         {
             check_orphaned();
             ar.com.fluxit.jqa.schema.rulescontext.RuleSetImport target = null;
-            target = (ar.com.fluxit.jqa.schema.rulescontext.RuleSetImport)get_store().find_element_user(RULESETIMPORT$0, i);
+            target = (ar.com.fluxit.jqa.schema.rulescontext.RuleSetImport)get_store().find_element_user(RULESETIMPORT$2, i);
             if (target == null)
             {
                 throw new IndexOutOfBoundsException();
@@ -108,7 +268,7 @@ public class RulesContextImpl extends org.apache.xmlbeans.impl.values.XmlComplex
         synchronized (monitor())
         {
             check_orphaned();
-            return get_store().count_elements(RULESETIMPORT$0);
+            return get_store().count_elements(RULESETIMPORT$2);
         }
     }
     
@@ -120,7 +280,7 @@ public class RulesContextImpl extends org.apache.xmlbeans.impl.values.XmlComplex
         synchronized (monitor())
         {
             check_orphaned();
-            arraySetterHelper(ruleSetImportArray, RULESETIMPORT$0);
+            arraySetterHelper(ruleSetImportArray, RULESETIMPORT$2);
         }
     }
     
@@ -133,7 +293,7 @@ public class RulesContextImpl extends org.apache.xmlbeans.impl.values.XmlComplex
         {
             check_orphaned();
             ar.com.fluxit.jqa.schema.rulescontext.RuleSetImport target = null;
-            target = (ar.com.fluxit.jqa.schema.rulescontext.RuleSetImport)get_store().find_element_user(RULESETIMPORT$0, i);
+            target = (ar.com.fluxit.jqa.schema.rulescontext.RuleSetImport)get_store().find_element_user(RULESETIMPORT$2, i);
             if (target == null)
             {
                 throw new IndexOutOfBoundsException();
@@ -151,7 +311,7 @@ public class RulesContextImpl extends org.apache.xmlbeans.impl.values.XmlComplex
         {
             check_orphaned();
             ar.com.fluxit.jqa.schema.rulescontext.RuleSetImport target = null;
-            target = (ar.com.fluxit.jqa.schema.rulescontext.RuleSetImport)get_store().insert_element_user(RULESETIMPORT$0, i);
+            target = (ar.com.fluxit.jqa.schema.rulescontext.RuleSetImport)get_store().insert_element_user(RULESETIMPORT$2, i);
             return target;
         }
     }
@@ -165,7 +325,7 @@ public class RulesContextImpl extends org.apache.xmlbeans.impl.values.XmlComplex
         {
             check_orphaned();
             ar.com.fluxit.jqa.schema.rulescontext.RuleSetImport target = null;
-            target = (ar.com.fluxit.jqa.schema.rulescontext.RuleSetImport)get_store().add_element_user(RULESETIMPORT$0);
+            target = (ar.com.fluxit.jqa.schema.rulescontext.RuleSetImport)get_store().add_element_user(RULESETIMPORT$2);
             return target;
         }
     }
@@ -178,7 +338,7 @@ public class RulesContextImpl extends org.apache.xmlbeans.impl.values.XmlComplex
         synchronized (monitor())
         {
             check_orphaned();
-            get_store().remove_element(RULESETIMPORT$0, i);
+            get_store().remove_element(RULESETIMPORT$2, i);
         }
     }
     
@@ -231,7 +391,7 @@ public class RulesContextImpl extends org.apache.xmlbeans.impl.values.XmlComplex
         {
             check_orphaned();
             java.util.List<ar.com.fluxit.jqa.schema.ruleset.Predicate> targetList = new java.util.ArrayList<ar.com.fluxit.jqa.schema.ruleset.Predicate>();
-            get_store().find_all_element_users(GLOBALPREDICATE$2, targetList);
+            get_store().find_all_element_users(GLOBALPREDICATE$4, targetList);
             ar.com.fluxit.jqa.schema.ruleset.Predicate[] result = new ar.com.fluxit.jqa.schema.ruleset.Predicate[targetList.size()];
             targetList.toArray(result);
             return result;
@@ -247,7 +407,7 @@ public class RulesContextImpl extends org.apache.xmlbeans.impl.values.XmlComplex
         {
             check_orphaned();
             ar.com.fluxit.jqa.schema.ruleset.Predicate target = null;
-            target = (ar.com.fluxit.jqa.schema.ruleset.Predicate)get_store().find_element_user(GLOBALPREDICATE$2, i);
+            target = (ar.com.fluxit.jqa.schema.ruleset.Predicate)get_store().find_element_user(GLOBALPREDICATE$4, i);
             if (target == null)
             {
                 throw new IndexOutOfBoundsException();
@@ -264,7 +424,7 @@ public class RulesContextImpl extends org.apache.xmlbeans.impl.values.XmlComplex
         synchronized (monitor())
         {
             check_orphaned();
-            return get_store().count_elements(GLOBALPREDICATE$2);
+            return get_store().count_elements(GLOBALPREDICATE$4);
         }
     }
     
@@ -276,7 +436,7 @@ public class RulesContextImpl extends org.apache.xmlbeans.impl.values.XmlComplex
         synchronized (monitor())
         {
             check_orphaned();
-            arraySetterHelper(globalPredicateArray, GLOBALPREDICATE$2);
+            arraySetterHelper(globalPredicateArray, GLOBALPREDICATE$4);
         }
     }
     
@@ -289,7 +449,7 @@ public class RulesContextImpl extends org.apache.xmlbeans.impl.values.XmlComplex
         {
             check_orphaned();
             ar.com.fluxit.jqa.schema.ruleset.Predicate target = null;
-            target = (ar.com.fluxit.jqa.schema.ruleset.Predicate)get_store().find_element_user(GLOBALPREDICATE$2, i);
+            target = (ar.com.fluxit.jqa.schema.ruleset.Predicate)get_store().find_element_user(GLOBALPREDICATE$4, i);
             if (target == null)
             {
                 throw new IndexOutOfBoundsException();
@@ -307,7 +467,7 @@ public class RulesContextImpl extends org.apache.xmlbeans.impl.values.XmlComplex
         {
             check_orphaned();
             ar.com.fluxit.jqa.schema.ruleset.Predicate target = null;
-            target = (ar.com.fluxit.jqa.schema.ruleset.Predicate)get_store().insert_element_user(GLOBALPREDICATE$2, i);
+            target = (ar.com.fluxit.jqa.schema.ruleset.Predicate)get_store().insert_element_user(GLOBALPREDICATE$4, i);
             return target;
         }
     }
@@ -321,7 +481,7 @@ public class RulesContextImpl extends org.apache.xmlbeans.impl.values.XmlComplex
         {
             check_orphaned();
             ar.com.fluxit.jqa.schema.ruleset.Predicate target = null;
-            target = (ar.com.fluxit.jqa.schema.ruleset.Predicate)get_store().add_element_user(GLOBALPREDICATE$2);
+            target = (ar.com.fluxit.jqa.schema.ruleset.Predicate)get_store().add_element_user(GLOBALPREDICATE$4);
             return target;
         }
     }
@@ -334,7 +494,99 @@ public class RulesContextImpl extends org.apache.xmlbeans.impl.values.XmlComplex
         synchronized (monitor())
         {
             check_orphaned();
-            get_store().remove_element(GLOBALPREDICATE$2, i);
+            get_store().remove_element(GLOBALPREDICATE$4, i);
+        }
+    }
+    
+    /**
+     * Gets the "name" attribute
+     */
+    public java.lang.String getName()
+    {
+        synchronized (monitor())
+        {
+            check_orphaned();
+            org.apache.xmlbeans.SimpleValue target = null;
+            target = (org.apache.xmlbeans.SimpleValue)get_store().find_attribute_user(NAME$6);
+            if (target == null)
+            {
+                return null;
+            }
+            return target.getStringValue();
+        }
+    }
+    
+    /**
+     * Gets (as xml) the "name" attribute
+     */
+    public org.apache.xmlbeans.XmlString xgetName()
+    {
+        synchronized (monitor())
+        {
+            check_orphaned();
+            org.apache.xmlbeans.XmlString target = null;
+            target = (org.apache.xmlbeans.XmlString)get_store().find_attribute_user(NAME$6);
+            return target;
+        }
+    }
+    
+    /**
+     * True if has "name" attribute
+     */
+    public boolean isSetName()
+    {
+        synchronized (monitor())
+        {
+            check_orphaned();
+            return get_store().find_attribute_user(NAME$6) != null;
+        }
+    }
+    
+    /**
+     * Sets the "name" attribute
+     */
+    public void setName(java.lang.String name)
+    {
+        synchronized (monitor())
+        {
+            check_orphaned();
+            org.apache.xmlbeans.SimpleValue target = null;
+            target = (org.apache.xmlbeans.SimpleValue)get_store().find_attribute_user(NAME$6);
+            if (target == null)
+            {
+                target = (org.apache.xmlbeans.SimpleValue)get_store().add_attribute_user(NAME$6);
+            }
+            target.setStringValue(name);
+        }
+    }
+    
+    /**
+     * Sets (as xml) the "name" attribute
+     */
+    public void xsetName(org.apache.xmlbeans.XmlString name)
+    {
+        synchronized (monitor())
+        {
+            check_orphaned();
+            org.apache.xmlbeans.XmlString target = null;
+            target = (org.apache.xmlbeans.XmlString)get_store().find_attribute_user(NAME$6);
+            if (target == null)
+            {
+                target = (org.apache.xmlbeans.XmlString)get_store().add_attribute_user(NAME$6);
+            }
+            target.set(name);
+        }
+    }
+    
+    /**
+     * Unsets the "name" attribute
+     */
+    public void unsetName()
+    {
+        synchronized (monitor())
+        {
+            check_orphaned();
+            get_store().remove_attribute(NAME$6);
         }
     }
 }
