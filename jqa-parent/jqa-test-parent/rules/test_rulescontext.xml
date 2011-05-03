@@ -5,27 +5,46 @@
 	xsi:schemaLocation="http://www.fluxit.com.ar/jqa/schema/rulescontext http://jqa-project.googlecode.com/svn/trunk/jqa-parent/jqa-ctx-factory/src/main/resources/schema/rulescontext.xsd ">
 
 	<!-- Ruleset imports -->
-	<ruleSetImport fileName="test_ruleset.xml" />
+	<ruleSetImport fileName="naming.xml" />
+	<ruleSetImport fileName="typing.xml" />
 
 	<!-- DAO predicates -->
+	<globalPredicate name="DAO Contract Name" xsi:type="jqa:NamingPredicate"
+		classNamePattern="**.dao.*DAO" />
+		
+	<globalPredicate name="DAO Implementation Name" xsi:type="jqa:NamingPredicate"
+		classNamePattern="**.dao.impl.*DAOImpl" />	
+		
+	<globalPredicate name="DAO Contract Type" xsi:type="jqa:TypingPredicate">
+		<filterPredicate xsi:type="jqa:NamingPredicate"
+			classNamePattern="ar.com.fluxit.jqa.test.fmk.dao.DAO" />
+	</globalPredicate>
+	
+	<globalPredicate name="DAO Implementation Type" xsi:type="jqa:TypingPredicate">
+		<filterPredicate xsi:type="jqa:NamingPredicate"
+			classNamePattern="ar.com.fluxit.jqa.test.fmk.dao.DAO" />
+	</globalPredicate>
+
 	<globalPredicate name="Valid DAO contract" xsi:type="jqa:AndPredicate">
 		<predicate xsi:type="jqa:AbstractionPredicate"
 			abstractionType="INTERFACE" />
-		<predicate xsi:type="jqa:NamingPredicate" classNamePattern="**.dao.*DAO" />
-		<predicate xsi:type="jqa:TypingPredicate">
-			<filterPredicate xsi:type="jqa:NamingPredicate"
-				classNamePattern="ar.com.fluxit.jqa.test.fmk.dao.DAO" />
-		</predicate>
+		<predicate xsi:type="jqa:ContextProvidedPredicate"
+			providedPredicateName="DAO Contract Naming" />
+		<predicate xsi:type="jqa:ContextProvidedPredicate"
+			providedPredicateName="DAO Contract Type" />
 	</globalPredicate>
+
 	<globalPredicate name="Valid DAO implementation"
 		xsi:type="jqa:AndPredicate">
 		<predicate xsi:type="jqa:AbstractionPredicate"
 			abstractionType="CONCRETE" />
-		<predicate xsi:type="jqa:NamingPredicate" classNamePattern="**.dao.impl.*DAOImpl" />
-		<predicate xsi:type="jqa:TypingPredicate">
-			<filterPredicate xsi:type="jqa:ContextProvidedPredicate"
-				providedPredicateName="Valid DAO contract" />
-		</predicate>
+		<predicate xsi:type="jqa:ContextProvidedPredicate"
+			providedPredicateName="DAO Implementation Naming" />
+		<predicate xsi:type="jqa:ContextProvidedPredicate"
+			providedPredicateName="DAO Implementation Type" />
 	</globalPredicate>
+	
+	<!-- BO predicates -->
+	
 
 </jqa_ctx:RulesContext>
