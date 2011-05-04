@@ -14,6 +14,7 @@
 		<checkPredicate xsi:type="jqa:ContextProvidedPredicate"
 			providedPredicateName="Valid DAO contract" />
 	</rule>
+	
 	<rule name="DAO implementation rule" priority="4"
 		message="This DAO implementation is not valid. Perhaps its name, package or type are wrong.">
 		<filterPredicate xsi:type="jqa:AndPredicate">
@@ -24,18 +25,5 @@
 		<checkPredicate xsi:type="jqa:ContextProvidedPredicate"
 			providedPredicateName="Valid DAO implementation" />
 	</rule>
-
-	<!-- Other rules -->
-	<!--
-		<rule name="Cant use XStream" message="Do not use XStream library">
-	-->
-	<!--		<filterPredicate xsi:type="jqa:TruePredicate" />-->
-	<!--		<checkPredicate xsi:type="jqa:NotPredicate">-->
-	<!--			<predicate xsi:type="jqa:UsagePredicate">-->
-	<!--				<filterPredicate xsi:type="jqa:TypingPredicate"-->
-	<!--					parentClassName="com.thoughtworks.xstream.XStream" />-->
-	<!--			</predicate>-->
-	<!--		</checkPredicate>-->
-	<!--	</rule>-->
 
 </jqa:Ruleset>

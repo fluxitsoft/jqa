@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jqa_ctx:RulesContext xmlns:jqa="http://www.fluxit.com.ar/jqa/schema/ruleset"
+	xmlns:jqa_ctx="http://www.fluxit.com.ar/jqa/schema/rulescontext"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.fluxit.com.ar/jqa/schema/rulescontext http://jqa-project.googlecode.com/svn/trunk/jqa-parent/jqa-ctx-factory/src/main/resources/schema/rulescontext.xsd ">
+
+	<ruleSetImport fileName="dao.rset.xml"/>
+	
+	<globalPredicate name="Valid DAO contract" xsi:type="jqa:AndPredicate">
+		<predicate xsi:type="jqa:AbstractionPredicate"
+			abstractionType="INTERFACE" />
+		<predicate xsi:type="jqa:ContextProvidedPredicate"
+			providedPredicateName="DAO Contract Name" />
+		<predicate xsi:type="jqa:ContextProvidedPredicate"
+			providedPredicateName="DAO Contract Type" />
+	</globalPredicate>
+
+	<globalPredicate name="Valid DAO implementation"
+		xsi:type="jqa:AndPredicate">
+		<predicate xsi:type="jqa:AbstractionPredicate"
+			abstractionType="CONCRETE" />
+		<predicate xsi:type="jqa:ContextProvidedPredicate"
+			providedPredicateName="DAO Implementation Name" />
+		<predicate xsi:type="jqa:ContextProvidedPredicate"
+			providedPredicateName="DAO Implementation Type" />
+	</globalPredicate>
+
+</jqa_ctx:RulesContext>
