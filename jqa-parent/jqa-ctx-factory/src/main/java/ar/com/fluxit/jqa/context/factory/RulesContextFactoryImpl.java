@@ -174,6 +174,9 @@ public class RulesContextFactoryImpl implements RulesContextFactory {
 		for (final RuleSetImport ruleSetImport : rulesContext.getRuleSetImportList()) {
 			result.add(parse(ruleSetImport, basePath));
 		}
+		for (final Ruleset ruleSet: rulesContext.getRuleSetList()) {
+			result.add(parse(ruleSet));
+		}
 		return result;
 	}
 

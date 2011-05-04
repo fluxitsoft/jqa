@@ -16,7 +16,7 @@ package ar.com.fluxit.jqa.schema.ruleset;
 public interface NamingPredicate extends ar.com.fluxit.jqa.schema.ruleset.Predicate
 {
     public static final org.apache.xmlbeans.SchemaType type = (org.apache.xmlbeans.SchemaType)
-        org.apache.xmlbeans.XmlBeans.typeSystemForClassLoader(NamingPredicate.class.getClassLoader(), "schemaorg_apache_xmlbeans.system.sF9E27A87AB0EF51FC7D6933A8CD44427").resolveHandle("namingpredicate3b33type");
+        org.apache.xmlbeans.XmlBeans.typeSystemForClassLoader(NamingPredicate.class.getClassLoader(), "schemaorg_apache_xmlbeans.system.s27A90DFEBA9098C2FB1D6CB7C4AE5A28").resolveHandle("namingpredicate3b33type");
     
     /**
      * Gets the "classNamePattern" attribute

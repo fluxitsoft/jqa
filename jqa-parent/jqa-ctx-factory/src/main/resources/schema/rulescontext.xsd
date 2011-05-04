@@ -8,6 +8,7 @@
     <xsd:sequence>
       <xsd:element ecore:resolveProxies="true" maxOccurs="unbounded" minOccurs="0" name="rulesContextImport" type="jqa_ctx:RulesContextImport"/>
       <xsd:element ecore:resolveProxies="true" maxOccurs="unbounded" minOccurs="0" name="ruleSetImport" type="jqa_ctx:RuleSetImport"/>
+      <xsd:element ecore:resolveProxies="true" maxOccurs="unbounded" minOccurs="0" name="ruleSet" type="jqa:Ruleset"/>
       <xsd:element ecore:resolveProxies="true" maxOccurs="unbounded" minOccurs="0" name="globalPredicate" type="jqa:Predicate"/>
     </xsd:sequence>
     <xsd:attribute name="name" type="xsd:string"/>

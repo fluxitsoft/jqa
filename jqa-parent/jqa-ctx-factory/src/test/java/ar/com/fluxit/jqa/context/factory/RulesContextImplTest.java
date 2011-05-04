@@ -180,12 +180,15 @@ public class RulesContextImplTest extends TestCase {
 	public void testRuleSetImports() throws RulesContextFactoryException {
 		assertNotNull(this.rulesContext);
 		assertNotNull(this.rulesContext.getRuleSets());
-		assertEquals(2, this.rulesContext.getRuleSets().size());
-		// Ruleset import by file
+		assertEquals(3, this.rulesContext.getRuleSets().size());
+		// RuleSet import by file
 		final RuleSet ruleSet = getRuleSet(this.rulesContext, "RulesetTestByFileName");
 		assertRuleSet(ruleSet, 3);
-		// Ruleset import by name
+		// RuleSet import by name
 		final RuleSet ruleSet2 = getRuleSet(this.rulesContext, "RulesetTestByName");
 		assertRuleSet(ruleSet2, 1);
+		// Inner ruleSet
+		final RuleSet ruleSet3 = getRuleSet(this.rulesContext, "InnerRulesetTest");
+		assertRuleSet(ruleSet3, 1);
 	}
 }

@@ -17,7 +17,7 @@ package ar.com.fluxit.jqa.schema.ruleset;
 public interface ThrowingPredicateDocument extends org.apache.xmlbeans.XmlObject
 {
     public static final org.apache.xmlbeans.SchemaType type = (org.apache.xmlbeans.SchemaType)
-        org.apache.xmlbeans.XmlBeans.typeSystemForClassLoader(ThrowingPredicateDocument.class.getClassLoader(), "schemaorg_apache_xmlbeans.system.sF9E27A87AB0EF51FC7D6933A8CD44427").resolveHandle("throwingpredicate872fdoctype");
+        org.apache.xmlbeans.XmlBeans.typeSystemForClassLoader(ThrowingPredicateDocument.class.getClassLoader(), "schemaorg_apache_xmlbeans.system.s27A90DFEBA9098C2FB1D6CB7C4AE5A28").resolveHandle("throwingpredicate872fdoctype");
     
     /**
      * Gets the "ThrowingPredicate" element
