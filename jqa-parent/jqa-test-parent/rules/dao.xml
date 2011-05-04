@@ -4,7 +4,30 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.fluxit.com.ar/jqa/schema/rulescontext http://jqa-project.googlecode.com/svn/trunk/jqa-parent/jqa-ctx-factory/src/main/resources/schema/rulescontext.xsd ">
 
-	<ruleSetImport fileName="dao.rset.xml"/>
+	<ruleSet name="DAO rule set">
+		<rule name="DAO contract rule" priority="4"
+			message="This DAO contract is not valid. Perhaps its name, package or type are wrong.">
+			<filterPredicate xsi:type="jqa:AndPredicate">
+				<predicate xsi:type="jqa:NamingPredicate"
+					classNamePattern="**DAO*" />
+				<predicate xsi:type="jqa:AbstractionPredicate"
+					abstractionType="INTERFACE" />
+			</filterPredicate>
+			<checkPredicate xsi:type="jqa:ContextProvidedPredicate"
+				providedPredicateName="Valid DAO contract" />
+		</rule>
+		<rule name="DAO implementation rule" priority="4"
+			message="This DAO implementation is not valid. Perhaps its name, package or type are wrong.">
+			<filterPredicate xsi:type="jqa:AndPredicate">
+				<predicate xsi:type="jqa:NamingPredicate"
+					classNamePattern="**DAO*" />
+				<predicate xsi:type="jqa:AbstractionPredicate"
+					abstractionType="CONCRETE" />
+			</filterPredicate>
+			<checkPredicate xsi:type="jqa:ContextProvidedPredicate"
+				providedPredicateName="Valid DAO implementation" />
+		</rule>
+	</ruleSet>
 	
 	<globalPredicate name="Valid DAO contract" xsi:type="jqa:AndPredicate">
 		<predicate xsi:type="jqa:AbstractionPredicate"

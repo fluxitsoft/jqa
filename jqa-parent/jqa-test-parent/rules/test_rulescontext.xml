@@ -5,7 +5,7 @@
 	xsi:schemaLocation="http://www.fluxit.com.ar/jqa/schema/rulescontext http://jqa-project.googlecode.com/svn/trunk/jqa-parent/jqa-ctx-factory/src/main/resources/schema/rulescontext.xsd ">
 
 	<!-- Ruleset imports -->
-	<rulesContextImport fileName="dao.rctx.xml" />
+	<rulesContextImport fileName="dao.xml" />
 
 	<!-- DAO predicates -->
 	<globalPredicate name="DAO Contract Name" xsi:type="jqa:NamingPredicate"
