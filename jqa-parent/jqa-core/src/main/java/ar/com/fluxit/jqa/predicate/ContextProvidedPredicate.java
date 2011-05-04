@@ -42,11 +42,14 @@ public class ContextProvidedPredicate extends AbstractPredicate {
 	@Override
 	public final boolean evaluate(JavaClass clazz, RulesContext context) {
 		final Predicate providedPredicate = context.getGlobalPredicate(getProvidedPredicateName());
+		if (providedPredicate == null) {
+			throw new IllegalStateException("Inexistent global predicate with name: " + getProvidedPredicateName());
+		}
 		return providedPredicate.evaluate(clazz, context);
 	}
 
 	public String getProvidedPredicateName() {
-		return providedPredicateName;
+		return this.providedPredicateName;
 	}
 
 	public void setProvidedPredicateName(String providedPredicateName) {
