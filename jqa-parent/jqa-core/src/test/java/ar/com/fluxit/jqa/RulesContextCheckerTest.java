@@ -51,7 +51,7 @@ import ar.com.fluxit.jqa.util.FileUtils;
  * 
  * @author Juan Ignacio Barisich
  */
-public class JQACheckerTest extends TestCase {
+public class RulesContextCheckerTest extends TestCase {
 
 	private Logger log;
 
@@ -83,8 +83,8 @@ public class JQACheckerTest extends TestCase {
 		return result;
 	}
 
-	public RuleSetChecker getChecker() {
-		return RuleSetChecker.INSTANCE;
+	public RulesContextChecker getChecker() {
+		return RulesContextChecker.INSTANCE;
 	}
 
 	protected Logger getLog() {
@@ -94,7 +94,7 @@ public class JQACheckerTest extends TestCase {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		this.log = LoggerFactory.getLogger(JQACheckerTest.class);
+		this.log = LoggerFactory.getLogger(RulesContextCheckerTest.class);
 	}
 
 	@Override

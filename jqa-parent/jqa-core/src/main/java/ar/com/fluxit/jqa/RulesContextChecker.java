@@ -43,11 +43,11 @@ import ar.com.fluxit.jqa.rule.RuleSet;
  * 
  * @author Juan Ignacio Barisich
  */
-public class RuleSetChecker {
+public class RulesContextChecker {
 
-	public static final RuleSetChecker INSTANCE = new RuleSetChecker();
+	public static final RulesContextChecker INSTANCE = new RulesContextChecker();
 
-	private RuleSetChecker() {
+	private RulesContextChecker() {
 		super();
 	}
 

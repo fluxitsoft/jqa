@@ -41,7 +41,7 @@ public class AllTests {
 	public static Test suite() {
 		final TestSuite suite = new TestSuite(AllTests.class.getName());
 		// $JUnit-BEGIN$
-		suite.addTestSuite(JQACheckerTest.class);
+		suite.addTestSuite(RulesContextCheckerTest.class);
 		suite.addTestSuite(UsagePredicateTest.class);
 		suite.addTestSuite(XorPredicateTest.class);
 		suite.addTestSuite(OrPredicateTest.class);
