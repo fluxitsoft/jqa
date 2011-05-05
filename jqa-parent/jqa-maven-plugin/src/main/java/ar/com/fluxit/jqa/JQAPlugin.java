@@ -134,7 +134,7 @@ public class JQAPlugin extends AbstractMojo {
 		getLog().debug("Reading rules context");
 		final RulesContext rulesContext = RulesContextFactoryLocator.getRulesContextFactory().getRulesContext(getRulesContextFile());
 		getLog().debug("Checking rules for " + classFiles.size() + " files");
-		final CheckingResult checkingResult = RuleSetChecker.INSTANCE.check(classFiles, classPath, rulesContext, getLogger());
+		final CheckingResult checkingResult = RulesContextChecker.INSTANCE.check(classFiles, classPath, rulesContext, getLogger());
 		// Writes the results
 		final File resultsFile = new File(getResultsDirectory(), "results-" + project.getArtifactId() + ".xml");
 		getLog().debug("Writing the results on " + resultsFile);
