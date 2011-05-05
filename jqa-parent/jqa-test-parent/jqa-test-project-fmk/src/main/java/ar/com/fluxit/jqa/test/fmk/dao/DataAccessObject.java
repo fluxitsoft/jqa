@@ -5,6 +5,6 @@ package ar.com.fluxit.jqa.test.fmk.dao;
  * 
  * @author Juan Ignacio Barisich
  */
-public interface DAO {
+public interface DataAccessObject {
 
 }

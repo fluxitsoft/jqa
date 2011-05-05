@@ -5,6 +5,6 @@ package ar.com.fluxit.jqa.test.fmk.bo;
  * 
  * @author Juan Ignacio Barisich
  */
-public interface BussinesObject {
+public interface BusinessObject {
 
 }

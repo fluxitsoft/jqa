@@ -1,4 +1,4 @@
-package ar.com.fluxit.jqa.test.bo;
+package ar.com.fluxit.jqa.test.bos;
 
 import ar.com.fluxit.jqa.test.fmk.bo.BusinessObject;
 
@@ -7,6 +7,6 @@ import ar.com.fluxit.jqa.test.fmk.bo.BusinessObject;
  * 
  * @author Juan Ignacio Barisich
  */
-public interface BOForTrucks extends BusinessObject {
+public interface TrainBO extends BusinessObject {
 
 }

@@ -7,6 +7,6 @@ import ar.com.fluxit.jqa.test.fmk.bo.BusinessObject;
  * 
  * @author Juan Ignacio Barisich
  */
-public interface BOForTrucks extends BusinessObject {
+public interface BikeBO extends BusinessObject {
 
 }

@@ -1,4 +1,4 @@
-package ar.com.fluxit.jqa.test.dao;
+package ar.com.fluxit.jqa.test.dao.impl;
 
 import ar.com.fluxit.jqa.test.fmk.dao.DataAccessObject;
 
@@ -7,6 +7,6 @@ import ar.com.fluxit.jqa.test.fmk.dao.DataAccessObject;
  * 
  * @author Juan Ignacio Barisich
  */
-public class MotorcycleDAO implements DataAccessObject {
+public class MotorcycleDAOImpl implements DataAccessObject {
 
 }

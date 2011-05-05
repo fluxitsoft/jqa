@@ -53,14 +53,19 @@ public class JQAPluginRunner {
 		assertContains(result, "DAO implementation rule", "ar.com.fluxit.jqa.test.dao.MotorcycleDAO", fails);
 		assertContains(result, "DAO implementation rule", "ar.com.fluxit.jqa.test.dao.impl.CarDAOImpl", fails);
 		assertContains(result, "DAO implementation rule", "ar.com.fluxit.jqa.test.dao.impl.DAOForTrucksImpl", fails);
-		assertContains(result, "DAO implementation rule", "ar.com.fluxit.jqa.test.dao.impl.MotorcycleDAO", fails);
+		assertContains(result, "DAO implementation rule", "ar.com.fluxit.jqa.test.dao.impl.MotorcycleDAOImpl", fails);
 		assertContains(result, "DAO implementation rule", "ar.com.fluxit.jqa.test.daos.impl.TrainDAOImpl", fails);
 
-		// assertContains(result, "DAO implementation rule", "", fails);
-		// assertContains(result, "DAO implementation rule", "", fails);
-		// assertContains(result, "DAO implementation rule", "", fails);
+		assertContains(result, "BO contract rule", "ar.com.fluxit.jqa.test.bo.BOForTrucks", fails);
+		assertContains(result, "BO contract rule", "ar.com.fluxit.jqa.test.bo.CarBO", fails);
+		assertContains(result, "BO contract rule", "ar.com.fluxit.jqa.test.bos.TrainBO", fails);
 
-		// assertContains(result, "", "");
+		assertContains(result, "BO implementation rule", "ar.com.fluxit.jqa.test.bo.MotorcycleBO", fails);
+		assertContains(result, "BO implementation rule", "ar.com.fluxit.jqa.test.bo.impl.CarBOImpl", fails);
+		assertContains(result, "BO implementation rule", "ar.com.fluxit.jqa.test.bo.impl.BOForTrucksImpl", fails);
+		assertContains(result, "BO implementation rule", "ar.com.fluxit.jqa.test.bo.impl.MotorcycleBOImpl", fails);
+		assertContains(result, "BO implementation rule", "ar.com.fluxit.jqa.test.bos.impl.TrainBOImpl", fails);
+
 		Assert.assertEquals(fails.size() + " not expected fails: " + fails.toString(), 0, fails.size());
 	}
 

@@ -1,12 +1,12 @@
 package ar.com.fluxit.jqa.test.bo.impl;
 
-import ar.com.fluxit.jqa.test.bo.BOForTrucks;
+import ar.com.fluxit.jqa.test.bo.BikeBO;
 
 /**
  * TODO javadoc
  * 
  * @author Juan Ignacio Barisich
  */
-public class TruckBO implements BOForTrucks {
+public class BikeBOImpl implements BikeBO {
 
 }
