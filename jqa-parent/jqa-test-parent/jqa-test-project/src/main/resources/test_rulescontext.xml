@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jqa_ctx:RulesContext xmlns:jqa="http://www.fluxit.com.ar/jqa/schema/ruleset"
+	xmlns:jqa_ctx="http://www.fluxit.com.ar/jqa/schema/rulescontext"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.fluxit.com.ar/jqa/schema/rulescontext http://jqa-project.googlecode.com/svn/trunk/jqa-parent/jqa-ctx-factory/src/main/resources/schema/rulescontext.xsd ">
+
+	<!-- Ruleset imports -->
+	<rulesContextImport fileName="dao.xml" />
+	<rulesContextImport fileName="bo.xml" />
+
+	<!-- DAO predicates -->
+	<globalPredicate name="DAO Contract Name" xsi:type="jqa:NamingPredicate"
+		classNamePattern="**.dao.*DAO" />
+		
+	<globalPredicate name="DAO Implementation Name" xsi:type="jqa:NamingPredicate"
+		classNamePattern="**.dao.impl.*DAOImpl" />	
+		
+	<globalPredicate name="DAO Type" xsi:type="jqa:TypingPredicate">
+		<filterPredicate xsi:type="jqa:NamingPredicate"
+			classNamePattern="ar.com.fluxit.jqa.test.fmk.dao.DataAccessObject" />
+	</globalPredicate>
+
+	<!-- BO predicates -->
+	<globalPredicate name="BO Contract Name" xsi:type="jqa:NamingPredicate"
+		classNamePattern="**.bo.*BO" />
+		
+	<globalPredicate name="BO Implementation Name" xsi:type="jqa:NamingPredicate"
+		classNamePattern="**.bo.impl.*BOImpl" />	
+		
+	<globalPredicate name="BO Type" xsi:type="jqa:TypingPredicate">
+		<filterPredicate xsi:type="jqa:NamingPredicate"
+			classNamePattern="ar.com.fluxit.jqa.test.fmk.bo.BusinessObject" />
+	</globalPredicate>
+	
+</jqa_ctx:RulesContext>
