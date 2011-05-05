@@ -26,7 +26,7 @@
 				<artifactId>jqa-maven-plugin</artifactId>
 				<version>${jqa.version}</version>
 				<configuration>
-					<rulesContextFile>../jqa-test-project/src/main/resources/test_rulescontext.xml</rulesContextFile>
+					<rulesContextFile>../jqa-test-project/src/main/resources/rulesContext.xml</rulesContextFile>
 					<resultsDirectory>target/</resultsDirectory>
 				</configuration>
 			</plugin>
