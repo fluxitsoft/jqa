@@ -70,4 +70,9 @@ public class NamingPredicate extends IgnoringContextPredicate {
 	public void setClassNamePattern(String pattern) {
 		this.classNamePattern = pattern;
 	}
+	
+	@Override
+	public String toString() {
+		return "NamingPredicate: " + classNamePattern;
+	}
 }
