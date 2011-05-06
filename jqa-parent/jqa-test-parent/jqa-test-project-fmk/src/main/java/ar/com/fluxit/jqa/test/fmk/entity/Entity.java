@@ -1,4 +1,4 @@
-package ar.com.fluxit.jqa.test.fmk.entities;
+package ar.com.fluxit.jqa.test.fmk.entity;
 
 /**
  * TODO javadoc
