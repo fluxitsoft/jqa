@@ -1,6 +1,6 @@
 package ar.com.fluxit.jqa.test.entities.vehicles;
 
-import ar.com.fluxit.jqa.test.fmk.entities.Entity;
+import ar.com.fluxit.jqa.test.fmk.entity.Entity;
 
 /**
  * TODO javadoc
