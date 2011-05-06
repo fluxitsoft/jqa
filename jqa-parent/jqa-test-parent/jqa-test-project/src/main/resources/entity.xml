@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jqa_ctx:RulesContext xmlns:jqa="http://www.fluxit.com.ar/jqa/schema/ruleset"
+	xmlns:jqa_ctx="http://www.fluxit.com.ar/jqa/schema/rulescontext"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.fluxit.com.ar/jqa/schema/rulescontext http://jqa-project.googlecode.com/svn/trunk/jqa-parent/jqa-ctx-factory/src/main/resources/schema/rulescontext.xsd ">
+
+	<ruleSet name="Entity rule set">
+		<rule name="Entity implementation rule" priority="4"
+			message="This Entity implementation is not valid. Perhaps its name, package or type are wrong.">
+			<filterPredicate xsi:type="jqa:AndPredicate">
+				<predicate xsi:type="jqa:OrPredicate">
+					<predicate xsi:type="jqa:NamingPredicate"
+						classNamePattern="**.entity.**" />
+					<predicate xsi:type="jqa:NamingPredicate"
+						classNamePattern="**.entities.**" />
+				</predicate>
+				<predicate xsi:type="jqa:AbstractionPredicate"
+					abstractionType="CONCRETE" />
+			</filterPredicate>
+			<checkPredicate xsi:type="jqa:ContextProvidedPredicate"
+				providedPredicateName="Valid Entity implementation" />
+		</rule>
+	</ruleSet>
+
+	<globalPredicate name="Valid Entity implementation"
+		xsi:type="jqa:AndPredicate">
+		<predicate xsi:type="jqa:AbstractionPredicate"
+			abstractionType="CONCRETE" />
+		<predicate xsi:type="jqa:ContextProvidedPredicate"
+			providedPredicateName="Entity Name" />
+		<predicate xsi:type="jqa:ContextProvidedPredicate"
+			providedPredicateName="Entity Type" />
+	</globalPredicate>
+
+</jqa_ctx:RulesContext>

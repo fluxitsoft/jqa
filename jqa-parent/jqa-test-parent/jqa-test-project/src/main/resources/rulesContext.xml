@@ -8,6 +8,7 @@
 	<rulesContextImport fileName="dao.xml" />
 	<rulesContextImport fileName="bo.xml" />
 	<rulesContextImport fileName="service.xml" />
+	<rulesContextImport fileName="entity.xml" />
 
 	<!-- DAO predicates -->
 	<globalPredicate name="DAO Contract Name" xsi:type="jqa:NamingPredicate"
@@ -43,6 +44,15 @@
 	<globalPredicate name="Service Type" xsi:type="jqa:TypingPredicate">
 		<filterPredicate xsi:type="jqa:NamingPredicate"
 			classNamePattern="ar.com.fluxit.jqa.test.fmk.service.Service" />
+	</globalPredicate>
+	
+	<!-- Entity predicates -->
+	<globalPredicate name="Entity Name" xsi:type="jqa:NamingPredicate"
+		classNamePattern="**.entity.**" />
+		
+	<globalPredicate name="Entity Type" xsi:type="jqa:TypingPredicate">
+		<filterPredicate xsi:type="jqa:NamingPredicate"
+			classNamePattern="ar.com.fluxit.jqa.test.fmk.entity.Entity" />
 	</globalPredicate>
 	
 </jqa_ctx:RulesContext>
