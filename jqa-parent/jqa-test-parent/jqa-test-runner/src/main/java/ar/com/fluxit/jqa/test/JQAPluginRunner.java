@@ -72,6 +72,10 @@ public class JQAPluginRunner {
 		assertContains(result, "Service implementation rule", "ar.com.fluxit.jqa.test.service.impl.ServiceForTrucksImpl", fails);
 		assertContains(result, "Service implementation rule", "ar.com.fluxit.jqa.test.service.impl.MotorcycleServiceImpl", fails);
 		assertContains(result, "Service implementation rule", "ar.com.fluxit.jqa.test.services.impl.TrainServiceImpl", fails);
+		// Entity asserts
+		assertContains(result, "Entity implementation rule", "ar.com.fluxit.jqa.test.entity.vehicles.Motorcycle", fails);
+		assertContains(result, "Entity implementation rule", "ar.com.fluxit.jqa.test.entities.vehicles.Car", fails);
+		
 		
 		Assert.assertEquals(fails.size() + " not expected fails: " + fails.toString(), 0, fails.size());
 	}
