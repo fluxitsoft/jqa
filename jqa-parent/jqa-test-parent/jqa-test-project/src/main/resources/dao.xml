@@ -33,9 +33,9 @@
 		<predicate xsi:type="jqa:AbstractionPredicate"
 			abstractionType="INTERFACE" />
 		<predicate xsi:type="jqa:ContextProvidedPredicate"
-			providedPredicateName="DAO Contract Name" />
+			providedPredicateName="Valid DAO contract name" />
 		<predicate xsi:type="jqa:ContextProvidedPredicate"
-			providedPredicateName="DAO Type" />
+			providedPredicateName="Valid DAO type" />
 	</globalPredicate>
 
 	<globalPredicate name="Valid DAO implementation"
@@ -43,7 +43,7 @@
 		<predicate xsi:type="jqa:AbstractionPredicate"
 			abstractionType="CONCRETE" />
 		<predicate xsi:type="jqa:ContextProvidedPredicate"
-			providedPredicateName="DAO Implementation Name" />
+			providedPredicateName="Valid DAO implementation name" />
 		<predicate xsi:type="jqa:TypingPredicate">
 			<filterPredicate xsi:type="jqa:ContextProvidedPredicate"
 				providedPredicateName="Valid DAO contract" />

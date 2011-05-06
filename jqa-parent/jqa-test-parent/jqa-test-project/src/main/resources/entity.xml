@@ -27,9 +27,9 @@
 		<predicate xsi:type="jqa:AbstractionPredicate"
 			abstractionType="CONCRETE" />
 		<predicate xsi:type="jqa:ContextProvidedPredicate"
-			providedPredicateName="Entity Name" />
+			providedPredicateName="Valid Entity name" />
 		<predicate xsi:type="jqa:ContextProvidedPredicate"
-			providedPredicateName="Entity Type" />
+			providedPredicateName="Valid Entity type" />
 	</globalPredicate>
 
 </jqa_ctx:RulesContext>

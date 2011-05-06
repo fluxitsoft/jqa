@@ -33,9 +33,9 @@
 		<predicate xsi:type="jqa:AbstractionPredicate"
 			abstractionType="INTERFACE" />
 		<predicate xsi:type="jqa:ContextProvidedPredicate"
-			providedPredicateName="Service Contract Name" />
+			providedPredicateName="Valid Service contract name" />
 		<predicate xsi:type="jqa:ContextProvidedPredicate"
-			providedPredicateName="Service Type" />
+			providedPredicateName="Valid Service type" />
 	</globalPredicate>
 
 	<globalPredicate name="Valid Service implementation"
@@ -43,7 +43,7 @@
 		<predicate xsi:type="jqa:AbstractionPredicate"
 			abstractionType="CONCRETE" />
 		<predicate xsi:type="jqa:ContextProvidedPredicate"
-			providedPredicateName="Service Implementation Name" />
+			providedPredicateName="Valid Service implementation name" />
 		<predicate xsi:type="jqa:TypingPredicate">
 			<filterPredicate xsi:type="jqa:ContextProvidedPredicate"
 				providedPredicateName="Valid Service contract" />
