@@ -1,4 +1,4 @@
-package ar.com.fluxit.jqa.test.fmk.services;
+package ar.com.fluxit.jqa.test.fmk.service;
 
 /**
  * TODO javadoc

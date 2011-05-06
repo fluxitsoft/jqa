@@ -1,12 +1,12 @@
 package ar.com.fluxit.jqa.test.services;
 
-import ar.com.fluxit.jqa.test.fmk.services.Service;
+import ar.com.fluxit.jqa.test.fmk.service.Service;
 
 /**
  * TODO javadoc
  * 
  * @author Juan Ignacio Barisich
  */
-public interface BikeService extends Service {
+public interface TrainService extends Service {
 
 }

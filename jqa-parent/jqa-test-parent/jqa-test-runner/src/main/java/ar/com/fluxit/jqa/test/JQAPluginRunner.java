@@ -45,27 +45,34 @@ public class JQAPluginRunner {
 	private static void doAsserts(CheckingResult result) {
 		Assert.assertNotNull(result);
 		final List<RuleCheckFailed> fails = new ArrayList<RuleCheckFailed>(result.getRuleChecksFailed());
-
+		// DAO asserts
 		assertContains(result, "DAO contract rule", "ar.com.fluxit.jqa.test.dao.DAOForTrucks", fails);
 		assertContains(result, "DAO contract rule", "ar.com.fluxit.jqa.test.dao.CarDAO", fails);
 		assertContains(result, "DAO contract rule", "ar.com.fluxit.jqa.test.daos.TrainDAO", fails);
-
 		assertContains(result, "DAO implementation rule", "ar.com.fluxit.jqa.test.dao.MotorcycleDAO", fails);
 		assertContains(result, "DAO implementation rule", "ar.com.fluxit.jqa.test.dao.impl.CarDAOImpl", fails);
 		assertContains(result, "DAO implementation rule", "ar.com.fluxit.jqa.test.dao.impl.DAOForTrucksImpl", fails);
 		assertContains(result, "DAO implementation rule", "ar.com.fluxit.jqa.test.dao.impl.MotorcycleDAOImpl", fails);
 		assertContains(result, "DAO implementation rule", "ar.com.fluxit.jqa.test.daos.impl.TrainDAOImpl", fails);
-
+		// BO asserts
 		assertContains(result, "BO contract rule", "ar.com.fluxit.jqa.test.bo.BOForTrucks", fails);
 		assertContains(result, "BO contract rule", "ar.com.fluxit.jqa.test.bo.CarBO", fails);
 		assertContains(result, "BO contract rule", "ar.com.fluxit.jqa.test.bos.TrainBO", fails);
-
 		assertContains(result, "BO implementation rule", "ar.com.fluxit.jqa.test.bo.MotorcycleBO", fails);
 		assertContains(result, "BO implementation rule", "ar.com.fluxit.jqa.test.bo.impl.CarBOImpl", fails);
 		assertContains(result, "BO implementation rule", "ar.com.fluxit.jqa.test.bo.impl.BOForTrucksImpl", fails);
 		assertContains(result, "BO implementation rule", "ar.com.fluxit.jqa.test.bo.impl.MotorcycleBOImpl", fails);
 		assertContains(result, "BO implementation rule", "ar.com.fluxit.jqa.test.bos.impl.TrainBOImpl", fails);
-
+		// Service asserts
+		assertContains(result, "Service contract rule", "ar.com.fluxit.jqa.test.service.ServiceForTrucks", fails);
+		assertContains(result, "Service contract rule", "ar.com.fluxit.jqa.test.service.CarService", fails);
+		assertContains(result, "Service contract rule", "ar.com.fluxit.jqa.test.services.TrainService", fails);
+		assertContains(result, "Service implementation rule", "ar.com.fluxit.jqa.test.service.MotorcycleService", fails);
+		assertContains(result, "Service implementation rule", "ar.com.fluxit.jqa.test.service.impl.CarServiceImpl", fails);
+		assertContains(result, "Service implementation rule", "ar.com.fluxit.jqa.test.service.impl.ServiceForTrucksImpl", fails);
+		assertContains(result, "Service implementation rule", "ar.com.fluxit.jqa.test.service.impl.MotorcycleServiceImpl", fails);
+		assertContains(result, "Service implementation rule", "ar.com.fluxit.jqa.test.services.impl.TrainServiceImpl", fails);
+		
 		Assert.assertEquals(fails.size() + " not expected fails: " + fails.toString(), 0, fails.size());
 	}
 

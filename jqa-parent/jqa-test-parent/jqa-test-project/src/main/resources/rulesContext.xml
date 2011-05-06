@@ -7,10 +7,11 @@
 	<!-- Ruleset imports -->
 	<rulesContextImport fileName="dao.xml" />
 	<rulesContextImport fileName="bo.xml" />
+	<rulesContextImport fileName="service.xml" />
 
 	<!-- DAO predicates -->
 	<globalPredicate name="DAO Contract Name" xsi:type="jqa:NamingPredicate"
-		classNamePattern="**.dao.*DAO" />
+		classNamePattern="**.dao.+DAO" />
 		
 	<globalPredicate name="DAO Implementation Name" xsi:type="jqa:NamingPredicate"
 		classNamePattern="**.dao.impl.*DAOImpl" />	
@@ -22,7 +23,7 @@
 
 	<!-- BO predicates -->
 	<globalPredicate name="BO Contract Name" xsi:type="jqa:NamingPredicate"
-		classNamePattern="**.bo.*BO" />
+		classNamePattern="**.bo.+BO" />
 		
 	<globalPredicate name="BO Implementation Name" xsi:type="jqa:NamingPredicate"
 		classNamePattern="**.bo.impl.*BOImpl" />	
@@ -30,6 +31,18 @@
 	<globalPredicate name="BO Type" xsi:type="jqa:TypingPredicate">
 		<filterPredicate xsi:type="jqa:NamingPredicate"
 			classNamePattern="ar.com.fluxit.jqa.test.fmk.bo.BusinessObject" />
+	</globalPredicate>
+	
+	<!-- Service predicates -->
+	<globalPredicate name="Service Contract Name" xsi:type="jqa:NamingPredicate"
+		classNamePattern="**.service.+Service" />
+		
+	<globalPredicate name="Service Implementation Name" xsi:type="jqa:NamingPredicate"
+		classNamePattern="**.service.impl.*ServiceImpl" />	
+		
+	<globalPredicate name="Service Type" xsi:type="jqa:TypingPredicate">
+		<filterPredicate xsi:type="jqa:NamingPredicate"
+			classNamePattern="ar.com.fluxit.jqa.test.fmk.service.Service" />
 	</globalPredicate>
 	
 </jqa_ctx:RulesContext>

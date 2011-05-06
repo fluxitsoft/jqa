@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jqa_ctx:RulesContext xmlns:jqa="http://www.fluxit.com.ar/jqa/schema/ruleset"
+	xmlns:jqa_ctx="http://www.fluxit.com.ar/jqa/schema/rulescontext"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.fluxit.com.ar/jqa/schema/rulescontext http://jqa-project.googlecode.com/svn/trunk/jqa-parent/jqa-ctx-factory/src/main/resources/schema/rulescontext.xsd ">
+
+	<ruleSet name="Service rule set">
+		<rule name="Service contract rule" priority="4"
+			message="This Service contract is not valid. Perhaps its name, package or type are wrong.">
+			<filterPredicate xsi:type="jqa:AndPredicate">
+				<predicate xsi:type="jqa:NamingPredicate"
+					classNamePattern="**Service*" />
+				<predicate xsi:type="jqa:AbstractionPredicate"
+					abstractionType="INTERFACE" />
+			</filterPredicate>
+			<checkPredicate xsi:type="jqa:ContextProvidedPredicate"
+				providedPredicateName="Valid Service contract" />
+		</rule>
+		<rule name="Service implementation rule" priority="4"
+			message="This Service implementation is not valid. Perhaps its name, package or type are wrong.">
+			<filterPredicate xsi:type="jqa:AndPredicate">
+				<predicate xsi:type="jqa:NamingPredicate"
+					classNamePattern="**Service*" />
+				<predicate xsi:type="jqa:AbstractionPredicate"
+					abstractionType="CONCRETE" />
+			</filterPredicate>
+			<checkPredicate xsi:type="jqa:ContextProvidedPredicate"
+				providedPredicateName="Valid Service implementation" />
+		</rule>
+	</ruleSet>
+	
+	<globalPredicate name="Valid Service contract" xsi:type="jqa:AndPredicate">
+		<predicate xsi:type="jqa:AbstractionPredicate"
+			abstractionType="INTERFACE" />
+		<predicate xsi:type="jqa:ContextProvidedPredicate"
+			providedPredicateName="Service Contract Name" />
+		<predicate xsi:type="jqa:ContextProvidedPredicate"
+			providedPredicateName="Service Type" />
+	</globalPredicate>
+
+	<globalPredicate name="Valid Service implementation"
+		xsi:type="jqa:AndPredicate">
+		<predicate xsi:type="jqa:AbstractionPredicate"
+			abstractionType="CONCRETE" />
+		<predicate xsi:type="jqa:ContextProvidedPredicate"
+			providedPredicateName="Service Implementation Name" />
+		<predicate xsi:type="jqa:TypingPredicate">
+			<filterPredicate xsi:type="jqa:ContextProvidedPredicate"
+				providedPredicateName="Valid Service contract" />
+		</predicate>
+	</globalPredicate>
+
+</jqa_ctx:RulesContext>
