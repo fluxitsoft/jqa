@@ -1,6 +1,6 @@
-package ar.com.fluxit.jqa.test.services.impl;
+package ar.com.fluxit.jqa.test.service.impl;
 
-import ar.com.fluxit.jqa.test.services.BikeService;
+import ar.com.fluxit.jqa.test.service.BikeService;
 
 /**
  * TODO javadoc
