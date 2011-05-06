@@ -53,6 +53,12 @@ public class NamingPredicateTest extends TestCase {
 		testMatches(createNamingPredicate("**.String*"), new String[] { "String", "java.lang.String", "java.lang.StringBuffer" },
 				new String[] { "java.text.AttributedString" });
 		testMatches(createNamingPredicate("a.b"), new String[] { "a.b", "a$b" }, new String[] { "" });
+		testMatches(createNamingPredicate("**.service.+Service"), new String[] { "ar.com.fluxit.test.service.CarService",
+				"ar.com.fluxit.test.old.service.TruckService" }, new String[] { "ar.com.fluxit.test.fmk.service.Service" });
+		testMatches(createNamingPredicate("**.service+.+Service"), new String[] { "ar.com.fluxit.test.services.CarService",
+				"ar.com.fluxit.test.old.services.TruckService" }, new String[] { "ar.com.fluxit.test.service.CarService",
+				"ar.com.fluxit.test.old.service.TruckService", "ar.com.fluxit.test.fmk.service.Service" });
+		testMatches(createNamingPredicate("+String"), new String[] { "AString", "TheString" }, new String[] { "String", "StringA" });
 	}
 
 	private void testMatches(NamingPredicate predicate, String[] positive, String[] negative) {

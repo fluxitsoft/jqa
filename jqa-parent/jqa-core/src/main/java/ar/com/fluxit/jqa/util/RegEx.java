@@ -89,7 +89,7 @@ public final class RegEx {
 	private static Pattern allowableNoParts;
 	static {
 		final String varS = "\\$\\{([A-Za-z0-9_\\.\\-]+)\\}";
-		final String partS = "(([A-Za-z_]|[\\(\\)]|\\*|" + varS + ")" + "([A-Za-z0-9_]|[\\(\\)]|\\*|" + varS + ")*)";
+		final String partS = "(([A-Za-z_]|[\\(\\)]|\\*|\\+|" + varS + ")" + "([A-Za-z0-9_]|[\\(\\)]|\\*|\\+|" + varS + ")*)";
 		var = Pattern.compile(varS);
 		allowable = Pattern.compile("^([\\$\\./]?" + partS + ")+$");
 		allowableNoParts = Pattern.compile("^" + partS + "$");
@@ -214,8 +214,8 @@ public final class RegEx {
 	}
 
 	private String parseSubexpr(final String exp) {
-		return exp.replace(".", "[\\.\\$]").replace("/", "\\.").replace("$", "\\$").replace("*", "\uFFFF").replace("\uFFFF\uFFFF", ".*")
-				.replace("\uFFFF", "[^\\.]*");
+		return exp.replace(".", "[\\.\\$]").replace("/", "\\.").replace("$", "\\$").replace("*", "\uFFFF").replace("+", "\uFCFC").replace("\uFFFF\uFFFF", ".*")
+				.replace("\uFFFF", "[^\\.]*").replace("\uFCFC", "[^\\.]+");
 	}
 
 	private void setMatchCache(final Map<String, Boolean> matchCache) {
