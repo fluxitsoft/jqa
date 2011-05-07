@@ -4,31 +4,6 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.fluxit.com.ar/jqa/schema/rulescontext http://jqa-project.googlecode.com/svn/trunk/jqa-parent/jqa-ctx-factory/src/main/resources/schema/rulescontext.xsd ">
 
-	<ruleSet name="Service rule set">
-		<rule name="Service contract rule" priority="4"
-			message="This Service contract is not valid. Perhaps its name, package or type are wrong.">
-			<filterPredicate xsi:type="jqa:AndPredicate">
-				<predicate xsi:type="jqa:ContextProvidedPredicate"
-					providedPredicateName="Service attempt" />
-				<predicate xsi:type="jqa:AbstractionPredicate"
-					abstractionType="INTERFACE" />
-			</filterPredicate>
-			<checkPredicate xsi:type="jqa:ContextProvidedPredicate"
-				providedPredicateName="Valid Service contract" />
-		</rule>
-		<rule name="Service implementation rule" priority="4"
-			message="This Service implementation is not valid. Perhaps its name, package or type are wrong.">
-			<filterPredicate xsi:type="jqa:AndPredicate">
-				<predicate xsi:type="jqa:ContextProvidedPredicate"
-					providedPredicateName="Service attempt" />
-				<predicate xsi:type="jqa:AbstractionPredicate"
-					abstractionType="CONCRETE" />
-			</filterPredicate>
-			<checkPredicate xsi:type="jqa:ContextProvidedPredicate"
-				providedPredicateName="Valid Service implementation" />
-		</rule>
-	</ruleSet>
-
 	<globalPredicate name="Service attempt" xsi:type="jqa:NamingPredicate"
 		classNamePattern="**Service*" />
 
@@ -53,5 +28,31 @@
 				providedPredicateName="Valid Service contract" />
 		</predicate>
 	</globalPredicate>
+
+	<ruleSet name="Service rule set">
+		<rule name="Service contract rule" priority="4"
+			message="This Service contract is not valid. Perhaps its name, package or type are wrong.">
+			<filterPredicate xsi:type="jqa:AndPredicate">
+				<predicate xsi:type="jqa:ContextProvidedPredicate"
+					providedPredicateName="Service attempt" />
+				<predicate xsi:type="jqa:AbstractionPredicate"
+					abstractionType="INTERFACE" />
+			</filterPredicate>
+			<checkPredicate xsi:type="jqa:ContextProvidedPredicate"
+				providedPredicateName="Valid Service contract" />
+		</rule>
+
+		<rule name="Service implementation rule" priority="4"
+			message="This Service implementation is not valid. Perhaps its name, package or type are wrong.">
+			<filterPredicate xsi:type="jqa:AndPredicate">
+				<predicate xsi:type="jqa:ContextProvidedPredicate"
+					providedPredicateName="Service attempt" />
+				<predicate xsi:type="jqa:AbstractionPredicate"
+					abstractionType="CONCRETE" />
+			</filterPredicate>
+			<checkPredicate xsi:type="jqa:ContextProvidedPredicate"
+				providedPredicateName="Valid Service implementation" />
+		</rule>
+	</ruleSet>
 
 </jqa_ctx:RulesContext>

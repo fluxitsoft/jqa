@@ -16,7 +16,7 @@ package ar.com.fluxit.jqa.schema.ruleset;
 public interface Predicate extends org.apache.xmlbeans.XmlObject
 {
     public static final org.apache.xmlbeans.SchemaType type = (org.apache.xmlbeans.SchemaType)
-        org.apache.xmlbeans.XmlBeans.typeSystemForClassLoader(Predicate.class.getClassLoader(), "schemaorg_apache_xmlbeans.system.s27A90DFEBA9098C2FB1D6CB7C4AE5A28").resolveHandle("predicateb41btype");
+        org.apache.xmlbeans.XmlBeans.typeSystemForClassLoader(Predicate.class.getClassLoader(), "schemaorg_apache_xmlbeans.system.sC088B10C8C9E0DC71F97D47D80564118").resolveHandle("predicateb41btype");
     
     /**
      * Gets the "name" attribute

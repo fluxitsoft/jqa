@@ -16,7 +16,7 @@ package ar.com.fluxit.jqa.schema.rulescontext;
 public interface RulesContext extends org.apache.xmlbeans.XmlObject
 {
     public static final org.apache.xmlbeans.SchemaType type = (org.apache.xmlbeans.SchemaType)
-        org.apache.xmlbeans.XmlBeans.typeSystemForClassLoader(RulesContext.class.getClassLoader(), "schemaorg_apache_xmlbeans.system.s27A90DFEBA9098C2FB1D6CB7C4AE5A28").resolveHandle("rulescontextfdb0type");
+        org.apache.xmlbeans.XmlBeans.typeSystemForClassLoader(RulesContext.class.getClassLoader(), "schemaorg_apache_xmlbeans.system.sC088B10C8C9E0DC71F97D47D80564118").resolveHandle("rulescontextfdb0type");
     
     /**
      * Gets a List of "rulesContextImport" elements
@@ -111,52 +111,6 @@ public interface RulesContext extends org.apache.xmlbeans.XmlObject
     void removeRuleSetImport(int i);
     
     /**
-     * Gets a List of "ruleSet" elements
-     */
-    java.util.List<ar.com.fluxit.jqa.schema.ruleset.Ruleset> getRuleSetList();
-    
-    /**
-     * Gets array of all "ruleSet" elements
-     * @deprecated
-     */
-    ar.com.fluxit.jqa.schema.ruleset.Ruleset[] getRuleSetArray();
-    
-    /**
-     * Gets ith "ruleSet" element
-     */
-    ar.com.fluxit.jqa.schema.ruleset.Ruleset getRuleSetArray(int i);
-    
-    /**
-     * Returns number of "ruleSet" element
-     */
-    int sizeOfRuleSetArray();
-    
-    /**
-     * Sets array of all "ruleSet" element
-     */
-    void setRuleSetArray(ar.com.fluxit.jqa.schema.ruleset.Ruleset[] ruleSetArray);
-    
-    /**
-     * Sets ith "ruleSet" element
-     */
-    void setRuleSetArray(int i, ar.com.fluxit.jqa.schema.ruleset.Ruleset ruleSet);
-    
-    /**
-     * Inserts and returns a new empty value (as xml) as the ith "ruleSet" element
-     */
-    ar.com.fluxit.jqa.schema.ruleset.Ruleset insertNewRuleSet(int i);
-    
-    /**
-     * Appends and returns a new empty value (as xml) as the last "ruleSet" element
-     */
-    ar.com.fluxit.jqa.schema.ruleset.Ruleset addNewRuleSet();
-    
-    /**
-     * Removes the ith "ruleSet" element
-     */
-    void removeRuleSet(int i);
-    
-    /**
      * Gets a List of "globalPredicate" elements
      */
     java.util.List<ar.com.fluxit.jqa.schema.ruleset.Predicate> getGlobalPredicateList();
@@ -201,6 +155,52 @@ public interface RulesContext extends org.apache.xmlbeans.XmlObject
      * Removes the ith "globalPredicate" element
      */
     void removeGlobalPredicate(int i);
+    
+    /**
+     * Gets a List of "ruleSet" elements
+     */
+    java.util.List<ar.com.fluxit.jqa.schema.ruleset.Ruleset> getRuleSetList();
+    
+    /**
+     * Gets array of all "ruleSet" elements
+     * @deprecated
+     */
+    ar.com.fluxit.jqa.schema.ruleset.Ruleset[] getRuleSetArray();
+    
+    /**
+     * Gets ith "ruleSet" element
+     */
+    ar.com.fluxit.jqa.schema.ruleset.Ruleset getRuleSetArray(int i);
+    
+    /**
+     * Returns number of "ruleSet" element
+     */
+    int sizeOfRuleSetArray();
+    
+    /**
+     * Sets array of all "ruleSet" element
+     */
+    void setRuleSetArray(ar.com.fluxit.jqa.schema.ruleset.Ruleset[] ruleSetArray);
+    
+    /**
+     * Sets ith "ruleSet" element
+     */
+    void setRuleSetArray(int i, ar.com.fluxit.jqa.schema.ruleset.Ruleset ruleSet);
+    
+    /**
+     * Inserts and returns a new empty value (as xml) as the ith "ruleSet" element
+     */
+    ar.com.fluxit.jqa.schema.ruleset.Ruleset insertNewRuleSet(int i);
+    
+    /**
+     * Appends and returns a new empty value (as xml) as the last "ruleSet" element
+     */
+    ar.com.fluxit.jqa.schema.ruleset.Ruleset addNewRuleSet();
+    
+    /**
+     * Removes the ith "ruleSet" element
+     */
+    void removeRuleSet(int i);
     
     /**
      * Gets the "name" attribute

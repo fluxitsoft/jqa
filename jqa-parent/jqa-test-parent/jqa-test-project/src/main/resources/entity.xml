@@ -4,6 +4,19 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.fluxit.com.ar/jqa/schema/rulescontext http://jqa-project.googlecode.com/svn/trunk/jqa-parent/jqa-ctx-factory/src/main/resources/schema/rulescontext.xsd ">
 
+	<globalPredicate name="Entity attempt" xsi:type="jqa:NamingPredicate"
+		classNamePattern="**.entity.**" />
+
+	<globalPredicate name="Valid Entity implementation"
+		xsi:type="jqa:AndPredicate">
+		<predicate xsi:type="jqa:AbstractionPredicate"
+			abstractionType="CONCRETE" />
+		<predicate xsi:type="jqa:ContextProvidedPredicate"
+			providedPredicateName="Valid Entity name" />
+		<predicate xsi:type="jqa:ContextProvidedPredicate"
+			providedPredicateName="Valid Entity type" />
+	</globalPredicate>
+
 	<ruleSet name="Entity rule set">
 		<rule name="Entity implementation rule" priority="4"
 			message="This Entity implementation is not valid. Perhaps its name, package or type are wrong.">
@@ -21,18 +34,5 @@
 				providedPredicateName="Valid Entity implementation" />
 		</rule>
 	</ruleSet>
-
-	<globalPredicate name="Entity attempt" xsi:type="jqa:NamingPredicate"
-		classNamePattern="**.entity.**" />
-
-	<globalPredicate name="Valid Entity implementation"
-		xsi:type="jqa:AndPredicate">
-		<predicate xsi:type="jqa:AbstractionPredicate"
-			abstractionType="CONCRETE" />
-		<predicate xsi:type="jqa:ContextProvidedPredicate"
-			providedPredicateName="Valid Entity name" />
-		<predicate xsi:type="jqa:ContextProvidedPredicate"
-			providedPredicateName="Valid Entity type" />
-	</globalPredicate>
 
 </jqa_ctx:RulesContext>
