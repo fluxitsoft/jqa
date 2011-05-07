@@ -8,8 +8,8 @@
 		<rule name="Service contract rule" priority="4"
 			message="This Service contract is not valid. Perhaps its name, package or type are wrong.">
 			<filterPredicate xsi:type="jqa:AndPredicate">
-				<predicate xsi:type="jqa:NamingPredicate"
-					classNamePattern="**Service*" />
+				<predicate xsi:type="jqa:ContextProvidedPredicate"
+					providedPredicateName="Service attempt" />
 				<predicate xsi:type="jqa:AbstractionPredicate"
 					abstractionType="INTERFACE" />
 			</filterPredicate>
@@ -19,8 +19,8 @@
 		<rule name="Service implementation rule" priority="4"
 			message="This Service implementation is not valid. Perhaps its name, package or type are wrong.">
 			<filterPredicate xsi:type="jqa:AndPredicate">
-				<predicate xsi:type="jqa:NamingPredicate"
-					classNamePattern="**Service*" />
+				<predicate xsi:type="jqa:ContextProvidedPredicate"
+					providedPredicateName="Service attempt" />
 				<predicate xsi:type="jqa:AbstractionPredicate"
 					abstractionType="CONCRETE" />
 			</filterPredicate>
@@ -28,8 +28,12 @@
 				providedPredicateName="Valid Service implementation" />
 		</rule>
 	</ruleSet>
-	
-	<globalPredicate name="Valid Service contract" xsi:type="jqa:AndPredicate">
+
+	<globalPredicate name="Service attempt" xsi:type="jqa:NamingPredicate"
+		classNamePattern="**Service*" />
+
+	<globalPredicate name="Valid Service contract"
+		xsi:type="jqa:AndPredicate">
 		<predicate xsi:type="jqa:AbstractionPredicate"
 			abstractionType="INTERFACE" />
 		<predicate xsi:type="jqa:ContextProvidedPredicate"

@@ -8,8 +8,8 @@
 		<rule name="BO contract rule" priority="4"
 			message="This BO contract is not valid. Perhaps its name, package or type are wrong.">
 			<filterPredicate xsi:type="jqa:AndPredicate">
-				<predicate xsi:type="jqa:NamingPredicate"
-					classNamePattern="**BO*" />
+				<predicate xsi:type="jqa:ContextProvidedPredicate"
+					providedPredicateName="BO attempt" />
 				<predicate xsi:type="jqa:AbstractionPredicate"
 					abstractionType="INTERFACE" />
 			</filterPredicate>
@@ -19,8 +19,8 @@
 		<rule name="BO implementation rule" priority="4"
 			message="This BO implementation is not valid. Perhaps its name, package or type are wrong.">
 			<filterPredicate xsi:type="jqa:AndPredicate">
-				<predicate xsi:type="jqa:NamingPredicate"
-					classNamePattern="**BO*" />
+				<predicate xsi:type="jqa:ContextProvidedPredicate"
+					providedPredicateName="BO attempt" />
 				<predicate xsi:type="jqa:AbstractionPredicate"
 					abstractionType="CONCRETE" />
 			</filterPredicate>
@@ -28,6 +28,9 @@
 				providedPredicateName="Valid BO implementation" />
 		</rule>
 	</ruleSet>
+
+	<globalPredicate name="BO attempt" xsi:type="jqa:NamingPredicate"
+		classNamePattern="**BO*" />
 
 	<globalPredicate name="Valid BO contract" xsi:type="jqa:AndPredicate">
 		<predicate xsi:type="jqa:AbstractionPredicate"

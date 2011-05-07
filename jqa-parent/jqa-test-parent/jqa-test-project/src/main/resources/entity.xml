@@ -9,8 +9,8 @@
 			message="This Entity implementation is not valid. Perhaps its name, package or type are wrong.">
 			<filterPredicate xsi:type="jqa:AndPredicate">
 				<predicate xsi:type="jqa:OrPredicate">
-					<predicate xsi:type="jqa:NamingPredicate"
-						classNamePattern="**.entity.**" />
+					<predicate xsi:type="jqa:ContextProvidedPredicate"
+						providedPredicateName="Entity attempt" />
 					<predicate xsi:type="jqa:NamingPredicate"
 						classNamePattern="**.entities.**" />
 				</predicate>
@@ -21,6 +21,9 @@
 				providedPredicateName="Valid Entity implementation" />
 		</rule>
 	</ruleSet>
+
+	<globalPredicate name="Entity attempt" xsi:type="jqa:NamingPredicate"
+		classNamePattern="**.entity.**" />
 
 	<globalPredicate name="Valid Entity implementation"
 		xsi:type="jqa:AndPredicate">

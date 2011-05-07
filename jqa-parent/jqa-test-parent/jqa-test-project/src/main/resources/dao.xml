@@ -8,8 +8,8 @@
 		<rule name="DAO contract rule" priority="4"
 			message="This DAO contract is not valid. Perhaps its name, package or type are wrong.">
 			<filterPredicate xsi:type="jqa:AndPredicate">
-				<predicate xsi:type="jqa:NamingPredicate"
-					classNamePattern="**DAO*" />
+				<predicate xsi:type="jqa:ContextProvidedPredicate"
+					providedPredicateName="DAO attempt" />
 				<predicate xsi:type="jqa:AbstractionPredicate"
 					abstractionType="INTERFACE" />
 			</filterPredicate>
@@ -19,8 +19,8 @@
 		<rule name="DAO implementation rule" priority="4"
 			message="This DAO implementation is not valid. Perhaps its name, package or type are wrong.">
 			<filterPredicate xsi:type="jqa:AndPredicate">
-				<predicate xsi:type="jqa:NamingPredicate"
-					classNamePattern="**DAO*" />
+				<predicate xsi:type="jqa:ContextProvidedPredicate"
+					providedPredicateName="DAO attempt" />
 				<predicate xsi:type="jqa:AbstractionPredicate"
 					abstractionType="CONCRETE" />
 			</filterPredicate>
@@ -28,7 +28,10 @@
 				providedPredicateName="Valid DAO implementation" />
 		</rule>
 	</ruleSet>
-	
+
+	<globalPredicate name="DAO attempt" xsi:type="jqa:NamingPredicate"
+		classNamePattern="**DAO*" />
+
 	<globalPredicate name="Valid DAO contract" xsi:type="jqa:AndPredicate">
 		<predicate xsi:type="jqa:AbstractionPredicate"
 			abstractionType="INTERFACE" />
