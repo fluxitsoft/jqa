@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jqa_ctx:RulesContext xmlns:jqa="http://www.fluxit.com.ar/jqa/schema/ruleset"
+	xmlns:jqa_ctx="http://www.fluxit.com.ar/jqa/schema/rulescontext"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.fluxit.com.ar/jqa/schema/rulescontext http://jqa-project.googlecode.com/svn/trunk/jqa-parent/jqa-ctx-factory/src/main/resources/schema/rulescontext.xsd ">
+
+	<rulesContextImport fileName="layering.xml" />
+
+	<ruleSet name="Naming ruleset">
+	
+		<!-- DAO -->
+		<rule name="DAO contract naming rule"
+			message="The name of this DAO contract doesn't meet the naming conventions"
+			priority="5">
+			<filterPredicate xsi:type="jqa:ContextProvidedPredicate"
+				providedPredicateName="DAO contract attempt" />
+			<checkPredicate xsi:type="jqa:ContextProvidedPredicate"
+				providedPredicateName="Valid DAO contract name" />
+		</rule>
+		
+		<rule name="DAO implementation naming rule"
+			message="The name of this DAO implementation doesn't meet the naming conventions"
+			priority="5">
+			<filterPredicate xsi:type="jqa:ContextProvidedPredicate"
+				providedPredicateName="DAO implementation attempt" />
+			<checkPredicate xsi:type="jqa:ContextProvidedPredicate"
+				providedPredicateName="Valid DAO implementation name" />
+		</rule>
+		
+		<!-- BusinessObject -->
+		<rule name="BO contract naming rule"
+			message="The name of this BO contract doesn't meet the naming conventions"
+			priority="5">
+			<filterPredicate xsi:type="jqa:ContextProvidedPredicate"
+				providedPredicateName="BO contract attempt" />
+			<checkPredicate xsi:type="jqa:ContextProvidedPredicate"
+				providedPredicateName="Valid BO contract name" />
+		</rule>
+		
+		<rule name="BO implementation naming rule"
+			message="The name of this BO implementation doesn't meet the naming conventions"
+			priority="5">
+			<filterPredicate xsi:type="jqa:ContextProvidedPredicate"
+				providedPredicateName="BO implementation attempt" />
+			<checkPredicate xsi:type="jqa:ContextProvidedPredicate"
+				providedPredicateName="Valid BO implementation name" />
+		</rule>
+		
+		<!-- Service -->
+		<rule name="Service contract naming rule"
+			message="The name of this Service contract doesn't meet the naming conventions"
+			priority="5">
+			<filterPredicate xsi:type="jqa:ContextProvidedPredicate"
+				providedPredicateName="Service contract attempt" />
+			<checkPredicate xsi:type="jqa:ContextProvidedPredicate"
+				providedPredicateName="Valid Service contract name" />
+		</rule>
+		
+		<rule name="Service implementation naming rule"
+			message="The name of this Service implementation doesn't meet the naming conventions"
+			priority="5">
+			<filterPredicate xsi:type="jqa:ContextProvidedPredicate"
+				providedPredicateName="Service implementation attempt" />
+			<checkPredicate xsi:type="jqa:ContextProvidedPredicate"
+				providedPredicateName="Valid Service implementation name" />
+		</rule>
+		
+		<!-- Entity -->
+		<rule name="Entity contract naming rule"
+			message="The name of this Entity doesn't meet the naming conventions"
+			priority="5">
+			<filterPredicate xsi:type="jqa:ContextProvidedPredicate"
+				providedPredicateName="Entity attempt" />
+			<checkPredicate xsi:type="jqa:ContextProvidedPredicate"
+				providedPredicateName="Valid Entity name" />
+		</rule>
+		
+	</ruleSet>
+</jqa_ctx:RulesContext>

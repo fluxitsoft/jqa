@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jqa_ctx:RulesContext xmlns:jqa="http://www.fluxit.com.ar/jqa/schema/ruleset"
+	xmlns:jqa_ctx="http://www.fluxit.com.ar/jqa/schema/rulescontext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.fluxit.com.ar/jqa/schema/rulescontext http://jqa-project.googlecode.com/svn/trunk/jqa-parent/jqa-ctx-factory/src/main/resources/schema/rulescontext.xsd ">
+
+	<rulesContextImport fileName="layering.xml" />
+
+	<ruleSet name="Typing ruleset">
+
+		<!-- DAO -->
+		<rule name="DAO contract typing rule" message="The type of this DAO contract doesn't meet the typing conventions"
+			priority="4">
+			<filterPredicate xsi:type="jqa:ContextProvidedPredicate"
+				providedPredicateName="DAO contract attempt" />
+			<checkPredicate xsi:type="jqa:ContextProvidedPredicate"
+				providedPredicateName="Valid DAO type" />
+		</rule>
+
+		<rule name="DAO implementation typing rule"
+			message="The type of this DAO implementation doesn't meet the typing conventions"
+			priority="4">
+			<filterPredicate xsi:type="jqa:ContextProvidedPredicate"
+				providedPredicateName="DAO implementation attempt" />
+			<checkPredicate xsi:type="jqa:TypingPredicate">
+				<filterPredicate xsi:type="jqa:AndPredicate">
+					<predicate xsi:type="jqa:ContextProvidedPredicate" providedPredicateName="Valid DAO type" />
+					<predicate xsi:type="jqa:ContextProvidedPredicate" providedPredicateName="Valid DAO contract name" />
+					<predicate xsi:type="jqa:AbstractionPredicate" abstractionType="INTERFACE" />
+				</filterPredicate>
+			</checkPredicate>
+		</rule>
+
+		<!-- BusinessObject -->
+		<rule name="BO contract typing rule" message="The type of this BO contract doesn't meet the typing conventions"
+			priority="4">
+			<filterPredicate xsi:type="jqa:ContextProvidedPredicate"
+				providedPredicateName="BO contract attempt" />
+			<checkPredicate xsi:type="jqa:ContextProvidedPredicate"
+				providedPredicateName="Valid BO type" />
+		</rule>
+
+		<rule name="BO implementation typing rule" message="The type of this BO implementation doesn't meet the typing conventions"
+			priority="4">
+			<filterPredicate xsi:type="jqa:ContextProvidedPredicate"
+				providedPredicateName="BO implementation attempt" />
+			<checkPredicate xsi:type="jqa:TypingPredicate">
+				<filterPredicate xsi:type="jqa:AndPredicate">
+					<predicate xsi:type="jqa:ContextProvidedPredicate" providedPredicateName="Valid BO type" />
+					<predicate xsi:type="jqa:ContextProvidedPredicate" providedPredicateName="Valid BO contract name" />
+					<predicate xsi:type="jqa:AbstractionPredicate" abstractionType="INTERFACE" />
+				</filterPredicate>
+			</checkPredicate>
+		</rule>
+
+		<!-- Service -->
+		<rule name="Service contract typing rule" message="The type of this Service contract doesn't meet the typing conventions"
+			priority="4">
+			<filterPredicate xsi:type="jqa:ContextProvidedPredicate"
+				providedPredicateName="Service contract attempt" />
+			<checkPredicate xsi:type="jqa:ContextProvidedPredicate"
+				providedPredicateName="Valid Service type" />
+		</rule>
+
+		<rule name="Service implementation typing rule"
+			message="The type of this Service implementation doesn't meet the typing conventions"
+			priority="4">
+			<filterPredicate xsi:type="jqa:ContextProvidedPredicate"
+				providedPredicateName="Service implementation attempt" />
+			<checkPredicate xsi:type="jqa:TypingPredicate">
+				<filterPredicate xsi:type="jqa:AndPredicate">
+					<predicate xsi:type="jqa:ContextProvidedPredicate" providedPredicateName="Valid Service type" />					
+					<predicate xsi:type="jqa:ContextProvidedPredicate" providedPredicateName="Valid Service contract name" />
+					<predicate xsi:type="jqa:AbstractionPredicate" abstractionType="INTERFACE" />
+				</filterPredicate>
+			</checkPredicate>
+		</rule>
+
+		<!-- Entity -->
+		<rule name="Entity typing rule" message="The type of this Entity doesn't meet the typing conventions"
+			priority="4">
+			<filterPredicate xsi:type="jqa:ContextProvidedPredicate"
+				providedPredicateName="Entity attempt" />
+			<checkPredicate xsi:type="jqa:ContextProvidedPredicate"
+				providedPredicateName="Valid Entity type" />
+		</rule>
+
+	</ruleSet>
+</jqa_ctx:RulesContext>

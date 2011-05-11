@@ -1,58 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jqa_ctx:RulesContext xmlns:jqa="http://www.fluxit.com.ar/jqa/schema/ruleset"
-	xmlns:jqa_ctx="http://www.fluxit.com.ar/jqa/schema/rulescontext"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:jqa_ctx="http://www.fluxit.com.ar/jqa/schema/rulescontext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.fluxit.com.ar/jqa/schema/rulescontext http://jqa-project.googlecode.com/svn/trunk/jqa-parent/jqa-ctx-factory/src/main/resources/schema/rulescontext.xsd ">
 
 	<!-- Ruleset imports -->
-	<rulesContextImport fileName="dao.xml" />
-	<rulesContextImport fileName="bo.xml" />
-	<rulesContextImport fileName="service.xml" />
-	<rulesContextImport fileName="entity.xml" />
+	<rulesContextImport fileName="naming.xml" />
+	<rulesContextImport fileName="typing.xml" />
 
 	<!-- DAO predicates -->
+	<globalPredicate name="DAO attempt" xsi:type="jqa:NamingPredicate"
+		classNamePattern="**DAO*" />
+
 	<globalPredicate name="Valid DAO contract name" xsi:type="jqa:NamingPredicate"
 		classNamePattern="**.dao.+DAO" />
-		
+
 	<globalPredicate name="Valid DAO implementation name" xsi:type="jqa:NamingPredicate"
-		classNamePattern="**.dao.impl.+DAOImpl" />	
-		
+		classNamePattern="**.dao.impl.+DAOImpl" />
+
 	<globalPredicate name="Valid DAO type" xsi:type="jqa:TypingPredicate">
 		<filterPredicate xsi:type="jqa:NamingPredicate"
 			classNamePattern="ar.com.fluxit.jqa.test.fmk.dao.DataAccessObject" />
 	</globalPredicate>
 
 	<!-- BO predicates -->
+	<globalPredicate name="BO attempt" xsi:type="jqa:NamingPredicate"
+		classNamePattern="**BO*" />
+
 	<globalPredicate name="Valid BO contract name" xsi:type="jqa:NamingPredicate"
 		classNamePattern="**.bo.+BO" />
-		
+
 	<globalPredicate name="Valid BO implementation name" xsi:type="jqa:NamingPredicate"
-		classNamePattern="**.bo.impl.+BOImpl" />	
-		
+		classNamePattern="**.bo.impl.+BOImpl" />
+
 	<globalPredicate name="Valid BO type" xsi:type="jqa:TypingPredicate">
-		<filterPredicate xsi:type="jqa:NamingPredicate"
-			classNamePattern="ar.com.fluxit.jqa.test.fmk.bo.BusinessObject" />
+		<filterPredicate xsi:type="jqa:NamingPredicate" classNamePattern="ar.com.fluxit.jqa.test.fmk.bo.BusinessObject" />
 	</globalPredicate>
-	
+
 	<!-- Service predicates -->
+	<globalPredicate name="Service attempt" xsi:type="jqa:NamingPredicate"
+		classNamePattern="**Service*" />
+
 	<globalPredicate name="Valid Service contract name" xsi:type="jqa:NamingPredicate"
 		classNamePattern="**.service.+Service" />
-		
+
 	<globalPredicate name="Valid Service implementation name" xsi:type="jqa:NamingPredicate"
-		classNamePattern="**.service.impl.+ServiceImpl" />	
-		
+		classNamePattern="**.service.impl.+ServiceImpl" />
+
 	<globalPredicate name="Valid Service type" xsi:type="jqa:TypingPredicate">
-		<filterPredicate xsi:type="jqa:NamingPredicate"
-			classNamePattern="ar.com.fluxit.jqa.test.fmk.service.Service" />
+		<filterPredicate xsi:type="jqa:NamingPredicate" classNamePattern="ar.com.fluxit.jqa.test.fmk.service.Service" />
 	</globalPredicate>
-	
+
 	<!-- Entity predicates -->
+	<globalPredicate name="Entity attempt" xsi:type="jqa:NamingPredicate"
+		classNamePattern="**.entity.**" />
+
 	<globalPredicate name="Valid Entity name" xsi:type="jqa:NamingPredicate"
 		classNamePattern="**.entity.**" />
-		
+
 	<globalPredicate name="Valid Entity type" xsi:type="jqa:TypingPredicate">
-		<filterPredicate xsi:type="jqa:NamingPredicate"
-			classNamePattern="ar.com.fluxit.jqa.test.fmk.entity.Entity" />
+		<filterPredicate xsi:type="jqa:NamingPredicate" classNamePattern="ar.com.fluxit.jqa.test.fmk.entity.Entity" />
 	</globalPredicate>
-	
+
 </jqa_ctx:RulesContext>
