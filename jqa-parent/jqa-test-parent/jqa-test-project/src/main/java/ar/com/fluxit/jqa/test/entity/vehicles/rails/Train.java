@@ -1,4 +1,4 @@
-package ar.com.fluxit.jqa.test.entity.vehicles.old;
+package ar.com.fluxit.jqa.test.entity.vehicles.rails;
 
 import ar.com.fluxit.jqa.test.fmk.entity.Entity;
 
