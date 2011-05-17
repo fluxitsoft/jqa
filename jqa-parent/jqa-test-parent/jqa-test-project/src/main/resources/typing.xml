@@ -3,85 +3,87 @@
 	xmlns:jqa_ctx="http://www.fluxit.com.ar/jqa/schema/rulescontext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.fluxit.com.ar/jqa/schema/rulescontext http://jqa-project.googlecode.com/svn/trunk/jqa-parent/jqa-ctx-factory/src/main/resources/schema/rulescontext.xsd ">
 
-	<rulesContextImport fileName="layering.xml" />
+	<rulesContextImport fileName="attempts.xml" />
 
 	<ruleSet name="Typing ruleset">
 
 		<!-- DAO -->
-		<rule name="DAO contract typing rule" message="The type of this DAO contract doesn't meet the typing conventions"
+		<rule name="DAO contract typing rule"
+			message="The type of this DAO contract must extends to ar.com.fluxit.jqa.test.fmk.dao.DataAccessObject"
 			priority="4">
 			<filterPredicate xsi:type="jqa:ContextProvidedPredicate"
 				providedPredicateName="DAO contract attempt" />
-			<checkPredicate xsi:type="jqa:ContextProvidedPredicate"
-				providedPredicateName="Valid DAO type" />
+			<checkPredicate xsi:type="jqa:TypingPredicate">
+				<filterPredicate xsi:type="jqa:NamingPredicate"
+					classNamePattern="ar.com.fluxit.jqa.test.fmk.dao.DataAccessObject" />
+			</checkPredicate>
 		</rule>
 
 		<rule name="DAO implementation typing rule"
-			message="The type of this DAO implementation doesn't meet the typing conventions"
+			message="The type of this DAO implementation must implements a DAO contract attempt"
 			priority="4">
 			<filterPredicate xsi:type="jqa:ContextProvidedPredicate"
 				providedPredicateName="DAO implementation attempt" />
 			<checkPredicate xsi:type="jqa:TypingPredicate">
-				<filterPredicate xsi:type="jqa:AndPredicate">
-					<predicate xsi:type="jqa:ContextProvidedPredicate" providedPredicateName="Valid DAO type" />
-					<predicate xsi:type="jqa:ContextProvidedPredicate" providedPredicateName="Valid DAO contract name" />
-					<predicate xsi:type="jqa:AbstractionPredicate" abstractionType="INTERFACE" />
-				</filterPredicate>
+				<filterPredicate xsi:type="jqa:ContextProvidedPredicate"
+					providedPredicateName="DAO contract attempt" />
 			</checkPredicate>
 		</rule>
 
 		<!-- BusinessObject -->
-		<rule name="BO contract typing rule" message="The type of this BO contract doesn't meet the typing conventions"
+		<rule name="BO contract typing rule"
+			message="The type of this BO contract must extends to ar.com.fluxit.jqa.test.fmk.bo.BusinessObject"
 			priority="4">
 			<filterPredicate xsi:type="jqa:ContextProvidedPredicate"
 				providedPredicateName="BO contract attempt" />
-			<checkPredicate xsi:type="jqa:ContextProvidedPredicate"
-				providedPredicateName="Valid BO type" />
+			<checkPredicate xsi:type="jqa:TypingPredicate">
+				<filterPredicate xsi:type="jqa:NamingPredicate"
+					classNamePattern="ar.com.fluxit.jqa.test.fmk.bo.BusinessObject" />
+			</checkPredicate>
 		</rule>
 
-		<rule name="BO implementation typing rule" message="The type of this BO implementation doesn't meet the typing conventions"
+		<rule name="BO implementation typing rule"
+			message="The type of this BO implementation must implements a BO contract attempt"
 			priority="4">
 			<filterPredicate xsi:type="jqa:ContextProvidedPredicate"
 				providedPredicateName="BO implementation attempt" />
 			<checkPredicate xsi:type="jqa:TypingPredicate">
-				<filterPredicate xsi:type="jqa:AndPredicate">
-					<predicate xsi:type="jqa:ContextProvidedPredicate" providedPredicateName="Valid BO type" />
-					<predicate xsi:type="jqa:ContextProvidedPredicate" providedPredicateName="Valid BO contract name" />
-					<predicate xsi:type="jqa:AbstractionPredicate" abstractionType="INTERFACE" />
-				</filterPredicate>
+				<filterPredicate xsi:type="jqa:ContextProvidedPredicate"
+					providedPredicateName="BO contract attempt" />
 			</checkPredicate>
 		</rule>
 
 		<!-- Service -->
-		<rule name="Service contract typing rule" message="The type of this Service contract doesn't meet the typing conventions"
+		<rule name="Service contract typing rule"
+			message="The type of this Service contract must extends to ar.com.fluxit.jqa.test.fmk.service.Service"
 			priority="4">
 			<filterPredicate xsi:type="jqa:ContextProvidedPredicate"
 				providedPredicateName="Service contract attempt" />
-			<checkPredicate xsi:type="jqa:ContextProvidedPredicate"
-				providedPredicateName="Valid Service type" />
+			<checkPredicate xsi:type="jqa:TypingPredicate">
+				<filterPredicate xsi:type="jqa:NamingPredicate" classNamePattern="ar.com.fluxit.jqa.test.fmk.service.Service" />
+			</checkPredicate>
 		</rule>
 
 		<rule name="Service implementation typing rule"
-			message="The type of this Service implementation doesn't meet the typing conventions"
+			message="The type of this Service implementation must implements a Service contract attempt"
 			priority="4">
 			<filterPredicate xsi:type="jqa:ContextProvidedPredicate"
 				providedPredicateName="Service implementation attempt" />
 			<checkPredicate xsi:type="jqa:TypingPredicate">
-				<filterPredicate xsi:type="jqa:AndPredicate">
-					<predicate xsi:type="jqa:ContextProvidedPredicate" providedPredicateName="Valid Service type" />					
-					<predicate xsi:type="jqa:ContextProvidedPredicate" providedPredicateName="Valid Service contract name" />
-					<predicate xsi:type="jqa:AbstractionPredicate" abstractionType="INTERFACE" />
-				</filterPredicate>
+				<filterPredicate xsi:type="jqa:ContextProvidedPredicate"
+					providedPredicateName="Service contract attempt" />
 			</checkPredicate>
 		</rule>
 
 		<!-- Entity -->
-		<rule name="Entity typing rule" message="The type of this Entity doesn't meet the typing conventions"
+		<rule name="Entity typing rule"
+			message="The type of this Entity must implements ar.com.fluxit.jqa.test.fmk.entity.Entity"
 			priority="4">
 			<filterPredicate xsi:type="jqa:ContextProvidedPredicate"
 				providedPredicateName="Entity attempt" />
-			<checkPredicate xsi:type="jqa:ContextProvidedPredicate"
-				providedPredicateName="Valid Entity type" />
+			<checkPredicate xsi:type="jqa:TypingPredicate">
+				<filterPredicate xsi:type="jqa:NamingPredicate" classNamePattern="ar.com.fluxit.jqa.test.fmk.entity.Entity" />
+			</checkPredicate>
 		</rule>
 
 	</ruleSet>
