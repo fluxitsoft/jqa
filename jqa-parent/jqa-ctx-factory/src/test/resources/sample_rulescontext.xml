@@ -23,17 +23,17 @@
 		xsi:type="jqa:AbstractionPredicate" abstractionType="CONCRETE" />
 	<globalPredicate name="AllocationPredicateTest"
 		xsi:type="jqa:AllocationPredicate">
-		<filterPredicate xsi:type="jqa:TruePredicate" />
+		<predicate xsi:type="jqa:TruePredicate" />
 	</globalPredicate>
 	<globalPredicate name="AndPredicateTest" xsi:type="jqa:AndPredicate">
 		<predicate xsi:type="jqa:TruePredicate" />
 		<predicate xsi:type="jqa:TruePredicate" />
 	</globalPredicate>
 	<globalPredicate name="ContextProvidedPredicateTest"
-		xsi:type="jqa:ContextProvidedPredicate" providedPredicateName="test" />
+		xsi:type="jqa:ContextProvidedPredicate" predicateName="test" />
 	<globalPredicate xsi:type="jqa:FalsePredicate" />
 	<globalPredicate name="NamingPredicateTest" xsi:type="jqa:NamingPredicate"
-		classNamePattern="test" />
+		namePattern="test" />
 	<globalPredicate name="NotPredicateTest" xsi:type="jqa:NotPredicate">
 		<predicate xsi:type="jqa:TruePredicate" />
 	</globalPredicate>
@@ -42,15 +42,15 @@
 		<predicate xsi:type="jqa:TruePredicate" />
 	</globalPredicate>
 	<globalPredicate name="ThrowingPredicateTest" xsi:type="jqa:ThrowingPredicate">
-		<filterPredicate xsi:type="jqa:TruePredicate" />
+		<predicate xsi:type="jqa:TruePredicate" />
 	</globalPredicate>
 	<globalPredicate xsi:type="jqa:TruePredicate" />
 	<globalPredicate name="TypingPredicateTest" xsi:type="jqa:TypingPredicate">
-		<filterPredicate xsi:type="jqa:NamingPredicate"
-			classNamePattern="java.lang.Object" />
+		<predicate xsi:type="jqa:NamingPredicate"
+			namePattern="java.lang.Object" />
 	</globalPredicate>
 	<globalPredicate name="UsagePredicateTest" xsi:type="jqa:UsagePredicate">
-		<filterPredicate xsi:type="jqa:TruePredicate" />
+		<predicate xsi:type="jqa:TruePredicate" />
 	</globalPredicate>
 	<globalPredicate name="XORPredicateTest" xsi:type="jqa:XORPredicate">
 		<predicate xsi:type="jqa:TruePredicate" />

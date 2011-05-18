@@ -16,27 +16,27 @@ package ar.com.fluxit.jqa.schema.ruleset;
 public interface NamingPredicate extends ar.com.fluxit.jqa.schema.ruleset.Predicate
 {
     public static final org.apache.xmlbeans.SchemaType type = (org.apache.xmlbeans.SchemaType)
-        org.apache.xmlbeans.XmlBeans.typeSystemForClassLoader(NamingPredicate.class.getClassLoader(), "schemaorg_apache_xmlbeans.system.sC088B10C8C9E0DC71F97D47D80564118").resolveHandle("namingpredicate3b33type");
+        org.apache.xmlbeans.XmlBeans.typeSystemForClassLoader(NamingPredicate.class.getClassLoader(), "schemaorg_apache_xmlbeans.system.sA7A5C0A6A4AE9BE15689417136C55B17").resolveHandle("namingpredicate3b33type");
     
     /**
-     * Gets the "classNamePattern" attribute
+     * Gets the "namePattern" attribute
      */
-    java.lang.String getClassNamePattern();
+    java.lang.String getNamePattern();
     
     /**
-     * Gets (as xml) the "classNamePattern" attribute
+     * Gets (as xml) the "namePattern" attribute
      */
-    org.apache.xmlbeans.XmlString xgetClassNamePattern();
+    org.apache.xmlbeans.XmlString xgetNamePattern();
     
     /**
-     * Sets the "classNamePattern" attribute
+     * Sets the "namePattern" attribute
      */
-    void setClassNamePattern(java.lang.String classNamePattern);
+    void setNamePattern(java.lang.String namePattern);
     
     /**
-     * Sets (as xml) the "classNamePattern" attribute
+     * Sets (as xml) the "namePattern" attribute
      */
-    void xsetClassNamePattern(org.apache.xmlbeans.XmlString classNamePattern);
+    void xsetNamePattern(org.apache.xmlbeans.XmlString namePattern);
     
     /**
      * A factory class with static methods for creating instances

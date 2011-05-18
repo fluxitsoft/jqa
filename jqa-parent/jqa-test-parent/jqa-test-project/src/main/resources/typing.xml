@@ -12,10 +12,10 @@
 			message="The type of this DAO contract must extends to ar.com.fluxit.jqa.test.fmk.dao.DataAccessObject"
 			priority="4">
 			<filterPredicate xsi:type="jqa:ContextProvidedPredicate"
-				providedPredicateName="DAO contract attempt" />
+				predicateName="DAO contract attempt" />
 			<checkPredicate xsi:type="jqa:TypingPredicate">
-				<filterPredicate xsi:type="jqa:NamingPredicate"
-					classNamePattern="ar.com.fluxit.jqa.test.fmk.dao.DataAccessObject" />
+				<predicate xsi:type="jqa:NamingPredicate"
+					namePattern="ar.com.fluxit.jqa.test.fmk.dao.DataAccessObject" />
 			</checkPredicate>
 		</rule>
 
@@ -23,10 +23,10 @@
 			message="The type of this DAO implementation must implements a DAO contract attempt"
 			priority="4">
 			<filterPredicate xsi:type="jqa:ContextProvidedPredicate"
-				providedPredicateName="DAO implementation attempt" />
+				predicateName="DAO implementation attempt" />
 			<checkPredicate xsi:type="jqa:TypingPredicate">
-				<filterPredicate xsi:type="jqa:ContextProvidedPredicate"
-					providedPredicateName="DAO contract attempt" />
+				<predicate xsi:type="jqa:ContextProvidedPredicate"
+					predicateName="DAO contract attempt" />
 			</checkPredicate>
 		</rule>
 
@@ -35,10 +35,10 @@
 			message="The type of this BO contract must extends to ar.com.fluxit.jqa.test.fmk.bo.BusinessObject"
 			priority="4">
 			<filterPredicate xsi:type="jqa:ContextProvidedPredicate"
-				providedPredicateName="BO contract attempt" />
+				predicateName="BO contract attempt" />
 			<checkPredicate xsi:type="jqa:TypingPredicate">
-				<filterPredicate xsi:type="jqa:NamingPredicate"
-					classNamePattern="ar.com.fluxit.jqa.test.fmk.bo.BusinessObject" />
+				<predicate xsi:type="jqa:NamingPredicate"
+					namePattern="ar.com.fluxit.jqa.test.fmk.bo.BusinessObject" />
 			</checkPredicate>
 		</rule>
 
@@ -46,10 +46,10 @@
 			message="The type of this BO implementation must implements a BO contract attempt"
 			priority="4">
 			<filterPredicate xsi:type="jqa:ContextProvidedPredicate"
-				providedPredicateName="BO implementation attempt" />
+				predicateName="BO implementation attempt" />
 			<checkPredicate xsi:type="jqa:TypingPredicate">
-				<filterPredicate xsi:type="jqa:ContextProvidedPredicate"
-					providedPredicateName="BO contract attempt" />
+				<predicate xsi:type="jqa:ContextProvidedPredicate"
+					predicateName="BO contract attempt" />
 			</checkPredicate>
 		</rule>
 
@@ -58,9 +58,9 @@
 			message="The type of this Service contract must extends to ar.com.fluxit.jqa.test.fmk.service.Service"
 			priority="4">
 			<filterPredicate xsi:type="jqa:ContextProvidedPredicate"
-				providedPredicateName="Service contract attempt" />
+				predicateName="Service contract attempt" />
 			<checkPredicate xsi:type="jqa:TypingPredicate">
-				<filterPredicate xsi:type="jqa:NamingPredicate" classNamePattern="ar.com.fluxit.jqa.test.fmk.service.Service" />
+				<predicate xsi:type="jqa:NamingPredicate" namePattern="ar.com.fluxit.jqa.test.fmk.service.Service" />
 			</checkPredicate>
 		</rule>
 
@@ -68,10 +68,10 @@
 			message="The type of this Service implementation must implements a Service contract attempt"
 			priority="4">
 			<filterPredicate xsi:type="jqa:ContextProvidedPredicate"
-				providedPredicateName="Service implementation attempt" />
+				predicateName="Service implementation attempt" />
 			<checkPredicate xsi:type="jqa:TypingPredicate">
-				<filterPredicate xsi:type="jqa:ContextProvidedPredicate"
-					providedPredicateName="Service contract attempt" />
+				<predicate xsi:type="jqa:ContextProvidedPredicate"
+					predicateName="Service contract attempt" />
 			</checkPredicate>
 		</rule>
 
@@ -80,9 +80,9 @@
 			message="The type of this Entity must implements ar.com.fluxit.jqa.test.fmk.entity.Entity"
 			priority="4">
 			<filterPredicate xsi:type="jqa:ContextProvidedPredicate"
-				providedPredicateName="Entity attempt" />
+				predicateName="Entity attempt" />
 			<checkPredicate xsi:type="jqa:TypingPredicate">
-				<filterPredicate xsi:type="jqa:NamingPredicate" classNamePattern="ar.com.fluxit.jqa.test.fmk.entity.Entity" />
+				<predicate xsi:type="jqa:NamingPredicate" namePattern="ar.com.fluxit.jqa.test.fmk.entity.Entity" />
 			</checkPredicate>
 		</rule>
 

@@ -17,7 +17,7 @@ package ar.com.fluxit.jqa.schema.ruleset;
 public interface AllocationPredicateDocument extends org.apache.xmlbeans.XmlObject
 {
     public static final org.apache.xmlbeans.SchemaType type = (org.apache.xmlbeans.SchemaType)
-        org.apache.xmlbeans.XmlBeans.typeSystemForClassLoader(AllocationPredicateDocument.class.getClassLoader(), "schemaorg_apache_xmlbeans.system.sC088B10C8C9E0DC71F97D47D80564118").resolveHandle("allocationpredicate4e4bdoctype");
+        org.apache.xmlbeans.XmlBeans.typeSystemForClassLoader(AllocationPredicateDocument.class.getClassLoader(), "schemaorg_apache_xmlbeans.system.sA7A5C0A6A4AE9BE15689417136C55B17").resolveHandle("allocationpredicate4e4bdoctype");
     
     /**
      * Gets the "AllocationPredicate" element

@@ -16,22 +16,22 @@ package ar.com.fluxit.jqa.schema.ruleset;
 public interface FilteredPredicate extends ar.com.fluxit.jqa.schema.ruleset.Predicate
 {
     public static final org.apache.xmlbeans.SchemaType type = (org.apache.xmlbeans.SchemaType)
-        org.apache.xmlbeans.XmlBeans.typeSystemForClassLoader(FilteredPredicate.class.getClassLoader(), "schemaorg_apache_xmlbeans.system.sC088B10C8C9E0DC71F97D47D80564118").resolveHandle("filteredpredicate4344type");
+        org.apache.xmlbeans.XmlBeans.typeSystemForClassLoader(FilteredPredicate.class.getClassLoader(), "schemaorg_apache_xmlbeans.system.sA7A5C0A6A4AE9BE15689417136C55B17").resolveHandle("filteredpredicate4344type");
     
     /**
-     * Gets the "filterPredicate" element
+     * Gets the "predicate" element
      */
-    ar.com.fluxit.jqa.schema.ruleset.Predicate getFilterPredicate();
+    ar.com.fluxit.jqa.schema.ruleset.Predicate getPredicate();
     
     /**
-     * Sets the "filterPredicate" element
+     * Sets the "predicate" element
      */
-    void setFilterPredicate(ar.com.fluxit.jqa.schema.ruleset.Predicate filterPredicate);
+    void setPredicate(ar.com.fluxit.jqa.schema.ruleset.Predicate predicate);
     
     /**
-     * Appends and returns a new empty "filterPredicate" element
+     * Appends and returns a new empty "predicate" element
      */
-    ar.com.fluxit.jqa.schema.ruleset.Predicate addNewFilterPredicate();
+    ar.com.fluxit.jqa.schema.ruleset.Predicate addNewPredicate();
     
     /**
      * A factory class with static methods for creating instances

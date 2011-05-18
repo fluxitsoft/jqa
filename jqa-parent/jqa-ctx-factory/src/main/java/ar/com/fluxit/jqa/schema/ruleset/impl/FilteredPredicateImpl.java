@@ -20,20 +20,20 @@ public class FilteredPredicateImpl extends ar.com.fluxit.jqa.schema.ruleset.impl
         super(sType);
     }
     
-    private static final javax.xml.namespace.QName FILTERPREDICATE$0 = 
-        new javax.xml.namespace.QName("", "filterPredicate");
+    private static final javax.xml.namespace.QName PREDICATE$0 = 
+        new javax.xml.namespace.QName("", "predicate");
     
     
     /**
-     * Gets the "filterPredicate" element
+     * Gets the "predicate" element
      */
-    public ar.com.fluxit.jqa.schema.ruleset.Predicate getFilterPredicate()
+    public ar.com.fluxit.jqa.schema.ruleset.Predicate getPredicate()
     {
         synchronized (monitor())
         {
             check_orphaned();
             ar.com.fluxit.jqa.schema.ruleset.Predicate target = null;
-            target = (ar.com.fluxit.jqa.schema.ruleset.Predicate)get_store().find_element_user(FILTERPREDICATE$0, 0);
+            target = (ar.com.fluxit.jqa.schema.ruleset.Predicate)get_store().find_element_user(PREDICATE$0, 0);
             if (target == null)
             {
                 return null;
@@ -43,33 +43,33 @@ public class FilteredPredicateImpl extends ar.com.fluxit.jqa.schema.ruleset.impl
     }
     
     /**
-     * Sets the "filterPredicate" element
+     * Sets the "predicate" element
      */
-    public void setFilterPredicate(ar.com.fluxit.jqa.schema.ruleset.Predicate filterPredicate)
+    public void setPredicate(ar.com.fluxit.jqa.schema.ruleset.Predicate predicate)
     {
         synchronized (monitor())
         {
             check_orphaned();
             ar.com.fluxit.jqa.schema.ruleset.Predicate target = null;
-            target = (ar.com.fluxit.jqa.schema.ruleset.Predicate)get_store().find_element_user(FILTERPREDICATE$0, 0);
+            target = (ar.com.fluxit.jqa.schema.ruleset.Predicate)get_store().find_element_user(PREDICATE$0, 0);
             if (target == null)
             {
-                target = (ar.com.fluxit.jqa.schema.ruleset.Predicate)get_store().add_element_user(FILTERPREDICATE$0);
+                target = (ar.com.fluxit.jqa.schema.ruleset.Predicate)get_store().add_element_user(PREDICATE$0);
             }
-            target.set(filterPredicate);
+            target.set(predicate);
         }
     }
     
     /**
-     * Appends and returns a new empty "filterPredicate" element
+     * Appends and returns a new empty "predicate" element
      */
-    public ar.com.fluxit.jqa.schema.ruleset.Predicate addNewFilterPredicate()
+    public ar.com.fluxit.jqa.schema.ruleset.Predicate addNewPredicate()
     {
         synchronized (monitor())
         {
             check_orphaned();
             ar.com.fluxit.jqa.schema.ruleset.Predicate target = null;
-            target = (ar.com.fluxit.jqa.schema.ruleset.Predicate)get_store().add_element_user(FILTERPREDICATE$0);
+            target = (ar.com.fluxit.jqa.schema.ruleset.Predicate)get_store().add_element_user(PREDICATE$0);
             return target;
         }
     }

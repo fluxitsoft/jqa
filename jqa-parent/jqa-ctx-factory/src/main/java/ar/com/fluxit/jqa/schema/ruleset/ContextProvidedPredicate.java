@@ -16,27 +16,27 @@ package ar.com.fluxit.jqa.schema.ruleset;
 public interface ContextProvidedPredicate extends ar.com.fluxit.jqa.schema.ruleset.Predicate
 {
     public static final org.apache.xmlbeans.SchemaType type = (org.apache.xmlbeans.SchemaType)
-        org.apache.xmlbeans.XmlBeans.typeSystemForClassLoader(ContextProvidedPredicate.class.getClassLoader(), "schemaorg_apache_xmlbeans.system.sC088B10C8C9E0DC71F97D47D80564118").resolveHandle("contextprovidedpredicate737btype");
+        org.apache.xmlbeans.XmlBeans.typeSystemForClassLoader(ContextProvidedPredicate.class.getClassLoader(), "schemaorg_apache_xmlbeans.system.sA7A5C0A6A4AE9BE15689417136C55B17").resolveHandle("contextprovidedpredicate737btype");
     
     /**
-     * Gets the "providedPredicateName" attribute
+     * Gets the "predicateName" attribute
      */
-    java.lang.String getProvidedPredicateName();
+    java.lang.String getPredicateName();
     
     /**
-     * Gets (as xml) the "providedPredicateName" attribute
+     * Gets (as xml) the "predicateName" attribute
      */
-    org.apache.xmlbeans.XmlString xgetProvidedPredicateName();
+    org.apache.xmlbeans.XmlString xgetPredicateName();
     
     /**
-     * Sets the "providedPredicateName" attribute
+     * Sets the "predicateName" attribute
      */
-    void setProvidedPredicateName(java.lang.String providedPredicateName);
+    void setPredicateName(java.lang.String predicateName);
     
     /**
-     * Sets (as xml) the "providedPredicateName" attribute
+     * Sets (as xml) the "predicateName" attribute
      */
-    void xsetProvidedPredicateName(org.apache.xmlbeans.XmlString providedPredicateName);
+    void xsetPredicateName(org.apache.xmlbeans.XmlString predicateName);
     
     /**
      * A factory class with static methods for creating instances

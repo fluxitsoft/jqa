@@ -20,20 +20,20 @@ public class ContextProvidedPredicateImpl extends ar.com.fluxit.jqa.schema.rules
         super(sType);
     }
     
-    private static final javax.xml.namespace.QName PROVIDEDPREDICATENAME$0 = 
-        new javax.xml.namespace.QName("", "providedPredicateName");
+    private static final javax.xml.namespace.QName PREDICATENAME$0 = 
+        new javax.xml.namespace.QName("", "predicateName");
     
     
     /**
-     * Gets the "providedPredicateName" attribute
+     * Gets the "predicateName" attribute
      */
-    public java.lang.String getProvidedPredicateName()
+    public java.lang.String getPredicateName()
     {
         synchronized (monitor())
         {
             check_orphaned();
             org.apache.xmlbeans.SimpleValue target = null;
-            target = (org.apache.xmlbeans.SimpleValue)get_store().find_attribute_user(PROVIDEDPREDICATENAME$0);
+            target = (org.apache.xmlbeans.SimpleValue)get_store().find_attribute_user(PREDICATENAME$0);
             if (target == null)
             {
                 return null;
@@ -43,52 +43,52 @@ public class ContextProvidedPredicateImpl extends ar.com.fluxit.jqa.schema.rules
     }
     
     /**
-     * Gets (as xml) the "providedPredicateName" attribute
+     * Gets (as xml) the "predicateName" attribute
      */
-    public org.apache.xmlbeans.XmlString xgetProvidedPredicateName()
+    public org.apache.xmlbeans.XmlString xgetPredicateName()
     {
         synchronized (monitor())
         {
             check_orphaned();
             org.apache.xmlbeans.XmlString target = null;
-            target = (org.apache.xmlbeans.XmlString)get_store().find_attribute_user(PROVIDEDPREDICATENAME$0);
+            target = (org.apache.xmlbeans.XmlString)get_store().find_attribute_user(PREDICATENAME$0);
             return target;
         }
     }
     
     /**
-     * Sets the "providedPredicateName" attribute
+     * Sets the "predicateName" attribute
      */
-    public void setProvidedPredicateName(java.lang.String providedPredicateName)
+    public void setPredicateName(java.lang.String predicateName)
     {
         synchronized (monitor())
         {
             check_orphaned();
             org.apache.xmlbeans.SimpleValue target = null;
-            target = (org.apache.xmlbeans.SimpleValue)get_store().find_attribute_user(PROVIDEDPREDICATENAME$0);
+            target = (org.apache.xmlbeans.SimpleValue)get_store().find_attribute_user(PREDICATENAME$0);
             if (target == null)
             {
-                target = (org.apache.xmlbeans.SimpleValue)get_store().add_attribute_user(PROVIDEDPREDICATENAME$0);
+                target = (org.apache.xmlbeans.SimpleValue)get_store().add_attribute_user(PREDICATENAME$0);
             }
-            target.setStringValue(providedPredicateName);
+            target.setStringValue(predicateName);
         }
     }
     
     /**
-     * Sets (as xml) the "providedPredicateName" attribute
+     * Sets (as xml) the "predicateName" attribute
      */
-    public void xsetProvidedPredicateName(org.apache.xmlbeans.XmlString providedPredicateName)
+    public void xsetPredicateName(org.apache.xmlbeans.XmlString predicateName)
     {
         synchronized (monitor())
         {
             check_orphaned();
             org.apache.xmlbeans.XmlString target = null;
-            target = (org.apache.xmlbeans.XmlString)get_store().find_attribute_user(PROVIDEDPREDICATENAME$0);
+            target = (org.apache.xmlbeans.XmlString)get_store().find_attribute_user(PREDICATENAME$0);
             if (target == null)
             {
-                target = (org.apache.xmlbeans.XmlString)get_store().add_attribute_user(PROVIDEDPREDICATENAME$0);
+                target = (org.apache.xmlbeans.XmlString)get_store().add_attribute_user(PREDICATENAME$0);
             }
-            target.set(providedPredicateName);
+            target.set(predicateName);
         }
     }
 }

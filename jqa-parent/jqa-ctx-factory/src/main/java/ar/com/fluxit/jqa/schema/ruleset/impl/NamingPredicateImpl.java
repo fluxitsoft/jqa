@@ -20,20 +20,20 @@ public class NamingPredicateImpl extends ar.com.fluxit.jqa.schema.ruleset.impl.P
         super(sType);
     }
     
-    private static final javax.xml.namespace.QName CLASSNAMEPATTERN$0 = 
-        new javax.xml.namespace.QName("", "classNamePattern");
+    private static final javax.xml.namespace.QName NAMEPATTERN$0 = 
+        new javax.xml.namespace.QName("", "namePattern");
     
     
     /**
-     * Gets the "classNamePattern" attribute
+     * Gets the "namePattern" attribute
      */
-    public java.lang.String getClassNamePattern()
+    public java.lang.String getNamePattern()
     {
         synchronized (monitor())
         {
             check_orphaned();
             org.apache.xmlbeans.SimpleValue target = null;
-            target = (org.apache.xmlbeans.SimpleValue)get_store().find_attribute_user(CLASSNAMEPATTERN$0);
+            target = (org.apache.xmlbeans.SimpleValue)get_store().find_attribute_user(NAMEPATTERN$0);
             if (target == null)
             {
                 return null;
@@ -43,52 +43,52 @@ public class NamingPredicateImpl extends ar.com.fluxit.jqa.schema.ruleset.impl.P
     }
     
     /**
-     * Gets (as xml) the "classNamePattern" attribute
+     * Gets (as xml) the "namePattern" attribute
      */
-    public org.apache.xmlbeans.XmlString xgetClassNamePattern()
+    public org.apache.xmlbeans.XmlString xgetNamePattern()
     {
         synchronized (monitor())
         {
             check_orphaned();
             org.apache.xmlbeans.XmlString target = null;
-            target = (org.apache.xmlbeans.XmlString)get_store().find_attribute_user(CLASSNAMEPATTERN$0);
+            target = (org.apache.xmlbeans.XmlString)get_store().find_attribute_user(NAMEPATTERN$0);
             return target;
         }
     }
     
     /**
-     * Sets the "classNamePattern" attribute
+     * Sets the "namePattern" attribute
      */
-    public void setClassNamePattern(java.lang.String classNamePattern)
+    public void setNamePattern(java.lang.String namePattern)
     {
         synchronized (monitor())
         {
             check_orphaned();
             org.apache.xmlbeans.SimpleValue target = null;
-            target = (org.apache.xmlbeans.SimpleValue)get_store().find_attribute_user(CLASSNAMEPATTERN$0);
+            target = (org.apache.xmlbeans.SimpleValue)get_store().find_attribute_user(NAMEPATTERN$0);
             if (target == null)
             {
-                target = (org.apache.xmlbeans.SimpleValue)get_store().add_attribute_user(CLASSNAMEPATTERN$0);
+                target = (org.apache.xmlbeans.SimpleValue)get_store().add_attribute_user(NAMEPATTERN$0);
             }
-            target.setStringValue(classNamePattern);
+            target.setStringValue(namePattern);
         }
     }
     
     /**
-     * Sets (as xml) the "classNamePattern" attribute
+     * Sets (as xml) the "namePattern" attribute
      */
-    public void xsetClassNamePattern(org.apache.xmlbeans.XmlString classNamePattern)
+    public void xsetNamePattern(org.apache.xmlbeans.XmlString namePattern)
     {
         synchronized (monitor())
         {
             check_orphaned();
             org.apache.xmlbeans.XmlString target = null;
-            target = (org.apache.xmlbeans.XmlString)get_store().find_attribute_user(CLASSNAMEPATTERN$0);
+            target = (org.apache.xmlbeans.XmlString)get_store().find_attribute_user(NAMEPATTERN$0);
             if (target == null)
             {
-                target = (org.apache.xmlbeans.XmlString)get_store().add_attribute_user(CLASSNAMEPATTERN$0);
+                target = (org.apache.xmlbeans.XmlString)get_store().add_attribute_user(NAMEPATTERN$0);
             }
-            target.set(classNamePattern);
+            target.set(namePattern);
         }
     }
 }

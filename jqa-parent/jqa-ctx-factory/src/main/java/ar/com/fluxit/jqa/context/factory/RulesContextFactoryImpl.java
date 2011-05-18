@@ -174,7 +174,7 @@ public class RulesContextFactoryImpl implements RulesContextFactory {
 		for (final RuleSetImport ruleSetImport : rulesContext.getRuleSetImportList()) {
 			result.add(parse(ruleSetImport, basePath));
 		}
-		for (final Ruleset ruleSet: rulesContext.getRuleSetList()) {
+		for (final Ruleset ruleSet : rulesContext.getRuleSetList()) {
 			result.add(parse(ruleSet));
 		}
 		return result;
@@ -185,7 +185,7 @@ public class RulesContextFactoryImpl implements RulesContextFactory {
 	}
 
 	private void parse(ar.com.fluxit.jqa.schema.ruleset.FilteredPredicate predicate, FilteredPredicate result) {
-		result.setFilterPredicate((Predicate) parse(predicate.getFilterPredicate()));
+		result.setFilterPredicate((Predicate) parse(predicate.getPredicate()));
 		parse(predicate, (AbstractPredicate) result);
 	}
 
@@ -220,7 +220,7 @@ public class RulesContextFactoryImpl implements RulesContextFactory {
 	Predicate parse(ContextProvidedPredicate predicate) {
 		final ar.com.fluxit.jqa.predicate.ContextProvidedPredicate result = new ar.com.fluxit.jqa.predicate.ContextProvidedPredicate();
 		parse(predicate, result);
-		result.setProvidedPredicateName(predicate.getProvidedPredicateName());
+		result.setProvidedPredicateName(predicate.getPredicateName());
 		return result;
 	}
 
@@ -231,7 +231,7 @@ public class RulesContextFactoryImpl implements RulesContextFactory {
 	Predicate parse(NamingPredicate predicate) {
 		final ar.com.fluxit.jqa.predicate.lang.NamingPredicate result = new ar.com.fluxit.jqa.predicate.lang.NamingPredicate();
 		parse(predicate, result);
-		result.setClassNamePattern(predicate.getClassNamePattern());
+		result.setClassNamePattern(predicate.getNamePattern());
 		return result;
 	}
 

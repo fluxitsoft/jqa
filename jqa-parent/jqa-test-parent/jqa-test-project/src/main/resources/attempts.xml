@@ -6,83 +6,80 @@
 	<!-- DataAccessObject -->
 	<globalPredicate name="DAO attempt" xsi:type="jqa:AndPredicate">
 		<predicate xsi:type="jqa:OrPredicate">
-			<predicate xsi:type="jqa:NamingPredicate" classNamePattern="**DAO*" />
-			<predicate xsi:type="jqa:NamingPredicate" classNamePattern="**.dao.**" />
+			<predicate xsi:type="jqa:NamingPredicate" namePattern="**DAO*" />
+			<predicate xsi:type="jqa:NamingPredicate" namePattern="**.dao.**" />
 			<predicate xsi:type="jqa:TypingPredicate">
-				<filterPredicate xsi:type="jqa:NamingPredicate"
-					classNamePattern="ar.com.fluxit.jqa.test.fmk.dao.DataAccessObject" />
+				<predicate xsi:type="jqa:NamingPredicate" namePattern="ar.com.fluxit.jqa.test.fmk.dao.DataAccessObject" />
 			</predicate>
 		</predicate>
 		<predicate xsi:type="jqa:NotPredicate">
-			<predicate xsi:type="jqa:NamingPredicate" classNamePattern="ar.com.fluxit.jqa.test.fmk.dao.DataAccessObject" />
+			<predicate xsi:type="jqa:NamingPredicate" namePattern="ar.com.fluxit.jqa.test.fmk.dao.DataAccessObject" />
 		</predicate>
 	</globalPredicate>
 
 	<globalPredicate name="DAO contract attempt" xsi:type="jqa:AndPredicate">
 		<predicate xsi:type="jqa:AbstractionPredicate" abstractionType="INTERFACE" />
-		<predicate xsi:type="jqa:ContextProvidedPredicate" providedPredicateName="DAO attempt" />
+		<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="DAO attempt" />
 	</globalPredicate>
 
 	<globalPredicate name="DAO implementation attempt" xsi:type="jqa:AndPredicate">
 		<predicate xsi:type="jqa:AbstractionPredicate" abstractionType="CONCRETE" />
-		<predicate xsi:type="jqa:ContextProvidedPredicate" providedPredicateName="DAO attempt" />
+		<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="DAO attempt" />
 	</globalPredicate>
 
 	<!-- BusinessObject -->
 	<globalPredicate name="BO attempt" xsi:type="jqa:AndPredicate">
 		<predicate xsi:type="jqa:OrPredicate">
-			<predicate xsi:type="jqa:NamingPredicate" classNamePattern="**BO*" />
-			<predicate xsi:type="jqa:NamingPredicate" classNamePattern="**.bo.**" />
+			<predicate xsi:type="jqa:NamingPredicate" namePattern="**BO*" />
+			<predicate xsi:type="jqa:NamingPredicate" namePattern="**.bo.**" />
 			<predicate xsi:type="jqa:TypingPredicate">
-				<filterPredicate xsi:type="jqa:NamingPredicate"
-					classNamePattern="ar.com.fluxit.jqa.test.fmk.bo.BusinessObject" />
+				<predicate xsi:type="jqa:NamingPredicate" namePattern="ar.com.fluxit.jqa.test.fmk.bo.BusinessObject" />
 			</predicate>
 		</predicate>
 		<predicate xsi:type="jqa:NotPredicate">
-			<predicate xsi:type="jqa:NamingPredicate" classNamePattern="ar.com.fluxit.jqa.test.fmk.bo.BusinessObject" />
+			<predicate xsi:type="jqa:NamingPredicate" namePattern="ar.com.fluxit.jqa.test.fmk.bo.BusinessObject" />
 		</predicate>
 	</globalPredicate>
 
 	<globalPredicate name="BO contract attempt" xsi:type="jqa:AndPredicate">
 		<predicate xsi:type="jqa:AbstractionPredicate" abstractionType="INTERFACE" />
-		<predicate xsi:type="jqa:ContextProvidedPredicate" providedPredicateName="BO attempt" />
+		<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="BO attempt" />
 	</globalPredicate>
 
 	<globalPredicate name="BO implementation attempt" xsi:type="jqa:AndPredicate">
 		<predicate xsi:type="jqa:AbstractionPredicate" abstractionType="CONCRETE" />
-		<predicate xsi:type="jqa:ContextProvidedPredicate" providedPredicateName="BO attempt" />
+		<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="BO attempt" />
 	</globalPredicate>
 
 	<!-- Service -->
 	<globalPredicate name="Service attempt" xsi:type="jqa:AndPredicate">
 		<predicate xsi:type="jqa:OrPredicate">
-			<predicate xsi:type="jqa:NamingPredicate" classNamePattern="**Service*" />
-			<predicate xsi:type="jqa:NamingPredicate" classNamePattern="**.service.**" />
+			<predicate xsi:type="jqa:NamingPredicate" namePattern="**Service*" />
+			<predicate xsi:type="jqa:NamingPredicate" namePattern="**.service.**" />
 			<predicate xsi:type="jqa:TypingPredicate">
-				<filterPredicate xsi:type="jqa:NamingPredicate"
-					classNamePattern="ar.com.fluxit.jqa.test.fmk.service.Service" />
+				<predicate xsi:type="jqa:NamingPredicate" namePattern="ar.com.fluxit.jqa.test.fmk.service.Service" />
 			</predicate>
 		</predicate>
 		<predicate xsi:type="jqa:NotPredicate">
-			<predicate xsi:type="jqa:NamingPredicate" classNamePattern="ar.com.fluxit.jqa.test.fmk.service.Service" />
+			<predicate xsi:type="jqa:NamingPredicate" namePattern="ar.com.fluxit.jqa.test.fmk.service.Service" />
 		</predicate>
 	</globalPredicate>
 
 	<globalPredicate name="Service contract attempt" xsi:type="jqa:AndPredicate">
 		<predicate xsi:type="jqa:AbstractionPredicate" abstractionType="INTERFACE" />
-		<predicate xsi:type="jqa:ContextProvidedPredicate" providedPredicateName="Service attempt" />
+		<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="Service attempt" />
 	</globalPredicate>
 
 	<globalPredicate name="Service implementation attempt" xsi:type="jqa:AndPredicate">
 		<predicate xsi:type="jqa:AbstractionPredicate" abstractionType="CONCRETE" />
-		<predicate xsi:type="jqa:ContextProvidedPredicate" providedPredicateName="Service attempt" />
+		<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="Service attempt" />
 	</globalPredicate>
 
 	<!-- Entities -->
 	<globalPredicate name="Entity attempt" xsi:type="jqa:OrPredicate">
-		<predicate xsi:type="jqa:NamingPredicate" classNamePattern="**.entity.**" />
+		<predicate xsi:type="jqa:NamingPredicate" namePattern="**.entity.**" />
 		<predicate xsi:type="jqa:TypingPredicate">
-			<filterPredicate xsi:type="jqa:NamingPredicate" classNamePattern="ar.com.fluxit.jqa.test.fmk.entity.Entity" />
+			<predicate xsi:type="jqa:NamingPredicate" namePattern="ar.com.fluxit.jqa.test.fmk.entity.Entity" />
 		</predicate>
 	</globalPredicate>
 
