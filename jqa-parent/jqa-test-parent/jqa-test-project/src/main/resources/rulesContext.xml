@@ -6,6 +6,6 @@
 	<!-- Ruleset imports -->
 	<rulesContextImport fileName="naming.xml" />
 	<rulesContextImport fileName="typing.xml" />
-	<rulesContextImport fileName="usage.xml" />
+<!--	<rulesContextImport fileName="usage.xml" />-->
 
 </jqa_ctx:RulesContext>
