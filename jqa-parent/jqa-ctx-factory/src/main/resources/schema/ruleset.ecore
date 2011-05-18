@@ -23,11 +23,11 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ContextProvidedPredicate" eSuperTypes="#//Predicate">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="providedPredicateName"
-        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="predicateName" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="FilteredPredicate" abstract="true" eSuperTypes="#//Predicate">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="filterPredicate" lowerBound="1"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="predicate" lowerBound="1"
         eType="#//Predicate" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="AbstractionPredicate" eSuperTypes="#//Predicate">
@@ -41,7 +41,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="AllocationPredicate" eSuperTypes="#//FilteredPredicate"/>
   <eClassifiers xsi:type="ecore:EClass" name="NamingPredicate" eSuperTypes="#//Predicate">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="classNamePattern" lowerBound="1"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="namePattern" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ThrowingPredicate" eSuperTypes="#//FilteredPredicate"/>

@@ -40,7 +40,7 @@
   <xsd:complexType name="ContextProvidedPredicate">
     <xsd:complexContent>
       <xsd:extension base="jqa:Predicate">
-        <xsd:attribute name="providedPredicateName" type="xsd:string" use="required"/>
+        <xsd:attribute name="predicateName" type="xsd:string" use="required"/>
       </xsd:extension>
     </xsd:complexContent>
   </xsd:complexType>
@@ -48,7 +48,7 @@
     <xsd:complexContent>
       <xsd:extension base="jqa:Predicate">
         <xsd:sequence>
-          <xsd:element ecore:resolveProxies="true" name="filterPredicate" type="jqa:Predicate"/>
+          <xsd:element ecore:resolveProxies="true" name="predicate" type="jqa:Predicate"/>
         </xsd:sequence>
       </xsd:extension>
     </xsd:complexContent>
@@ -75,7 +75,7 @@
   <xsd:complexType name="NamingPredicate">
     <xsd:complexContent>
       <xsd:extension base="jqa:Predicate">
-        <xsd:attribute name="classNamePattern" type="xsd:string" use="required"/>
+        <xsd:attribute name="namePattern" type="xsd:string" use="required"/>
       </xsd:extension>
     </xsd:complexContent>
   </xsd:complexType>
