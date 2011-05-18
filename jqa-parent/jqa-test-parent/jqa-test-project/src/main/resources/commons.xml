@@ -3,9 +3,13 @@
 	xmlns:jqa_ctx="http://www.fluxit.com.ar/jqa/schema/rulescontext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.fluxit.com.ar/jqa/schema/rulescontext http://jqa-project.googlecode.com/svn/trunk/jqa-parent/jqa-ctx-factory/src/main/resources/schema/rulescontext.xsd ">
 
-	<!-- Ruleset imports -->
-	<rulesContextImport fileName="naming.xml" />
-	<rulesContextImport fileName="typing.xml" />
-	<rulesContextImport fileName="usage.xml" />
+	<!-- Common types -->
+	<globalPredicate name="Common types" xsi:type="jqa:TypingPredicate">
+		<predicate xsi:type="jqa:OrPredicate">
+			<predicate xsi:type="jqa:NamingPredicate" namePattern="java.**" />
+			<predicate xsi:type="jqa:NamingPredicate" namePattern="org.apache.**" />
+			<predicate xsi:type="jqa:NamingPredicate" namePattern="org.spring.**" />
+		</predicate>
+	</globalPredicate>
 
 </jqa_ctx:RulesContext>
