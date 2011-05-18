@@ -23,23 +23,23 @@ package ar.com.fluxit.jqa.bce;
  * 
  * @author Juan Ignacio Barisich
  */
-public class ClassFormatException extends Exception {
+public class TypeFormatException extends Exception {
 
 	private static final long serialVersionUID = -7446697331694653195L;
 
-	public ClassFormatException() {
+	public TypeFormatException() {
 		super();
 	}
 
-	public ClassFormatException(String message) {
+	public TypeFormatException(String message) {
 		super(message);
 	}
 
-	public ClassFormatException(String message, Throwable cause) {
+	public TypeFormatException(String message, Throwable cause) {
 		super(message, cause);
 	}
 
-	public ClassFormatException(Throwable cause) {
+	public TypeFormatException(Throwable cause) {
 		super(cause);
 	}
 

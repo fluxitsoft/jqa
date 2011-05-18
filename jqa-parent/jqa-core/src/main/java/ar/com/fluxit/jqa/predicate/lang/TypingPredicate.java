@@ -20,7 +20,7 @@ package ar.com.fluxit.jqa.predicate.lang;
 
 import java.util.Collection;
 
-import ar.com.fluxit.jqa.bce.JavaClass;
+import ar.com.fluxit.jqa.bce.Type;
 import ar.com.fluxit.jqa.bce.RepositoryLocator;
 import ar.com.fluxit.jqa.context.RulesContext;
 import ar.com.fluxit.jqa.predicate.FilteredPredicate;
@@ -37,23 +37,23 @@ public class TypingPredicate extends FilteredPredicate {
 	}
 
 	@Override
-	public boolean evaluate(JavaClass clazz, RulesContext context) {
-		final Collection<JavaClass> superClasses = RepositoryLocator.getRepository().getSuperClasses(clazz);
+	public boolean evaluate(Type type, RulesContext context) {
+		final Collection<Type> superClasses = RepositoryLocator.getRepository().getSuperClasses(type);
 		// superclases
-		for (final JavaClass superClass : superClasses) {
+		for (final Type superClass : superClasses) {
 			if (getFilterPredicate().evaluate(superClass, context)) {
 				return true;
 			}
 		}
 		// superinterfaces
-		final Collection<JavaClass> interfaces = RepositoryLocator.getRepository().getInterfaces(clazz);
-		for (final JavaClass interfaz : interfaces) {
+		final Collection<Type> interfaces = RepositoryLocator.getRepository().getInterfaces(type);
+		for (final Type interfaz : interfaces) {
 			if (getFilterPredicate().evaluate(interfaz, context)) {
 				return true;
 			}
 		}
 		// the class
-		return getFilterPredicate().evaluate(clazz, context);
+		return getFilterPredicate().evaluate(type, context);
 	}
 
 }

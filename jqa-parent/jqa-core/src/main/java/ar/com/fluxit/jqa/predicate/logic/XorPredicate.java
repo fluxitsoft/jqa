@@ -18,7 +18,7 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.predicate.logic;
 
-import ar.com.fluxit.jqa.bce.JavaClass;
+import ar.com.fluxit.jqa.bce.Type;
 import ar.com.fluxit.jqa.context.RulesContext;
 import ar.com.fluxit.jqa.predicate.Predicate;
 
@@ -38,10 +38,10 @@ public class XorPredicate extends VarArgsLogicPredicate {
 	}
 
 	@Override
-	public boolean evaluate(JavaClass clazz, RulesContext context) {
+	public boolean evaluate(Type type, RulesContext context) {
 		boolean match = false;
 		for (final Predicate predicate : getPredicates()) {
-			if (predicate.evaluate(clazz, context)) {
+			if (predicate.evaluate(type, context)) {
 				if (match) {
 					return false;
 				}

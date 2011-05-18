@@ -32,7 +32,7 @@ import junit.framework.TestCase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ar.com.fluxit.jqa.bce.ClassFormatException;
+import ar.com.fluxit.jqa.bce.TypeFormatException;
 import ar.com.fluxit.jqa.context.RulesContext;
 import ar.com.fluxit.jqa.context.RulesContextImpl;
 import ar.com.fluxit.jqa.mock.ClassA;
@@ -103,7 +103,7 @@ public class RulesContextCheckerTest extends TestCase {
 		this.log = null;
 	}
 
-	public final void testBidirectionalCheckRule() throws IntrospectionException, FileNotFoundException, ClassFormatException, IOException {
+	public final void testBidirectionalCheckRule() throws IntrospectionException, FileNotFoundException, TypeFormatException, IOException {
 		final Collection<File> classFiles = FileUtils.INSTANCE.getClassFiles(ClassA.class);
 		final Collection<RuleSet> configuration = createRuleSets(FalsePredicate.INSTANCE, TruePredicate.INSTANCE, true);
 		final RulesContext context = createRulesContext(configuration);
@@ -114,7 +114,7 @@ public class RulesContextCheckerTest extends TestCase {
 		assertEquals(1, result.getRuleChecksFailed().size());
 	}
 
-	public final void testCheckPredicateFail() throws IntrospectionException, FileNotFoundException, ClassFormatException, IOException {
+	public final void testCheckPredicateFail() throws IntrospectionException, FileNotFoundException, TypeFormatException, IOException {
 		final Collection<File> classFiles = FileUtils.INSTANCE.getClassFiles(ClassA.class);
 		final Collection<RuleSet> configuration = createRuleSets(TruePredicate.INSTANCE, FalsePredicate.INSTANCE);
 		final RulesContext context = createRulesContext(configuration);
@@ -125,7 +125,7 @@ public class RulesContextCheckerTest extends TestCase {
 		assertEquals(1, result.getRuleChecksFailed().size());
 	}
 
-	public final void testCheckPredicateSuccess() throws IntrospectionException, FileNotFoundException, ClassFormatException, IOException {
+	public final void testCheckPredicateSuccess() throws IntrospectionException, FileNotFoundException, TypeFormatException, IOException {
 		final Collection<File> classFiles = FileUtils.INSTANCE.getClassFiles(ClassA.class);
 		final Collection<RuleSet> configuration = createRuleSets(TruePredicate.INSTANCE, TruePredicate.INSTANCE);
 		final RulesContext context = createRulesContext(configuration);
@@ -136,7 +136,7 @@ public class RulesContextCheckerTest extends TestCase {
 		assertTrue(result.getRuleChecksFailed().isEmpty());
 	}
 
-	public final void testCheckWithNoFiles() throws IntrospectionException, FileNotFoundException, ClassFormatException, IOException {
+	public final void testCheckWithNoFiles() throws IntrospectionException, FileNotFoundException, TypeFormatException, IOException {
 		final Collection<File> classFiles = new ArrayList<File>();
 		final Collection<RuleSet> configuration = createRuleSets(TruePredicate.INSTANCE, TruePredicate.INSTANCE);
 		final RulesContext context = createRulesContext(configuration);
@@ -147,7 +147,7 @@ public class RulesContextCheckerTest extends TestCase {
 		assertTrue(result.getRuleChecksFailed().isEmpty());
 	}
 
-	public final void testFilterPredicateFail() throws IntrospectionException, FileNotFoundException, ClassFormatException, IOException {
+	public final void testFilterPredicateFail() throws IntrospectionException, FileNotFoundException, TypeFormatException, IOException {
 		final Collection<File> classFiles = FileUtils.INSTANCE.getClassFiles(ClassA.class);
 		final Collection<RuleSet> configuration = createRuleSets(TruePredicate.INSTANCE, FalsePredicate.INSTANCE, true);
 		final RulesContext context = createRulesContext(configuration);
@@ -158,7 +158,7 @@ public class RulesContextCheckerTest extends TestCase {
 		assertEquals(1, result.getRuleChecksFailed().size());
 	}
 
-	public final void testFilterPredicateSuccess() throws IntrospectionException, FileNotFoundException, ClassFormatException, IOException {
+	public final void testFilterPredicateSuccess() throws IntrospectionException, FileNotFoundException, TypeFormatException, IOException {
 		final Collection<File> classFiles = FileUtils.INSTANCE.getClassFiles(ClassA.class);
 		final Collection<RuleSet> configuration = createRuleSets(TruePredicate.INSTANCE, TruePredicate.INSTANCE);
 		final RulesContext context = createRulesContext(configuration);

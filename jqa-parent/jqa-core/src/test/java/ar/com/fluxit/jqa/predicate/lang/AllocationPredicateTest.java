@@ -19,7 +19,7 @@
 package ar.com.fluxit.jqa.predicate.lang;
 
 import junit.framework.TestCase;
-import ar.com.fluxit.jqa.bce.JavaClass;
+import ar.com.fluxit.jqa.bce.Type;
 import ar.com.fluxit.jqa.bce.RepositoryLocator;
 import ar.com.fluxit.jqa.mock.ClassA;
 import ar.com.fluxit.jqa.mock.allocation.ClassThatAllocatesClassA;
@@ -47,10 +47,10 @@ public class AllocationPredicateTest extends TestCase {
 	private void testMatches(String filterPredicateParentClass, Class<?> usagePredicateclass, boolean matches) throws ClassNotFoundException {
 		final TypingPredicate filterPredicate = new TypingPredicate();
 		filterPredicate.setFilterPredicate(new NamingPredicate(filterPredicateParentClass));
-		final JavaClass clazz = RepositoryLocator.getRepository().lookupClass(usagePredicateclass);
+		final Type type = RepositoryLocator.getRepository().lookupType(usagePredicateclass);
 		final AllocationPredicate allocationPredicate = new AllocationPredicate();
 		allocationPredicate.setFilterPredicate(filterPredicate);
-		assertEquals(matches, allocationPredicate.evaluate(clazz, null));
+		assertEquals(matches, allocationPredicate.evaluate(type, null));
 	}
 
 }

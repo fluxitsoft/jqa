@@ -23,9 +23,9 @@ package ar.com.fluxit.jqa.bce;
  * 
  * @author Juan Ignacio Barisich
  */
-public interface JavaClass {
+public interface Type {
 
-	String getClassName();
+	String getName();
 
 	boolean isAbstract();
 

@@ -18,7 +18,7 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.predicate.lang;
 
-import ar.com.fluxit.jqa.bce.JavaClass;
+import ar.com.fluxit.jqa.bce.Type;
 import ar.com.fluxit.jqa.predicate.IgnoringContextPredicate;
 
 /**
@@ -31,35 +31,35 @@ public class AbstractionPredicate extends IgnoringContextPredicate {
 	public enum AbstractionType {
 		ABSTRACT() {
 			@Override
-			public boolean evaluate(JavaClass clazz) {
-				return clazz.isAbstract();
+			public boolean evaluate(Type type) {
+				return type.isAbstract();
 			}
 		},
 		INTERFACE() {
 			@Override
-			public boolean evaluate(JavaClass clazz) {
-				return clazz.isInterface();
+			public boolean evaluate(Type type) {
+				return type.isInterface();
 			}
 		},
 		CONCRETE() {
 			@Override
-			public boolean evaluate(JavaClass clazz) {
-				return !(clazz.isAbstract() || clazz.isInterface());
+			public boolean evaluate(Type type) {
+				return !(type.isAbstract() || type.isInterface());
 			}
 		};
 
-		abstract boolean evaluate(JavaClass clazz);
+		abstract boolean evaluate(Type type);
 	}
 
 	private AbstractionType abstractionType;
 
 	@Override
-	public boolean evaluate(JavaClass clazz) {
-		return getAbstractionType().evaluate(clazz);
+	public boolean evaluate(Type type) {
+		return getAbstractionType().evaluate(type);
 	}
 
 	public AbstractionType getAbstractionType() {
-		return abstractionType;
+		return this.abstractionType;
 	}
 
 	public void setAbstractionType(AbstractionType abstractionType) {

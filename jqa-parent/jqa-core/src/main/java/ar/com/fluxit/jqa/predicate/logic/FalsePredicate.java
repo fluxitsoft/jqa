@@ -18,7 +18,7 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.predicate.logic;
 
-import ar.com.fluxit.jqa.bce.JavaClass;
+import ar.com.fluxit.jqa.bce.Type;
 import ar.com.fluxit.jqa.predicate.IgnoringContextPredicate;
 import ar.com.fluxit.jqa.predicate.Predicate;
 
@@ -37,7 +37,7 @@ public class FalsePredicate extends IgnoringContextPredicate {
 	}
 
 	@Override
-	public boolean evaluate(JavaClass clazz) {
+	public boolean evaluate(Type type) {
 		return false;
 	}
 

@@ -19,7 +19,7 @@
 package ar.com.fluxit.jqa.predicate.lang;
 
 import junit.framework.TestCase;
-import ar.com.fluxit.jqa.bce.JavaClass;
+import ar.com.fluxit.jqa.bce.Type;
 import ar.com.fluxit.jqa.bce.RepositoryLocator;
 import ar.com.fluxit.jqa.mock.ClassA;
 import ar.com.fluxit.jqa.mock.ExceptionA;
@@ -57,9 +57,9 @@ public class ThrowingPredicateTest extends TestCase {
 	private void testMatches(String filterPredicateParentClass, Class<?> usagePredicateClass, boolean matches) throws ClassNotFoundException {
 		final TypingPredicate filterPredicate = new TypingPredicate();
 		filterPredicate.setFilterPredicate(new NamingPredicate(filterPredicateParentClass));
-		final JavaClass clazz = RepositoryLocator.getRepository().lookupClass(usagePredicateClass);
+		final Type type = RepositoryLocator.getRepository().lookupType(usagePredicateClass);
 		final ThrowingPredicate throwingPredicate = new ThrowingPredicate();
 		throwingPredicate.setFilterPredicate(filterPredicate);
-		assertEquals(matches, throwingPredicate.evaluate(clazz, null));
+		assertEquals(matches, throwingPredicate.evaluate(type, null));
 	}
 }

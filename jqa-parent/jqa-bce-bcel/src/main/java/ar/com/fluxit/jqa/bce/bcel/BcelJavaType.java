@@ -18,18 +18,18 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.bce.bcel;
 
-import ar.com.fluxit.jqa.bce.JavaClass;
+import ar.com.fluxit.jqa.bce.Type;
 
 /**
  * TODO javadoc
  * 
  * @author Juan Ignacio Barisich
  */
-class BcelJavaClass implements JavaClass {
+class BcelJavaType implements Type {
 
 	private final org.apache.bcel.classfile.JavaClass wrapped;
 
-	public BcelJavaClass(org.apache.bcel.classfile.JavaClass parse) {
+	public BcelJavaType(org.apache.bcel.classfile.JavaClass parse) {
 		if (parse == null) {
 			throw new IllegalArgumentException("Wrapped class can not be null");
 		}
@@ -41,14 +41,14 @@ class BcelJavaClass implements JavaClass {
 		if (this == obj) {
 			return true;
 		}
-		if (!(obj instanceof BcelJavaClass)) {
+		if (!(obj instanceof BcelJavaType)) {
 			return false;
 		}
-		return ((BcelJavaClass) obj).getClassName().equals(getClassName());
+		return ((BcelJavaType) obj).getName().equals(getName());
 	}
 
 	@Override
-	public String getClassName() {
+	public String getName() {
 		return wrapped.getClassName();
 	}
 

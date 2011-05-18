@@ -18,7 +18,7 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.predicate;
 
-import ar.com.fluxit.jqa.bce.JavaClass;
+import ar.com.fluxit.jqa.bce.Type;
 import ar.com.fluxit.jqa.context.RulesContext;
 
 /**
@@ -28,7 +28,7 @@ import ar.com.fluxit.jqa.context.RulesContext;
  */
 public interface Predicate {
 
-	boolean evaluate(JavaClass clazz, RulesContext context);
+	boolean evaluate(Type type, RulesContext context);
 
 	String getName();
 

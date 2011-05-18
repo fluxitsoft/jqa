@@ -18,7 +18,7 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.predicate;
 
-import ar.com.fluxit.jqa.bce.JavaClass;
+import ar.com.fluxit.jqa.bce.Type;
 import ar.com.fluxit.jqa.context.RulesContext;
 
 /**
@@ -40,12 +40,12 @@ public class ContextProvidedPredicate extends AbstractPredicate {
 	}
 
 	@Override
-	public final boolean evaluate(JavaClass clazz, RulesContext context) {
+	public final boolean evaluate(Type type, RulesContext context) {
 		final Predicate providedPredicate = context.getGlobalPredicate(getProvidedPredicateName());
 		if (providedPredicate == null) {
 			throw new IllegalStateException("Inexistent global predicate with name: " + getProvidedPredicateName());
 		}
-		return providedPredicate.evaluate(clazz, context);
+		return providedPredicate.evaluate(type, context);
 	}
 
 	public String getProvidedPredicateName() {

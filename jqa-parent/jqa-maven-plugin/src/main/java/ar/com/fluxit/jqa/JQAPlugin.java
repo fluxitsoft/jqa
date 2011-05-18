@@ -39,7 +39,7 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.project.MavenProject;
 import org.slf4j.Logger;
 
-import ar.com.fluxit.jqa.bce.ClassFormatException;
+import ar.com.fluxit.jqa.bce.TypeFormatException;
 import ar.com.fluxit.jqa.context.RulesContext;
 import ar.com.fluxit.jqa.context.factory.RulesContextFactoryLocator;
 import ar.com.fluxit.jqa.context.factory.exception.RulesContextFactoryException;
@@ -112,7 +112,7 @@ public class JQAPlugin extends AbstractMojo {
 	}
 
 	private void doExecute(File buildDirectory, File outputDirectory, File testOutputDirectory, MavenProject project) throws IntrospectionException,
-			ClassFormatException, FileNotFoundException, IOException, RulesContextFactoryException {
+			TypeFormatException, FileNotFoundException, IOException, RulesContextFactoryException {
 		// Add project dependencies to classpath
 		getLog().debug("Adding project dependencies to classpath");
 		final Collection<File> classPath = new ArrayList<File>();

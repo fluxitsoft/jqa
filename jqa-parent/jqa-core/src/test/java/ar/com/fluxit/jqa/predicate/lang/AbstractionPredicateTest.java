@@ -21,7 +21,7 @@ package ar.com.fluxit.jqa.predicate.lang;
 import java.io.Serializable;
 
 import junit.framework.TestCase;
-import ar.com.fluxit.jqa.bce.JavaClass;
+import ar.com.fluxit.jqa.bce.Type;
 import ar.com.fluxit.jqa.bce.Repository;
 import ar.com.fluxit.jqa.bce.RepositoryLocator;
 import ar.com.fluxit.jqa.predicate.lang.AbstractionPredicate.AbstractionType;
@@ -41,22 +41,22 @@ public class AbstractionPredicateTest extends TestCase {
 
 	public final void testCheck() throws ClassNotFoundException {
 		final Repository repository = RepositoryLocator.getRepository();
-		final JavaClass concreteClazz = repository.lookupClass(Integer.class);
-		final JavaClass interfaceClazz = repository.lookupClass(Serializable.class);
-		final JavaClass abstractClazz = repository.lookupClass(Number.class);
+		final Type concreteType = repository.lookupType(Integer.class);
+		final Type interfaceType = repository.lookupType(Serializable.class);
+		final Type abstractType = repository.lookupType(Number.class);
 
 		// Is Abstract ?
-		assertFalse(createPredicate(AbstractionType.ABSTRACT).evaluate(concreteClazz));
-		assertFalse(createPredicate(AbstractionType.ABSTRACT).evaluate(interfaceClazz));
-		assertTrue(createPredicate(AbstractionType.ABSTRACT).evaluate(abstractClazz));
+		assertFalse(createPredicate(AbstractionType.ABSTRACT).evaluate(concreteType));
+		assertFalse(createPredicate(AbstractionType.ABSTRACT).evaluate(interfaceType));
+		assertTrue(createPredicate(AbstractionType.ABSTRACT).evaluate(abstractType));
 		// Is Interface ?
-		assertFalse(createPredicate(AbstractionType.INTERFACE).evaluate(concreteClazz));
-		assertTrue(createPredicate(AbstractionType.INTERFACE).evaluate(interfaceClazz));
-		assertFalse(createPredicate(AbstractionType.INTERFACE).evaluate(abstractClazz));
+		assertFalse(createPredicate(AbstractionType.INTERFACE).evaluate(concreteType));
+		assertTrue(createPredicate(AbstractionType.INTERFACE).evaluate(interfaceType));
+		assertFalse(createPredicate(AbstractionType.INTERFACE).evaluate(abstractType));
 		// Is Concrete ?
-		assertTrue(createPredicate(AbstractionType.CONCRETE).evaluate(concreteClazz));
-		assertFalse(createPredicate(AbstractionType.CONCRETE).evaluate(interfaceClazz));
-		assertFalse(createPredicate(AbstractionType.CONCRETE).evaluate(abstractClazz));
+		assertTrue(createPredicate(AbstractionType.CONCRETE).evaluate(concreteType));
+		assertFalse(createPredicate(AbstractionType.CONCRETE).evaluate(interfaceType));
+		assertFalse(createPredicate(AbstractionType.CONCRETE).evaluate(abstractType));
 	}
 
 }

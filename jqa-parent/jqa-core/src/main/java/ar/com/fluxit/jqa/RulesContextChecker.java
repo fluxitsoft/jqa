@@ -28,8 +28,8 @@ import javax.management.IntrospectionException;
 
 import org.slf4j.Logger;
 
-import ar.com.fluxit.jqa.bce.ClassFormatException;
-import ar.com.fluxit.jqa.bce.JavaClass;
+import ar.com.fluxit.jqa.bce.TypeFormatException;
+import ar.com.fluxit.jqa.bce.Type;
 import ar.com.fluxit.jqa.bce.RepositoryLocator;
 import ar.com.fluxit.jqa.context.RulesContext;
 import ar.com.fluxit.jqa.predicate.Predicate;
@@ -52,7 +52,7 @@ public class RulesContextChecker {
 	}
 
 	public CheckingResult check(Collection<File> classFiles, Collection<File> classPath, RulesContext context, Logger log) throws IntrospectionException,
-			FileNotFoundException, ClassFormatException, IOException {
+			FileNotFoundException, TypeFormatException, IOException {
 		final CheckingResult result = new CheckingResult();
 		// Add files to classpath
 		for (final File classPathFile : classPath) {
@@ -76,15 +76,15 @@ public class RulesContextChecker {
 	}
 
 	private void check(Collection<File> classFiles, Predicate filterPredicate, Predicate checkPredicate, CheckingResult result, RulesContext context,
-			int rulePriority, String ruleMessage, String ruleName) throws ClassFormatException, IOException {
+			int rulePriority, String ruleMessage, String ruleName) throws TypeFormatException, IOException {
 		// Iterate class files
 		for (final File classFile : classFiles) {
 			final FileInputStream fis = new FileInputStream(classFile);
-			final JavaClass clazz = RepositoryLocator.getRepository().parse(fis, null);
+			final Type type = RepositoryLocator.getRepository().parse(fis, null);
 			fis.close();
-			if (filterPredicate.evaluate(clazz, context)) {
-				if (!checkPredicate.evaluate(clazz, context)) {
-					result.addRuleExecutionFailed(new RuleCheckFailed(ruleName, ruleMessage, clazz.getClassName(), rulePriority));
+			if (filterPredicate.evaluate(type, context)) {
+				if (!checkPredicate.evaluate(type, context)) {
+					result.addRuleExecutionFailed(new RuleCheckFailed(ruleName, ruleMessage, type.getName(), rulePriority));
 				}
 			}
 		}

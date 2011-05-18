@@ -18,7 +18,7 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.predicate;
 
-import ar.com.fluxit.jqa.bce.JavaClass;
+import ar.com.fluxit.jqa.bce.Type;
 import ar.com.fluxit.jqa.context.RulesContext;
 
 /**
@@ -32,10 +32,10 @@ public abstract class IgnoringContextPredicate extends AbstractPredicate {
 		super();
 	}
 
-	public abstract boolean evaluate(JavaClass clazz);
+	public abstract boolean evaluate(Type type);
 
 	@Override
-	public final boolean evaluate(JavaClass clazz, RulesContext context) {
-		return evaluate(clazz);
+	public final boolean evaluate(Type type, RulesContext context) {
+		return evaluate(type);
 	}
 }

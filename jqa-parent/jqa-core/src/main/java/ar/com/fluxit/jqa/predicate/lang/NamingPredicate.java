@@ -18,7 +18,7 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.predicate.lang;
 
-import ar.com.fluxit.jqa.bce.JavaClass;
+import ar.com.fluxit.jqa.bce.Type;
 import ar.com.fluxit.jqa.exception.RegExSyntaxException;
 import ar.com.fluxit.jqa.predicate.IgnoringContextPredicate;
 import ar.com.fluxit.jqa.util.RegEx;
@@ -44,8 +44,8 @@ public class NamingPredicate extends IgnoringContextPredicate {
 	}
 
 	@Override
-	public boolean evaluate(JavaClass clazz) {
-		return evaluateClassName(clazz.getClassName());
+	public boolean evaluate(Type type) {
+		return evaluateClassName(type.getName());
 	}
 
 	protected boolean evaluateClassName(String className) {

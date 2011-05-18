@@ -33,22 +33,35 @@ import javax.management.IntrospectionException;
 
 public interface Repository {
 
-	Collection<JavaClass> getAllocations(JavaClass clazz);
+	Collection<Type> getAllocations(Type type);
 
-	Collection<JavaClass> getInterfaces(JavaClass clazz);
+	/**
+	 * @param type
+	 *            a type
+	 * @return all interfaces implemented by the type and its super classes and
+	 *         the interfaces that those interfaces extend, and so on. (Some
+	 *         people call this a transitive hull).
+	 */
+	Collection<Type> getInterfaces(Type type);
 
-	Collection<JavaClass> getSuperClasses(JavaClass clazz);
+	/**
+	 * @param type
+	 *            a type
+	 * @return list of super classes of the type in ascending order, i.e.,
+	 *         java.lang.Object is always the last element
+	 */
+	Collection<Type> getSuperClasses(Type type);
 
-	Collection<JavaClass> getThrows(JavaClass clazz);
+	Collection<Type> getThrows(Type type);
 
-	Collection<JavaClass> getUses(JavaClass clazz);
+	Collection<Type> getUses(Type type);
 
-	JavaClass lookupClass(Class<?> clazz) throws ClassNotFoundException;
+	Type lookupType(Class<?> clazz) throws ClassNotFoundException;
 
-	JavaClass lookupClass(String className) throws ClassNotFoundException;
+	Type lookupType(String typeName) throws ClassNotFoundException;
 
-	JavaClass parse(FileInputStream classFile, String className) throws ClassFormatException, IOException;
+	Type parse(FileInputStream classFile, String typeName) throws TypeFormatException, IOException;
 
-	void setClassPath(Collection<File> classPathFiles) throws IntrospectionException, FileNotFoundException, ClassFormatException, IOException;
+	void setClassPath(Collection<File> classPathFiles) throws IntrospectionException, FileNotFoundException, TypeFormatException, IOException;
 
 }

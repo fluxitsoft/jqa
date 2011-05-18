@@ -29,7 +29,7 @@ import javax.management.IntrospectionException;
 import org.apache.bcel.util.ClassPath;
 import org.apache.bcel.util.SyntheticRepository;
 
-import ar.com.fluxit.jqa.bce.ClassFormatException;
+import ar.com.fluxit.jqa.bce.TypeFormatException;
 
 /**
  * TODO javadoc
@@ -44,7 +44,7 @@ class ClassPathLoader {
 		super();
 	}
 
-	private void addToClassPath(File file) throws IntrospectionException, ClassFormatException, FileNotFoundException, IOException {
+	private void addToClassPath(File file) throws IntrospectionException, TypeFormatException, FileNotFoundException, IOException {
 		// the dark side of the moon
 		System.setProperty("java.class.path", System.getProperty("java.class.path") + ":" + file.getPath());
 	}
@@ -61,7 +61,7 @@ class ClassPathLoader {
 		}
 	}
 
-	public void setClassPath(Collection<File> classPathFiles) throws IntrospectionException, FileNotFoundException, ClassFormatException, IOException {
+	public void setClassPath(Collection<File> classPathFiles) throws IntrospectionException, FileNotFoundException, TypeFormatException, IOException {
 		for (final File classPathFile : classPathFiles) {
 			addToClassPath(classPathFile);
 		}
