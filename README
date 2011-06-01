@@ -1,0 +1,8 @@
+Quickstart:
+
+git clone https://github.com/jbaris/jqa
+cd jqa/jqa-parent/
+mvn clean install
+cd jqa-test-parent
+mvn ar.com.fluxit.jqa:jqa-maven-plugin:check
+cat jqa-test-project/target/results-jqa-test-project.xml
