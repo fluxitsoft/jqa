@@ -12,7 +12,7 @@
 	<packaging>jar</packaging>
 
 	<name>jqa-test-runner</name>
-	<url>http://code.google.com/p/jqa-project/</url>
+	<url>http://github.com/jbaris/jqa</url>
 
 	<dependencies>
 		<dependency>

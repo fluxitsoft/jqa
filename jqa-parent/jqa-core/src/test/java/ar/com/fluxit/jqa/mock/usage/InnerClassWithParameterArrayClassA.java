@@ -1,5 +1,5 @@
 /*******************************************************************************
- * JQA (http://code.google.com/p/jqa-project/)
+ * JQA (http://github.com/jbaris/jqa)
  * 
  * Copyright (c) 2011 Juan Ignacio Barisich.
  * 

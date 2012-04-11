@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!--
-  JQA (http://code.google.com/p/jqa-project/)
+  JQA (http://github.com/jbaris/jqa)
   
   Copyright (c) 2011 Juan Ignacio Barisich.
   
@@ -30,7 +30,7 @@
 	<artifactId>jqa-maven-plugin</artifactId>
 	<packaging>maven-plugin</packaging>
 	<name>jqa-maven-plugin</name>
-	<url>http://code.google.com/p/jqa-project/</url>
+	<url>http://github.com/jbaris/jqa</url>
 
 	<dependencies>
 		<dependency>

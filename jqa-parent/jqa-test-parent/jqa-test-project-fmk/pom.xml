@@ -12,6 +12,6 @@
 	<packaging>jar</packaging>
 
 	<name>jqa-test-project-fmk</name>
-	<url>http://code.google.com/p/jqa-project/</url>
+	<url>http://github.com/jbaris/jqa</url>
 
 </project>

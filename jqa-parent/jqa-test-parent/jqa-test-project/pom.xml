@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!--
-  JQA (http://code.google.com/p/jqa-project/)
+  JQA (http://github.com/jbaris/jqa)
   
   Copyright (c) 2011 Juan Ignacio Barisich.
   
@@ -31,7 +31,7 @@
 	<packaging>jar</packaging>
 
 	<name>jqa-test-project</name>
-	<url>http://code.google.com/p/jqa-project/</url>
+	<url>http://github.com/jbaris/jqa</url>
 
 	<dependencies>
 		<dependency>

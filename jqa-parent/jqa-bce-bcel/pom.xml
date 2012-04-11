@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!--
-  JQA (http://code.google.com/p/jqa-project/)
+  JQA (http://github.com/jbaris/jqa)
   
   Copyright (c) 2011 Juan Ignacio Barisich.
   
@@ -29,7 +29,7 @@
 	<groupId>ar.com.fluxit.jqa</groupId>
 	<artifactId>jqa-bce-bcel</artifactId>
 	<name>jqa-bce-bcel</name>
-	<url>http://code.google.com/p/jqa-project/</url>
+	<url>http://github.com/jbaris/jqa</url>
 	<dependencies>
 		<dependency>
 			<groupId>ar.com.fluxit.jqa</groupId>
