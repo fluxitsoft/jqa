@@ -32,11 +32,6 @@
 	<name>jqa-maven-plugin</name>
 	<url>http://code.google.com/p/jqa-project/</url>
 
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<mavenVersion>2.0.9</mavenVersion>
-	</properties>
-
 	<dependencies>
 		<dependency>
 			<groupId>ar.com.fluxit.jqa</groupId>
@@ -64,12 +59,12 @@
 		<dependency>
 			<groupId>org.apache.maven</groupId>
 			<artifactId>maven-project</artifactId>
-			<version>${mavenVersion}</version>
+			<version>${maven.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.maven</groupId>
 			<artifactId>maven-artifact</artifactId>
-			<version>${mavenVersion}</version>
+			<version>${maven.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-io</groupId>
@@ -91,7 +86,7 @@
 		<dependency>
 			<groupId>org.apache.maven</groupId>
 			<artifactId>maven-model</artifactId>
-			<version>${mavenVersion}</version>
+			<version>${maven.version}</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>

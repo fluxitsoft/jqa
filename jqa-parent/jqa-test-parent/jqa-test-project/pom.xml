@@ -33,10 +33,6 @@
 	<name>jqa-test-project</name>
 	<url>http://code.google.com/p/jqa-project/</url>
 
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	</properties>
-
 	<dependencies>
 		<dependency>
 			<groupId>ar.com.fluxit.jqa</groupId>
