@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuite failures="0" time="0.819" errors="0" skipped="0" tests="6" name="ar.com.fluxit.jqa.context.factory.RulesContextImplTest">
+  <properties>
+    <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
+    <property name="sun.boot.library.path" value="/usr/lib/jvm/java-6-sun-1.6.0.26/jre/lib/amd64"/>
+    <property name="java.vm.version" value="20.1-b02"/>
+    <property name="java.vm.vendor" value="Sun Microsystems Inc."/>
+    <property name="java.vendor.url" value="http://java.sun.com/"/>
+    <property name="path.separator" value=":"/>
+    <property name="java.vm.name" value="Java HotSpot(TM) 64-Bit Server VM"/>
+    <property name="file.encoding.pkg" value="sun.io"/>
+    <property name="user.country" value="US"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="sun.os.patch.level" value="unknown"/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="user.dir" value="/home/juani/works/jqa/jqa/jqa-parent/jqa-ctx-factory-xmlbeans"/>
+    <property name="java.runtime.version" value="1.6.0_26-b03"/>
+    <property name="java.awt.graphicsenv" value="sun.awt.X11GraphicsEnvironment"/>
+    <property name="basedir" value="/home/juani/works/jqa/jqa/jqa-parent/jqa-ctx-factory-xmlbeans"/>
+    <property name="java.endorsed.dirs" value="/usr/lib/jvm/java-6-sun-1.6.0.26/jre/lib/endorsed"/>
+    <property name="os.arch" value="amd64"/>
+    <property name="surefire.real.class.path" value="/home/juani/works/jqa/jqa/jqa-parent/jqa-ctx-factory-xmlbeans/target/surefire/surefirebooter1301585441359129951.jar"/>
+    <property name="java.io.tmpdir" value="/tmp"/>
+    <property name="line.separator" value="
+"/>
+    <property name="java.vm.specification.vendor" value="Sun Microsystems Inc."/>
+    <property name="os.name" value="Linux"/>
+    <property name="sun.jnu.encoding" value="UTF-8"/>
+    <property name="java.library.path" value="/usr/lib/jvm/java-6-sun-1.6.0.26/jre/lib/amd64/server:/usr/lib/jvm/java-6-sun-1.6.0.26/jre/lib/amd64:/usr/lib/jvm/java-6-sun-1.6.0.26/jre/../lib/amd64:/usr/java/packages/lib/amd64:/usr/lib64:/lib64:/lib:/usr/lib"/>
+    <property name="surefire.test.class.path" value="/home/juani/works/jqa/jqa/jqa-parent/jqa-ctx-factory-xmlbeans/target/test-classes:/home/juani/works/jqa/jqa/jqa-parent/jqa-ctx-factory-xmlbeans/target/classes:/home/juani/works/jqa/jqa/jqa-parent/jqa-ctx-factory-api/target/jqa-ctx-factory-api-1.0.jar:/home/juani/works/jqa/jqa/jqa-parent/jqa-core/target/jqa-core-1.0.jar:/home/juani/works/jqa/jqa/jqa-parent/jqa-bce-api/target/jqa-bce-api-1.0.jar:/home/juani/works/jqa/jqa/jqa-parent/jqa-bce-bcel/target/jqa-bce-bcel-1.0.jar:/home/juani/.m2/repository/bcel/bcel/5.1/bcel-5.1.jar:/home/juani/.m2/repository/org/slf4j/slf4j-api/1.6.1/slf4j-api-1.6.1.jar:/home/juani/.m2/repository/org/apache/xmlbeans/xmlbeans/2.4.0/xmlbeans-2.4.0.jar:/home/juani/.m2/repository/stax/stax-api/1.0.1/stax-api-1.0.1.jar:/home/juani/.m2/repository/junit/junit/4.8.2/junit-4.8.2.jar:"/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="java.class.version" value="50.0"/>
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="os.version" value="2.6.35-28-generic"/>
+    <property name="user.home" value="/home/juani"/>
+    <property name="user.timezone" value=""/>
+    <property name="java.awt.printerjob" value="sun.print.PSPrinterJob"/>
+    <property name="file.encoding" value="UTF-8"/>
+    <property name="java.specification.version" value="1.6"/>
+    <property name="user.name" value="juani"/>
+    <property name="java.class.path" value="/home/juani/works/jqa/jqa/jqa-parent/jqa-ctx-factory-xmlbeans/target/test-classes:/home/juani/works/jqa/jqa/jqa-parent/jqa-ctx-factory-xmlbeans/target/classes:/home/juani/works/jqa/jqa/jqa-parent/jqa-ctx-factory-api/target/jqa-ctx-factory-api-1.0.jar:/home/juani/works/jqa/jqa/jqa-parent/jqa-core/target/jqa-core-1.0.jar:/home/juani/works/jqa/jqa/jqa-parent/jqa-bce-api/target/jqa-bce-api-1.0.jar:/home/juani/works/jqa/jqa/jqa-parent/jqa-bce-bcel/target/jqa-bce-bcel-1.0.jar:/home/juani/.m2/repository/bcel/bcel/5.1/bcel-5.1.jar:/home/juani/.m2/repository/org/slf4j/slf4j-api/1.6.1/slf4j-api-1.6.1.jar:/home/juani/.m2/repository/org/apache/xmlbeans/xmlbeans/2.4.0/xmlbeans-2.4.0.jar:/home/juani/.m2/repository/stax/stax-api/1.0.1/stax-api-1.0.1.jar:/home/juani/.m2/repository/junit/junit/4.8.2/junit-4.8.2.jar:"/>
+    <property name="java.vm.specification.version" value="1.0"/>
+    <property name="sun.arch.data.model" value="64"/>
+    <property name="java.home" value="/usr/lib/jvm/java-6-sun-1.6.0.26/jre"/>
+    <property name="sun.java.command" value="/home/juani/works/jqa/jqa/jqa-parent/jqa-ctx-factory-xmlbeans/target/surefire/surefirebooter1301585441359129951.jar /home/juani/works/jqa/jqa/jqa-parent/jqa-ctx-factory-xmlbeans/target/surefire/surefire2847536511814643120tmp /home/juani/works/jqa/jqa/jqa-parent/jqa-ctx-factory-xmlbeans/target/surefire/surefire8464262722039812961tmp"/>
+    <property name="java.specification.vendor" value="Sun Microsystems Inc."/>
+    <property name="user.language" value="en"/>
+    <property name="java.vm.info" value="mixed mode"/>
+    <property name="java.version" value="1.6.0_26"/>
+    <property name="java.ext.dirs" value="/usr/lib/jvm/java-6-sun-1.6.0.26/jre/lib/ext:/usr/java/packages/lib/ext"/>
+    <property name="sun.boot.class.path" value="/usr/lib/jvm/java-6-sun-1.6.0.26/jre/lib/resources.jar:/usr/lib/jvm/java-6-sun-1.6.0.26/jre/lib/rt.jar:/usr/lib/jvm/java-6-sun-1.6.0.26/jre/lib/sunrsasign.jar:/usr/lib/jvm/java-6-sun-1.6.0.26/jre/lib/jsse.jar:/usr/lib/jvm/java-6-sun-1.6.0.26/jre/lib/jce.jar:/usr/lib/jvm/java-6-sun-1.6.0.26/jre/lib/charsets.jar:/usr/lib/jvm/java-6-sun-1.6.0.26/jre/lib/modules/jdk.boot.jar:/usr/lib/jvm/java-6-sun-1.6.0.26/jre/classes"/>
+    <property name="java.vendor" value="Sun Microsystems Inc."/>
+    <property name="localRepository" value="/home/juani/.m2/repository"/>
+    <property name="file.separator" value="/"/>
+    <property name="java.vendor.url.bug" value="http://java.sun.com/cgi-bin/bugreport.cgi"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
+    <property name="sun.desktop" value="gnome"/>
+    <property name="sun.cpu.isalist" value=""/>
+  </properties>
+  <testcase time="0.638" classname="ar.com.fluxit.jqa.context.factory.RulesContextImplTest" name="testGlobalPredicates"/>
+  <testcase time="0.053" classname="ar.com.fluxit.jqa.context.factory.RulesContextImplTest" name="testInvalidRulesContextFile"/>
+  <testcase time="0.022" classname="ar.com.fluxit.jqa.context.factory.RulesContextImplTest" name="testInvalidRulesetFile"/>
+  <testcase time="0.017" classname="ar.com.fluxit.jqa.context.factory.RulesContextImplTest" name="testRuleBidirectionalCheck"/>
+  <testcase time="0.017" classname="ar.com.fluxit.jqa.context.factory.RulesContextImplTest" name="testRulePriority"/>
+  <testcase time="0.017" classname="ar.com.fluxit.jqa.context.factory.RulesContextImplTest" name="testRuleSetImports"/>
+</testsuite>
