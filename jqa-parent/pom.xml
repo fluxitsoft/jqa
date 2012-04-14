@@ -26,6 +26,7 @@
 		<module>jqa-sonar-plugin</module>
 		<module>jqa-ctx-factory-api</module>
 		<module>jqa-ctx-factory-xmlbeans</module>
+		<module>jqa-ctx-factory-xtext</module>
 		<module>jqa-test-parent</module>
 	</modules>
 
