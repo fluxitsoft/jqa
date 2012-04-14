@@ -24,13 +24,13 @@
 	<url>http://github.com/jbaris/jqa</url>
 
 	<properties>
-		<sonar.version>2.16-SNAPSHOT</sonar.version>
+		<sonar.version>2.14</sonar.version>
 	</properties>
 
 	<dependencies>
 		<dependency>
 			<groupId>ar.com.fluxit.jqa</groupId>
-			<artifactId>jqa-ctx-factory</artifactId>
+			<artifactId>jqa-ctx-factory-xmlbeans</artifactId>
 			<type>jar</type>
 			<version>${jqa.version}</version>
 		</dependency>

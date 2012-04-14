@@ -17,9 +17,8 @@
 	<modules>
 		<module>jqa-test-project</module>
 		<module>jqa-test-project-fmk</module>
-		<module>jqa-test-runner</module>
 	</modules>
-	<!--build>
+	<build>
 		<plugins>
 			<plugin>
 				<groupId>ar.com.fluxit.jqa</groupId>
@@ -31,7 +30,7 @@
 				</configuration>
 			</plugin>
 		</plugins>
-	</build-->
+	</build>
 	<dependencies>
 		<dependency>
 			<groupId>com.thoughtworks.xstream</groupId>
