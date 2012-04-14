@@ -17,7 +17,7 @@
 	xsi:schemaLocation="http://www.fluxit.com.ar/jqa/schema/rulescontext ../../main/resources/schema/rulescontext.xsd ../classes/schema/rulescontext.xsd ">
 
 	<ruleSetImport fileName="sample_ruleset.xml" />
-	<ruleSetImport name="test" />
+	<ruleSetImport name="/ruleSets/test.xml" />
 
 	<globalPredicate name="AbstractionPredicateTest"
 		xsi:type="jqa:AbstractionPredicate" abstractionType="CONCRETE" />

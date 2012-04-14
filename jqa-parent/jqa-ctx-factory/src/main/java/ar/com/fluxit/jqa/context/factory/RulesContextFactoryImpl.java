@@ -20,13 +20,15 @@ package ar.com.fluxit.jqa.context.factory;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import ar.com.fluxit.jqa.context.RulesContext;
 import ar.com.fluxit.jqa.context.RulesContextImpl;
@@ -66,6 +68,8 @@ import ar.com.fluxit.jqa.schema.ruleset.XORPredicate;
  */
 public class RulesContextFactoryImpl implements RulesContextFactory {
 
+	private static Logger LOGGER = LoggerFactory.getLogger(RulesContextFactoryImpl.class);
+
 	private String getFilePath(String fileName, String basePath) {
 		if (fileName.startsWith("/")) {
 			return fileName;
@@ -75,28 +79,39 @@ public class RulesContextFactoryImpl implements RulesContextFactory {
 	}
 
 	@Override
-	public RulesContext getRulesContext(Object source) throws RulesContextFactoryException {
-		if (source instanceof File) {
-			try {
-				final File sourceFile = (File) source;
-				final RulesContextDocument document = RulesContextDocument.Factory.parse(sourceFile);
-				validate(document, sourceFile.toString());
-				return parse(document.getRulesContext(), sourceFile.getParent());
-			} catch (final RulesContextFactoryException e) {
-				throw e;
-			} catch (final XmlException e) {
-				throw new RulesContextFactoryException("Invalid rules context file: " + source, e);
-			} catch (final IOException e) {
-				throw new RulesContextFactoryException("Error reading rules context file: " + source, e);
-			} catch (final Exception e) {
-				throw new RulesContextFactoryException(e);
-			}
-		} else {
-			throw new IllegalArgumentException("Source (" + source + ") must be a File object");
+	public RulesContext getRulesContext(InputStream source) throws RulesContextFactoryException {
+		RulesContextDocument document;
+		try {
+			document = RulesContextDocument.Factory.parse(source);
+			validate(document, source.toString());
+			return parse(document.getRulesContext(), null);
+		} catch (XmlException e) {
+			throw new RulesContextFactoryException("Invalid rules context file: " + source, e);
+		} catch (IOException e) {
+			throw new RulesContextFactoryException("Error reading rules context file: " + source, e);
 		}
 	}
 
-	private RulesContext importRulesContext(File sourceFile, String basePath) throws RulesContextFactoryException {
+	@Override
+	public RulesContext getRulesContext(File source) throws RulesContextFactoryException {
+		try {
+			final File sourceFile = (File) source;
+			final RulesContextDocument document = RulesContextDocument.Factory.parse(sourceFile);
+			validate(document, sourceFile.toString());
+			return parse(document.getRulesContext(), sourceFile.getParent());
+		} catch (final RulesContextFactoryException e) {
+			throw e;
+		} catch (final XmlException e) {
+			throw new RulesContextFactoryException("Invalid rules context file: " + source, e);
+		} catch (final IOException e) {
+			throw new RulesContextFactoryException("Error reading rules context file: " + source, e);
+		} catch (final Exception e) {
+			throw new RulesContextFactoryException(e);
+		}
+	}
+
+	private RulesContext importRulesContextByFileName(String fileName, String basePath) throws RulesContextFactoryException {
+		final File sourceFile = new File(getFilePath(fileName, basePath));
 		try {
 			final RulesContextDocument document = RulesContextDocument.Factory.parse(sourceFile);
 			validate(document, sourceFile.toString());
@@ -106,21 +121,20 @@ public class RulesContextFactoryImpl implements RulesContextFactory {
 		}
 	}
 
-	private RulesContext importRulesContextByFileName(String fileName, String basePath) throws RulesContextFactoryException {
-		final File sourceFile = new File(getFilePath(fileName, basePath));
-		return importRulesContext(sourceFile, basePath);
-	}
-
 	private RulesContext importRulesContextByName(String name, String basePath) throws RulesContextFactoryException {
-		URL resourceURL = ClassLoader.getSystemResource("rulesContexts/" + name + ".xml");
-		if (resourceURL == null) {
-			throw new RulesContextFactoryException("RulesContext import is invalid. Inexistent RulesContext with name: " + name);
+		InputStream resourceURL = getClass().getResourceAsStream(name);
+		RulesContextDocument document;
+		try {
+			document = RulesContextDocument.Factory.parse(resourceURL);
+			validate(document, name);
+			return parse(document.getRulesContext(), basePath);
+		} catch (final Exception e) {
+			throw new RulesContextFactoryException(e);
 		}
-		final File sourceFile = new File(resourceURL.getFile());
-		return importRulesContext(sourceFile, basePath);
 	}
 
-	private RuleSet importRuleSet(File sourceFile) throws RulesContextFactoryException {
+	private RuleSet importRuleSetByFileName(String fileName, String basePath) throws RulesContextFactoryException {
+		final File sourceFile = new File(getFilePath(fileName, basePath));
 		try {
 			final RulesetDocument document = RulesetDocument.Factory.parse(sourceFile);
 			validate(document, sourceFile.toString());
@@ -130,18 +144,16 @@ public class RulesContextFactoryImpl implements RulesContextFactory {
 		}
 	}
 
-	private RuleSet importRuleSetByFileName(String fileName, String basePath) throws RulesContextFactoryException {
-		final File sourceFile = new File(getFilePath(fileName, basePath));
-		return importRuleSet(sourceFile);
-	}
-
 	private RuleSet importRuleSetByName(String name) throws RulesContextFactoryException {
-		URL resourceURL = ClassLoader.getSystemResource("ruleSets/" + name + ".xml");
-		if (resourceURL == null) {
-			throw new RulesContextFactoryException("RulesSet import is invalid. Inexistent RuleSet with name: " + name);
+		InputStream resourceURL = getClass().getResourceAsStream(name);
+		RulesetDocument document;
+		try {
+			document = RulesetDocument.Factory.parse(resourceURL);
+			validate(document, name);
+			return parse(document.getRuleset());
+		} catch (final Exception e) {
+			throw new RulesContextFactoryException(e);
 		}
-		final File sourceFile = new File(resourceURL.getFile());
-		return importRuleSet(sourceFile);
 	}
 
 	Predicate parse(AbstractionPredicate predicate) {
@@ -259,8 +271,10 @@ public class RulesContextFactoryImpl implements RulesContextFactory {
 	private RulesContext parse(RulesContextImport rulesContextImport, String basePath) throws RulesContextFactoryException {
 		RulesContext result;
 		if (rulesContextImport.getFileName() != null) {
+			LOGGER.info("Parsing rules fileName = " + rulesContextImport.getFileName());
 			result = importRulesContextByFileName(rulesContextImport.getFileName(), basePath);
 		} else {
+			LOGGER.info("Parsing rules name = " + rulesContextImport.getName());
 			result = importRulesContextByName(rulesContextImport.getName(), basePath);
 		}
 		if (result == null) {
@@ -334,5 +348,4 @@ public class RulesContextFactoryImpl implements RulesContextFactory {
 			throw new RulesContextFactoryException("Invalid file :" + sourceFile + "\n" + errors);
 		}
 	}
-
 }

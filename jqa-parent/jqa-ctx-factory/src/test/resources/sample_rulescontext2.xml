@@ -23,6 +23,6 @@
 	xsi:schemaLocation="http://www.fluxit.com.ar/jqa/schema/rulescontext ../../main/resources/schema/rulescontext.xsd ../classes/schema/rulescontext.xsd ">
 
 	<rulesContextImport fileName="sample_rulescontext3.xml"/>
-	<rulesContextImport name="test"/>
+	<rulesContextImport name="/ruleSets/test.xml"/>
 
 </jqa_ctx:RulesContext>
