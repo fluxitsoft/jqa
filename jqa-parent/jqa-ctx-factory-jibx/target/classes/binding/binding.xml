@@ -1,5 +1,0 @@
-<binding xmlns:jqa="http://www.fluxit.com.ar/jqa/schema/ruleset" name="binding" package="ar.com.fluxit.jqa.schema" trim-whitespace="true">
-  <format label="jqa:AbstractionType" type="ar.com.fluxit.jqa.schema.AbstractionType"/>
-  <include path="jqa_schema_rulesetBinding.xml"/>
-  <include path="jqa_schema_rulescontextBinding.xml"/>
-</binding>
