@@ -18,9 +18,10 @@ package ar.com.fluxit.jqa;
  * You should have received a copy of the GNU General Public License
  * along with JQA.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
+import org.sonar.api.Extension;
 import org.sonar.api.SonarPlugin;
 
 /**
@@ -30,9 +31,19 @@ import org.sonar.api.SonarPlugin;
  */
 public class JQASonarPlugin extends SonarPlugin {
 
+	public static final String JQA_GROUP_ID = "ar.com.fluxit.jqa";
+	public static final String JQA_ARTIFACT_ID = "jqa-maven-plugin";
+	public static final String JQA_VERSION = "1.0";
+	public static final String JQA_GOAL = "check";
+	public static final String JQA_REPORT_PATH_PROPERTY = "jqa.report.path";
+
 	@Override
 	public List<?> getExtensions() {
-		return Arrays.<Object> asList(JQARuleRepository.class);
+		List<Class<? extends Extension>> list = new ArrayList<Class<? extends Extension>>();
+		list.add(JQASensor.class);
+		list.add(JQAMavenPluginHandler.class);
+		list.add(JQAMavenInitializer.class);
+		return list;
 	}
 
 }
