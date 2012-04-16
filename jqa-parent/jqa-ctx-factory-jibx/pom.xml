@@ -73,7 +73,7 @@
 							<goal>schema-codegen</goal>
 						</goals>
 					</execution>
-					<execution>
+					<!--execution>
 						<id>compile-binding</id>
 						<goals>
 							<goal>bind</goal>
@@ -85,7 +85,7 @@
 							<verbose>true</verbose>
 							<verify>true</verify>
 						</configuration>
-					</execution>
+					</execution-->
 				</executions>
 			</plugin>
 		</plugins>
