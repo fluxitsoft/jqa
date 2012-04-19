@@ -25,10 +25,12 @@ public class JQARuleRepository extends RuleRepository {
 	@Override
 	public List<Rule> createRules() {
 		List<Rule> result = new ArrayList<Rule>();
+		ClassLoader classLoader = null;
 		try {
+			classLoader = Thread.currentThread().getContextClassLoader();
+			Thread.currentThread().setContextClassLoader(this.getClass().getClassLoader());
 			final InputStream rulesStream = getClass().getResourceAsStream("/ar/com/fluxit/jqa/rulesContext.xml");
-			final RulesContext rulesContext = RulesContextFactoryLocator.getRulesContextFactory().getRulesContext(
-					rulesStream);
+			final RulesContext rulesContext = RulesContextFactoryLocator.getRulesContextFactory().getRulesContext(rulesStream);
 			for (RuleSet ruleSet : rulesContext.getRuleSets()) {
 				for (ar.com.fluxit.jqa.rule.Rule jqaRule : ruleSet.getRules()) {
 					Rule rule = Rule.create();
@@ -38,6 +40,8 @@ public class JQARuleRepository extends RuleRepository {
 			return result;
 		} catch (RulesContextFactoryException e) {
 			throw new IllegalStateException(e);
+		} finally {
+			Thread.currentThread().setContextClassLoader(classLoader);
 		}
 	}
 

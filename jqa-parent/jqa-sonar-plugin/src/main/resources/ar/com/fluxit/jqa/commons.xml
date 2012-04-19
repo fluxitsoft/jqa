@@ -2,7 +2,7 @@
 <jqa_ctx:RulesContext name=""
 	xmlns:jqa="http://www.fluxit.com.ar/jqa/schema/ruleset" xmlns:jqa_ctx="http://www.fluxit.com.ar/jqa/schema/rulescontext"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.fluxit.com.ar/jqa/schema/rulescontext https://raw.github.com/jbaris/jqa/master/jqa-parent/jqa-ctx-factory/src/main/resources/schema/rulescontext.xsd ">
+	xsi:schemaLocation="http://www.fluxit.com.ar/jqa/schema/rulescontext https://raw.github.com/jbaris/jqa/master/jqa-parent/jqa-ctx-factory-xmlbeans/src/main/resources/schema/rulescontext.xsd ">
  
 	<!-- Common types -->
 	<globalPredicate name="Common types" xsi:type="jqa:TypingPredicate">

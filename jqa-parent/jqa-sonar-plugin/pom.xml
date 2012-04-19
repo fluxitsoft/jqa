@@ -58,7 +58,7 @@
 					<pluginKey>jqa</pluginKey>
 					<pluginName>JQA</pluginName>
 					<pluginClass>ar.com.fluxit.jqa.JQASonarPlugin</pluginClass>
-					<pluginDescription><![CDATA[<a href="http://github.com/jbaris/jqa">JQA</a> analysis.]]></pluginDescription>
+					<pluginDescription><![CDATA[<a href="http://github.com/jbaris/jqa">JQA</a> analysis.]]></pluginDescription>					
 				</configuration>
 			</plugin>
 		</plugins>
