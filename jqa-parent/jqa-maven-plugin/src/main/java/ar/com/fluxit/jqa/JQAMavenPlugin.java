@@ -58,8 +58,6 @@ import com.thoughtworks.xstream.XStream;
  */
 public class JQAMavenPlugin extends AbstractMojo {
 
-	private static final String CLASS_SUFFIX = "class";
-
 	/**
 	 * @parameter expression="${project.packaging}"
 	 */
@@ -129,7 +127,7 @@ public class JQAMavenPlugin extends AbstractMojo {
 			classPath.add(testOutputDirectory);
 		}
 		getLog().debug("Adding project classes to classpath");
-		final Collection<File> classFiles = FileUtils.listFiles(buildDirectory, new SuffixFileFilter(CLASS_SUFFIX), TrueFileFilter.INSTANCE);
+		final Collection<File> classFiles = FileUtils.listFiles(buildDirectory, new SuffixFileFilter(RulesContextChecker.CLASS_SUFFIX), TrueFileFilter.INSTANCE);
 		// Reads the config file
 		getLog().debug("Reading rules context");
 		final RulesContext rulesContext = RulesContextFactoryLocator.getRulesContextFactory().getRulesContext(getRulesContextFile());

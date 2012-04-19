@@ -39,6 +39,20 @@
 			<artifactId>sonar-plugin-api</artifactId>
 			<scope>provided</scope>
 			<version>${sonar.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>xalan</groupId>
+					<artifactId>xalan</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<!-- java.lang.ClassNotFoundException: Exception while looking for class 
+				net.sourceforge.cobertura.coveragedata.HasBeenInstrumented -->
+			<groupId>net.sourceforge.cobertura</groupId>
+			<artifactId>cobertura</artifactId>
+			<version>1.9.4.1</version>
+			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.maven</groupId>
@@ -58,7 +72,8 @@
 					<pluginKey>jqa</pluginKey>
 					<pluginName>JQA</pluginName>
 					<pluginClass>ar.com.fluxit.jqa.JQASonarPlugin</pluginClass>
-					<pluginDescription><![CDATA[<a href="http://github.com/jbaris/jqa">JQA</a> analysis.]]></pluginDescription>					
+					<pluginDescription><![CDATA[<a href="http://github.com/jbaris/jqa">JQA</a> analysis.]]></pluginDescription>
+					<useChildFirstClassLoader>true</useChildFirstClassLoader>
 				</configuration>
 			</plugin>
 		</plugins>

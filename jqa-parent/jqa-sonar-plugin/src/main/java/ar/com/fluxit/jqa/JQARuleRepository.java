@@ -1,6 +1,24 @@
 package ar.com.fluxit.jqa;
 
-import java.io.InputStream;
+/*******************************************************************************
+ * JQA (http://github.com/jbaris/jqa)
+ * 
+ * Copyright (c) 2011 Juan Ignacio Barisich.
+ * 
+ * JQA is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * JQA is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with JQA.  If not, see <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,13 +28,16 @@ import org.sonar.api.rules.RulePriority;
 import org.sonar.api.rules.RuleRepository;
 
 import ar.com.fluxit.jqa.context.RulesContext;
-import ar.com.fluxit.jqa.context.factory.RulesContextFactoryLocator;
-import ar.com.fluxit.jqa.context.factory.exception.RulesContextFactoryException;
 import ar.com.fluxit.jqa.rule.RuleSet;
 
+/**
+ * TODO javadoc
+ * 
+ * @author Juan Ignacio Barisich
+ */
 public class JQARuleRepository extends RuleRepository {
 
-	private static final String REPOSITORY_KEY = "jqa";
+	public static final String REPOSITORY_KEY = "JQA";
 
 	public JQARuleRepository() {
 		super(REPOSITORY_KEY, Java.KEY);
@@ -25,24 +46,14 @@ public class JQARuleRepository extends RuleRepository {
 	@Override
 	public List<Rule> createRules() {
 		List<Rule> result = new ArrayList<Rule>();
-		ClassLoader classLoader = null;
-		try {
-			classLoader = Thread.currentThread().getContextClassLoader();
-			Thread.currentThread().setContextClassLoader(this.getClass().getClassLoader());
-			final InputStream rulesStream = getClass().getResourceAsStream("/ar/com/fluxit/jqa/rulesContext.xml");
-			final RulesContext rulesContext = RulesContextFactoryLocator.getRulesContextFactory().getRulesContext(rulesStream);
-			for (RuleSet ruleSet : rulesContext.getRuleSets()) {
-				for (ar.com.fluxit.jqa.rule.Rule jqaRule : ruleSet.getRules()) {
-					Rule rule = Rule.create();
-					result.add(processRule(rule, jqaRule));
-				}
+		RulesContext rulesContext = RulesContextLoader.INSTANCE.load();
+		for (RuleSet ruleSet : rulesContext.getRuleSets()) {
+			for (ar.com.fluxit.jqa.rule.Rule jqaRule : ruleSet.getRules()) {
+				Rule rule = Rule.create();
+				result.add(processRule(rule, jqaRule));
 			}
-			return result;
-		} catch (RulesContextFactoryException e) {
-			throw new IllegalStateException(e);
-		} finally {
-			Thread.currentThread().setContextClassLoader(classLoader);
 		}
+		return result;
 	}
 
 	private Rule processRule(Rule rule, ar.com.fluxit.jqa.rule.Rule jqaRule) {
@@ -69,7 +80,4 @@ public class JQARuleRepository extends RuleRepository {
 		throw new IllegalArgumentException("Priority must be a numerical value between 1 and 5");
 	}
 
-	public static void main(String[] args) {
-		new JQARuleRepository().createRules();
-	}
 }

@@ -57,7 +57,7 @@ class ClassPathLoader {
 			declaredField.setAccessible(true);
 			declaredField.set(repository, updatedClassPath);
 		} catch (final Exception e) {
-			e.printStackTrace();
+			throw new IllegalStateException(e);
 		}
 	}
 

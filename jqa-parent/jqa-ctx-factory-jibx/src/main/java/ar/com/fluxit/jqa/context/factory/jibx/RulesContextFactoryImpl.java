@@ -216,10 +216,10 @@ public class RulesContextFactoryImpl implements RulesContextFactory {
 	private RulesContext parse(RulesContextImport rulesContextImport) throws RulesContextFactoryException {
 		RulesContext result;
 		if (rulesContextImport.getFileName() != null) {
-			LOGGER.info("Parsing rules fileName = " + rulesContextImport.getFileName());
+			LOGGER.info("Parsing rules context file (" + rulesContextImport.getFileName() + ")");
 			result = getRulesContext(new File(rulesContextImport.getFileName()));
 		} else {
-			LOGGER.info("Parsing rules name = " + rulesContextImport.getName());
+			LOGGER.info("Parsing rules context (" + rulesContextImport.getName() + ")");
 			result = getRulesContext(getClass().getResourceAsStream(rulesContextImport.getName()));
 		}
 		if (result == null) {

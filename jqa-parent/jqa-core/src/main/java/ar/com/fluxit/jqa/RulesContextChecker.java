@@ -44,7 +44,8 @@ import ar.com.fluxit.jqa.rule.RuleSet;
  * @author Juan Ignacio Barisich
  */
 public class RulesContextChecker {
-
+	
+	public static final String CLASS_SUFFIX = "class";
 	public static final RulesContextChecker INSTANCE = new RulesContextChecker();
 
 	private RulesContextChecker() {
