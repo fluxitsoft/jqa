@@ -33,7 +33,6 @@ import org.apache.maven.artifact.Artifact;
 import org.apache.maven.project.MavenProject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.sonar.api.batch.DependsUpon;
 import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.resources.Java;
@@ -51,7 +50,6 @@ import ar.com.fluxit.jqa.result.RuleCheckFailed;
  * 
  * @author Juan Ignacio Barisich
  */
-@DependsUpon
 public class JQASensor implements Sensor {
 
 	private static Logger LOGGER = LoggerFactory.getLogger(JQASensor.class);
