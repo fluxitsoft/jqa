@@ -80,23 +80,9 @@ public class RulesContextFactoryImpl implements RulesContextFactory {
 	}
 
 	@Override
-	public RulesContext getRulesContext(InputStream source) throws RulesContextFactoryException {
-		RulesContextDocument document;
-		try {
-			document = RulesContextDocument.Factory.parse(source);
-			validate(document, source.toString());
-			return parse(document.getRulesContext(), null);
-		} catch (XmlException e) {
-			throw new RulesContextFactoryException("Invalid rules context file: " + source, e);
-		} catch (IOException e) {
-			throw new RulesContextFactoryException("Error reading rules context file: " + source, e);
-		}
-	}
-
-	@Override
 	public RulesContext getRulesContext(File source) throws RulesContextFactoryException {
 		try {
-			final File sourceFile = (File) source;
+			final File sourceFile = source;
 			final RulesContextDocument document = RulesContextDocument.Factory.parse(sourceFile);
 			validate(document, sourceFile.toString());
 			return parse(document.getRulesContext(), sourceFile.getParent());
@@ -108,6 +94,20 @@ public class RulesContextFactoryImpl implements RulesContextFactory {
 			throw new RulesContextFactoryException("Error reading rules context file: " + source, e);
 		} catch (final Exception e) {
 			throw new RulesContextFactoryException(e);
+		}
+	}
+
+	@Override
+	public RulesContext getRulesContext(InputStream source) throws RulesContextFactoryException {
+		RulesContextDocument document;
+		try {
+			document = RulesContextDocument.Factory.parse(source);
+			validate(document, source.toString());
+			return parse(document.getRulesContext(), null);
+		} catch (XmlException e) {
+			throw new RulesContextFactoryException("Invalid rules context file: " + source, e);
+		} catch (IOException e) {
+			throw new RulesContextFactoryException("Error reading rules context file: " + source, e);
 		}
 	}
 

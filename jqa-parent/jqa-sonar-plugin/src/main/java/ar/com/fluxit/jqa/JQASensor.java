@@ -33,6 +33,7 @@ import org.apache.maven.artifact.Artifact;
 import org.apache.maven.project.MavenProject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.sonar.api.batch.DependsUpon;
 import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
 import org.sonar.api.resources.Java;
@@ -50,22 +51,23 @@ import ar.com.fluxit.jqa.result.RuleCheckFailed;
  * 
  * @author Juan Ignacio Barisich
  */
+@DependsUpon
 public class JQASensor implements Sensor {
 
 	private static Logger LOGGER = LoggerFactory.getLogger(JQASensor.class);
-	private MavenProject project;
-
-	private MavenProject getProject() {
-		return project;
-	}
-
-	@Override
-	public boolean shouldExecuteOnProject(Project project) {
-		return !project.getFileSystem().mainFiles(Java.KEY).isEmpty();
-	}
+	private final MavenProject project;
 
 	public JQASensor(MavenProject project) {
 		this.project = project;
+	}
+
+	private void addViolations(SensorContext context, CheckingResult check) {
+		for (RuleCheckFailed fail : check.getRuleChecksFailed()) {
+			Rule rule = Rule.create(JQARuleRepository.REPOSITORY_KEY, fail.getRuleName());
+			JavaFile resource = new JavaFile(fail.getTargetClassName());
+			Violation violation = Violation.create(rule, resource);
+			context.saveViolation(violation);
+		}
 	}
 
 	@Override
@@ -88,24 +90,27 @@ public class JQASensor implements Sensor {
 				classPath.addAll(project.getFileSystem().getTestDirs());
 			}
 			// java.lang.ClassNotFoundException: Exception while looking for
-			// class net.sourceforge.cobertura.coveragedata.HasBeenInstrumented 
+			// class net.sourceforge.cobertura.coveragedata.HasBeenInstrumented
 			classPath.add(new File(HasBeenInstrumented.class.getProtectionDomain().getCodeSource().getLocation().getFile()));
 			final CheckingResult check = RulesContextChecker.INSTANCE.check(classFiles, classPath, rulesContext, LOGGER);
 			addViolations(context, check);
-			LOGGER.info(check.toString());
 		} catch (final Exception e) {
 			LOGGER.error("An error occurred", e);
 			throw new IllegalStateException(e);
-		} 
-	}
-
-	private void addViolations(SensorContext context, CheckingResult check) {
-		for (RuleCheckFailed fail : check.getRuleChecksFailed()) {
-			Rule rule = Rule.create(JQARuleRepository.REPOSITORY_KEY, fail.getRuleName());
-			JavaFile resource = new JavaFile(fail.getTargetClassName());
-			Violation violation = Violation.create(rule, resource);
-			context.saveViolation(violation);
 		}
 	}
 
+	private MavenProject getProject() {
+		return this.project;
+	}
+
+	@Override
+	public boolean shouldExecuteOnProject(Project project) {
+		return !project.getFileSystem().mainFiles(Java.KEY).isEmpty();
+	}
+
+	@Override
+	public String toString() {
+		return "JQASensor";
+	}
 }
