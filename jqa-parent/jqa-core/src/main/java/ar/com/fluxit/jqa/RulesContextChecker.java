@@ -23,14 +23,16 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.management.IntrospectionException;
 
 import org.slf4j.Logger;
 
-import ar.com.fluxit.jqa.bce.TypeFormatException;
-import ar.com.fluxit.jqa.bce.Type;
 import ar.com.fluxit.jqa.bce.RepositoryLocator;
+import ar.com.fluxit.jqa.bce.Type;
+import ar.com.fluxit.jqa.bce.TypeFormatException;
 import ar.com.fluxit.jqa.context.RulesContext;
 import ar.com.fluxit.jqa.predicate.Predicate;
 import ar.com.fluxit.jqa.result.CheckingResult;
@@ -44,7 +46,7 @@ import ar.com.fluxit.jqa.rule.RuleSet;
  * @author Juan Ignacio Barisich
  */
 public class RulesContextChecker {
-	
+
 	public static final String CLASS_SUFFIX = "class";
 	public static final RulesContextChecker INSTANCE = new RulesContextChecker();
 
@@ -68,8 +70,8 @@ public class RulesContextChecker {
 				check(classFiles, rule.getFilterPredicate(), rule.getCheckPredicate(), result, context, rule.getPriority(), rule.getMessage(), rule.getName());
 				if (rule.getBidirectionalCheck()) {
 					log.debug("Checking rule (in inverse mode): " + rule.getName());
-					check(classFiles, rule.getCheckPredicate(), rule.getFilterPredicate(), result, context, rule.getPriority(), rule.getMessage(), rule
-							.getName());
+					check(classFiles, rule.getCheckPredicate(), rule.getFilterPredicate(), result, context, rule.getPriority(), rule.getMessage(),
+							rule.getName());
 				}
 			}
 		}
@@ -85,9 +87,20 @@ public class RulesContextChecker {
 			fis.close();
 			if (filterPredicate.evaluate(type, context)) {
 				if (!checkPredicate.evaluate(type, context)) {
-					result.addRuleExecutionFailed(new RuleCheckFailed(ruleName, ruleMessage, type.getName(), rulePriority));
+					result.addRuleExecutionFailed(new RuleCheckFailed(ruleName, buildMessage(ruleMessage, type), type.getName(), rulePriority));
 				}
 			}
 		}
+	}
+
+	private String buildMessage(String ruleMessage, Type type) {
+		Map<String, String> values = new HashMap<String, String>();
+		values.put("type.name", type.getName());
+		values.put("type.abstract", type.isAbstract() ? "abstract" : "concrete");
+		values.put("type.interface", type.isInterface() ? "interface" : "class");
+		for (Map.Entry<String, String> e : values.entrySet()) {
+			ruleMessage = ruleMessage.replaceAll("\\[" + e.getKey() + "\\]", e.getValue());
+		}
+		return ruleMessage;
 	}
 }

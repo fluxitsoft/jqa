@@ -1,59 +1,76 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jqa_ctx:RulesContext xmlns:jqa="http://www.fluxit.com.ar/jqa/schema/ruleset"
-	xmlns:jqa_ctx="http://www.fluxit.com.ar/jqa/schema/rulescontext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.fluxit.com.ar/jqa/schema/rulescontext http://jqa-project.googlecode.com/svn/trunk/jqa-parent/jqa-ctx-factory/src/main/resources/schema/rulescontext.xsd ">
+<jqa_ctx:RulesContext name=""
+	xmlns:jqa="http://www.fluxit.com.ar/jqa/schema/ruleset" xmlns:jqa_ctx="http://www.fluxit.com.ar/jqa/schema/rulescontext"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.fluxit.com.ar/jqa/schema/rulescontext https://raw.github.com/jbaris/jqa/master/jqa-parent/jqa-ctx-factory-xmlbeans/src/main/resources/schema/rulescontext.xsd http://www.fluxit.com.ar/jqa/schema/ruleset https://raw.github.com/jbaris/jqa/master/jqa-parent/jqa-ctx-factory-xmlbeans/src/main/resources/schema/ruleset.xsd ">
 
-	<rulesContextImport fileName="attempts.xml" />
+	<rulesContextImport name="/ar/com/fluxit/jqa/attempts.xml" />
 
 	<ruleSet name="Naming ruleset">
 
 		<!-- DAO -->
-		<rule name="DAO contract naming rule" message="The name of this DAO contract must be like **.dao.+DAO"
+		<rule name="DAO contract naming"
+			message="The DAO contract '[type.name]' must be named like '**.dao.*DAO'"
 			priority="5">
-			<filterPredicate xsi:type="jqa:ContextProvidedPredicate" predicateName="DAO contract attempt" />
-			<checkPredicate xsi:type="jqa:NamingPredicate" namePattern="**.dao.+DAO" />
+			<filterPredicate xsi:type="jqa:ContextProvidedPredicate"
+				predicateName="DAO contract attempt" />
+			<checkPredicate xsi:type="jqa:NamingPredicate"
+				namePattern="**.dao.+DAO" />
 		</rule>
 
-		<rule name="DAO implementation naming rule"
-			message="The name of this DAO implementation must be like **.dao.impl.+DAOImpl"
+		<rule name="DAO implementation naming"
+			message="The DAO implementation '[type.name]' must be named like '**.dao.impl.*DAOImpl'"
 			priority="5">
-			<filterPredicate xsi:type="jqa:ContextProvidedPredicate" predicateName="DAO implementation attempt" />
-			<checkPredicate xsi:type="jqa:NamingPredicate" namePattern="**.dao.impl.+DAOImpl" />
+			<filterPredicate xsi:type="jqa:ContextProvidedPredicate"
+				predicateName="DAO implementation attempt" />
+			<checkPredicate xsi:type="jqa:NamingPredicate"
+				namePattern="**.dao.impl.+DAOImpl" />
 		</rule>
 
 		<!-- BusinessObject -->
-		<rule name="BO contract naming rule" message="The name of this BO contract must be like **.bo.+BO"
+		<rule name="BO contract naming" message="The BO contract '[type.name]' must be named like '**.bo.*BO'"
 			priority="5">
-			<filterPredicate xsi:type="jqa:ContextProvidedPredicate" predicateName="BO contract attempt" />
-			<checkPredicate xsi:type="jqa:NamingPredicate" namePattern="**.bo.+BO" />
+			<filterPredicate xsi:type="jqa:ContextProvidedPredicate"
+				predicateName="BO contract attempt" />
+			<checkPredicate xsi:type="jqa:NamingPredicate"
+				namePattern="**.bo.+BO" />
 		</rule>
 
-		<rule name="BO implementation naming rule"
-			message="The name of this BO implementation must be like **.bo.+BOImpl"
+		<rule name="BO implementation naming"
+			message="The BO implementation '[type.name]' must be named like '**.bo.impl.*BOImpl'"
 			priority="5">
-			<filterPredicate xsi:type="jqa:ContextProvidedPredicate" predicateName="BO implementation attempt" />
-			<checkPredicate xsi:type="jqa:NamingPredicate" namePattern="**.bo.impl.+BOImpl" />
+			<filterPredicate xsi:type="jqa:ContextProvidedPredicate"
+				predicateName="BO implementation attempt" />
+			<checkPredicate xsi:type="jqa:NamingPredicate"
+				namePattern="**.bo.impl.+BOImpl" />
 		</rule>
 
 		<!-- Service -->
-		<rule name="Service contract naming rule" message="The name of this Service contract must be like **.service.+Service"
+		<rule name="Service contract naming"
+			message="The Service contract '[type.name]' must be named like '**.service.*Service'"
 			priority="5">
-			<filterPredicate xsi:type="jqa:ContextProvidedPredicate" predicateName="Service contract attempt" />
-			<checkPredicate xsi:type="jqa:NamingPredicate" namePattern="**.service.+Service" />
+			<filterPredicate xsi:type="jqa:ContextProvidedPredicate"
+				predicateName="Service contract attempt" />
+			<checkPredicate xsi:type="jqa:NamingPredicate"
+				namePattern="**.service.+Service" />
 		</rule>
 
-		<rule name="Service implementation naming rule"
-			message="The name of this Service implementation must be like **.service.impl.+ServiceImpl"
+		<rule name="Service implementation naming"
+			message="The Service implementation '[type.name]' must be named like '**.dao.impl.*DAOImpl'"
 			priority="5">
-			<filterPredicate xsi:type="jqa:ContextProvidedPredicate" predicateName="Service implementation attempt" />
-			<checkPredicate xsi:type="jqa:NamingPredicate" namePattern="**.service.impl.+ServiceImpl" />
+			<filterPredicate xsi:type="jqa:ContextProvidedPredicate"
+				predicateName="Service implementation attempt" />
+			<checkPredicate xsi:type="jqa:NamingPredicate"
+				namePattern="**.service.impl.+ServiceImpl" />
 		</rule>
 
 		<!-- Entity -->
-		<rule name="Entity naming rule" message="The name of this Entity must be like **.entity.**"
+		<rule name="Entity naming" message="The Entity '[type.name]' must be named like '**.entity.**'"
 			priority="5">
-			<filterPredicate xsi:type="jqa:ContextProvidedPredicate" predicateName="Entity attempt" />
-			<checkPredicate xsi:type="jqa:NamingPredicate" namePattern="**.entity.**" />
+			<filterPredicate xsi:type="jqa:ContextProvidedPredicate"
+				predicateName="Entity attempt" />
+			<checkPredicate xsi:type="jqa:NamingPredicate"
+				namePattern="**.entity.**" />
 		</rule>
 
 	</ruleSet>

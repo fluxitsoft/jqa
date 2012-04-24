@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jqa_ctx:RulesContext xmlns:jqa="http://www.fluxit.com.ar/jqa/schema/ruleset"
-	xmlns:jqa_ctx="http://www.fluxit.com.ar/jqa/schema/rulescontext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.fluxit.com.ar/jqa/schema/rulescontext http://jqa-project.googlecode.com/svn/trunk/jqa-parent/jqa-ctx-factory/src/main/resources/schema/rulescontext.xsd ">
+<jqa_ctx:RulesContext name=""
+	xmlns:jqa="http://www.fluxit.com.ar/jqa/schema/ruleset" xmlns:jqa_ctx="http://www.fluxit.com.ar/jqa/schema/rulescontext"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.fluxit.com.ar/jqa/schema/rulescontext https://raw.github.com/jbaris/jqa/master/jqa-parent/jqa-ctx-factory-xmlbeans/src/main/resources/schema/rulescontext.xsd ">
 
 	<!-- DataAccessObject -->
 	<globalPredicate name="DAO attempt" xsi:type="jqa:AndPredicate">
