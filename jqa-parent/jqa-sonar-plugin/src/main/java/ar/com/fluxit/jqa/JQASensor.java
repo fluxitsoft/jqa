@@ -24,8 +24,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Set;
 
-import net.sourceforge.cobertura.coveragedata.HasBeenInstrumented;
-
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.SuffixFileFilter;
 import org.apache.commons.io.filefilter.TrueFileFilter;
@@ -72,7 +70,7 @@ public class JQASensor implements Sensor {
 	public void analyse(Project project, SensorContext context) {
 		try {
 			RulesContext rulesContext = RulesContextLoader.INSTANCE.load();
-			File buildDirectory = project.getFileSystem().getBuildDir();
+			File buildDirectory = project.getFileSystem().getBuildOutputDir();
 			Collection<File> classFiles = FileUtils.listFiles(buildDirectory, new SuffixFileFilter(RulesContextChecker.CLASS_SUFFIX), TrueFileFilter.INSTANCE);
 			final Collection<File> classPath = new ArrayList<File>();
 			@SuppressWarnings("unchecked")
@@ -87,9 +85,6 @@ public class JQASensor implements Sensor {
 			if (project.getFileSystem().getTestDirs() != null) {
 				classPath.addAll(project.getFileSystem().getTestDirs());
 			}
-			// java.lang.ClassNotFoundException: Exception while looking for
-			// class net.sourceforge.cobertura.coveragedata.HasBeenInstrumented
-			classPath.add(new File(HasBeenInstrumented.class.getProtectionDomain().getCodeSource().getLocation().getFile()));
 			final CheckingResult check = RulesContextChecker.INSTANCE.check(classFiles, classPath, rulesContext, LOGGER);
 			addViolations(context, check);
 		} catch (final Exception e) {
