@@ -36,6 +36,8 @@ import org.apache.bcel.classfile.ConstantPool;
 import org.apache.bcel.classfile.DescendingVisitor;
 import org.apache.bcel.classfile.EmptyVisitor;
 import org.apache.bcel.classfile.Field;
+import org.apache.bcel.classfile.JavaClass;
+import org.apache.bcel.classfile.LineNumber;
 import org.apache.bcel.classfile.Method;
 import org.apache.bcel.classfile.Visitor;
 import org.apache.bcel.generic.ArrayType;
@@ -101,19 +103,20 @@ public class RepositoryImpl implements Repository {
 		return signatureClassName;
 	}
 
-	private Type getType(ConstantClass constantClass, Type type) {
-		final ConstantPool cp = getConstantPool(type);
-		return getType(constantClass.getBytes(cp));
-	}
-
-	private Type getType(String constantClassName) {
-		final String usedClassName = ClassNameTranslator.typeConstantToClassName(constantClassName);
-		final org.apache.bcel.classfile.JavaClass usedClass = org.apache.bcel.Repository.lookupClass(usedClassName);
-		return new BcelJavaType(usedClass);
-	}
-
 	private ConstantPool getConstantPool(Type type) {
 		return getWrappedClass(type).getConstantPool();
+	}
+
+	@Override
+	public Integer getDeclarationLineNumber(Type type) {
+		final JavaClass wrappedClass = getWrappedClass(type);
+		wrappedClass.accept(new org.apache.bcel.classfile.EmptyVisitor() {
+			@Override
+			public void visitLineNumber(LineNumber obj) {
+				super.visitLineNumber(obj);
+			}
+		});
+		return 1;
 	}
 
 	@Override
@@ -171,6 +174,17 @@ public class RepositoryImpl implements Repository {
 		};
 		new DescendingVisitor(getWrappedClass(type), visitor).visit();
 		return result;
+	}
+
+	private Type getType(ConstantClass constantClass, Type type) {
+		final ConstantPool cp = getConstantPool(type);
+		return getType(constantClass.getBytes(cp));
+	}
+
+	private Type getType(String constantClassName) {
+		final String usedClassName = ClassNameTranslator.typeConstantToClassName(constantClassName);
+		final org.apache.bcel.classfile.JavaClass usedClass = org.apache.bcel.Repository.lookupClass(usedClassName);
+		return new BcelJavaType(usedClass);
 	}
 
 	@Override
@@ -244,5 +258,4 @@ public class RepositoryImpl implements Repository {
 	public void setClassPath(Collection<File> classPathFiles) throws IntrospectionException, FileNotFoundException, TypeFormatException, IOException {
 		ClassPathLoader.INSTANCE.setClassPath(classPathFiles);
 	}
-
 }

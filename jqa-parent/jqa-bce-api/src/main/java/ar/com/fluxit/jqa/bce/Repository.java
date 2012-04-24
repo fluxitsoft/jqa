@@ -35,6 +35,8 @@ public interface Repository {
 
 	Collection<Type> getAllocations(Type type);
 
+	Integer getDeclarationLineNumber(Type type);
+
 	/**
 	 * @param type
 	 *            a type

@@ -30,6 +30,7 @@ import javax.management.IntrospectionException;
 
 import org.slf4j.Logger;
 
+import ar.com.fluxit.jqa.bce.Repository;
 import ar.com.fluxit.jqa.bce.RepositoryLocator;
 import ar.com.fluxit.jqa.bce.Type;
 import ar.com.fluxit.jqa.bce.TypeFormatException;
@@ -52,6 +53,17 @@ public class RulesContextChecker {
 
 	private RulesContextChecker() {
 		super();
+	}
+
+	private String buildMessage(String ruleMessage, Type type) {
+		Map<String, String> values = new HashMap<String, String>();
+		values.put("type.name", type.getName());
+		values.put("type.abstract", type.isAbstract() ? "abstract" : "concrete");
+		values.put("type.interface", type.isInterface() ? "interface" : "class");
+		for (Map.Entry<String, String> e : values.entrySet()) {
+			ruleMessage = ruleMessage.replaceAll("\\[" + e.getKey() + "\\]", e.getValue());
+		}
+		return ruleMessage;
 	}
 
 	public CheckingResult check(Collection<File> classFiles, Collection<File> classPath, RulesContext context, Logger log) throws IntrospectionException,
@@ -83,24 +95,16 @@ public class RulesContextChecker {
 		// Iterate class files
 		for (final File classFile : classFiles) {
 			final FileInputStream fis = new FileInputStream(classFile);
-			final Type type = RepositoryLocator.getRepository().parse(fis, null);
+			final Repository repository = RepositoryLocator.getRepository();
+			final Type type = repository.parse(fis, null);
 			fis.close();
 			if (filterPredicate.evaluate(type, context)) {
 				if (!checkPredicate.evaluate(type, context)) {
-					result.addRuleExecutionFailed(new RuleCheckFailed(ruleName, buildMessage(ruleMessage, type), type.getName(), rulePriority));
+					final RuleCheckFailed failed = new RuleCheckFailed(ruleName, buildMessage(ruleMessage, type), type.getName(), rulePriority);
+					failed.setLineId(repository.getDeclarationLineNumber(type));
+					result.addRuleExecutionFailed(failed);
 				}
 			}
 		}
-	}
-
-	private String buildMessage(String ruleMessage, Type type) {
-		Map<String, String> values = new HashMap<String, String>();
-		values.put("type.name", type.getName());
-		values.put("type.abstract", type.isAbstract() ? "abstract" : "concrete");
-		values.put("type.interface", type.isInterface() ? "interface" : "class");
-		for (Map.Entry<String, String> e : values.entrySet()) {
-			ruleMessage = ruleMessage.replaceAll("\\[" + e.getKey() + "\\]", e.getValue());
-		}
-		return ruleMessage;
 	}
 }

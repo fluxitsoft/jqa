@@ -29,6 +29,7 @@ public class RuleCheckFailed {
 	private String ruleMessage;
 	private String targetClassName;
 	private int rulePriority;
+	private Integer lineId;
 
 	public RuleCheckFailed() {
 		super();
@@ -40,6 +41,10 @@ public class RuleCheckFailed {
 		this.ruleMessage = ruleMessage;
 		this.targetClassName = targetClassName;
 		this.rulePriority = rulePriority;
+	}
+
+	public Integer getLineId() {
+		return lineId;
 	}
 
 	public String getRuleMessage() {
@@ -56,6 +61,10 @@ public class RuleCheckFailed {
 
 	public String getTargetClassName() {
 		return this.targetClassName;
+	}
+
+	public void setLineId(Integer lineId) {
+		this.lineId = lineId;
 	}
 
 	public void setRuleMessage(String ruleMessage) {

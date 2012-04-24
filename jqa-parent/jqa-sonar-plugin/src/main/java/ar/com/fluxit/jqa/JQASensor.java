@@ -63,7 +63,8 @@ public class JQASensor implements Sensor {
 			JavaFile resource = new JavaFile(fail.getTargetClassName());
 			Violation violation = Violation.create(rule, resource);
 			violation.setMessage(fail.getRuleMessage());
-			violation.setLineId(1); // TODO set the real line number
+			violation.setLineId(fail.getLineId()); // TODO set the real line
+													// number
 			context.saveViolation(violation);
 		}
 	}
