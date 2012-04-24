@@ -21,7 +21,6 @@ package ar.com.fluxit.jqa.context.factory.xmlbeans;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -109,23 +108,6 @@ public class RulesContextFactoryImpl implements RulesContextFactory {
 			throw new RulesContextFactoryException("Invalid rules context file: " + source, e);
 		} catch (IOException e) {
 			throw new RulesContextFactoryException("Error reading rules context file: " + source, e);
-		}
-	}
-
-	@Override
-	public RulesContext getRulesContext(Reader source) throws RulesContextFactoryException {
-		try {
-			final RulesContextDocument document = RulesContextDocument.Factory.parse(source);
-			validate(document, source.toString());
-			return parse(document.getRulesContext(), null);
-		} catch (final RulesContextFactoryException e) {
-			throw e;
-		} catch (final XmlException e) {
-			throw new RulesContextFactoryException("Invalid rules context file: " + source, e);
-		} catch (final IOException e) {
-			throw new RulesContextFactoryException("Error reading rules context file: " + source, e);
-		} catch (final Exception e) {
-			throw new RulesContextFactoryException(e);
 		}
 	}
 
