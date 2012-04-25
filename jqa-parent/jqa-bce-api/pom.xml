@@ -27,7 +27,7 @@
   </parent>
   <groupId>ar.com.fluxit.jqa</groupId>
   <artifactId>jqa-bce-api</artifactId>
-  <name>jqa-bce-api</name>
+  <name>Bytecode engine API</name>
   <url>http://github.com/jbaris/jqa</url>
   <dependencies>
   </dependencies>

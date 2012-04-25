@@ -28,7 +28,7 @@
 	</parent>
 	<groupId>ar.com.fluxit.jqa</groupId>
 	<artifactId>jqa-ctx-factory-xmlbeans</artifactId>
-	<name>jqa-ctx-factory-xmlbeans</name>
+	<name>XMLBeans rules context factory</name>
 	<url>http://github.com/jbaris/jqa</url>
 	<dependencies>
 		<dependency>

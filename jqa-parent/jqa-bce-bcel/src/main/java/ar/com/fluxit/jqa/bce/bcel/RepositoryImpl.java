@@ -36,8 +36,6 @@ import org.apache.bcel.classfile.ConstantPool;
 import org.apache.bcel.classfile.DescendingVisitor;
 import org.apache.bcel.classfile.EmptyVisitor;
 import org.apache.bcel.classfile.Field;
-import org.apache.bcel.classfile.JavaClass;
-import org.apache.bcel.classfile.LineNumber;
 import org.apache.bcel.classfile.Method;
 import org.apache.bcel.classfile.Visitor;
 import org.apache.bcel.generic.ArrayType;
@@ -109,14 +107,16 @@ public class RepositoryImpl implements Repository {
 
 	@Override
 	public Integer getDeclarationLineNumber(Type type) {
-		final JavaClass wrappedClass = getWrappedClass(type);
-		wrappedClass.accept(new org.apache.bcel.classfile.EmptyVisitor() {
-			@Override
-			public void visitLineNumber(LineNumber obj) {
-				super.visitLineNumber(obj);
-			}
-		});
-		return 1;
+		// TODO
+		/*
+		 * final Visitor visitor = new EmptyVisitor() {
+		 * 
+		 * @Override public void visitLineNumber(LineNumber obj) {
+		 * super.visitLineNumber(obj); }
+		 * 
+		 * }; new DescendingVisitor(getWrappedClass(type), visitor).visit();
+		 */
+		return null;
 	}
 
 	@Override
@@ -142,7 +142,7 @@ public class RepositoryImpl implements Repository {
 	@Override
 	public Collection<Type> getThrows(final Type type) {
 		final List<Type> result = new ArrayList<Type>();
-		getWrappedClass(type).getMethods();
+		// getWrappedClass(type).getMethods();
 		final Visitor visitor = new EmptyVisitor() {
 
 			@Override

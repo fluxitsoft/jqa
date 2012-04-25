@@ -29,8 +29,7 @@
 	<groupId>ar.com.fluxit.jqa</groupId>
 	<artifactId>jqa-test-project</artifactId>
 	<packaging>jar</packaging>
-
-	<name>jqa-test-project</name>
+	<name>JQA test project</name>
 	<url>http://github.com/jbaris/jqa</url>
 
 	<dependencies>

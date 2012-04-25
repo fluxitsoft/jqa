@@ -29,7 +29,7 @@
 	<groupId>ar.com.fluxit.jqa</groupId>
 	<artifactId>jqa-core</artifactId>
 	<packaging>jar</packaging>
-	<name>jqa-core</name>
+	<name>JQA core</name>
 	<url>http://github.com/jbaris/jqa</url>
 
 	<dependencies>

@@ -11,7 +11,7 @@
 	<groupId>ar.com.fluxit.jqa</groupId>
 	<artifactId>jqa-test-parent</artifactId>
 	<packaging>pom</packaging>
-	<name>jqa-test-parent</name>
+	<name>JQA test parent project</name>
 	<url>http://code.google.com/p/jqa-project/</url>
 
 	<modules>

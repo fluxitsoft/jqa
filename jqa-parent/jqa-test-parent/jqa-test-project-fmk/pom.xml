@@ -10,8 +10,7 @@
 	<groupId>ar.com.fluxit.jqa</groupId>
 	<artifactId>jqa-test-project-fmk</artifactId>
 	<packaging>jar</packaging>
-
-	<name>jqa-test-project-fmk</name>
+	<name>JQA test project framework</name>
 	<url>http://github.com/jbaris/jqa</url>
 
 </project>

@@ -28,7 +28,7 @@
 	</parent>
 	<groupId>ar.com.fluxit.jqa</groupId>
 	<artifactId>jqa-bce-bcel</artifactId>
-	<name>jqa-bce-bcel</name>
+	<name>BCEL bytecode engine</name>
 	<url>http://github.com/jbaris/jqa</url>
 	<dependencies>
 		<dependency>

@@ -29,7 +29,7 @@
 	<groupId>ar.com.fluxit.jqa</groupId>
 	<artifactId>jqa-maven-plugin</artifactId>
 	<packaging>maven-plugin</packaging>
-	<name>jqa-maven-plugin</name>
+	<name>JQA Maven plugin</name>
 	<url>http://github.com/jbaris/jqa</url>
 
 	<dependencies>

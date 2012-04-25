@@ -20,7 +20,7 @@
 	<groupId>ar.com.fluxit.jqa</groupId>
 	<artifactId>jqa-sonar-plugin</artifactId>
 	<packaging>sonar-plugin</packaging>
-	<name>jqa-sonar-plugin</name>
+	<name>JQA Sonar plugin</name>
 	<url>http://github.com/jbaris/jqa</url>
 
 	<properties>
