@@ -40,21 +40,16 @@
 			<groupId>org.apache.xmlbeans</groupId>
 			<artifactId>xmlbeans</artifactId>
 			<version>2.4.0</version>
-			<type>jar</type>
-			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>stax</groupId>
 			<artifactId>stax-api</artifactId>
 			<version>1.0.1</version>
-			<type>jar</type>
-			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.8.2</version>
-			<type>jar</type>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

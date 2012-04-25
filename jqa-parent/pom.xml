@@ -21,6 +21,7 @@
 	<modules>
 		<module>jqa-core</module>
 		<module>jqa-bce-api</module>
+		<module>jqa-bce-asm</module>
 		<module>jqa-bce-bcel</module>
 		<module>jqa-maven-plugin</module>
 		<module>jqa-sonar-plugin</module>

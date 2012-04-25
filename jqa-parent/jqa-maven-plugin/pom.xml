@@ -36,19 +36,16 @@
 		<dependency>
 			<groupId>ar.com.fluxit.jqa</groupId>
 			<artifactId>jqa-core</artifactId>
-			<type>jar</type>
 			<version>${jqa.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>ar.com.fluxit.jqa</groupId>
 			<artifactId>jqa-bce-api</artifactId>
-			<version>${jqa.version}</version>
-			<scope>compile</scope>
+			<version>${jqa.version}</version>			
 		</dependency>
 		<dependency>
 			<groupId>ar.com.fluxit.jqa</groupId>
 			<artifactId>jqa-ctx-factory-xmlbeans</artifactId>
-			<type>jar</type>
 			<version>${jqa.version}</version>
 		</dependency>
 		<dependency>
@@ -80,15 +77,11 @@
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 			<version>${slf4j.version}</version>
-			<type>jar</type>
-			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.maven</groupId>
 			<artifactId>maven-model</artifactId>
 			<version>${maven.version}</version>
-			<type>jar</type>
-			<scope>compile</scope>
 		</dependency>
 	</dependencies>
 
