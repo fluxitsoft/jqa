@@ -56,7 +56,7 @@ public class RulesContextCheckerTest extends TestCase {
 	private Logger log;
 
 	private Rule createRule(Predicate instance, Predicate instance2, boolean bidirectionalCheckRule) {
-		RuleImpl ruleImpl = new RuleImpl(instance, instance2, "", "");
+		final RuleImpl ruleImpl = new RuleImpl(instance, instance2, "", "");
 		ruleImpl.setBidirectionalCheck(bidirectionalCheckRule);
 		return ruleImpl;
 	}
@@ -88,7 +88,7 @@ public class RulesContextCheckerTest extends TestCase {
 	}
 
 	protected Logger getLog() {
-		return this.log;
+		return log;
 	}
 
 	private File getSourceDir() {
@@ -98,13 +98,13 @@ public class RulesContextCheckerTest extends TestCase {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		this.log = LoggerFactory.getLogger(RulesContextCheckerTest.class);
+		log = LoggerFactory.getLogger(RulesContextCheckerTest.class);
 	}
 
 	@Override
 	protected void tearDown() throws Exception {
 		super.tearDown();
-		this.log = null;
+		log = null;
 	}
 
 	public final void testBidirectionalCheckRule() throws IntrospectionException, FileNotFoundException, TypeFormatException, IOException {

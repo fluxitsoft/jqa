@@ -20,8 +20,8 @@ package ar.com.fluxit.jqa.predicate.lang;
 
 import java.util.Collection;
 
-import ar.com.fluxit.jqa.bce.Type;
 import ar.com.fluxit.jqa.bce.RepositoryLocator;
+import ar.com.fluxit.jqa.bce.Type;
 import ar.com.fluxit.jqa.context.RulesContext;
 import ar.com.fluxit.jqa.predicate.FilteredPredicate;
 

@@ -21,9 +21,9 @@ package ar.com.fluxit.jqa.predicate.lang;
 import java.io.Serializable;
 
 import junit.framework.TestCase;
-import ar.com.fluxit.jqa.bce.Type;
 import ar.com.fluxit.jqa.bce.Repository;
 import ar.com.fluxit.jqa.bce.RepositoryLocator;
+import ar.com.fluxit.jqa.bce.Type;
 import ar.com.fluxit.jqa.predicate.lang.AbstractionPredicate.AbstractionType;
 
 /**

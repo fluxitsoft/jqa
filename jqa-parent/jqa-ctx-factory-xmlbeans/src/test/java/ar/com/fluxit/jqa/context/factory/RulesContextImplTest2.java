@@ -38,20 +38,20 @@ public class RulesContextImplTest2 extends TestCase {
 	protected void setUp() throws Exception {
 		final RulesContextFactory rulesContextFactory = RulesContextFactoryLocator.getRulesContextFactory();
 		final URL resource = RulesContextImplTest2.class.getResource("/sample_rulescontext2.xml");
-		this.rulesContext = rulesContextFactory.getRulesContext(resource.getPath());
+		rulesContext = rulesContextFactory.getRulesContext(resource.getPath());
 	}
 
 	@Override
 	protected void tearDown() throws Exception {
-		this.rulesContext = null;
+		rulesContext = null;
 	}
 
 	public void testRulesContextImports() throws RulesContextFactoryException {
-		assertNotNull(this.rulesContext);
-		assertNotNull(this.rulesContext.getGlobalPredicates());
-		assertEquals(1, this.rulesContext.getGlobalPredicates().size());
+		assertNotNull(rulesContext);
+		assertNotNull(rulesContext.getGlobalPredicates());
+		assertEquals(1, rulesContext.getGlobalPredicates().size());
 		// RulesContext import by file
-		assertNotNull(this.rulesContext.getGlobalPredicate("GlobalPredicateImportedByRulesContextFileName"));
-		assertTrue(this.rulesContext.getGlobalPredicate("GlobalPredicateImportedByRulesContextFileName") instanceof NamingPredicate);
+		assertNotNull(rulesContext.getGlobalPredicate("GlobalPredicateImportedByRulesContextFileName"));
+		assertTrue(rulesContext.getGlobalPredicate("GlobalPredicateImportedByRulesContextFileName") instanceof NamingPredicate);
 	}
 }

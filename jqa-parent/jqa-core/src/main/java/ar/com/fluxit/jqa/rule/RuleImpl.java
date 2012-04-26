@@ -42,36 +42,38 @@ public class RuleImpl implements Rule {
 		this.checkPredicate = checkPredicate;
 		this.name = name;
 		this.message = message;
-		this.bidirectionalCheck = DEFAULT_BIDIRECTIONAL_CHECK;
-		this.priority = DEFAULT_PRIORITY;
+		bidirectionalCheck = DEFAULT_BIDIRECTIONAL_CHECK;
+		priority = DEFAULT_PRIORITY;
 	}
 
+	@Override
 	public boolean getBidirectionalCheck() {
-		return this.bidirectionalCheck;
+		return bidirectionalCheck;
 	}
 
 	@Override
 	public Predicate getCheckPredicate() {
-		return this.checkPredicate;
+		return checkPredicate;
 	}
 
 	@Override
 	public Predicate getFilterPredicate() {
-		return this.filterPredicate;
+		return filterPredicate;
 	}
 
 	@Override
 	public String getMessage() {
-		return this.message;
+		return message;
 	}
 
 	@Override
 	public String getName() {
-		return this.name;
+		return name;
 	}
 
+	@Override
 	public int getPriority() {
-		return this.priority;
+		return priority;
 	}
 
 	public void setBidirectionalCheck(boolean bidirectionalCheck) {

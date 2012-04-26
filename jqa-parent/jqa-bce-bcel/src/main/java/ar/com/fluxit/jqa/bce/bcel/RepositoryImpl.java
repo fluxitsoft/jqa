@@ -116,9 +116,9 @@ public class RepositoryImpl implements Repository {
 	@Override
 	public Integer getDeclarationLineNumber(Type type, File sourceDir) throws FileNotFoundException {
 		// TODO cache
-		CharStream stream = new JavaCharStream(getSourceFile(type, sourceDir));
+		final CharStream stream = new JavaCharStream(getSourceFile(type, sourceDir));
 		final JavaParser javaParser = new JavaParser(stream);
-		ASTCompilationUnit compilationUnit = javaParser.CompilationUnit();
+		final ASTCompilationUnit compilationUnit = javaParser.CompilationUnit();
 		return compilationUnit.getFirstChildOfType(ASTClassOrInterfaceDeclaration.class).getBeginLine();
 	}
 
@@ -126,7 +126,7 @@ public class RepositoryImpl implements Repository {
 	public Collection<Type> getInterfaces(Type type) {
 		final org.apache.bcel.classfile.JavaClass[] interfaces = org.apache.bcel.Repository.getInterfaces(getWrappedClass(type));
 		final List<Type> result = new ArrayList<Type>(interfaces.length);
-		for (org.apache.bcel.classfile.JavaClass interfaz : interfaces) {
+		for (final org.apache.bcel.classfile.JavaClass interfaz : interfaces) {
 			result.add(new BcelJavaType(interfaz));
 		}
 		return result;
@@ -140,7 +140,7 @@ public class RepositoryImpl implements Repository {
 	public Collection<Type> getSuperClasses(Type type) {
 		final org.apache.bcel.classfile.JavaClass[] superClasses = org.apache.bcel.Repository.getSuperClasses(getWrappedClass(type));
 		final List<Type> result = new ArrayList<Type>(superClasses.length);
-		for (org.apache.bcel.classfile.JavaClass superClass : superClasses) {
+		for (final org.apache.bcel.classfile.JavaClass superClass : superClasses) {
 			result.add(new BcelJavaType(superClass));
 		}
 		return result;
@@ -210,7 +210,7 @@ public class RepositoryImpl implements Repository {
 						opcode = (short) stream.readUnsignedByte();
 						final String op = Constants.OPCODE_NAMES[opcode];
 						if (op.startsWith(INVOKE_PREFIX_OPCODE_NAME)) {
-							int index = stream.readUnsignedShort();
+							final int index = stream.readUnsignedShort();
 							final ConstantPool constantPool = getWrappedClass(type).getConstantPool();
 							String className = constantPool.constantToString(index, Constants.CONSTANT_Methodref);
 							className = className.substring(className.indexOf(")") + 2).replaceAll(";", "");
@@ -231,7 +231,7 @@ public class RepositoryImpl implements Repository {
 
 			@Override
 			public void visitField(Field field) {
-				org.apache.bcel.generic.Type type = org.apache.bcel.generic.Type.getType(field.getSignature());
+				final org.apache.bcel.generic.Type type = org.apache.bcel.generic.Type.getType(field.getSignature());
 				result.add(getType(getClassName(type)));
 			}
 

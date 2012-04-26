@@ -57,20 +57,20 @@ public class NamingPredicate extends IgnoringContextPredicate {
 	}
 
 	public String getClassNamePattern() {
-		return this.classNamePattern;
+		return classNamePattern;
 	}
 
 	private RegEx getRegEx() throws RegExSyntaxException {
-		if (this.regEx == null) {
-			this.regEx = new RegEx(getClassNamePattern());
+		if (regEx == null) {
+			regEx = new RegEx(getClassNamePattern());
 		}
-		return this.regEx;
+		return regEx;
 	}
 
 	public void setClassNamePattern(String pattern) {
-		this.classNamePattern = pattern;
+		classNamePattern = pattern;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "NamingPredicate: " + classNamePattern;

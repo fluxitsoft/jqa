@@ -155,12 +155,12 @@ public class JQAMavenPlugin extends AbstractMojo {
 	@Override
 	public void execute() throws MojoExecutionException {
 		try {
-			if ("pom".equals(this.packaging)) {
+			if ("pom".equals(packaging)) {
 				getLog().info("Artifact ignored because it has pom packaging");
 			} else {
 				checkParams();
-				doExecute(this.outputDirectory, new File(this.project.getBuild().getOutputDirectory()), new File(this.project.getBuild()
-						.getTestOutputDirectory()), this.project, this.sourceDir);
+				doExecute(outputDirectory, new File(project.getBuild().getOutputDirectory()), new File(project.getBuild().getTestOutputDirectory()), project,
+						sourceDir);
 			}
 		} catch (final Exception e) {
 			throw new MojoExecutionException("An error occurred while executing the rules", e);
@@ -168,25 +168,25 @@ public class JQAMavenPlugin extends AbstractMojo {
 	}
 
 	private Logger getLogger() {
-		if (this.logger == null) {
-			this.logger = new MavenLogLoggerAdapter(getLog());
+		if (logger == null) {
+			logger = new MavenLogLoggerAdapter(getLog());
 		}
-		return this.logger;
+		return logger;
 	}
 
 	public File getResultsDirectory() {
-		return this.resultsDirectory;
+		return resultsDirectory;
 	}
 
 	public File getRulesContextFile() {
-		return this.rulesContextFile;
+		return rulesContextFile;
 	}
 
 	public void setResultsDirectory(File resultFile) {
-		this.resultsDirectory = resultFile;
+		resultsDirectory = resultFile;
 	}
 
 	public void setRulesContextFile(File rulesFile) {
-		this.rulesContextFile = rulesFile;
+		rulesContextFile = rulesFile;
 	}
 }

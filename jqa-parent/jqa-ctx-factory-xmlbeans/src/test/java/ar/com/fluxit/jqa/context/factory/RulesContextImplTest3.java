@@ -36,7 +36,7 @@ public class RulesContextImplTest3 extends TestCase {
 		try {
 			rulesContextFactory.getRulesContext(resource.getPath());
 			fail("RulesContextFactoryException expected");
-		} catch (RulesContextFactoryException e) {
+		} catch (final RulesContextFactoryException e) {
 			// test ok
 		}
 	}

@@ -245,13 +245,13 @@ public class RulesContextFactoryImpl implements RulesContextFactory {
 				throw new IllegalArgumentException("Invalid RulesContext import: " + rulesContextImport.getResource());
 			}
 			return result;
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			throw new RulesContextFactoryException("An error has occured while parsing RulesContext: " + rulesContextImport.getResource(), e);
 		} finally {
 			if (imported != null) {
 				try {
 					imported.close();
-				} catch (IOException e) {
+				} catch (final IOException e) {
 					LOGGER.error("An error has occured while closing resource: " + rulesContextImport.getResource(), e);
 				}
 			}
@@ -298,7 +298,7 @@ public class RulesContextFactoryImpl implements RulesContextFactory {
 	}
 
 	private InputStream resolveImport(String resource, String basePath) throws FileNotFoundException {
-		String fileName = isAbsolute(resource) ? resource : getAbsolutePath(resource, basePath);
+		final String fileName = isAbsolute(resource) ? resource : getAbsolutePath(resource, basePath);
 		final File file = new File(fileName);
 		if (file.exists()) {
 			return new FileInputStream(file);

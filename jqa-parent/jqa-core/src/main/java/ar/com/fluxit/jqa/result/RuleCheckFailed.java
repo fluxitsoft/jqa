@@ -48,19 +48,19 @@ public class RuleCheckFailed {
 	}
 
 	public String getRuleMessage() {
-		return this.ruleMessage;
+		return ruleMessage;
 	}
 
 	public String getRuleName() {
-		return this.ruleName;
+		return ruleName;
 	}
 
 	public int getRulePriority() {
-		return this.rulePriority;
+		return rulePriority;
 	}
 
 	public String getTargetClassName() {
-		return this.targetClassName;
+		return targetClassName;
 	}
 
 	public void setLineId(Integer lineId) {
@@ -80,7 +80,7 @@ public class RuleCheckFailed {
 	}
 
 	public void setTargetClassName(String className) {
-		this.targetClassName = className;
+		targetClassName = className;
 	}
 
 	@Override

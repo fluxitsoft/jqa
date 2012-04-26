@@ -58,10 +58,10 @@ public class JQASensor implements Sensor {
 	}
 
 	private void addViolations(SensorContext context, CheckingResult check) {
-		for (RuleCheckFailed fail : check.getRuleChecksFailed()) {
-			Rule rule = Rule.create(JQARuleRepository.REPOSITORY_KEY, fail.getRuleName());
-			JavaFile resource = new JavaFile(fail.getTargetClassName());
-			Violation violation = Violation.create(rule, resource);
+		for (final RuleCheckFailed fail : check.getRuleChecksFailed()) {
+			final Rule rule = Rule.create(JQARuleRepository.REPOSITORY_KEY, fail.getRuleName());
+			final JavaFile resource = new JavaFile(fail.getTargetClassName());
+			final Violation violation = Violation.create(rule, resource);
 			violation.setMessage(fail.getRuleMessage());
 			violation.setLineId(fail.getLineId()); // TODO set the real line
 													// number
@@ -72,9 +72,10 @@ public class JQASensor implements Sensor {
 	@Override
 	public void analyse(Project project, SensorContext context) {
 		try {
-			RulesContext rulesContext = RulesContextLoader.INSTANCE.load();
-			File buildDirectory = project.getFileSystem().getBuildOutputDir();
-			Collection<File> classFiles = FileUtils.listFiles(buildDirectory, new SuffixFileFilter(RulesContextChecker.CLASS_SUFFIX), TrueFileFilter.INSTANCE);
+			final RulesContext rulesContext = RulesContextLoader.INSTANCE.load();
+			final File buildDirectory = project.getFileSystem().getBuildOutputDir();
+			final Collection<File> classFiles = FileUtils.listFiles(buildDirectory, new SuffixFileFilter(RulesContextChecker.CLASS_SUFFIX),
+					TrueFileFilter.INSTANCE);
 			final Collection<File> classPath = new ArrayList<File>();
 			@SuppressWarnings("unchecked")
 			final Set<Artifact> artifacts = getProject().getArtifacts();
@@ -98,7 +99,7 @@ public class JQASensor implements Sensor {
 	}
 
 	private MavenProject getProject() {
-		return this.project;
+		return project;
 	}
 
 	@Override

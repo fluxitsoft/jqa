@@ -22,9 +22,9 @@ import java.util.ArrayList;
 import java.util.Vector;
 
 import junit.framework.TestCase;
-import ar.com.fluxit.jqa.bce.Type;
 import ar.com.fluxit.jqa.bce.Repository;
 import ar.com.fluxit.jqa.bce.RepositoryLocator;
+import ar.com.fluxit.jqa.bce.Type;
 import ar.com.fluxit.jqa.mock.ExceptionA;
 import ar.com.fluxit.jqa.mock.typing.ClassThatExtendsClassThatImplementsInterfaceA;
 import ar.com.fluxit.jqa.mock.typing.ClassThatImplementsInterfaceA;

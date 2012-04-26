@@ -45,11 +45,11 @@ public class JQARuleRepository extends RuleRepository {
 
 	@Override
 	public List<Rule> createRules() {
-		List<Rule> result = new ArrayList<Rule>();
-		RulesContext rulesContext = RulesContextLoader.INSTANCE.load();
-		for (RuleSet ruleSet : rulesContext.getRuleSets()) {
-			for (ar.com.fluxit.jqa.rule.Rule jqaRule : ruleSet.getRules()) {
-				Rule rule = Rule.create();
+		final List<Rule> result = new ArrayList<Rule>();
+		final RulesContext rulesContext = RulesContextLoader.INSTANCE.load();
+		for (final RuleSet ruleSet : rulesContext.getRuleSets()) {
+			for (final ar.com.fluxit.jqa.rule.Rule jqaRule : ruleSet.getRules()) {
+				final Rule rule = Rule.create();
 				result.add(processRule(rule, jqaRule));
 			}
 		}

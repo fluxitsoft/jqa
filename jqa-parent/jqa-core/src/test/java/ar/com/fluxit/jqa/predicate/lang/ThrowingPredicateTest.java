@@ -19,8 +19,8 @@
 package ar.com.fluxit.jqa.predicate.lang;
 
 import junit.framework.TestCase;
-import ar.com.fluxit.jqa.bce.Type;
 import ar.com.fluxit.jqa.bce.RepositoryLocator;
+import ar.com.fluxit.jqa.bce.Type;
 import ar.com.fluxit.jqa.mock.ClassA;
 import ar.com.fluxit.jqa.mock.ExceptionA;
 import ar.com.fluxit.jqa.mock.throwing.ClassThatDoesntThrowsExceptionA;

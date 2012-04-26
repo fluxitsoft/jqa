@@ -29,7 +29,7 @@ import junit.framework.TestSuite;
 public class AllTests {
 
 	public static Test suite() {
-		TestSuite suite = new TestSuite("Test for ar.com.fluxit.jqa.context.factory");
+		final TestSuite suite = new TestSuite("Test for ar.com.fluxit.jqa.context.factory");
 		// $JUnit-BEGIN$
 		suite.addTestSuite(RulesContextImplTest2.class);
 		suite.addTestSuite(RulesContextImplTest3.class);

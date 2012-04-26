@@ -24,7 +24,7 @@ public class RulesContextLoader {
 			Thread.currentThread().setContextClassLoader(this.getClass().getClassLoader());
 			final RulesContext rulesContext = RulesContextFactoryLocator.getRulesContextFactory().getRulesContext(inputStream);
 			return rulesContext;
-		} catch (RulesContextFactoryException e) {
+		} catch (final RulesContextFactoryException e) {
 			throw new IllegalStateException(e);
 		} finally {
 			Thread.currentThread().setContextClassLoader(classLoader);

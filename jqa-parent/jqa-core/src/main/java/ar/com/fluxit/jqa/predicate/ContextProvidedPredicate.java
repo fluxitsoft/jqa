@@ -49,7 +49,7 @@ public class ContextProvidedPredicate extends AbstractPredicate {
 	}
 
 	public String getProvidedPredicateName() {
-		return this.providedPredicateName;
+		return providedPredicateName;
 	}
 
 	public void setProvidedPredicateName(String providedPredicateName) {

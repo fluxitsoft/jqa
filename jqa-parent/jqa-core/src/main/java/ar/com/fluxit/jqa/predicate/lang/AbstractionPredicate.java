@@ -59,7 +59,7 @@ public class AbstractionPredicate extends IgnoringContextPredicate {
 	}
 
 	public AbstractionType getAbstractionType() {
-		return this.abstractionType;
+		return abstractionType;
 	}
 
 	public void setAbstractionType(AbstractionType abstractionType) {

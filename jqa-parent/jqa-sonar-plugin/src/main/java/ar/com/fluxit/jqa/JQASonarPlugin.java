@@ -39,7 +39,7 @@ public class JQASonarPlugin extends SonarPlugin {
 
 	@Override
 	public List<?> getExtensions() {
-		List<Class<? extends Extension>> list = new ArrayList<Class<? extends Extension>>();
+		final List<Class<? extends Extension>> list = new ArrayList<Class<? extends Extension>>();
 		list.add(JQARuleRepository.class);
 		list.add(JQASensor.class);
 		return list;

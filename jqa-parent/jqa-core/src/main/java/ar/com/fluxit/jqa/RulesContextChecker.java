@@ -56,11 +56,11 @@ public class RulesContextChecker {
 	}
 
 	private String buildMessage(String ruleMessage, Type type) {
-		Map<String, String> values = new HashMap<String, String>();
+		final Map<String, String> values = new HashMap<String, String>();
 		values.put("type.name", type.getName());
 		values.put("type.abstract", type.isAbstract() ? "abstract" : "concrete");
 		values.put("type.interface", type.isInterface() ? "interface" : "class");
-		for (Map.Entry<String, String> e : values.entrySet()) {
+		for (final Map.Entry<String, String> e : values.entrySet()) {
 			ruleMessage = ruleMessage.replaceAll("\\[" + e.getKey() + "\\]", e.getValue());
 		}
 		return ruleMessage;
