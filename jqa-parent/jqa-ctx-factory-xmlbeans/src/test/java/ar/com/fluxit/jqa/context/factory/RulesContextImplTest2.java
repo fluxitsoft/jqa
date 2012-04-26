@@ -49,12 +49,9 @@ public class RulesContextImplTest2 extends TestCase {
 	public void testRulesContextImports() throws RulesContextFactoryException {
 		assertNotNull(this.rulesContext);
 		assertNotNull(this.rulesContext.getGlobalPredicates());
-		assertEquals(2, this.rulesContext.getGlobalPredicates().size());
+		assertEquals(1, this.rulesContext.getGlobalPredicates().size());
 		// RulesContext import by file
 		assertNotNull(this.rulesContext.getGlobalPredicate("GlobalPredicateImportedByRulesContextFileName"));
 		assertTrue(this.rulesContext.getGlobalPredicate("GlobalPredicateImportedByRulesContextFileName") instanceof NamingPredicate);
-		// Ruleset import by name
-		assertNotNull(this.rulesContext.getGlobalPredicate("GlobalPredicateImportedByRulesContextName"));
-		assertTrue(this.rulesContext.getGlobalPredicate("GlobalPredicateImportedByRulesContextName") instanceof NamingPredicate);
 	}
 }

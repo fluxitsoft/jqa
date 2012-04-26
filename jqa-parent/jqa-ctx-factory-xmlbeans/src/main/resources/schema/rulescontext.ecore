@@ -7,15 +7,10 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="rulesContextImport" upperBound="-1"
         eType="#//RulesContextImport" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="ruleSetImport" upperBound="-1"
-        eType="#//RuleSetImport" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="globalPredicate" upperBound="-1"
         eType="ecore:EClass ruleset.ecore#//Predicate" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="ruleSet" upperBound="-1"
         eType="ecore:EClass ruleset.ecore#//Ruleset" containment="true"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="RuleSetImport">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="resource" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="RulesContextImport">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="resource" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>

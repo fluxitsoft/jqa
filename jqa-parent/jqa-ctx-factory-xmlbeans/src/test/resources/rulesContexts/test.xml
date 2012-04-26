@@ -17,6 +17,6 @@
 	xsi:schemaLocation="http://www.fluxit.com.ar/jqa/schema/rulescontext ../../../main/resources/schema/rulescontext.xsd">
 
 	<globalPredicate name="GlobalPredicateImportedByRulesContextName"
-		xsi:type="jqa:NamingPredicate" classNamePattern="" />
+		xsi:type="jqa:NamingPredicate" namePattern="" />
 
 </jqa_ctx:RulesContext>

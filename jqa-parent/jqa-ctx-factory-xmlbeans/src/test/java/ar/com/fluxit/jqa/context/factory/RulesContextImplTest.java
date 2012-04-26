@@ -49,16 +49,6 @@ public class RulesContextImplTest extends TestCase {
 
 	private RulesContext rulesContext;
 
-	private void assertRuleSet(RuleSet ruleSet, int rulesCount) {
-		assertNotNull(ruleSet);
-		assertNotNull(ruleSet.getRules());
-		assertEquals(rulesCount, ruleSet.getRules().size());
-		final Rule rule = ruleSet.getRules().iterator().next();
-		assertEquals("RuleTest", rule.getName());
-		assertTrue(rule.getFilterPredicate() instanceof TruePredicate);
-		assertTrue(rule.getCheckPredicate() instanceof TruePredicate);
-	}
-
 	private Rule getRule(String ruleName) {
 		for (RuleSet ruleSet : this.rulesContext.getRuleSets()) {
 			for (Rule rule : ruleSet.getRules()) {
@@ -68,15 +58,6 @@ public class RulesContextImplTest extends TestCase {
 			}
 		}
 		throw new IllegalArgumentException("Can not fin rule with name " + ruleName);
-	}
-
-	private RuleSet getRuleSet(RulesContext rulesContext, String ruleSetName) {
-		for (final RuleSet ruleSet : rulesContext.getRuleSets()) {
-			if (ruleSetName.equals(ruleSet.getName())) {
-				return ruleSet;
-			}
-		}
-		return null;
 	}
 
 	@Override
@@ -153,17 +134,6 @@ public class RulesContextImplTest extends TestCase {
 		}
 	}
 
-	public void testInvalidRulesetFile() throws RulesContextFactoryException {
-		final RulesContextFactory rulesContextFactory = RulesContextFactoryLocator.getRulesContextFactory();
-		final URL resource = RulesContextImplTest.class.getResource("/invalid_ruleset_rulescontext.xml");
-		try {
-			rulesContextFactory.getRulesContext(resource.getPath());
-			fail("Must throw an RulesContextFactoryException");
-		} catch (final RulesContextFactoryException e) {
-			// OK
-		}
-	}
-
 	public void testRuleBidirectionalCheck() throws RulesContextFactoryException {
 		assertNotNull(this.rulesContext);
 		assertTrue(getRule("BidirectionalCheckRule").getBidirectionalCheck());
@@ -172,22 +142,8 @@ public class RulesContextImplTest extends TestCase {
 
 	public void testRulePriority() throws RulesContextFactoryException {
 		assertNotNull(this.rulesContext);
-		Rule rule = getRule("PriorityRule");
+		Rule rule = getRule("PriorityCheckRule");
 		assertEquals(3, rule.getPriority());
 	}
 
-	public void testRuleSetImports() throws RulesContextFactoryException {
-		assertNotNull(this.rulesContext);
-		assertNotNull(this.rulesContext.getRuleSets());
-		assertEquals(3, this.rulesContext.getRuleSets().size());
-		// RuleSet import by file
-		final RuleSet ruleSet = getRuleSet(this.rulesContext, "RulesetTestByFileName");
-		assertRuleSet(ruleSet, 3);
-		// RuleSet import by name
-		final RuleSet ruleSet2 = getRuleSet(this.rulesContext, "RulesetTestByName");
-		assertRuleSet(ruleSet2, 1);
-		// Inner ruleSet
-		final RuleSet ruleSet3 = getRuleSet(this.rulesContext, "InnerRulesetTest");
-		assertRuleSet(ruleSet3, 1);
-	}
 }

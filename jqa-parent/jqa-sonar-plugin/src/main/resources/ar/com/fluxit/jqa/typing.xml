@@ -4,7 +4,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.fluxit.com.ar/jqa/schema/rulescontext https://raw.github.com/jbaris/jqa/master/jqa-parent/jqa-ctx-factory-xmlbeans/src/main/resources/schema/rulescontext.xsd ">
 
-	<rulesContextImport name="/ar/com/fluxit/jqa/attempts.xml" />
+	<rulesContextImport resource="/ar/com/fluxit/jqa/attempts.xml" />
 
 	<ruleSet name="Typing ruleset">
 

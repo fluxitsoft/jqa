@@ -37,18 +37,8 @@ public class RulesContextImplTest3 extends TestCase {
 			rulesContextFactory.getRulesContext(resource.getPath());
 			fail("RulesContextFactoryException expected");
 		} catch (RulesContextFactoryException e) {
-			assertEquals("RulesContext import is invalid. Inexistent RulesContext with name: inexistent", e.getMessage());
+			// test ok
 		}
 	}
 
-	public void testInvalidRuleSetImportByName() {
-		final RulesContextFactory rulesContextFactory = RulesContextFactoryLocator.getRulesContextFactory();
-		final URL resource = RulesContextImplTest3.class.getResource("/invalid_ruleSet_import.xml");
-		try {
-			rulesContextFactory.getRulesContext(resource.getPath());
-			fail("RulesContextFactoryException expected");
-		} catch (RulesContextFactoryException e) {
-			assertEquals("RulesSet import is invalid. Inexistent RuleSet with name: inexistent", e.getMessage());
-		}
-	}
 }

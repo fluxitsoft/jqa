@@ -1,23 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-	<!--
-		JQA (http://github.com/jbaris/jqa) Copyright (c) 2011 Juan
-		Ignacio Barisich. JQA is free software: you can redistribute it and/or
-		modify it under the terms of the GNU General Public License as
-		published by the Free Software Foundation, either version 3 of the
-		License, or (at your option) any later version. JQA is distributed in
-		the hope that it will be useful, but WITHOUT ANY WARRANTY; without
-		even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-		PARTICULAR PURPOSE. See the GNU General Public License for more
-		details. You should have received a copy of the GNU General Public
-		License along with JQA. If not, see <http://www.gnu.org/licenses/>.
-	-->
+<!-- JQA (http://github.com/jbaris/jqa) Copyright (c) 2011 Juan Ignacio Barisich. 
+	JQA is free software: you can redistribute it and/or modify it under the 
+	terms of the GNU General Public License as published by the Free Software 
+	Foundation, either version 3 of the License, or (at your option) any later 
+	version. JQA is distributed in the hope that it will be useful, but WITHOUT 
+	ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS 
+	FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. 
+	You should have received a copy of the GNU General Public License along with 
+	JQA. If not, see <http://www.gnu.org/licenses/>. -->
 <jqa_ctx:RulesContext xmlns:jqa="http://www.fluxit.com.ar/jqa/schema/ruleset"
 	xmlns:jqa_ctx="http://www.fluxit.com.ar/jqa/schema/rulescontext"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.fluxit.com.ar/jqa/schema/rulescontext ../../main/resources/schema/rulescontext.xsd ../classes/schema/rulescontext.xsd ">
-
-	<ruleSetImport fileName="sample_ruleset.xml" />
-	<ruleSetImport name="/ruleSets/test.xml" />
 
 	<globalPredicate name="AbstractionPredicateTest"
 		xsi:type="jqa:AbstractionPredicate" abstractionType="CONCRETE" />
@@ -46,8 +40,7 @@
 	</globalPredicate>
 	<globalPredicate xsi:type="jqa:TruePredicate" />
 	<globalPredicate name="TypingPredicateTest" xsi:type="jqa:TypingPredicate">
-		<predicate xsi:type="jqa:NamingPredicate"
-			namePattern="java.lang.Object" />
+		<predicate xsi:type="jqa:NamingPredicate" namePattern="java.lang.Object" />
 	</globalPredicate>
 	<globalPredicate name="UsagePredicateTest" xsi:type="jqa:UsagePredicate">
 		<predicate xsi:type="jqa:TruePredicate" />
@@ -59,6 +52,22 @@
 
 	<ruleSet name="InnerRulesetTest">
 		<rule name="RuleTest" message="InnerRule">
+			<filterPredicate xsi:type="jqa:TruePredicate" />
+			<checkPredicate xsi:type="jqa:TruePredicate" />
+		</rule>
+	</ruleSet>
+
+	<ruleSet name="BidirectionalCheckRuleSet">
+		<rule name="BidirectionalCheckRule" message="BidirectionalCheckRule"
+			bidirectionalCheck="true">
+			<filterPredicate xsi:type="jqa:TruePredicate" />
+			<checkPredicate xsi:type="jqa:TruePredicate" />
+		</rule>
+	</ruleSet>
+	
+	<ruleSet name="PriorityCheckRuleSet">
+		<rule name="PriorityCheckRule" message="PriorityCheckRule"
+			priority="3">
 			<filterPredicate xsi:type="jqa:TruePredicate" />
 			<checkPredicate xsi:type="jqa:TruePredicate" />
 		</rule>

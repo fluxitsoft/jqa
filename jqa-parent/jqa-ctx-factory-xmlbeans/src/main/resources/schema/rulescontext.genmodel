@@ -1,22 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-  JQA (http://code.google.com/p/jqa-project/)
-  
-  Copyright (c) 2011 Juan Ignacio Barisich.
-  
-  JQA is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
-  
-  JQA is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-  
-  You should have received a copy of the GNU General Public License
-  along with JQA.  If not, see <http://www.gnu.org/licenses/>.
--->
 <genmodel:GenModel xmi:version="2.0"
     xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
     xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/jqa-ctx-factory-ecore/src"
@@ -25,11 +7,13 @@
   <foreignModel>rulescontext.ecore</foreignModel>
   <genPackages prefix="Jqa_ctx" disposableProviderFactory="true" ecorePackage="rulescontext.ecore#/">
     <genClasses ecoreClass="rulescontext.ecore#//RulesContext">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference rulescontext.ecore#//RulesContext/ruleSetImport"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute rulescontext.ecore#//RulesContext/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference rulescontext.ecore#//RulesContext/rulesContextImport"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference rulescontext.ecore#//RulesContext/globalPredicate"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference rulescontext.ecore#//RulesContext/ruleSet"/>
     </genClasses>
-    <genClasses ecoreClass="rulescontext.ecore#//RuleSetImport">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute rulescontext.ecore#//RuleSetImport/ruleSetName"/>
+    <genClasses ecoreClass="rulescontext.ecore#//RulesContextImport">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute rulescontext.ecore#//RulesContextImport/resource"/>
     </genClasses>
   </genPackages>
   <genPackages prefix="Jqa" disposableProviderFactory="true" ecorePackage="ruleset.ecore#/">
@@ -44,29 +28,30 @@
     </genClasses>
     <genClasses ecoreClass="ruleset.ecore#//Rule">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ruleset.ecore#//Rule/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ruleset.ecore#//Rule/message"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ruleset.ecore#//Rule/filterPredicate"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ruleset.ecore#//Rule/checkPredicate"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ruleset.ecore#//Rule/priority"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ruleset.ecore#//Rule/bidirectionalCheck"/>
     </genClasses>
     <genClasses image="false" ecoreClass="ruleset.ecore#//Predicate">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ruleset.ecore#//Predicate/name"/>
     </genClasses>
     <genClasses ecoreClass="ruleset.ecore#//ContextProvidedPredicate">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ruleset.ecore#//ContextProvidedPredicate/providedPredicateName"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ruleset.ecore#//ContextProvidedPredicate/predicateName"/>
     </genClasses>
     <genClasses image="false" ecoreClass="ruleset.ecore#//FilteredPredicate">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ruleset.ecore#//FilteredPredicate/filterPredicate"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ruleset.ecore#//FilteredPredicate/predicate"/>
     </genClasses>
     <genClasses ecoreClass="ruleset.ecore#//AbstractionPredicate">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ruleset.ecore#//AbstractionPredicate/abstractionType"/>
     </genClasses>
     <genClasses ecoreClass="ruleset.ecore#//AllocationPredicate"/>
     <genClasses ecoreClass="ruleset.ecore#//NamingPredicate">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ruleset.ecore#//NamingPredicate/classNamePattern"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ruleset.ecore#//NamingPredicate/namePattern"/>
     </genClasses>
     <genClasses ecoreClass="ruleset.ecore#//ThrowingPredicate"/>
-    <genClasses ecoreClass="ruleset.ecore#//TypingPredicate">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ruleset.ecore#//TypingPredicate/parentClassName"/>
-    </genClasses>
+    <genClasses ecoreClass="ruleset.ecore#//TypingPredicate"/>
     <genClasses ecoreClass="ruleset.ecore#//UsagePredicate"/>
     <genClasses image="false" ecoreClass="ruleset.ecore#//VarArgsLogicPredicate">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ruleset.ecore#//VarArgsLogicPredicate/predicate"/>

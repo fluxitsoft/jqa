@@ -16,7 +16,7 @@ package ar.com.fluxit.jqa.schema.rulescontext;
 public interface RulesContext extends org.apache.xmlbeans.XmlObject
 {
     public static final org.apache.xmlbeans.SchemaType type = (org.apache.xmlbeans.SchemaType)
-        org.apache.xmlbeans.XmlBeans.typeSystemForClassLoader(RulesContext.class.getClassLoader(), "schemaorg_apache_xmlbeans.system.s6FB343E9FE486040BA500FF3C3C08A26").resolveHandle("rulescontextfdb0type");
+        org.apache.xmlbeans.XmlBeans.typeSystemForClassLoader(RulesContext.class.getClassLoader(), "schemaorg_apache_xmlbeans.system.sCF439B81031AD69462AD629128D21633").resolveHandle("rulescontextfdb0type");
     
     /**
      * Gets a List of "rulesContextImport" elements
@@ -63,52 +63,6 @@ public interface RulesContext extends org.apache.xmlbeans.XmlObject
      * Removes the ith "rulesContextImport" element
      */
     void removeRulesContextImport(int i);
-    
-    /**
-     * Gets a List of "ruleSetImport" elements
-     */
-    java.util.List<ar.com.fluxit.jqa.schema.rulescontext.RuleSetImport> getRuleSetImportList();
-    
-    /**
-     * Gets array of all "ruleSetImport" elements
-     * @deprecated
-     */
-    ar.com.fluxit.jqa.schema.rulescontext.RuleSetImport[] getRuleSetImportArray();
-    
-    /**
-     * Gets ith "ruleSetImport" element
-     */
-    ar.com.fluxit.jqa.schema.rulescontext.RuleSetImport getRuleSetImportArray(int i);
-    
-    /**
-     * Returns number of "ruleSetImport" element
-     */
-    int sizeOfRuleSetImportArray();
-    
-    /**
-     * Sets array of all "ruleSetImport" element
-     */
-    void setRuleSetImportArray(ar.com.fluxit.jqa.schema.rulescontext.RuleSetImport[] ruleSetImportArray);
-    
-    /**
-     * Sets ith "ruleSetImport" element
-     */
-    void setRuleSetImportArray(int i, ar.com.fluxit.jqa.schema.rulescontext.RuleSetImport ruleSetImport);
-    
-    /**
-     * Inserts and returns a new empty value (as xml) as the ith "ruleSetImport" element
-     */
-    ar.com.fluxit.jqa.schema.rulescontext.RuleSetImport insertNewRuleSetImport(int i);
-    
-    /**
-     * Appends and returns a new empty value (as xml) as the last "ruleSetImport" element
-     */
-    ar.com.fluxit.jqa.schema.rulescontext.RuleSetImport addNewRuleSetImport();
-    
-    /**
-     * Removes the ith "ruleSetImport" element
-     */
-    void removeRuleSetImport(int i);
     
     /**
      * Gets a List of "globalPredicate" elements
