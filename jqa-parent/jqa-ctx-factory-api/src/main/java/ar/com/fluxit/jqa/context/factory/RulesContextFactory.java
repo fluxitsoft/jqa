@@ -18,6 +18,8 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.context.factory;
 
+import java.io.InputStream;
+
 import ar.com.fluxit.jqa.context.RulesContext;
 import ar.com.fluxit.jqa.context.factory.exception.RulesContextFactoryException;
 
@@ -27,6 +29,8 @@ import ar.com.fluxit.jqa.context.factory.exception.RulesContextFactoryException;
  * @author Juan Ignacio Barisich
  */
 public interface RulesContextFactory {
+
+	RulesContext getRulesContext(InputStream inputStream) throws RulesContextFactoryException;
 
 	RulesContext getRulesContext(String resource) throws RulesContextFactoryException;
 

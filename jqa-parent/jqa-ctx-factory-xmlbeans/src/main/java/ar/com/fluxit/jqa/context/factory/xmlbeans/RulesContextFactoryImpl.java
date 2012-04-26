@@ -76,6 +76,23 @@ public class RulesContextFactoryImpl implements RulesContextFactory {
 	}
 
 	@Override
+	public RulesContext getRulesContext(InputStream inputStream) throws RulesContextFactoryException {
+		try {
+			final RulesContextDocument document = RulesContextDocument.Factory.parse(inputStream);
+			validate(document, inputStream.toString());
+			return parse(document.getRulesContext(), "");
+		} catch (final RulesContextFactoryException e) {
+			throw e;
+		} catch (final XmlException e) {
+			throw new RulesContextFactoryException("Invalid rules context file: " + inputStream.toString(), e);
+		} catch (final IOException e) {
+			throw new RulesContextFactoryException("Error reading rules context file: " + inputStream.toString(), e);
+		} catch (final Exception e) {
+			throw new RulesContextFactoryException(e);
+		}
+	}
+
+	@Override
 	public RulesContext getRulesContext(String resource) throws RulesContextFactoryException {
 		try {
 			final File sourceFile = new File(resource);

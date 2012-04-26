@@ -1,5 +1,7 @@
 package ar.com.fluxit.jqa;
 
+import java.io.InputStream;
+
 import ar.com.fluxit.jqa.context.RulesContext;
 import ar.com.fluxit.jqa.context.factory.RulesContextFactoryLocator;
 import ar.com.fluxit.jqa.context.factory.exception.RulesContextFactoryException;
@@ -12,15 +14,15 @@ public class RulesContextLoader {
 	}
 
 	public RulesContext load() {
-		return load("/ar/com/fluxit/jqa/rulesContext.xml");
+		return load(getClass().getResourceAsStream("/ar/com/fluxit/jqa/rulesContext.xml"));
 	}
 
-	public RulesContext load(String rulesStream) {
+	public RulesContext load(InputStream inputStream) {
 		ClassLoader classLoader = null;
 		try {
 			classLoader = Thread.currentThread().getContextClassLoader();
 			Thread.currentThread().setContextClassLoader(this.getClass().getClassLoader());
-			final RulesContext rulesContext = RulesContextFactoryLocator.getRulesContextFactory().getRulesContext(rulesStream);
+			final RulesContext rulesContext = RulesContextFactoryLocator.getRulesContextFactory().getRulesContext(inputStream);
 			return rulesContext;
 		} catch (RulesContextFactoryException e) {
 			throw new IllegalStateException(e);

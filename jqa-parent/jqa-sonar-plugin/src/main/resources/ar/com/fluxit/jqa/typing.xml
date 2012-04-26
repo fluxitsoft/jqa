@@ -10,7 +10,7 @@
 
 		<!-- DAO -->
 		<rule name="DAO contract typing"
-			message="The DAO contract '[type.name]' must extends to 'ar.com.fluxit.jqa.test.fmk.dao.DataAccessObject'"
+			message="The DAO contract '[type.name]' must extend to 'ar.com.fluxit.jqa.test.fmk.dao.DataAccessObject'"
 			priority="4">
 			<filterPredicate xsi:type="jqa:ContextProvidedPredicate"
 				predicateName="DAO contract attempt" />
@@ -21,7 +21,7 @@
 		</rule>
 
 		<rule name="DAO implementation typing"
-			message="The DAO implementation '[type.name]' must implements a DAO contract"
+			message="The DAO implementation '[type.name]' must implement a valid DAO contract"
 			priority="4">
 			<filterPredicate xsi:type="jqa:ContextProvidedPredicate"
 				predicateName="DAO implementation attempt" />
@@ -33,7 +33,7 @@
 
 		<!-- BusinessObject -->
 		<rule name="BO contract typing"
-			message="The BO contract '[type.name]' must extends to 'ar.com.fluxit.jqa.test.fmk.bo.BusinessObject'"
+			message="The BO contract '[type.name]' must extend to 'ar.com.fluxit.jqa.test.fmk.bo.BusinessObject'"
 			priority="4">
 			<filterPredicate xsi:type="jqa:ContextProvidedPredicate"
 				predicateName="BO contract attempt" />
@@ -44,7 +44,7 @@
 		</rule>
 
 		<rule name="BO implementation typing"
-			message="The BO implementation '[type.name]' must implements a BO contract"
+			message="The BO implementation '[type.name]' must implement a valid BO contract"
 			priority="4">
 			<filterPredicate xsi:type="jqa:ContextProvidedPredicate"
 				predicateName="BO implementation attempt" />
@@ -56,7 +56,7 @@
 
 		<!-- Service -->
 		<rule name="Service contract typing"
-			message="The Service contract '[type.name]' must extends to 'ar.com.fluxit.jqa.test.fmk.service.Service'"
+			message="The Service contract '[type.name]' must extend to 'ar.com.fluxit.jqa.test.fmk.service.Service'"
 			priority="4">
 			<filterPredicate xsi:type="jqa:ContextProvidedPredicate"
 				predicateName="Service contract attempt" />
@@ -66,7 +66,7 @@
 		</rule>
 
 		<rule name="Service implementation typing"
-			message="The Service implementation '[type.name]' must implements a Service contract"
+			message="The Service implementation '[type.name]' must implement a valid Service contract"
 			priority="4">
 			<filterPredicate xsi:type="jqa:ContextProvidedPredicate"
 				predicateName="Service implementation attempt" />
@@ -78,7 +78,7 @@
 
 		<!-- Entity -->
 		<rule name="Entity typing"
-			message="The Entity '[type.name]' must implements 'ar.com.fluxit.jqa.test.fmk.entity.Entity'"
+			message="The Entity '[type.name]' must implement 'ar.com.fluxit.jqa.test.fmk.entity.Entity'"
 			priority="4">
 			<filterPredicate xsi:type="jqa:ContextProvidedPredicate"
 				predicateName="Entity attempt" />
