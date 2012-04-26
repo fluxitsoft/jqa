@@ -11,8 +11,9 @@ JQA is an open source tool for Java applications QA. It is considered a suppleme
 
 ## Features
 JQA is integrated with:
-* Maven 2 (http://maven.apache.org/)
-* Sonar (http://www.sonarsource.org/)
+* Maven 2 (http://maven.apache.org/)    
+* Sonar (http://www.sonarsource.org/)   
+
 JQA allows you to write rules to check your classes regarding:
 * Naming
 * Typing
