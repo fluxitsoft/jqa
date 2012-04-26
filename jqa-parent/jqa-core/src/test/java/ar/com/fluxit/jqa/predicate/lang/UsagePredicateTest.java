@@ -19,12 +19,16 @@
 package ar.com.fluxit.jqa.predicate.lang;
 
 import junit.framework.TestCase;
-import ar.com.fluxit.jqa.bce.Type;
 import ar.com.fluxit.jqa.bce.RepositoryLocator;
+import ar.com.fluxit.jqa.bce.Type;
 import ar.com.fluxit.jqa.mock.ClassA;
 import ar.com.fluxit.jqa.mock.usage.ClassThatExtendsClassA;
+import ar.com.fluxit.jqa.mock.usage.ClassThatInvokesClassA;
+import ar.com.fluxit.jqa.mock.usage.ClassThatInvokesClassThatInvokesClassA;
 import ar.com.fluxit.jqa.mock.usage.ClassThatReturnsArrayClassA;
 import ar.com.fluxit.jqa.mock.usage.ClassThatReturnsClassA;
+import ar.com.fluxit.jqa.mock.usage.ClassThatStaticInvokesClassA;
+import ar.com.fluxit.jqa.mock.usage.ClassThatStaticInvokesClassThatInvokesClassA;
 import ar.com.fluxit.jqa.mock.usage.ClassThatStaticReturnsArrayClassA;
 import ar.com.fluxit.jqa.mock.usage.ClassThatStaticReturnsClassA;
 import ar.com.fluxit.jqa.mock.usage.ClassWithFieldArrayClassA;
@@ -38,6 +42,8 @@ import ar.com.fluxit.jqa.mock.usage.ClassWithStaticParameterArrayClassA;
 import ar.com.fluxit.jqa.mock.usage.ClassWithStaticParameterClassA;
 import ar.com.fluxit.jqa.mock.usage.ClassWithoutClassA;
 import ar.com.fluxit.jqa.mock.usage.InnerClassThatExtendsClassA;
+import ar.com.fluxit.jqa.mock.usage.InnerClassThatInvokesClassA;
+import ar.com.fluxit.jqa.mock.usage.InnerClassThatInvokesClassThatInvokesClassA;
 import ar.com.fluxit.jqa.mock.usage.InnerClassThatReturnsArrayClassA;
 import ar.com.fluxit.jqa.mock.usage.InnerClassThatReturnsClassA;
 import ar.com.fluxit.jqa.mock.usage.InnerClassWithFieldArrayClassA;
@@ -45,6 +51,8 @@ import ar.com.fluxit.jqa.mock.usage.InnerClassWithFieldClassA;
 import ar.com.fluxit.jqa.mock.usage.InnerClassWithParameterArrayClassA;
 import ar.com.fluxit.jqa.mock.usage.InnerClassWithParameterClassA;
 import ar.com.fluxit.jqa.mock.usage.StaticInnerClassThatExtendsClassA;
+import ar.com.fluxit.jqa.mock.usage.StaticInnerClassThatInvokesClassA;
+import ar.com.fluxit.jqa.mock.usage.StaticInnerClassThatInvokesClassThatInvokesClassA;
 import ar.com.fluxit.jqa.mock.usage.StaticInnerClassThatReturnsArrayClassA;
 import ar.com.fluxit.jqa.mock.usage.StaticInnerClassThatReturnsClassA;
 import ar.com.fluxit.jqa.mock.usage.StaticInnerClassWithFieldArrayClassA;
@@ -71,6 +79,8 @@ public class UsagePredicateTest extends TestCase {
 		testMatches(filterPredicateParentClass, ClassWithParameterArrayClassA.class, true);
 		testMatches(filterPredicateParentClass, ClassThatReturnsClassA.class, true);
 		testMatches(filterPredicateParentClass, ClassThatReturnsArrayClassA.class, true);
+		testMatches(filterPredicateParentClass, ClassThatInvokesClassA.class, true);
+		testMatches(filterPredicateParentClass, ClassThatInvokesClassThatInvokesClassA.class, true);
 		// Inner class
 		testMatches(filterPredicateParentClass, InnerClassThatExtendsClassA.B.class, true);
 		testMatches(filterPredicateParentClass, InnerClassWithFieldClassA.B.class, true);
@@ -79,6 +89,8 @@ public class UsagePredicateTest extends TestCase {
 		testMatches(filterPredicateParentClass, InnerClassWithParameterArrayClassA.B.class, true);
 		testMatches(filterPredicateParentClass, InnerClassThatReturnsClassA.B.class, true);
 		testMatches(filterPredicateParentClass, InnerClassThatReturnsArrayClassA.B.class, true);
+		testMatches(filterPredicateParentClass, InnerClassThatInvokesClassA.B.class, true);
+		testMatches(filterPredicateParentClass, InnerClassThatInvokesClassThatInvokesClassA.B.class, true);
 		// Inner static class
 		testMatches(filterPredicateParentClass, StaticInnerClassThatExtendsClassA.B.class, true);
 		testMatches(filterPredicateParentClass, StaticInnerClassWithFieldClassA.B.class, true);
@@ -87,6 +99,8 @@ public class UsagePredicateTest extends TestCase {
 		testMatches(filterPredicateParentClass, StaticInnerClassWithParameterArrayClassA.B.class, true);
 		testMatches(filterPredicateParentClass, StaticInnerClassThatReturnsClassA.B.class, true);
 		testMatches(filterPredicateParentClass, StaticInnerClassThatReturnsArrayClassA.B.class, true);
+		testMatches(filterPredicateParentClass, StaticInnerClassThatInvokesClassA.B.class, true);
+		testMatches(filterPredicateParentClass, StaticInnerClassThatInvokesClassThatInvokesClassA.B.class, true);
 		// Static methods
 		testMatches(filterPredicateParentClass, ClassWithStaticFieldClassA.class, true);
 		testMatches(filterPredicateParentClass, ClassWithStaticFieldArrayClassA.class, true);
@@ -94,6 +108,8 @@ public class UsagePredicateTest extends TestCase {
 		testMatches(filterPredicateParentClass, ClassWithStaticParameterArrayClassA.class, true);
 		testMatches(filterPredicateParentClass, ClassThatStaticReturnsClassA.class, true);
 		testMatches(filterPredicateParentClass, ClassThatStaticReturnsArrayClassA.class, true);
+		testMatches(filterPredicateParentClass, ClassThatStaticInvokesClassA.class, true);
+		testMatches(filterPredicateParentClass, ClassThatStaticInvokesClassThatInvokesClassA.class, true);
 		// Primitive fields
 		testMatches(Boolean.class.getName(), ClassWithPrimitiveTypes.class, true);
 		testMatches(Character.class.getName(), ClassWithPrimitiveTypes.class, true);
@@ -113,5 +129,4 @@ public class UsagePredicateTest extends TestCase {
 		usagePredicate.setFilterPredicate(filterPredicate);
 		assertEquals(matches, usagePredicate.evaluate(type, null));
 	}
-
 }

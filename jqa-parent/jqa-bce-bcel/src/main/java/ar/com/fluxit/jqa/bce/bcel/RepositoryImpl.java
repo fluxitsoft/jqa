@@ -62,6 +62,7 @@ public class RepositoryImpl implements Repository {
 
 	private static final String VOID = "void";
 	protected static final String NEW_OPCODE_NAME = "new";
+	protected static final String INVOKE_PREFIX_OPCODE_NAME = "invoke";
 	protected static final String THROW_OPCODE_NAME = "athrow";
 	protected static final int SLIDE = 6;
 
@@ -195,9 +196,33 @@ public class RepositoryImpl implements Repository {
 
 	@Override
 	public Collection<Type> getUses(final Type type) {
+		// TODO cache
 		final List<Type> result = new ArrayList<Type>();
 		getWrappedClass(type).getMethods();
 		final Visitor visitor = new EmptyVisitor() {
+
+			@Override
+			public void visitCode(Code code) {
+				final ByteSequence stream = new ByteSequence(code.getCode());
+				short opcode;
+				try {
+					while (stream.available() > 0) {
+						opcode = (short) stream.readUnsignedByte();
+						final String op = Constants.OPCODE_NAMES[opcode];
+						if (op.startsWith(INVOKE_PREFIX_OPCODE_NAME)) {
+							int index = stream.readUnsignedShort();
+							final ConstantPool constantPool = getWrappedClass(type).getConstantPool();
+							String className = constantPool.constantToString(index, Constants.CONSTANT_Methodref);
+							className = className.substring(className.indexOf(")") + 2).replaceAll(";", "");
+							if (!className.isEmpty()) {
+								result.add(getType(className));
+							}
+						}
+					}
+				} catch (final IOException e) {
+					throw new IllegalStateException(e);
+				}
+			}
 
 			@Override
 			public void visitConstantClass(ConstantClass constantClass) {
