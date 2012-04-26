@@ -20,7 +20,7 @@ JQA allows you to write rules to check your classes regarding:
 * Usage
 * Allocations
 * Exception throwing
-* Astraction
+* Abstraction
 
 ## Documentation
 TODO
