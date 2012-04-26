@@ -1,4 +1,7 @@
 language: java
 
+before_script:
+  - "cd jqa-parent/"
+
 script:
   - "mvn clean test"
