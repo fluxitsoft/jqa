@@ -66,9 +66,27 @@ public class RulesContextChecker {
 		return ruleMessage;
 	}
 
-	public CheckingResult check(Collection<File> classFiles, Collection<File> classPath, RulesContext context, File sourceDir, Logger log)
+	private void check(Collection<File> classFiles, Predicate filterPredicate, Predicate checkPredicate, CheckingResult result, RulesContext context,
+			int rulePriority, String ruleMessage, String ruleName, File sourceDir) throws TypeFormatException, IOException {
+		// Iterate class files
+		for (final File classFile : classFiles) {
+			final FileInputStream fis = new FileInputStream(classFile);
+			final Repository repository = RepositoryLocator.getRepository();
+			final Type type = repository.parse(fis, null);
+			fis.close();
+			if (filterPredicate.evaluate(type, context)) {
+				if (!checkPredicate.evaluate(type, context)) {
+					final RuleCheckFailed failed = new RuleCheckFailed(ruleName, buildMessage(ruleMessage, type), type.getName(), rulePriority);
+					failed.setLineId(repository.getDeclarationLineNumber(type, sourceDir));
+					result.addRuleExecutionFailed(failed);
+				}
+			}
+		}
+	}
+
+	public CheckingResult check(String project, Collection<File> classFiles, Collection<File> classPath, RulesContext context, File sourceDir, Logger log)
 			throws IntrospectionException, FileNotFoundException, TypeFormatException, IOException {
-		final CheckingResult result = new CheckingResult();
+		final CheckingResult result = new CheckingResult(project);
 		// Add files to classpath
 		for (final File classPathFile : classPath) {
 			log.debug("Adding to classpath: " + classPathFile);
@@ -89,23 +107,5 @@ public class RulesContextChecker {
 			}
 		}
 		return result;
-	}
-
-	private void check(Collection<File> classFiles, Predicate filterPredicate, Predicate checkPredicate, CheckingResult result, RulesContext context,
-			int rulePriority, String ruleMessage, String ruleName, File sourceDir) throws TypeFormatException, IOException {
-		// Iterate class files
-		for (final File classFile : classFiles) {
-			final FileInputStream fis = new FileInputStream(classFile);
-			final Repository repository = RepositoryLocator.getRepository();
-			final Type type = repository.parse(fis, null);
-			fis.close();
-			if (filterPredicate.evaluate(type, context)) {
-				if (!checkPredicate.evaluate(type, context)) {
-					final RuleCheckFailed failed = new RuleCheckFailed(ruleName, buildMessage(ruleMessage, type), type.getName(), rulePriority);
-					failed.setLineId(repository.getDeclarationLineNumber(type, sourceDir));
-					result.addRuleExecutionFailed(failed);
-				}
-			}
-		}
 	}
 }

@@ -18,12 +18,9 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa;
 
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Set;
@@ -43,10 +40,10 @@ import ar.com.fluxit.jqa.bce.TypeFormatException;
 import ar.com.fluxit.jqa.context.RulesContext;
 import ar.com.fluxit.jqa.context.factory.RulesContextFactoryLocator;
 import ar.com.fluxit.jqa.context.factory.exception.RulesContextFactoryException;
+import ar.com.fluxit.jqa.exporter.CheckingResultExporter;
+import ar.com.fluxit.jqa.exporter.ExporterException;
 import ar.com.fluxit.jqa.log.MavenLogLoggerAdapter;
 import ar.com.fluxit.jqa.result.CheckingResult;
-
-import com.thoughtworks.xstream.XStream;
 
 /**
  * Goal checks Java applications for QA
@@ -96,6 +93,11 @@ public class JQAMavenPlugin extends AbstractMojo {
 	 */
 	private File rulesContextFile;
 
+	/**
+	 * @parameter expression="${xslt}"
+	 */
+	private File xslt;
+
 	private Logger logger;
 
 	private void checkParams() {
@@ -117,7 +119,7 @@ public class JQAMavenPlugin extends AbstractMojo {
 	}
 
 	private void doExecute(File buildDirectory, File outputDirectory, File testOutputDirectory, MavenProject project, File sourceDir)
-			throws IntrospectionException, TypeFormatException, FileNotFoundException, IOException, RulesContextFactoryException {
+			throws IntrospectionException, TypeFormatException, FileNotFoundException, IOException, RulesContextFactoryException, ExporterException {
 		// Add project dependencies to classpath
 		getLog().debug("Adding project dependencies to classpath");
 		final Collection<File> classPath = new ArrayList<File>();
@@ -140,27 +142,20 @@ public class JQAMavenPlugin extends AbstractMojo {
 		getLog().debug("Reading rules context");
 		final RulesContext rulesContext = RulesContextFactoryLocator.getRulesContextFactory().getRulesContext(getRulesContextFile().getPath());
 		getLog().debug("Checking rules for " + classFiles.size() + " files");
-		final CheckingResult checkingResult = RulesContextChecker.INSTANCE.check(classFiles, classPath, rulesContext, sourceDir, getLogger());
-		// Writes the results
-		final File resultsFile = new File(getResultsDirectory(), "results-" + project.getArtifactId() + ".xml");
-		getLog().debug("Writing the results on " + resultsFile);
-		final Writer w = new FileWriter(resultsFile);
-		final Writer out = new BufferedWriter(w);
-		final XStream xs = new XStream();
-		xs.setMode(XStream.NO_REFERENCES);
-		xs.toXML(checkingResult, out);
-		out.close();
+		final CheckingResult checkingResult = RulesContextChecker.INSTANCE.check(project.getArtifactId(), classFiles, classPath, rulesContext, sourceDir,
+				getLogger());
+		CheckingResultExporter.INSTANCE.export(checkingResult, project.getArtifactId(), getResultsDirectory(), this.xslt, getLogger());
 	}
 
 	@Override
 	public void execute() throws MojoExecutionException {
 		try {
-			if ("pom".equals(packaging)) {
+			if ("pom".equals(this.packaging)) {
 				getLog().info("Artifact ignored because it has pom packaging");
 			} else {
 				checkParams();
-				doExecute(outputDirectory, new File(project.getBuild().getOutputDirectory()), new File(project.getBuild().getTestOutputDirectory()), project,
-						sourceDir);
+				doExecute(this.outputDirectory, new File(this.project.getBuild().getOutputDirectory()), new File(this.project.getBuild()
+						.getTestOutputDirectory()), this.project, this.sourceDir);
 			}
 		} catch (final Exception e) {
 			throw new MojoExecutionException("An error occurred while executing the rules", e);
@@ -168,25 +163,25 @@ public class JQAMavenPlugin extends AbstractMojo {
 	}
 
 	private Logger getLogger() {
-		if (logger == null) {
-			logger = new MavenLogLoggerAdapter(getLog());
+		if (this.logger == null) {
+			this.logger = new MavenLogLoggerAdapter(getLog());
 		}
-		return logger;
+		return this.logger;
 	}
 
 	public File getResultsDirectory() {
-		return resultsDirectory;
+		return this.resultsDirectory;
 	}
 
 	public File getRulesContextFile() {
-		return rulesContextFile;
+		return this.rulesContextFile;
 	}
 
 	public void setResultsDirectory(File resultFile) {
-		resultsDirectory = resultFile;
+		this.resultsDirectory = resultFile;
 	}
 
 	public void setRulesContextFile(File rulesFile) {
-		rulesContextFile = rulesFile;
+		this.rulesContextFile = rulesFile;
 	}
 }

@@ -16,51 +16,31 @@
  * You should have received a copy of the GNU General Public License
  * along with JQA.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package ar.com.fluxit.jqa.result;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+package ar.com.fluxit.jqa.exporter;
 
 /**
  * TODO javadoc
  * 
  * @author Juan Ignacio Barisich
  */
-public class CheckingResult {
+public class ExporterException extends Exception {
 
-	private Date date;
-	private List<RuleCheckFailed> ruleChecksFailed;
-	private final String project;
+	private static final long serialVersionUID = 3078370894711854637L;
 
-	public CheckingResult(String project) {
-		this.ruleChecksFailed = new ArrayList<RuleCheckFailed>();
-		this.date = new Date();
-		this.project = project;
+	public ExporterException() {
+
 	}
 
-	public void addRuleExecutionFailed(RuleCheckFailed failed) {
-		getRuleChecksFailed().add(failed);
+	public ExporterException(String message) {
+		super(message);
 	}
 
-	public Date getDate() {
-		return this.date;
+	public ExporterException(String message, Throwable cause) {
+		super(message, cause);
 	}
 
-	public String getProject() {
-		return this.project;
-	}
-
-	public List<RuleCheckFailed> getRuleChecksFailed() {
-		return this.ruleChecksFailed;
-	}
-
-	public void setDate(Date date) {
-		this.date = date;
-	}
-
-	public void setRuleChecksFailed(List<RuleCheckFailed> ruleExecutionsFailed) {
-		this.ruleChecksFailed = ruleExecutionsFailed;
+	public ExporterException(Throwable cause) {
+		super(cause);
 	}
 
 }

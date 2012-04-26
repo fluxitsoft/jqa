@@ -90,7 +90,8 @@ public class JQASensor implements Sensor {
 				classPath.addAll(project.getFileSystem().getTestDirs());
 			}
 			final File sourceDir = new File((String) getProject().getCompileSourceRoots().get(0));
-			final CheckingResult check = RulesContextChecker.INSTANCE.check(classFiles, classPath, rulesContext, sourceDir, LOGGER);
+			final CheckingResult check = RulesContextChecker.INSTANCE.check(getProject().getArtifactId(), classFiles, classPath, rulesContext, sourceDir,
+					LOGGER);
 			addViolations(context, check);
 		} catch (final Exception e) {
 			LOGGER.error("An error occurred", e);
@@ -99,7 +100,7 @@ public class JQASensor implements Sensor {
 	}
 
 	private MavenProject getProject() {
-		return project;
+		return this.project;
 	}
 
 	@Override
