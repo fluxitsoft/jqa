@@ -34,12 +34,17 @@
 		<dependency>
 			<groupId>ar.com.fluxit.jqa</groupId>
 			<artifactId>jqa-bce-api</artifactId>
-			<version>${jqa.version}</version>
+			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>bcel</groupId>
 			<artifactId>bcel</artifactId>
 			<version>5.1</version>
+		</dependency>
+		<dependency>
+			<groupId>pmd</groupId>
+			<artifactId>pmd</artifactId>
+			<version>4.2.5</version>			
 		</dependency>
 	</dependencies>
 

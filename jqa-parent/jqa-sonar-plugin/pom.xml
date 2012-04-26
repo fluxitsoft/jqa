@@ -31,7 +31,7 @@
 		<dependency>
 			<groupId>ar.com.fluxit.jqa</groupId>
 			<artifactId>jqa-ctx-factory-xmlbeans</artifactId>
-			<version>${jqa.version}</version>
+			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.codehaus.sonar</groupId>

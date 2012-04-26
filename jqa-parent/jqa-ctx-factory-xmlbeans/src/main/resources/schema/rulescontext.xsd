@@ -14,11 +14,9 @@
     <xsd:attribute name="name" type="xsd:string"/>
   </xsd:complexType>
   <xsd:complexType name="RuleSetImport">
-    <xsd:attribute name="name" type="xsd:string"/>
-    <xsd:attribute name="fileName" type="xsd:string"/>
+    <xsd:attribute name="resource" type="xsd:string"/>
   </xsd:complexType>
   <xsd:complexType name="RulesContextImport">
-    <xsd:attribute name="name" type="xsd:string"/>
-    <xsd:attribute name="fileName" type="xsd:string"/>
+    <xsd:attribute name="resource" type="xsd:string"/>
   </xsd:complexType>
 </xsd:schema>

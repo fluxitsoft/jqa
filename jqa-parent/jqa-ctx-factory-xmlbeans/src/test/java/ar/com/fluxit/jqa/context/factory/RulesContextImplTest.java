@@ -18,7 +18,6 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.context.factory;
 
-import java.io.File;
 import java.net.URL;
 
 import junit.framework.TestCase;
@@ -26,12 +25,12 @@ import ar.com.fluxit.jqa.context.RulesContext;
 import ar.com.fluxit.jqa.context.factory.exception.RulesContextFactoryException;
 import ar.com.fluxit.jqa.predicate.ContextProvidedPredicate;
 import ar.com.fluxit.jqa.predicate.lang.AbstractionPredicate;
+import ar.com.fluxit.jqa.predicate.lang.AbstractionPredicate.AbstractionType;
 import ar.com.fluxit.jqa.predicate.lang.AllocationPredicate;
 import ar.com.fluxit.jqa.predicate.lang.NamingPredicate;
 import ar.com.fluxit.jqa.predicate.lang.ThrowingPredicate;
 import ar.com.fluxit.jqa.predicate.lang.TypingPredicate;
 import ar.com.fluxit.jqa.predicate.lang.UsagePredicate;
-import ar.com.fluxit.jqa.predicate.lang.AbstractionPredicate.AbstractionType;
 import ar.com.fluxit.jqa.predicate.logic.AndPredicate;
 import ar.com.fluxit.jqa.predicate.logic.FalsePredicate;
 import ar.com.fluxit.jqa.predicate.logic.NotPredicate;
@@ -84,7 +83,7 @@ public class RulesContextImplTest extends TestCase {
 	protected void setUp() throws Exception {
 		final RulesContextFactory rulesContextFactory = RulesContextFactoryLocator.getRulesContextFactory();
 		final URL resource = RulesContextImplTest.class.getResource("/sample_rulescontext.xml");
-		this.rulesContext = rulesContextFactory.getRulesContext(new File(resource.getPath()));
+		this.rulesContext = rulesContextFactory.getRulesContext(resource.getPath());
 	}
 
 	@Override
@@ -147,7 +146,7 @@ public class RulesContextImplTest extends TestCase {
 		final RulesContextFactory rulesContextFactory = RulesContextFactoryLocator.getRulesContextFactory();
 		final URL resource = RulesContextImplTest.class.getResource("/invalid_rulescontext.xml");
 		try {
-			rulesContextFactory.getRulesContext(new File(resource.getPath()));
+			rulesContextFactory.getRulesContext(resource.getPath());
 			fail("Must throw an RulesContextFactoryException");
 		} catch (final RulesContextFactoryException e) {
 			// OK
@@ -158,7 +157,7 @@ public class RulesContextImplTest extends TestCase {
 		final RulesContextFactory rulesContextFactory = RulesContextFactoryLocator.getRulesContextFactory();
 		final URL resource = RulesContextImplTest.class.getResource("/invalid_ruleset_rulescontext.xml");
 		try {
-			rulesContextFactory.getRulesContext(new File(resource.getPath()));
+			rulesContextFactory.getRulesContext(resource.getPath());
 			fail("Must throw an RulesContextFactoryException");
 		} catch (final RulesContextFactoryException e) {
 			// OK

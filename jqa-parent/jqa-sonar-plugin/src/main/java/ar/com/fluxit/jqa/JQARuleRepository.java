@@ -56,14 +56,6 @@ public class JQARuleRepository extends RuleRepository {
 		return result;
 	}
 
-	private Rule processRule(Rule rule, ar.com.fluxit.jqa.rule.Rule jqaRule) {
-		rule.setKey(jqaRule.getName());
-		rule.setSeverity(RulePriority.valueOf(getPriority(jqaRule.getPriority())));
-		rule.setName(jqaRule.getName());
-		rule.setDescription(jqaRule.getMessage());
-		return rule;
-	}
-
 	private String getPriority(int priority) {
 		switch (priority) {
 		case 1:
@@ -78,6 +70,14 @@ public class JQARuleRepository extends RuleRepository {
 			return "INFO";
 		}
 		throw new IllegalArgumentException("Priority must be a numerical value between 1 and 5");
+	}
+
+	private Rule processRule(Rule rule, ar.com.fluxit.jqa.rule.Rule jqaRule) {
+		rule.setKey(jqaRule.getName());
+		rule.setSeverity(RulePriority.valueOf(getPriority(jqaRule.getPriority())));
+		rule.setName(jqaRule.getName());
+		rule.setDescription(jqaRule.getMessage());
+		return rule;
 	}
 
 }

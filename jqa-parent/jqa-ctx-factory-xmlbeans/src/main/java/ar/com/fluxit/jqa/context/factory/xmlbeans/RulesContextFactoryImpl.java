@@ -79,35 +79,39 @@ public class RulesContextFactoryImpl implements RulesContextFactory {
 		}
 	}
 
+	// @Override
+	// public RulesContext getRulesContext(InputStream source) throws
+	// RulesContextFactoryException {
+	// RulesContextDocument document;
+	// try {
+	// document = RulesContextDocument.Factory.parse(source);
+	// validate(document, source.toString());
+	// return parse(document.getRulesContext(), null);
+	// } catch (XmlException e) {
+	// throw new RulesContextFactoryException("Invalid rules context file: " +
+	// source, e);
+	// } catch (IOException e) {
+	// throw new
+	// RulesContextFactoryException("Error reading rules context file: " +
+	// source, e);
+	// }
+	// }
+
 	@Override
-	public RulesContext getRulesContext(File source) throws RulesContextFactoryException {
+	public RulesContext getRulesContext(String resource) throws RulesContextFactoryException {
 		try {
-			final File sourceFile = source;
+			final File sourceFile = new File(resource);
 			final RulesContextDocument document = RulesContextDocument.Factory.parse(sourceFile);
 			validate(document, sourceFile.toString());
 			return parse(document.getRulesContext(), sourceFile.getParent());
 		} catch (final RulesContextFactoryException e) {
 			throw e;
 		} catch (final XmlException e) {
-			throw new RulesContextFactoryException("Invalid rules context file: " + source, e);
+			throw new RulesContextFactoryException("Invalid rules context file: " + resource, e);
 		} catch (final IOException e) {
-			throw new RulesContextFactoryException("Error reading rules context file: " + source, e);
+			throw new RulesContextFactoryException("Error reading rules context file: " + resource, e);
 		} catch (final Exception e) {
 			throw new RulesContextFactoryException(e);
-		}
-	}
-
-	@Override
-	public RulesContext getRulesContext(InputStream source) throws RulesContextFactoryException {
-		RulesContextDocument document;
-		try {
-			document = RulesContextDocument.Factory.parse(source);
-			validate(document, source.toString());
-			return parse(document.getRulesContext(), null);
-		} catch (XmlException e) {
-			throw new RulesContextFactoryException("Invalid rules context file: " + source, e);
-		} catch (IOException e) {
-			throw new RulesContextFactoryException("Error reading rules context file: " + source, e);
 		}
 	}
 
@@ -122,17 +126,20 @@ public class RulesContextFactoryImpl implements RulesContextFactory {
 		}
 	}
 
-	private RulesContext importRulesContextByName(String name, String basePath) throws RulesContextFactoryException {
-		InputStream resourceURL = getClass().getResourceAsStream(name);
-		RulesContextDocument document;
-		try {
-			document = RulesContextDocument.Factory.parse(resourceURL);
-			validate(document, name);
-			return parse(document.getRulesContext(), basePath);
-		} catch (final Exception e) {
-			throw new RulesContextFactoryException(e);
-		}
-	}
+	// private RulesContext importRulesContextByName(String name, String
+	// basePath) throws RulesContextFactoryException {
+	// InputStream resourceURL = getClass().getResourceAsStream(name);
+	// RulesContextDocument document;
+	// try {
+	// document = RulesContextDocument.Factory.parse(resourceURL);
+	// validate(document, name);
+	// return parse(document.getRulesContext(), basePath);
+	// } catch(final FileNotFoundException e) {
+	// throw new RulesContextFactoryException("Resource ",e);
+	// } catch (final Exception e) {
+	// throw new RulesContextFactoryException(e);
+	// }
+	// }
 
 	private RuleSet importRuleSetByFileName(String fileName, String basePath) throws RulesContextFactoryException {
 		final File sourceFile = new File(getFilePath(fileName, basePath));
@@ -269,20 +276,25 @@ public class RulesContextFactoryImpl implements RulesContextFactory {
 		return result;
 	}
 
-	private RulesContext parse(RulesContextImport rulesContextImport, String basePath) throws RulesContextFactoryException {
-		RulesContext result;
-		if (rulesContextImport.getFileName() != null) {
-			LOGGER.info("Parsing rules fileName = " + rulesContextImport.getFileName());
-			result = importRulesContextByFileName(rulesContextImport.getFileName(), basePath);
-		} else {
-			LOGGER.info("Parsing rules name = " + rulesContextImport.getName());
-			result = importRulesContextByName(rulesContextImport.getName(), basePath);
-		}
-		if (result == null) {
-			throw new IllegalArgumentException("Invalid Ruleset import " + rulesContextImport);
-		}
-		return result;
-	}
+	// private RulesContext parse(RulesContextImport rulesContextImport, String
+	// basePath) throws RulesContextFactoryException {
+	// RulesContext result = null; // TODO
+	// if (rulesContextImport.getFileName() != null) {
+	// LOGGER.info("Parsing rules fileName = " +
+	// rulesContextImport.getFileName());
+	// result = importRulesContextByFileName(rulesContextImport.getFileName(),
+	// basePath);
+	// } else {
+	// LOGGER.info("Parsing rules name = " + rulesContextImport.getName());
+	// // result = importRulesContextByName(rulesContextImport.getName(),
+	// // basePath);
+	// }
+	// if (result == null) {
+	// throw new IllegalArgumentException("Invalid Ruleset import " +
+	// rulesContextImport);
+	// }
+	// return result;
+	// }
 
 	private RuleSet parse(Ruleset rulesetDocument) {
 		final RuleSetImpl result = new RuleSetImpl();
@@ -296,15 +308,17 @@ public class RulesContextFactoryImpl implements RulesContextFactory {
 	}
 
 	private RuleSet parse(RuleSetImport ruleSetImport, String basePath) throws RulesContextFactoryException {
-		RuleSet result;
-		if (ruleSetImport.getFileName() != null) {
-			result = importRuleSetByFileName(ruleSetImport.getFileName(), basePath);
-		} else {
-			result = importRuleSetByName(ruleSetImport.getName());
-		}
-		if (result == null) {
-			throw new IllegalArgumentException("Invalid Ruleset import " + ruleSetImport);
-		}
+		RuleSet result = null;
+		// if (ruleSetImport.getFileName() != null) {
+		// result = importRuleSetByFileName(ruleSetImport.getFileName(),
+		// basePath);
+		// } else {
+		// result = importRuleSetByName(ruleSetImport.getName());
+		// }
+		// if (result == null) {
+		// throw new IllegalArgumentException("Invalid Ruleset import " +
+		// ruleSetImport);
+		// }
 		return result;
 	}
 

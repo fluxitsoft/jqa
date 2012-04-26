@@ -22,11 +22,18 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 import javax.management.IntrospectionException;
+
+import net.sourceforge.pmd.ast.ASTClassOrInterfaceDeclaration;
+import net.sourceforge.pmd.ast.ASTCompilationUnit;
+import net.sourceforge.pmd.ast.CharStream;
+import net.sourceforge.pmd.ast.JavaCharStream;
+import net.sourceforge.pmd.ast.JavaParser;
 
 import org.apache.bcel.Constants;
 import org.apache.bcel.classfile.ClassParser;
@@ -106,17 +113,12 @@ public class RepositoryImpl implements Repository {
 	}
 
 	@Override
-	public Integer getDeclarationLineNumber(Type type) {
-		// TODO
-		/*
-		 * final Visitor visitor = new EmptyVisitor() {
-		 * 
-		 * @Override public void visitLineNumber(LineNumber obj) {
-		 * super.visitLineNumber(obj); }
-		 * 
-		 * }; new DescendingVisitor(getWrappedClass(type), visitor).visit();
-		 */
-		return null;
+	public Integer getDeclarationLineNumber(Type type, File sourceDir) throws FileNotFoundException {
+		// TODO cache
+		CharStream stream = new JavaCharStream(getSourceFile(type, sourceDir));
+		final JavaParser javaParser = new JavaParser(stream);
+		ASTCompilationUnit compilationUnit = javaParser.CompilationUnit();
+		return compilationUnit.getFirstChildOfType(ASTClassOrInterfaceDeclaration.class).getBeginLine();
 	}
 
 	@Override
@@ -127,6 +129,10 @@ public class RepositoryImpl implements Repository {
 			result.add(new BcelJavaType(interfaz));
 		}
 		return result;
+	}
+
+	public InputStream getSourceFile(Type type, File sourceDir) throws FileNotFoundException {
+		return new FileInputStream(sourceDir + "/" + type.getName().replace(".", "/") + ".java");
 	}
 
 	@Override

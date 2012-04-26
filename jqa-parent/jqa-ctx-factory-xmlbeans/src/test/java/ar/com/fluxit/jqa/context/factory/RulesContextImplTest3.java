@@ -18,7 +18,6 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.context.factory;
 
-import java.io.File;
 import java.net.URL;
 
 import junit.framework.TestCase;
@@ -35,7 +34,7 @@ public class RulesContextImplTest3 extends TestCase {
 		final RulesContextFactory rulesContextFactory = RulesContextFactoryLocator.getRulesContextFactory();
 		final URL resource = RulesContextImplTest3.class.getResource("/invalid_rulesContext_import.xml");
 		try {
-			rulesContextFactory.getRulesContext(new File(resource.getPath()));
+			rulesContextFactory.getRulesContext(resource.getPath());
 			fail("RulesContextFactoryException expected");
 		} catch (RulesContextFactoryException e) {
 			assertEquals("RulesContext import is invalid. Inexistent RulesContext with name: inexistent", e.getMessage());
@@ -46,7 +45,7 @@ public class RulesContextImplTest3 extends TestCase {
 		final RulesContextFactory rulesContextFactory = RulesContextFactoryLocator.getRulesContextFactory();
 		final URL resource = RulesContextImplTest3.class.getResource("/invalid_ruleSet_import.xml");
 		try {
-			rulesContextFactory.getRulesContext(new File(resource.getPath()));
+			rulesContextFactory.getRulesContext(resource.getPath());
 			fail("RulesContextFactoryException expected");
 		} catch (RulesContextFactoryException e) {
 			assertEquals("RulesSet import is invalid. Inexistent RuleSet with name: inexistent", e.getMessage());

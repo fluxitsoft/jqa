@@ -35,7 +35,7 @@ public interface Repository {
 
 	Collection<Type> getAllocations(Type type);
 
-	Integer getDeclarationLineNumber(Type type);
+	Integer getDeclarationLineNumber(Type type, File sourceDir) throws FileNotFoundException;
 
 	/**
 	 * @param type

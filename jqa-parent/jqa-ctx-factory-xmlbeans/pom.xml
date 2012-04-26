@@ -34,7 +34,7 @@
 		<dependency>
 			<groupId>ar.com.fluxit.jqa</groupId>
 			<artifactId>jqa-ctx-factory-api</artifactId>
-			<version>${jqa.version}</version>
+			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.xmlbeans</groupId>

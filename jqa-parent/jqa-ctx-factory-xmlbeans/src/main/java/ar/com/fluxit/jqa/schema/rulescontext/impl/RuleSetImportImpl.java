@@ -20,22 +20,20 @@ public class RuleSetImportImpl extends org.apache.xmlbeans.impl.values.XmlComple
         super(sType);
     }
     
-    private static final javax.xml.namespace.QName NAME$0 = 
-        new javax.xml.namespace.QName("", "name");
-    private static final javax.xml.namespace.QName FILENAME$2 = 
-        new javax.xml.namespace.QName("", "fileName");
+    private static final javax.xml.namespace.QName RESOURCE$0 = 
+        new javax.xml.namespace.QName("", "resource");
     
     
     /**
-     * Gets the "name" attribute
+     * Gets the "resource" attribute
      */
-    public java.lang.String getName()
+    public java.lang.String getResource()
     {
         synchronized (monitor())
         {
             check_orphaned();
             org.apache.xmlbeans.SimpleValue target = null;
-            target = (org.apache.xmlbeans.SimpleValue)get_store().find_attribute_user(NAME$0);
+            target = (org.apache.xmlbeans.SimpleValue)get_store().find_attribute_user(RESOURCE$0);
             if (target == null)
             {
                 return null;
@@ -45,168 +43,76 @@ public class RuleSetImportImpl extends org.apache.xmlbeans.impl.values.XmlComple
     }
     
     /**
-     * Gets (as xml) the "name" attribute
+     * Gets (as xml) the "resource" attribute
      */
-    public org.apache.xmlbeans.XmlString xgetName()
+    public org.apache.xmlbeans.XmlString xgetResource()
     {
         synchronized (monitor())
         {
             check_orphaned();
             org.apache.xmlbeans.XmlString target = null;
-            target = (org.apache.xmlbeans.XmlString)get_store().find_attribute_user(NAME$0);
+            target = (org.apache.xmlbeans.XmlString)get_store().find_attribute_user(RESOURCE$0);
             return target;
         }
     }
     
     /**
-     * True if has "name" attribute
+     * True if has "resource" attribute
      */
-    public boolean isSetName()
+    public boolean isSetResource()
     {
         synchronized (monitor())
         {
             check_orphaned();
-            return get_store().find_attribute_user(NAME$0) != null;
+            return get_store().find_attribute_user(RESOURCE$0) != null;
         }
     }
     
     /**
-     * Sets the "name" attribute
+     * Sets the "resource" attribute
      */
-    public void setName(java.lang.String name)
+    public void setResource(java.lang.String resource)
     {
         synchronized (monitor())
         {
             check_orphaned();
             org.apache.xmlbeans.SimpleValue target = null;
-            target = (org.apache.xmlbeans.SimpleValue)get_store().find_attribute_user(NAME$0);
+            target = (org.apache.xmlbeans.SimpleValue)get_store().find_attribute_user(RESOURCE$0);
             if (target == null)
             {
-                target = (org.apache.xmlbeans.SimpleValue)get_store().add_attribute_user(NAME$0);
+                target = (org.apache.xmlbeans.SimpleValue)get_store().add_attribute_user(RESOURCE$0);
             }
-            target.setStringValue(name);
+            target.setStringValue(resource);
         }
     }
     
     /**
-     * Sets (as xml) the "name" attribute
+     * Sets (as xml) the "resource" attribute
      */
-    public void xsetName(org.apache.xmlbeans.XmlString name)
+    public void xsetResource(org.apache.xmlbeans.XmlString resource)
     {
         synchronized (monitor())
         {
             check_orphaned();
             org.apache.xmlbeans.XmlString target = null;
-            target = (org.apache.xmlbeans.XmlString)get_store().find_attribute_user(NAME$0);
+            target = (org.apache.xmlbeans.XmlString)get_store().find_attribute_user(RESOURCE$0);
             if (target == null)
             {
-                target = (org.apache.xmlbeans.XmlString)get_store().add_attribute_user(NAME$0);
+                target = (org.apache.xmlbeans.XmlString)get_store().add_attribute_user(RESOURCE$0);
             }
-            target.set(name);
+            target.set(resource);
         }
     }
     
     /**
-     * Unsets the "name" attribute
+     * Unsets the "resource" attribute
      */
-    public void unsetName()
+    public void unsetResource()
     {
         synchronized (monitor())
         {
             check_orphaned();
-            get_store().remove_attribute(NAME$0);
-        }
-    }
-    
-    /**
-     * Gets the "fileName" attribute
-     */
-    public java.lang.String getFileName()
-    {
-        synchronized (monitor())
-        {
-            check_orphaned();
-            org.apache.xmlbeans.SimpleValue target = null;
-            target = (org.apache.xmlbeans.SimpleValue)get_store().find_attribute_user(FILENAME$2);
-            if (target == null)
-            {
-                return null;
-            }
-            return target.getStringValue();
-        }
-    }
-    
-    /**
-     * Gets (as xml) the "fileName" attribute
-     */
-    public org.apache.xmlbeans.XmlString xgetFileName()
-    {
-        synchronized (monitor())
-        {
-            check_orphaned();
-            org.apache.xmlbeans.XmlString target = null;
-            target = (org.apache.xmlbeans.XmlString)get_store().find_attribute_user(FILENAME$2);
-            return target;
-        }
-    }
-    
-    /**
-     * True if has "fileName" attribute
-     */
-    public boolean isSetFileName()
-    {
-        synchronized (monitor())
-        {
-            check_orphaned();
-            return get_store().find_attribute_user(FILENAME$2) != null;
-        }
-    }
-    
-    /**
-     * Sets the "fileName" attribute
-     */
-    public void setFileName(java.lang.String fileName)
-    {
-        synchronized (monitor())
-        {
-            check_orphaned();
-            org.apache.xmlbeans.SimpleValue target = null;
-            target = (org.apache.xmlbeans.SimpleValue)get_store().find_attribute_user(FILENAME$2);
-            if (target == null)
-            {
-                target = (org.apache.xmlbeans.SimpleValue)get_store().add_attribute_user(FILENAME$2);
-            }
-            target.setStringValue(fileName);
-        }
-    }
-    
-    /**
-     * Sets (as xml) the "fileName" attribute
-     */
-    public void xsetFileName(org.apache.xmlbeans.XmlString fileName)
-    {
-        synchronized (monitor())
-        {
-            check_orphaned();
-            org.apache.xmlbeans.XmlString target = null;
-            target = (org.apache.xmlbeans.XmlString)get_store().find_attribute_user(FILENAME$2);
-            if (target == null)
-            {
-                target = (org.apache.xmlbeans.XmlString)get_store().add_attribute_user(FILENAME$2);
-            }
-            target.set(fileName);
-        }
-    }
-    
-    /**
-     * Unsets the "fileName" attribute
-     */
-    public void unsetFileName()
-    {
-        synchronized (monitor())
-        {
-            check_orphaned();
-            get_store().remove_attribute(FILENAME$2);
+            get_store().remove_attribute(RESOURCE$0);
         }
     }
 }

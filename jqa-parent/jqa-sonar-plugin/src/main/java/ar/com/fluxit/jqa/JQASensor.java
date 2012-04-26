@@ -88,7 +88,7 @@ public class JQASensor implements Sensor {
 			if (project.getFileSystem().getTestDirs() != null) {
 				classPath.addAll(project.getFileSystem().getTestDirs());
 			}
-			final CheckingResult check = RulesContextChecker.INSTANCE.check(classFiles, classPath, rulesContext, LOGGER);
+			final CheckingResult check = RulesContextChecker.INSTANCE.check(classFiles, classPath, rulesContext, getProject().getBasedir(), LOGGER);
 			addViolations(context, check);
 		} catch (final Exception e) {
 			LOGGER.error("An error occurred", e);

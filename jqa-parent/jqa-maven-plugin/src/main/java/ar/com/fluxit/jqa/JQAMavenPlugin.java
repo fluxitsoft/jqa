@@ -78,6 +78,13 @@ public class JQAMavenPlugin extends AbstractMojo {
 	private File outputDirectory;
 
 	/**
+	 * @parameter default-value="${project.build.sourceDirectory}"
+	 * @readonly
+	 * @required
+	 */
+	private File sourceDir;
+
+	/**
 	 * @parameter expression="${resultsDirectory}"
 	 * @required
 	 */
@@ -109,8 +116,8 @@ public class JQAMavenPlugin extends AbstractMojo {
 		}
 	}
 
-	private void doExecute(File buildDirectory, File outputDirectory, File testOutputDirectory, MavenProject project) throws IntrospectionException,
-			TypeFormatException, FileNotFoundException, IOException, RulesContextFactoryException {
+	private void doExecute(File buildDirectory, File outputDirectory, File testOutputDirectory, MavenProject project, File sourceDir)
+			throws IntrospectionException, TypeFormatException, FileNotFoundException, IOException, RulesContextFactoryException {
 		// Add project dependencies to classpath
 		getLog().debug("Adding project dependencies to classpath");
 		final Collection<File> classPath = new ArrayList<File>();
@@ -127,12 +134,13 @@ public class JQAMavenPlugin extends AbstractMojo {
 			classPath.add(testOutputDirectory);
 		}
 		getLog().debug("Adding project classes to classpath");
-		final Collection<File> classFiles = FileUtils.listFiles(buildDirectory, new SuffixFileFilter(RulesContextChecker.CLASS_SUFFIX), TrueFileFilter.INSTANCE);
+		final Collection<File> classFiles = FileUtils
+				.listFiles(buildDirectory, new SuffixFileFilter(RulesContextChecker.CLASS_SUFFIX), TrueFileFilter.INSTANCE);
 		// Reads the config file
 		getLog().debug("Reading rules context");
-		final RulesContext rulesContext = RulesContextFactoryLocator.getRulesContextFactory().getRulesContext(getRulesContextFile());
+		final RulesContext rulesContext = RulesContextFactoryLocator.getRulesContextFactory().getRulesContext(getRulesContextFile().getPath());
 		getLog().debug("Checking rules for " + classFiles.size() + " files");
-		final CheckingResult checkingResult = RulesContextChecker.INSTANCE.check(classFiles, classPath, rulesContext, getLogger());
+		final CheckingResult checkingResult = RulesContextChecker.INSTANCE.check(classFiles, classPath, rulesContext, sourceDir, getLogger());
 		// Writes the results
 		final File resultsFile = new File(getResultsDirectory(), "results-" + project.getArtifactId() + ".xml");
 		getLog().debug("Writing the results on " + resultsFile);
@@ -147,37 +155,38 @@ public class JQAMavenPlugin extends AbstractMojo {
 	@Override
 	public void execute() throws MojoExecutionException {
 		try {
-			if ("pom".equals(packaging)) {
+			if ("pom".equals(this.packaging)) {
 				getLog().info("Artifact ignored because it has pom packaging");
 			} else {
 				checkParams();
-				doExecute(outputDirectory, new File(project.getBuild().getOutputDirectory()), new File(project.getBuild().getTestOutputDirectory()), project);
+				doExecute(this.outputDirectory, new File(this.project.getBuild().getOutputDirectory()), new File(this.project.getBuild()
+						.getTestOutputDirectory()), this.project, this.sourceDir);
 			}
 		} catch (final Exception e) {
-			throw new IllegalStateException(e);
+			throw new MojoExecutionException("An error occurred while executing the rules", e);
 		}
 	}
 
 	private Logger getLogger() {
-		if (logger == null) {
-			logger = new MavenLogLoggerAdapter(getLog());
+		if (this.logger == null) {
+			this.logger = new MavenLogLoggerAdapter(getLog());
 		}
-		return logger;
+		return this.logger;
 	}
 
 	public File getResultsDirectory() {
-		return resultsDirectory;
+		return this.resultsDirectory;
 	}
 
 	public File getRulesContextFile() {
-		return rulesContextFile;
+		return this.rulesContextFile;
 	}
 
 	public void setResultsDirectory(File resultFile) {
-		resultsDirectory = resultFile;
+		this.resultsDirectory = resultFile;
 	}
 
 	public void setRulesContextFile(File rulesFile) {
-		rulesContextFile = rulesFile;
+		this.rulesContextFile = rulesFile;
 	}
 }

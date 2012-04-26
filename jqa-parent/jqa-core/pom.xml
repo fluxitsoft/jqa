@@ -36,12 +36,12 @@
 		<dependency>
 			<groupId>ar.com.fluxit.jqa</groupId>
 			<artifactId>jqa-bce-api</artifactId>
-			<version>${jqa.version}</version>
+			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>ar.com.fluxit.jqa</groupId>
-			<artifactId>jqa-bce-asm</artifactId>
-			<version>${jqa.version}</version>
+			<artifactId>jqa-bce-bcel</artifactId>
+			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>

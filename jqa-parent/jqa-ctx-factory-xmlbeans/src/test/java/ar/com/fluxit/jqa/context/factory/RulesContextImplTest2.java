@@ -18,7 +18,6 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.context.factory;
 
-import java.io.File;
 import java.net.URL;
 
 import junit.framework.TestCase;
@@ -39,7 +38,7 @@ public class RulesContextImplTest2 extends TestCase {
 	protected void setUp() throws Exception {
 		final RulesContextFactory rulesContextFactory = RulesContextFactoryLocator.getRulesContextFactory();
 		final URL resource = RulesContextImplTest2.class.getResource("/sample_rulescontext2.xml");
-		this.rulesContext = rulesContextFactory.getRulesContext(new File(resource.getPath()));
+		this.rulesContext = rulesContextFactory.getRulesContext(resource.getPath());
 	}
 
 	@Override

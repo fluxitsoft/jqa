@@ -36,17 +36,17 @@
 		<dependency>
 			<groupId>ar.com.fluxit.jqa</groupId>
 			<artifactId>jqa-core</artifactId>
-			<version>${jqa.version}</version>
+			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>ar.com.fluxit.jqa</groupId>
 			<artifactId>jqa-bce-api</artifactId>
-			<version>${jqa.version}</version>			
+			<version>${project.parent.version}</version>			
 		</dependency>
 		<dependency>
 			<groupId>ar.com.fluxit.jqa</groupId>
 			<artifactId>jqa-ctx-factory-xmlbeans</artifactId>
-			<version>${jqa.version}</version>
+			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.maven</groupId>

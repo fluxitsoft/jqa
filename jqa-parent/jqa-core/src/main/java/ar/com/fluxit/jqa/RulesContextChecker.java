@@ -66,8 +66,8 @@ public class RulesContextChecker {
 		return ruleMessage;
 	}
 
-	public CheckingResult check(Collection<File> classFiles, Collection<File> classPath, RulesContext context, Logger log) throws IntrospectionException,
-			FileNotFoundException, TypeFormatException, IOException {
+	public CheckingResult check(Collection<File> classFiles, Collection<File> classPath, RulesContext context, File sourceDir, Logger log)
+			throws IntrospectionException, FileNotFoundException, TypeFormatException, IOException {
 		final CheckingResult result = new CheckingResult();
 		// Add files to classpath
 		for (final File classPathFile : classPath) {
@@ -79,11 +79,12 @@ public class RulesContextChecker {
 			// Iterate rules
 			for (final Rule rule : ruleset.getRules()) {
 				log.debug("Checking rule (in normal mode): " + rule.getName());
-				check(classFiles, rule.getFilterPredicate(), rule.getCheckPredicate(), result, context, rule.getPriority(), rule.getMessage(), rule.getName());
+				check(classFiles, rule.getFilterPredicate(), rule.getCheckPredicate(), result, context, rule.getPriority(), rule.getMessage(), rule.getName(),
+						sourceDir);
 				if (rule.getBidirectionalCheck()) {
 					log.debug("Checking rule (in inverse mode): " + rule.getName());
 					check(classFiles, rule.getCheckPredicate(), rule.getFilterPredicate(), result, context, rule.getPriority(), rule.getMessage(),
-							rule.getName());
+							rule.getName(), sourceDir);
 				}
 			}
 		}
@@ -91,7 +92,7 @@ public class RulesContextChecker {
 	}
 
 	private void check(Collection<File> classFiles, Predicate filterPredicate, Predicate checkPredicate, CheckingResult result, RulesContext context,
-			int rulePriority, String ruleMessage, String ruleName) throws TypeFormatException, IOException {
+			int rulePriority, String ruleMessage, String ruleName, File sourceDir) throws TypeFormatException, IOException {
 		// Iterate class files
 		for (final File classFile : classFiles) {
 			final FileInputStream fis = new FileInputStream(classFile);
@@ -101,7 +102,7 @@ public class RulesContextChecker {
 			if (filterPredicate.evaluate(type, context)) {
 				if (!checkPredicate.evaluate(type, context)) {
 					final RuleCheckFailed failed = new RuleCheckFailed(ruleName, buildMessage(ruleMessage, type), type.getName(), rulePriority);
-					failed.setLineId(repository.getDeclarationLineNumber(type));
+					failed.setLineId(repository.getDeclarationLineNumber(type, sourceDir));
 					result.addRuleExecutionFailed(failed);
 				}
 			}

@@ -91,6 +91,10 @@ public class RulesContextCheckerTest extends TestCase {
 		return this.log;
 	}
 
+	private File getSourceDir() {
+		return new File(System.getProperty("user.dir") + "/src/test/java");
+	}
+
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
@@ -107,7 +111,7 @@ public class RulesContextCheckerTest extends TestCase {
 		final Collection<File> classFiles = FileUtils.INSTANCE.getClassFiles(ClassA.class);
 		final Collection<RuleSet> configuration = createRuleSets(FalsePredicate.INSTANCE, TruePredicate.INSTANCE, true);
 		final RulesContext context = createRulesContext(configuration);
-		final CheckingResult result = getChecker().check(classFiles, Collections.<File> emptyList(), context, getLog());
+		final CheckingResult result = getChecker().check(classFiles, Collections.<File> emptyList(), context, getSourceDir(), getLog());
 		assertNotNull(result);
 		assertNotNull(result.getDate());
 		assertNotNull(result.getRuleChecksFailed());
@@ -118,7 +122,7 @@ public class RulesContextCheckerTest extends TestCase {
 		final Collection<File> classFiles = FileUtils.INSTANCE.getClassFiles(ClassA.class);
 		final Collection<RuleSet> configuration = createRuleSets(TruePredicate.INSTANCE, FalsePredicate.INSTANCE);
 		final RulesContext context = createRulesContext(configuration);
-		final CheckingResult result = getChecker().check(classFiles, Collections.<File> emptyList(), context, getLog());
+		final CheckingResult result = getChecker().check(classFiles, Collections.<File> emptyList(), context, getSourceDir(), getLog());
 		assertNotNull(result);
 		assertNotNull(result.getDate());
 		assertNotNull(result.getRuleChecksFailed());
@@ -129,7 +133,7 @@ public class RulesContextCheckerTest extends TestCase {
 		final Collection<File> classFiles = FileUtils.INSTANCE.getClassFiles(ClassA.class);
 		final Collection<RuleSet> configuration = createRuleSets(TruePredicate.INSTANCE, TruePredicate.INSTANCE);
 		final RulesContext context = createRulesContext(configuration);
-		final CheckingResult result = getChecker().check(classFiles, Collections.<File> emptyList(), context, getLog());
+		final CheckingResult result = getChecker().check(classFiles, Collections.<File> emptyList(), context, getSourceDir(), getLog());
 		assertNotNull(result);
 		assertNotNull(result.getDate());
 		assertNotNull(result.getRuleChecksFailed());
@@ -140,7 +144,7 @@ public class RulesContextCheckerTest extends TestCase {
 		final Collection<File> classFiles = new ArrayList<File>();
 		final Collection<RuleSet> configuration = createRuleSets(TruePredicate.INSTANCE, TruePredicate.INSTANCE);
 		final RulesContext context = createRulesContext(configuration);
-		final CheckingResult result = getChecker().check(classFiles, Collections.<File> emptyList(), context, getLog());
+		final CheckingResult result = getChecker().check(classFiles, Collections.<File> emptyList(), context, getSourceDir(), getLog());
 		assertNotNull(result);
 		assertNotNull(result.getDate());
 		assertNotNull(result.getRuleChecksFailed());
@@ -151,7 +155,7 @@ public class RulesContextCheckerTest extends TestCase {
 		final Collection<File> classFiles = FileUtils.INSTANCE.getClassFiles(ClassA.class);
 		final Collection<RuleSet> configuration = createRuleSets(TruePredicate.INSTANCE, FalsePredicate.INSTANCE, true);
 		final RulesContext context = createRulesContext(configuration);
-		final CheckingResult result = getChecker().check(classFiles, Collections.<File> emptyList(), context, getLog());
+		final CheckingResult result = getChecker().check(classFiles, Collections.<File> emptyList(), context, getSourceDir(), getLog());
 		assertNotNull(result);
 		assertNotNull(result.getDate());
 		assertNotNull(result.getRuleChecksFailed());
@@ -162,7 +166,7 @@ public class RulesContextCheckerTest extends TestCase {
 		final Collection<File> classFiles = FileUtils.INSTANCE.getClassFiles(ClassA.class);
 		final Collection<RuleSet> configuration = createRuleSets(TruePredicate.INSTANCE, TruePredicate.INSTANCE);
 		final RulesContext context = createRulesContext(configuration);
-		final CheckingResult result = getChecker().check(classFiles, Collections.<File> emptyList(), context, getLog());
+		final CheckingResult result = getChecker().check(classFiles, Collections.<File> emptyList(), context, getSourceDir(), getLog());
 		assertNotNull(result);
 		assertNotNull(result.getDate());
 		assertNotNull(result.getRuleChecksFailed());

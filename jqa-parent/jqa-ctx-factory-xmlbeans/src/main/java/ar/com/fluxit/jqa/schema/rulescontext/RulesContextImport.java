@@ -16,67 +16,37 @@ package ar.com.fluxit.jqa.schema.rulescontext;
 public interface RulesContextImport extends org.apache.xmlbeans.XmlObject
 {
     public static final org.apache.xmlbeans.SchemaType type = (org.apache.xmlbeans.SchemaType)
-        org.apache.xmlbeans.XmlBeans.typeSystemForClassLoader(RulesContextImport.class.getClassLoader(), "schemaorg_apache_xmlbeans.system.sA7A5C0A6A4AE9BE15689417136C55B17").resolveHandle("rulescontextimport514btype");
+        org.apache.xmlbeans.XmlBeans.typeSystemForClassLoader(RulesContextImport.class.getClassLoader(), "schemaorg_apache_xmlbeans.system.s6FB343E9FE486040BA500FF3C3C08A26").resolveHandle("rulescontextimport514btype");
     
     /**
-     * Gets the "name" attribute
+     * Gets the "resource" attribute
      */
-    java.lang.String getName();
+    java.lang.String getResource();
     
     /**
-     * Gets (as xml) the "name" attribute
+     * Gets (as xml) the "resource" attribute
      */
-    org.apache.xmlbeans.XmlString xgetName();
+    org.apache.xmlbeans.XmlString xgetResource();
     
     /**
-     * True if has "name" attribute
+     * True if has "resource" attribute
      */
-    boolean isSetName();
+    boolean isSetResource();
     
     /**
-     * Sets the "name" attribute
+     * Sets the "resource" attribute
      */
-    void setName(java.lang.String name);
+    void setResource(java.lang.String resource);
     
     /**
-     * Sets (as xml) the "name" attribute
+     * Sets (as xml) the "resource" attribute
      */
-    void xsetName(org.apache.xmlbeans.XmlString name);
+    void xsetResource(org.apache.xmlbeans.XmlString resource);
     
     /**
-     * Unsets the "name" attribute
+     * Unsets the "resource" attribute
      */
-    void unsetName();
-    
-    /**
-     * Gets the "fileName" attribute
-     */
-    java.lang.String getFileName();
-    
-    /**
-     * Gets (as xml) the "fileName" attribute
-     */
-    org.apache.xmlbeans.XmlString xgetFileName();
-    
-    /**
-     * True if has "fileName" attribute
-     */
-    boolean isSetFileName();
-    
-    /**
-     * Sets the "fileName" attribute
-     */
-    void setFileName(java.lang.String fileName);
-    
-    /**
-     * Sets (as xml) the "fileName" attribute
-     */
-    void xsetFileName(org.apache.xmlbeans.XmlString fileName);
-    
-    /**
-     * Unsets the "fileName" attribute
-     */
-    void unsetFileName();
+    void unsetResource();
     
     /**
      * A factory class with static methods for creating instances

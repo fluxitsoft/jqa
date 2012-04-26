@@ -34,7 +34,7 @@
 		<dependency>
 			<groupId>ar.com.fluxit.jqa</groupId>
 			<artifactId>jqa-core</artifactId>
-			<version>${jqa.version}</version>			
+			<version>${project.parent.version}</version>			
 		</dependency>
 	</dependencies>
 </project>
