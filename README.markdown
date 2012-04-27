@@ -29,13 +29,15 @@ First, download and install JQA:
     cd jqa/jqa-parent/
     mvn clean install
     
-Then, run one of the plugins.
-##### To run the JQA Maven plugin:
+Then, run one of the plugins:      
+* To run the JQA Maven plugin:
+
     cd jqa-test-parent
     mvn ar.com.fluxit.jqa:jqa-maven-plugin:check
     xdg-open jqa-test-project/target/results-jqa-test-project.html
     
-##### To run the JQA Sonar plugin:
+* To run the JQA Sonar plugin:
+
     cd jqa-sonar-plugin
     mvn org.codehaus.sonar:sonar-dev-maven-plugin::start-war -Dsonar.runtimeVersion=2.14 > target/sonar.log  &
     tail -f target/sonar.log | while read line; do echo $line | grep -q 'Database is up' && break; done
