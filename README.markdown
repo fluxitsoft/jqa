@@ -4,7 +4,8 @@ JQA is an open source tool for QA of Java applications. It is considered a suppl
 ## Features
 JQA is integrated with:
 * Maven 2 (http://maven.apache.org/)    
-* Sonar (http://www.sonarsource.org/)   
+* Sonar (http://www.sonarsource.org/)
+
 JQA allows you to write rules to check your classes regarding:
 * Naming
 * Typing
@@ -26,14 +27,16 @@ JQA allows you to write rules to check your classes regarding:
     mvn ar.com.fluxit.jqa:jqa-maven-plugin:check
     cat jqa-test-project/target/results-jqa-test-project.html
 ### Installation
-TODO
+TODO how to install JQA
+
 ### Usage
-TODO
+TODO how to run JQA
+
 ### Customizing JQA
-TODO
+TODO how to customize JQA by creating new rules
 
 ## Contribute
-TODO
+TODO hot to contribute
 
 ## License
 This project is under GNU General Public License version 3 or later (http://www.gnu.org/licenses/)
