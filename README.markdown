@@ -14,6 +14,9 @@ JQA allows you to write rules to check your classes regarding:
 * Exception throwing
 * Abstraction
 
+## Screenshots
+[Here](http://github.com/jbaris/jqa/wiki/Screenshots) are few screenshots of JQA in action.
+
 ## Requirements
 * Java 5 or later
 * Maven 2
