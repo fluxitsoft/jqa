@@ -36,7 +36,7 @@ TODO how to run JQA
 TODO how to customize JQA by creating new rules
 
 ## Contribute
-TODO hot to contribute
+JQA is under development, and contributors are welcome. If you have a feature request, suggestion, or bug report, please [open a new issue](https://github.com/jbaris/jqa/issues). To submit patches, please send a pull request. Once your changes get merged back in, you’ll automatically be added to the [Contributors List](http://github.com/jbaris/jqa/graphs/contributors)
 
 ## License
 This project is under GNU General Public License version 3 or later (http://www.gnu.org/licenses/)
