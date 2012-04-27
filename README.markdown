@@ -23,7 +23,8 @@ JQA allows you to write rules to check your classes regarding:
 
 ## Documentation
 ### Getting started
-To run the JQA Maven plugin:      
+To run the JQA Maven plugin:
+
     git clone http://github.com/jbaris/jqa
     cd jqa/jqa-parent/
     mvn clean install
@@ -31,7 +32,8 @@ To run the JQA Maven plugin:
     mvn ar.com.fluxit.jqa:jqa-maven-plugin:check
     cat jqa-test-project/target/results-jqa-test-project.html
     
-To run the JQA Sonar plugin:      
+To run the JQA Sonar plugin:
+
     git clone http://github.com/jbaris/jqa
     cd jqa/jqa-parent/
     mvn clean install
