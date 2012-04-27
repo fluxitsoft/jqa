@@ -30,7 +30,7 @@ To run the JQA Maven plugin:
     mvn clean install
     cd jqa-test-parent
     mvn ar.com.fluxit.jqa:jqa-maven-plugin:check
-    cat jqa-test-project/target/results-jqa-test-project.html
+    xdg-open jqa-test-project/target/results-jqa-test-project.html
     
 To run the JQA Sonar plugin:
 
@@ -45,7 +45,7 @@ To run the JQA Sonar plugin:
     xdg-open http://localhost:9000/drilldown/violations/ar.com.fluxit.jqa:jqa-test-parent
 
 ### Guides
-If you want to use JQA, see the [User's guide](http://github.com/jbaris/jqa/wiki/User-guide).
+If you want to use JQA, see the [User's guide](http://github.com/jbaris/jqa/wiki/User-guide).     
 If you want to contribute to JQA, see the [Developer's guide](http://github.com/jbaris/jqa/wiki/Developer-guide).
 
 ## Contribute
