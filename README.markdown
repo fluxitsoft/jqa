@@ -29,22 +29,21 @@ First, download and install JQA:
     cd jqa/jqa-parent/
     mvn clean install
     
-Then, run one of the plugins:      
-* To run the JQA Maven plugin
+Then, run one of the JQA plugins. 
+     
+   **To run the JQA Maven plugin:**
 
     cd jqa-test-parent
     mvn ar.com.fluxit.jqa:jqa-maven-plugin:check
     xdg-open jqa-test-project/target/results-jqa-test-project.html     
-
-* To run the JQA Sonar plugin
+   **To run the JQA Sonar plugin:**    
 
     cd jqa-sonar-plugin
-    mvn org.codehaus.sonar:sonar-dev-maven-plugin::start-war -Dsonar.runtimeVersion=2.14 > target/sonar.log  &
+    mvn org.codehaus.sonar:sonar-dev-maven-plugin::start-war -Dsonar.runtimeVersion=2.14 > target/sonar.log &
     tail -f target/sonar.log | while read line; do echo $line | grep -q 'Database is up' && break; done
     cd ../jqa-test-parent
     mvn sonar:sonar -Dsonar.profile="JQA way"
     xdg-open http://localhost:9000/drilldown/violations/ar.com.fluxit.jqa:jqa-test-parent
-
 ### Guides
 If you want to use JQA, see the [User's guide](http://github.com/jbaris/jqa/wiki/User-guide).     
 If you want to contribute to JQA, see the [Developer's guide](http://github.com/jbaris/jqa/wiki/Developer-guide).
