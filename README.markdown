@@ -1,5 +1,5 @@
 # Java Quality Assurance (JQA) [![](https://secure.travis-ci.org/jbaris/jqa.png?branch=master)](http://travis-ci.org/jbaris/jqa)
-JQA is an open source tool for QA of Java applications. It is considered a supplement to tools like PMD (http://pmd.sourceforge.net) or Firebugs (http://findbugs.sourceforge.net/) because it allows to write rules that exploit the bytecode engine capabilities.
+JQA is an open source tool for QA of Java applications. It is considered a supplement to tools like PMD (http://pmd.sourceforge.net/) or Firebugs (http://findbugs.sourceforge.net/) because it allows to write rules that exploit the bytecode engine capabilities.
 
 ## Features
 JQA is integrated with:
@@ -23,12 +23,24 @@ JQA allows you to write rules to check your classes regarding:
 
 ## Documentation
 ### Getting started
+To run the JQA Maven plugin:
     git clone http://github.com/jbaris/jqa
     cd jqa/jqa-parent/
     mvn clean install
     cd jqa-test-parent
     mvn ar.com.fluxit.jqa:jqa-maven-plugin:check
     cat jqa-test-project/target/results-jqa-test-project.html
+    
+To run the JQA Sonar plugin:
+    git clone http://github.com/jbaris/jqa
+    cd jqa/jqa-parent/
+    mvn clean install
+    cd jqa-sonar-plugin
+    mvn org.codehaus.sonar:sonar-dev-maven-plugin::start-war -Dsonar.runtimeVersion=2.14 > target/sonar.log  &
+    tail -f target/sonar.log | while read line; do echo $line | grep -q 'Database is up' && break; done
+	cd ../jqa-test-parent
+    mvn sonar:sonar -Dsonar.profile="JQA way"
+    xdg-open http://localhost:9000/drilldown/violations/ar.com.fluxit.jqa:jqa-test-parent
 
 ### Guides
 If you want to use JQA, see the [User's guide](http://github.com/jbaris/jqa/wiki/User-guide).
