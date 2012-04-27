@@ -17,7 +17,7 @@ JQA is integrated with:
 JQA allows you to write rules to check your classes regarding:
 * Naming
 * Typing
-* Usage
+* Usages
 * Allocations
 * Exception throwing
 * Abstraction
