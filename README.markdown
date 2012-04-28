@@ -1,18 +1,10 @@
-# Java Quality Assurance (JQA) [![Build Status](https://secure.travis-ci.org/jbaris/jqa.png?branch=master)](http://travis-ci.org/jbaris/jqa)
-JQA is an open source tool for QA of Java applications. It is considered a supplement to tools like PMD (http://pmd.sourceforge.net) or Firebugs (http://findbugs.sourceforge.net/) because it allows to write rules that exploit the bytecode engine capabilities.
-
-## Quickstart
-    git clone https://github.com/jbaris/jqa
-    cd jqa/jqa-parent/
-    mvn clean install
-    cd jqa-test-parent
-    mvn ar.com.fluxit.jqa:jqa-maven-plugin:check
-    cat jqa-test-project/target/results-jqa-test-project.html
+# Java Quality Assurance (JQA) [![](https://secure.travis-ci.org/jbaris/jqa.png?branch=master)](http://travis-ci.org/jbaris/jqa)
+JQA is an open source tool for QA of Java applications. It is considered a supplement to tools like PMD (http://pmd.sourceforge.net/) or Firebugs (http://findbugs.sourceforge.net/) because it allows to write rules that exploit the bytecode engine capabilities.
 
 ## Features
 JQA is integrated with:
 * Maven 2 (http://maven.apache.org/)    
-* Sonar (http://www.sonarsource.org/)   
+* Sonar (http://www.sonarsource.org/)
 
 JQA allows you to write rules to check your classes regarding:
 * Naming
@@ -22,8 +14,42 @@ JQA allows you to write rules to check your classes regarding:
 * Exception throwing
 * Abstraction
 
+## Screenshots
+[Here](http://github.com/jbaris/jqa/wiki/Screenshots) are few screenshots of JQA in action.
+
+## Requirements
+* Java 5 or later
+* Maven 2
+
 ## Documentation
-TODO
+### Quick start
+First, download and install JQA:
+
+    git clone http://github.com/jbaris/jqa
+    cd jqa/jqa-parent/
+    mvn clean install
+    
+Then, run one of the JQA plugins. 
+     
+   **To run the JQA Maven plugin:**
+
+    cd jqa-test-parent
+    mvn ar.com.fluxit.jqa:jqa-maven-plugin:check
+    xdg-open jqa-test-project/target/results-jqa-test-project.html     
+   **To run the JQA Sonar plugin:**    
+
+    cd jqa-sonar-plugin
+    mvn org.codehaus.sonar:sonar-dev-maven-plugin::start-war -Dsonar.runtimeVersion=2.14 > target/sonar.log &
+    tail -f target/sonar.log | while read line; do echo $line | grep -q 'Database is up' && break; done
+    cd ../jqa-test-parent
+    mvn sonar:sonar -Dsonar.profile="JQA way"
+    xdg-open http://localhost:9000/drilldown/violations/ar.com.fluxit.jqa:jqa-test-parent
+### Guides
+If you want to use JQA, see the [User's guide](http://github.com/jbaris/jqa/wiki/User-guide).     
+If you want to contribute to JQA, see the [Developer's guide](http://github.com/jbaris/jqa/wiki/Developer-guide).
+
+## Contribute
+JQA is under development, and contributors are welcome. If you have a feature request, suggestion, or bug report, please [open a new issue](http://github.com/jbaris/jqa/issues). To submit patches, please send a pull request. Once your changes get merged back in, you’ll automatically be added to the [Contributors List](http://github.com/jbaris/jqa/graphs/contributors)
 
 ## License
-This project is under GNU General Public License version 3 or later (http://www.gnu.org/licenses/).
+This project is under GNU General Public License version 3 or later (http://www.gnu.org/licenses/)

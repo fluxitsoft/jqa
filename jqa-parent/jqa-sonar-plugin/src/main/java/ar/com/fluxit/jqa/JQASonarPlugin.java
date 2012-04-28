@@ -41,6 +41,7 @@ public class JQASonarPlugin extends SonarPlugin {
 	public List<?> getExtensions() {
 		final List<Class<? extends Extension>> list = new ArrayList<Class<? extends Extension>>();
 		list.add(JQARuleRepository.class);
+		list.add(JQAProfileDefinition.class);
 		list.add(JQASensor.class);
 		return list;
 	}

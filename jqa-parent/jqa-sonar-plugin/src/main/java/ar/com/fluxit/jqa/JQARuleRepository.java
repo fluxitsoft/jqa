@@ -39,21 +39,25 @@ public class JQARuleRepository extends RuleRepository {
 
 	public static final String REPOSITORY_KEY = "JQA";
 
+	private List<Rule> cachedRules;
+
 	public JQARuleRepository() {
 		super(REPOSITORY_KEY, Java.KEY);
 	}
 
 	@Override
 	public List<Rule> createRules() {
-		final List<Rule> result = new ArrayList<Rule>();
-		final RulesContext rulesContext = RulesContextLoader.INSTANCE.load();
-		for (final RuleSet ruleSet : rulesContext.getRuleSets()) {
-			for (final ar.com.fluxit.jqa.rule.Rule jqaRule : ruleSet.getRules()) {
-				final Rule rule = Rule.create();
-				result.add(processRule(rule, jqaRule));
+		if (cachedRules == null) {
+			cachedRules = new ArrayList<Rule>();
+			final RulesContext rulesContext = RulesContextLoader.INSTANCE.load();
+			for (final RuleSet ruleSet : rulesContext.getRuleSets()) {
+				for (final ar.com.fluxit.jqa.rule.Rule jqaRule : ruleSet.getRules()) {
+					final Rule rule = Rule.create();
+					cachedRules.add(processRule(rule, jqaRule));
+				}
 			}
 		}
-		return result;
+		return cachedRules;
 	}
 
 	private String getPriority(int priority) {
