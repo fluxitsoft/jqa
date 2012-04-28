@@ -8,6 +8,23 @@
 					JQA check results for:
 					<xsl:value-of select="project" />
 				</title>
+				<style TYPE="text/css">
+					body {
+						font-family:arial;
+					}
+					table, th, td {
+					border:1px solid grey;
+					border-collapse:collapse;
+					}
+					th {
+					background-color:grey;
+					color:white;
+					}
+					td {
+					text-align:center;
+					vertical-align:center;
+					}
+				</style>
 			</head>
 			<body>
 				<div>
@@ -20,7 +37,7 @@
 				</div>
 				<div>
 					<b>Violations:</b>
-					<table border="1">
+					<table>
 						<tr>
 							<th>Class</th>
 							<th>Message</th>
