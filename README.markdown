@@ -6,13 +6,13 @@ JQA is integrated with:
 * Maven 2 (http://maven.apache.org/)    
 * Sonar (http://www.sonarsource.org/)
 
-JQA allows you to write rules to check your classes regarding:
-* Naming
-* Typing
-* Usages
-* Allocations
-* Exception throwing
-* Abstraction
+JQA allows you to check your application classes regarding:
+* __Naming:__ _e.g., "all my DataAccessObject classes must be in the package com.mycompany.myapp.dao and must be named like *DAO"_
+* __Typing:__ _e.g., "all my BusinessObject classes must extends to com.mycompany.myapp.bos.AbstractBO (directly or indirectly)"_
+* __Usages:__ _e.g., "all my View classes (actions) cant use a DAO class"_
+* __Allocations:__ _e.g., "all my DataAccessObject classes must not be allocated/instantiated (via new directive)"_
+* __Exception throwing:__ _e.g., "all my Service classes must throw only exceptions that extends to com.mycompany.myapp.exception.ServiceException"_
+* __Abstraction:__ _e.g., "all my types (files) in the com.mycompany.myapp.service package must be interfaces (contracts)"_
 
 ## Screenshots
 [Here](http://github.com/jbaris/jqa/wiki/Screenshots) are few screenshots of JQA in action.
