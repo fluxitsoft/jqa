@@ -61,7 +61,7 @@ public class RulesContextChecker {
 		values.put("type.abstract", type.isAbstract() ? "abstract" : "concrete");
 		values.put("type.interface", type.isInterface() ? "interface" : "class");
 		for (final Map.Entry<String, String> e : values.entrySet()) {
-			ruleMessage = ruleMessage.replaceAll("\\[" + e.getKey() + "\\]", e.getValue());
+			ruleMessage = ruleMessage.replaceAll("\\$\\{" + e.getKey() + "\\}", e.getValue());
 		}
 		return ruleMessage;
 	}

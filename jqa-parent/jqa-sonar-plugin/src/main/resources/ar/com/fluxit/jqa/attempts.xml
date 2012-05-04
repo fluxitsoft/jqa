@@ -4,7 +4,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.fluxit.com.ar/jqa/schema/rulescontext https://raw.github.com/jbaris/jqa/master/jqa-parent/jqa-ctx-factory-xmlbeans/src/main/resources/schema/rulescontext.xsd ">
 
-	<!-- DataAccessObject -->
+	<!-- Classes that try to be a DataAccessObject -->
 	<globalPredicate name="DAO attempt" xsi:type="jqa:AndPredicate">
 		<predicate xsi:type="jqa:OrPredicate">
 			<predicate xsi:type="jqa:NamingPredicate" namePattern="**DAO*" />
@@ -13,22 +13,25 @@
 				<predicate xsi:type="jqa:NamingPredicate" namePattern="ar.com.fluxit.jqa.test.fmk.dao.DataAccessObject" />
 			</predicate>
 		</predicate>
+		<!-- The DataAccessObject superclass is not an attempt -->
 		<predicate xsi:type="jqa:NotPredicate">
 			<predicate xsi:type="jqa:NamingPredicate" namePattern="ar.com.fluxit.jqa.test.fmk.dao.DataAccessObject" />
 		</predicate>
 	</globalPredicate>
 
+	<!-- Classes that try to be a DataAccessObject contract -->
 	<globalPredicate name="DAO contract attempt" xsi:type="jqa:AndPredicate">
 		<predicate xsi:type="jqa:AbstractionPredicate" abstractionType="INTERFACE" />
 		<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="DAO attempt" />
 	</globalPredicate>
-
+			
+	<!-- Classes that try to be a DataAccessObject implementation -->
 	<globalPredicate name="DAO implementation attempt" xsi:type="jqa:AndPredicate">
 		<predicate xsi:type="jqa:AbstractionPredicate" abstractionType="CONCRETE" />
 		<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="DAO attempt" />
 	</globalPredicate>
 
-	<!-- BusinessObject -->
+	<!-- Classes that try to be a BusinessObject -->
 	<globalPredicate name="BO attempt" xsi:type="jqa:AndPredicate">
 		<predicate xsi:type="jqa:OrPredicate">
 			<predicate xsi:type="jqa:NamingPredicate" namePattern="**BO*" />
@@ -37,22 +40,25 @@
 				<predicate xsi:type="jqa:NamingPredicate" namePattern="ar.com.fluxit.jqa.test.fmk.bo.BusinessObject" />
 			</predicate>
 		</predicate>
+		<!-- The BusinessObject superclass is not an attempt -->
 		<predicate xsi:type="jqa:NotPredicate">
 			<predicate xsi:type="jqa:NamingPredicate" namePattern="ar.com.fluxit.jqa.test.fmk.bo.BusinessObject" />
 		</predicate>
 	</globalPredicate>
 
+	<!-- Classes that try to be a BusinessObject contract -->
 	<globalPredicate name="BO contract attempt" xsi:type="jqa:AndPredicate">
 		<predicate xsi:type="jqa:AbstractionPredicate" abstractionType="INTERFACE" />
 		<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="BO attempt" />
 	</globalPredicate>
 
+	<!-- Classes that try to be a BusinessObject implementation -->
 	<globalPredicate name="BO implementation attempt" xsi:type="jqa:AndPredicate">
 		<predicate xsi:type="jqa:AbstractionPredicate" abstractionType="CONCRETE" />
 		<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="BO attempt" />
 	</globalPredicate>
 
-	<!-- Service -->
+	<!-- Classes that try to be a Service -->
 	<globalPredicate name="Service attempt" xsi:type="jqa:AndPredicate">
 		<predicate xsi:type="jqa:OrPredicate">
 			<predicate xsi:type="jqa:NamingPredicate" namePattern="**Service*" />
@@ -61,24 +67,30 @@
 				<predicate xsi:type="jqa:NamingPredicate" namePattern="ar.com.fluxit.jqa.test.fmk.service.Service" />
 			</predicate>
 		</predicate>
+		<!-- The Service superclass is not an attempt -->
 		<predicate xsi:type="jqa:NotPredicate">
 			<predicate xsi:type="jqa:NamingPredicate" namePattern="ar.com.fluxit.jqa.test.fmk.service.Service" />
 		</predicate>
 	</globalPredicate>
 
+	<!-- Classes that try to be a Service contract -->
 	<globalPredicate name="Service contract attempt" xsi:type="jqa:AndPredicate">
 		<predicate xsi:type="jqa:AbstractionPredicate" abstractionType="INTERFACE" />
 		<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="Service attempt" />
 	</globalPredicate>
 
+	<!-- Classes that try to be a Service implementation -->
 	<globalPredicate name="Service implementation attempt" xsi:type="jqa:AndPredicate">
 		<predicate xsi:type="jqa:AbstractionPredicate" abstractionType="CONCRETE" />
 		<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="Service attempt" />
 	</globalPredicate>
 
-	<!-- Entities -->
+	<!-- Classes that try to be an Entity -->
 	<globalPredicate name="Entity attempt" xsi:type="jqa:OrPredicate">
 		<predicate xsi:type="jqa:NamingPredicate" namePattern="**.entity.**" />
+		<predicate xsi:type="jqa:NamingPredicate" namePattern="**.entities.**" />
+		<predicate xsi:type="jqa:NamingPredicate" namePattern="**.domain.**" />
+		<!-- The Entity superclass is not an attempt -->
 		<predicate xsi:type="jqa:TypingPredicate">
 			<predicate xsi:type="jqa:NamingPredicate" namePattern="ar.com.fluxit.jqa.test.fmk.entity.Entity" />
 		</predicate>
