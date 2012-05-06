@@ -17,6 +17,7 @@
 	<modules>
 		<module>jqa-test-project</module>
 		<module>jqa-test-project-fmk</module>
+		<module>jqa-test-runner</module>
 	</modules>
 	<build>
 		<plugins>

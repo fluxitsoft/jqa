@@ -36,7 +36,7 @@
 		<dependency>
 			<groupId>ar.com.fluxit.jqa</groupId>
 			<artifactId>jqa-test-project-fmk</artifactId>
-			<version>1.0</version>
+			<version>${project.parent.version}</version>
 		</dependency>
 	</dependencies>
 </project>
