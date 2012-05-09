@@ -27,4 +27,8 @@ import ar.com.fluxit.jqa.test.dao.DAOForTrucks;
  */
 public class DAOForTrucksImpl implements DAOForTrucks {
 
+	public void getTrucks() {
+
+	}
+
 }

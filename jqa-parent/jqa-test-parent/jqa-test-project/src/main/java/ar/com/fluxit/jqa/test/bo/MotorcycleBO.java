@@ -18,7 +18,12 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.test.bo;
 
+import java.util.List;
+
+import ar.com.fluxit.jqa.test.dao.impl.MotorcycleDAOImpl;
+import ar.com.fluxit.jqa.test.entity.vehicles.Motorcycle;
 import ar.com.fluxit.jqa.test.fmk.bo.BusinessObject;
+import ar.com.fluxit.jqa.test.fmk.dao.DataAccessObjectException;
 
 /**
  * TODO javadoc
@@ -26,5 +31,11 @@ import ar.com.fluxit.jqa.test.fmk.bo.BusinessObject;
  * @author Juan Ignacio Barisich
  */
 public class MotorcycleBO implements BusinessObject {
+
+	private MotorcycleDAOImpl motorcycleDAOImpl;
+
+	List<Motorcycle> getMotorcycles() throws DataAccessObjectException {
+		return this.motorcycleDAOImpl.getMotorcycles();
+	}
 
 }

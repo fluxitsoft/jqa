@@ -47,4 +47,16 @@ public class OrPredicate extends VarArgsLogicPredicate {
 		return false;
 	}
 
+	@Override
+	public String toString() {
+		StringBuffer predicates = new StringBuffer();
+		for (Predicate predicate : getPredicates()) {
+			if (predicates.length() != 0) {
+				predicates.append(", ");
+			}
+			predicates.append(predicate);
+		}
+		return "OrPredicate: [" + predicates + "]";
+	}
+
 }

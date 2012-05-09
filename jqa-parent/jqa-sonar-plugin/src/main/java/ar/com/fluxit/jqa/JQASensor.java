@@ -109,7 +109,7 @@ public class JQASensor implements Sensor {
 			}
 			final File sourceDir = new File((String) getProject().getCompileSourceRoots().get(0));
 			final CheckingResult check = RulesContextChecker.INSTANCE.check(getProject().getArtifactId(), classFiles, classPath, rulesContext, sourceDir,
-					LOGGER);
+					getSourceJavaVersion(getProject()), LOGGER);
 			addViolations(context, check);
 		} catch (final Exception e) {
 			LOGGER.error("An error occurred", e);
@@ -121,6 +121,15 @@ public class JQASensor implements Sensor {
 		return this.project;
 	}
 
+	private String getSourceJavaVersion(MavenProject project) {
+		try {
+			return ((org.codehaus.plexus.util.xml.Xpp3Dom) ((org.apache.maven.model.Plugin) project.getBuild().getPluginsAsMap()
+					.get("org.apache.maven.plugins:maven-compiler-plugin")).getConfiguration()).getChild("source").getValue();
+		} catch (Exception e) {
+			return null;
+		}
+	}
+
 	@Override
 	public boolean shouldExecuteOnProject(Project project) {
 		return !project.getFileSystem().mainFiles(Java.KEY).isEmpty();
@@ -130,4 +139,5 @@ public class JQASensor implements Sensor {
 	public String toString() {
 		return "JQASensor";
 	}
+
 }

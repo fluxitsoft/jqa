@@ -25,6 +25,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.management.IntrospectionException;
@@ -36,6 +38,7 @@ import net.sourceforge.pmd.ast.JavaCharStream;
 import net.sourceforge.pmd.ast.JavaParser;
 
 import org.apache.bcel.Constants;
+import org.apache.bcel.classfile.ClassFormatException;
 import org.apache.bcel.classfile.ClassParser;
 import org.apache.bcel.classfile.Code;
 import org.apache.bcel.classfile.ConstantClass;
@@ -65,6 +68,7 @@ public class RepositoryImpl implements Repository {
 	protected static final String INVOKE_PREFIX_OPCODE_NAME = "invoke";
 	protected static final String THROW_OPCODE_NAME = "athrow";
 	protected static final int SLIDE = 6;
+	private String javaVersion;
 
 	@Override
 	public Collection<Type> getAllocations(final Type type) {
@@ -97,6 +101,18 @@ public class RepositoryImpl implements Repository {
 		return result;
 	}
 
+	private String getClassName(final int index, final ConstantPool constantPool) {
+		String result;
+		try {
+			result = constantPool.constantToString(index, Constants.CONSTANT_Methodref);
+			result = result.substring(result.indexOf(")") + 2).replaceAll(";", "");
+		} catch (ClassFormatException e) {
+			result = constantPool.constantToString(index, Constants.CONSTANT_InterfaceMethodref);
+			result = result.substring(0, result.lastIndexOf("."));
+		}
+		return result;
+	}
+
 	private String getClassName(org.apache.bcel.generic.Type type) {
 		String signatureClassName;
 		if (type instanceof BasicType) {
@@ -118,18 +134,26 @@ public class RepositoryImpl implements Repository {
 		// TODO cache
 		final CharStream stream = new JavaCharStream(getSourceFile(type, sourceDir));
 		final JavaParser javaParser = new JavaParser(stream);
+		if ("1.5".equals(this.javaVersion) || "1.6".equals(this.javaVersion)) {
+			javaParser.setJDK15();
+		}
 		final ASTCompilationUnit compilationUnit = javaParser.CompilationUnit();
 		return compilationUnit.getFirstChildOfType(ASTClassOrInterfaceDeclaration.class).getBeginLine();
 	}
 
 	@Override
 	public Collection<Type> getInterfaces(Type type) {
-		final org.apache.bcel.classfile.JavaClass[] interfaces = org.apache.bcel.Repository.getInterfaces(getWrappedClass(type));
-		final List<Type> result = new ArrayList<Type>(interfaces.length);
-		for (final org.apache.bcel.classfile.JavaClass interfaz : interfaces) {
-			result.add(new BcelJavaType(interfaz));
+		try {
+			org.apache.bcel.classfile.JavaClass[] interfaces;
+			interfaces = org.apache.bcel.Repository.getInterfaces(getWrappedClass(type));
+			final List<Type> result = new ArrayList<Type>(interfaces.length);
+			for (final org.apache.bcel.classfile.JavaClass interfaz : interfaces) {
+				result.add(new BcelJavaType(interfaz));
+			}
+			return result;
+		} catch (ClassNotFoundException e) {
+			throw new IllegalArgumentException(e);
 		}
-		return result;
 	}
 
 	public InputStream getSourceFile(Type type, File sourceDir) throws FileNotFoundException {
@@ -138,12 +162,17 @@ public class RepositoryImpl implements Repository {
 
 	@Override
 	public Collection<Type> getSuperClasses(Type type) {
-		final org.apache.bcel.classfile.JavaClass[] superClasses = org.apache.bcel.Repository.getSuperClasses(getWrappedClass(type));
-		final List<Type> result = new ArrayList<Type>(superClasses.length);
-		for (final org.apache.bcel.classfile.JavaClass superClass : superClasses) {
-			result.add(new BcelJavaType(superClass));
+		org.apache.bcel.classfile.JavaClass[] superClasses;
+		try {
+			superClasses = org.apache.bcel.Repository.getSuperClasses(getWrappedClass(type));
+			final List<Type> result = new ArrayList<Type>(superClasses.length);
+			for (final org.apache.bcel.classfile.JavaClass superClass : superClasses) {
+				result.add(new BcelJavaType(superClass));
+			}
+			return result;
+		} catch (ClassNotFoundException e) {
+			throw new IllegalArgumentException(e);
 		}
-		return result;
 	}
 
 	@Override
@@ -190,14 +219,19 @@ public class RepositoryImpl implements Repository {
 
 	private Type getType(String constantClassName) {
 		final String usedClassName = ClassNameTranslator.typeConstantToClassName(constantClassName);
-		final org.apache.bcel.classfile.JavaClass usedClass = org.apache.bcel.Repository.lookupClass(usedClassName);
-		return new BcelJavaType(usedClass);
+		org.apache.bcel.classfile.JavaClass usedClass;
+		try {
+			usedClass = org.apache.bcel.Repository.lookupClass(usedClassName);
+			return new BcelJavaType(usedClass);
+		} catch (ClassNotFoundException e) {
+			throw new IllegalStateException(e);
+		}
 	}
 
 	@Override
 	public Collection<Type> getUses(final Type type) {
 		// TODO cache
-		final List<Type> result = new ArrayList<Type>();
+		final Collection<Type> uses = new ArrayList<Type>();
 		getWrappedClass(type).getMethods();
 		final Visitor visitor = new EmptyVisitor() {
 
@@ -212,10 +246,9 @@ public class RepositoryImpl implements Repository {
 						if (op.startsWith(INVOKE_PREFIX_OPCODE_NAME)) {
 							final int index = stream.readUnsignedShort();
 							final ConstantPool constantPool = getWrappedClass(type).getConstantPool();
-							String className = constantPool.constantToString(index, Constants.CONSTANT_Methodref);
-							className = className.substring(className.indexOf(")") + 2).replaceAll(";", "");
+							String className = getClassName(index, constantPool);
 							if (!className.isEmpty()) {
-								result.add(getType(className));
+								uses.add(getType(className));
 							}
 						}
 					}
@@ -226,13 +259,13 @@ public class RepositoryImpl implements Repository {
 
 			@Override
 			public void visitConstantClass(ConstantClass constantClass) {
-				result.add(getType(constantClass, type));
+				uses.add(getType(constantClass, type));
 			}
 
 			@Override
 			public void visitField(Field field) {
 				final org.apache.bcel.generic.Type type = org.apache.bcel.generic.Type.getType(field.getSignature());
-				result.add(getType(getClassName(type)));
+				uses.add(getType(getClassName(type)));
 			}
 
 			@Override
@@ -240,13 +273,22 @@ public class RepositoryImpl implements Repository {
 				final List<String> classNames = ClassNameTranslator.signatureToClassNames(method.getSignature());
 				for (final String className : classNames) {
 					if (!className.equals(VOID)) {
-						result.add(getType(className));
+						uses.add(getType(className));
 					}
 				}
 			}
 
 		};
 		new DescendingVisitor(getWrappedClass(type), visitor).visit();
+		Collection<Type> result = new HashSet<Type>(uses);
+		// Removes the target type and its inner classes
+		result.remove(type);
+		for (Iterator<Type> iterator = result.iterator(); iterator.hasNext();) {
+			Type type2 = iterator.next();
+			if (type2.getName().contains("$")) {
+				iterator.remove();
+			}
+		}
 		return result;
 	}
 
@@ -288,5 +330,10 @@ public class RepositoryImpl implements Repository {
 	@Override
 	public void setClassPath(Collection<File> classPathFiles) throws IntrospectionException, FileNotFoundException, TypeFormatException, IOException {
 		ClassPathLoader.INSTANCE.setClassPath(classPathFiles);
+	}
+
+	@Override
+	public void setJavaVersion(String javaVersion) {
+		this.javaVersion = javaVersion;
 	}
 }

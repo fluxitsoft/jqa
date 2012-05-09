@@ -118,7 +118,7 @@ public class JQAMavenPlugin extends AbstractMojo {
 		}
 	}
 
-	private void doExecute(File buildDirectory, File outputDirectory, File testOutputDirectory, MavenProject project, File sourceDir)
+	private void doExecute(File buildDirectory, File outputDirectory, File testOutputDirectory, MavenProject project, File sourceDir, String sourceJavaVersion)
 			throws IntrospectionException, TypeFormatException, FileNotFoundException, IOException, RulesContextFactoryException, ExporterException {
 		// Add project dependencies to classpath
 		getLog().debug("Adding project dependencies to classpath");
@@ -143,7 +143,7 @@ public class JQAMavenPlugin extends AbstractMojo {
 		final RulesContext rulesContext = RulesContextFactoryLocator.getRulesContextFactory().getRulesContext(getRulesContextFile().getPath());
 		getLog().debug("Checking rules for " + classFiles.size() + " files");
 		final CheckingResult checkingResult = RulesContextChecker.INSTANCE.check(project.getArtifactId(), classFiles, classPath, rulesContext, sourceDir,
-				getLogger());
+				sourceJavaVersion, getLogger());
 		CheckingResultExporter.INSTANCE.export(checkingResult, project.getArtifactId(), getResultsDirectory(), this.xslt, getLogger());
 	}
 
@@ -154,8 +154,10 @@ public class JQAMavenPlugin extends AbstractMojo {
 				getLog().info("Artifact ignored because it has pom packaging");
 			} else {
 				checkParams();
+				String sourceJavaVersion = getSourceJavaVersion(this.project);
+				getLogger().info("The source Java version is " + sourceJavaVersion);
 				doExecute(this.outputDirectory, new File(this.project.getBuild().getOutputDirectory()), new File(this.project.getBuild()
-						.getTestOutputDirectory()), this.project, this.sourceDir);
+						.getTestOutputDirectory()), this.project, this.sourceDir, sourceJavaVersion);
 			}
 		} catch (final Exception e) {
 			throw new MojoExecutionException("An error occurred while executing the rules", e);
@@ -175,6 +177,15 @@ public class JQAMavenPlugin extends AbstractMojo {
 
 	public File getRulesContextFile() {
 		return this.rulesContextFile;
+	}
+
+	private String getSourceJavaVersion(MavenProject project) {
+		try {
+			return ((org.codehaus.plexus.util.xml.Xpp3Dom) ((org.apache.maven.model.Plugin) project.getBuild().getPluginsAsMap()
+					.get("org.apache.maven.plugins:maven-compiler-plugin")).getConfiguration()).getChild("source").getValue();
+		} catch (Exception e) {
+			return null;
+		}
 	}
 
 	public void setResultsDirectory(File resultFile) {

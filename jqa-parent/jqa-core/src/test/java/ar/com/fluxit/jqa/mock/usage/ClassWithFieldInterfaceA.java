@@ -16,32 +16,24 @@
  * You should have received a copy of the GNU General Public License
  * along with JQA.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package ar.com.fluxit.jqa.test.bo.impl;
+package ar.com.fluxit.jqa.mock.usage;
 
-import java.util.List;
-
-import ar.com.fluxit.jqa.test.bo.BikeBO;
-import ar.com.fluxit.jqa.test.dao.BikeDAO;
-import ar.com.fluxit.jqa.test.entity.vehicles.Bike;
-import ar.com.fluxit.jqa.test.fmk.bo.BusinessObjectException;
-import ar.com.fluxit.jqa.test.fmk.dao.DataAccessObjectException;
+import ar.com.fluxit.jqa.mock.InterfaceA;
 
 /**
  * TODO javadoc
  * 
  * @author Juan Ignacio Barisich
  */
-public class BikeBOImpl implements BikeBO {
+public class ClassWithFieldInterfaceA {
 
-	private BikeDAO bikeDAO;
+	private final InterfaceA interfaceA = null;
 
-	@Override
-	public List<Bike> getBikes() throws BusinessObjectException {
-		try {
-			return this.bikeDAO.getBikes();
-		} catch (DataAccessObjectException e) {
-			throw new BusinessObjectException(e);
-		}
+	public ClassWithFieldInterfaceA() {
+		super();
 	}
 
+	void dummy() {
+		System.out.println(this.interfaceA);
+	}
 }

@@ -84,13 +84,14 @@ public class RulesContextChecker {
 		}
 	}
 
-	public CheckingResult check(String project, Collection<File> classFiles, Collection<File> classPath, RulesContext context, File sourceDir, Logger log)
-			throws IntrospectionException, FileNotFoundException, TypeFormatException, IOException {
+	public CheckingResult check(String project, Collection<File> classFiles, Collection<File> classPath, RulesContext context, File sourceDir,
+			String sourceJavaVersion, Logger log) throws IntrospectionException, FileNotFoundException, TypeFormatException, IOException {
 		final CheckingResult result = new CheckingResult(project);
 		// Add files to classpath
 		for (final File classPathFile : classPath) {
 			log.debug("Adding to classpath: " + classPathFile);
 		}
+		RepositoryLocator.getRepository().setJavaVersion(sourceJavaVersion);
 		RepositoryLocator.getRepository().setClassPath(classPath);
 		// Iterate rulesets
 		for (final RuleSet ruleset : context.getRuleSets()) {

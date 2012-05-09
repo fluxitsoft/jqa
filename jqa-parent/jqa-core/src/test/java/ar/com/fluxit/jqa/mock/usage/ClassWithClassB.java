@@ -16,32 +16,42 @@
  * You should have received a copy of the GNU General Public License
  * along with JQA.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package ar.com.fluxit.jqa.test.bo.impl;
+package ar.com.fluxit.jqa.mock.usage;
 
-import java.util.List;
-
-import ar.com.fluxit.jqa.test.bo.BikeBO;
-import ar.com.fluxit.jqa.test.dao.BikeDAO;
-import ar.com.fluxit.jqa.test.entity.vehicles.Bike;
-import ar.com.fluxit.jqa.test.fmk.bo.BusinessObjectException;
-import ar.com.fluxit.jqa.test.fmk.dao.DataAccessObjectException;
+import ar.com.fluxit.jqa.mock.ClassB;
 
 /**
  * TODO javadoc
  * 
  * @author Juan Ignacio Barisich
  */
-public class BikeBOImpl implements BikeBO {
+public class ClassWithClassB extends ClassB {
 
-	private BikeDAO bikeDAO;
+	private static class InnerClassB extends ClassB {
 
-	@Override
-	public List<Bike> getBikes() throws BusinessObjectException {
-		try {
-			return this.bikeDAO.getBikes();
-		} catch (DataAccessObjectException e) {
-			throw new BusinessObjectException(e);
+		private static class InnerInnerClassB {
+			public static ClassB b = new ClassB();
 		}
+
+		public static ClassB staticClassB() {
+			return InnerInnerClassB.b;
+		}
+
+	}
+
+	static ClassB staticClassB() {
+		return null;
+	}
+
+	public ClassWithClassB() {
+		super();
+		new ClassB();
+		new InnerClassB();
+		System.out.println(InnerClassB.staticClassB());
+	}
+
+	ClassB classB() {
+		return null;
 	}
 
 }

@@ -18,7 +18,11 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.test.service;
 
+import java.util.List;
+
+import ar.com.fluxit.jqa.test.entity.vehicles.Bike;
 import ar.com.fluxit.jqa.test.fmk.service.Service;
+import ar.com.fluxit.jqa.test.fmk.service.ServiceException;
 
 /**
  * TODO javadoc
@@ -26,5 +30,7 @@ import ar.com.fluxit.jqa.test.fmk.service.Service;
  * @author Juan Ignacio Barisich
  */
 public interface BikeService extends Service {
+
+	List<Bike> getBikes() throws ServiceException;
 
 }

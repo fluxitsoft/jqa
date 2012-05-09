@@ -18,6 +18,9 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.test.services;
 
+import java.util.List;
+
+import ar.com.fluxit.jqa.test.entity.vehicles.rails.Train;
 import ar.com.fluxit.jqa.test.fmk.service.Service;
 
 /**
@@ -26,5 +29,7 @@ import ar.com.fluxit.jqa.test.fmk.service.Service;
  * @author Juan Ignacio Barisich
  */
 public interface TrainService extends Service {
+
+	List<Train> getTrains();
 
 }

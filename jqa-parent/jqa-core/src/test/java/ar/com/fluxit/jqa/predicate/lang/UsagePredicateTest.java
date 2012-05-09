@@ -18,10 +18,15 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.predicate.lang;
 
+import java.util.List;
+
 import junit.framework.TestCase;
 import ar.com.fluxit.jqa.bce.RepositoryLocator;
 import ar.com.fluxit.jqa.bce.Type;
 import ar.com.fluxit.jqa.mock.ClassA;
+import ar.com.fluxit.jqa.mock.ClassB;
+import ar.com.fluxit.jqa.mock.ClassC;
+import ar.com.fluxit.jqa.mock.InterfaceA;
 import ar.com.fluxit.jqa.mock.usage.ClassThatExtendsClassA;
 import ar.com.fluxit.jqa.mock.usage.ClassThatInvokesClassA;
 import ar.com.fluxit.jqa.mock.usage.ClassThatInvokesClassThatInvokesClassA;
@@ -31,8 +36,11 @@ import ar.com.fluxit.jqa.mock.usage.ClassThatStaticInvokesClassA;
 import ar.com.fluxit.jqa.mock.usage.ClassThatStaticInvokesClassThatInvokesClassA;
 import ar.com.fluxit.jqa.mock.usage.ClassThatStaticReturnsArrayClassA;
 import ar.com.fluxit.jqa.mock.usage.ClassThatStaticReturnsClassA;
+import ar.com.fluxit.jqa.mock.usage.ClassWithClassB;
 import ar.com.fluxit.jqa.mock.usage.ClassWithFieldArrayClassA;
 import ar.com.fluxit.jqa.mock.usage.ClassWithFieldClassA;
+import ar.com.fluxit.jqa.mock.usage.ClassWithFieldInterfaceA;
+import ar.com.fluxit.jqa.mock.usage.ClassWithFieldList;
 import ar.com.fluxit.jqa.mock.usage.ClassWithParameterArrayClassA;
 import ar.com.fluxit.jqa.mock.usage.ClassWithParameterClassA;
 import ar.com.fluxit.jqa.mock.usage.ClassWithPrimitiveTypes;
@@ -59,6 +67,8 @@ import ar.com.fluxit.jqa.mock.usage.StaticInnerClassWithFieldArrayClassA;
 import ar.com.fluxit.jqa.mock.usage.StaticInnerClassWithFieldClassA;
 import ar.com.fluxit.jqa.mock.usage.StaticInnerClassWithParameterArrayClassA;
 import ar.com.fluxit.jqa.mock.usage.StaticInnerClassWithParameterClassA;
+import ar.com.fluxit.jqa.predicate.Predicate;
+import ar.com.fluxit.jqa.predicate.logic.OrPredicate;
 
 /**
  * TODO javadoc
@@ -68,63 +78,70 @@ import ar.com.fluxit.jqa.mock.usage.StaticInnerClassWithParameterClassA;
 public class UsagePredicateTest extends TestCase {
 
 	public final void testCheck() throws ClassNotFoundException {
-		final String filterPredicateParentClass = ClassA.class.getName();
 		// Simple class
-		testMatches(filterPredicateParentClass, ClassA.class, true);
-		testMatches(filterPredicateParentClass, ClassWithoutClassA.class, false);
-		testMatches(filterPredicateParentClass, ClassThatExtendsClassA.class, true);
-		testMatches(filterPredicateParentClass, ClassWithFieldClassA.class, true);
-		testMatches(filterPredicateParentClass, ClassWithFieldArrayClassA.class, true);
-		testMatches(filterPredicateParentClass, ClassWithParameterClassA.class, true);
-		testMatches(filterPredicateParentClass, ClassWithParameterArrayClassA.class, true);
-		testMatches(filterPredicateParentClass, ClassThatReturnsClassA.class, true);
-		testMatches(filterPredicateParentClass, ClassThatReturnsArrayClassA.class, true);
-		testMatches(filterPredicateParentClass, ClassThatInvokesClassA.class, true);
-		testMatches(filterPredicateParentClass, ClassThatInvokesClassThatInvokesClassA.class, true);
+		testMatches(ClassB.class.getName(), ClassA.class, true);
+		testMatches(ClassB.class.getName(), ClassWithoutClassA.class, true);
+		testMatches(ClassB.class.getName(), ClassC.class, true);
+		testMatches(ClassB.class.getName(), ClassB.class, false);
+		testMatches(ClassB.class.getName(), ClassWithClassB.class, true);
+		testMatches(ClassB.class.getName(), ClassThatExtendsClassA.class, false);
+		testMatches(ClassB.class.getName(), ClassWithFieldClassA.class, false);
+		testMatches(ClassB.class.getName(), ClassWithFieldArrayClassA.class, false);
+		testMatches(ClassB.class.getName(), ClassWithParameterClassA.class, false);
+		testMatches(ClassB.class.getName(), ClassWithParameterArrayClassA.class, false);
+		testMatches(ClassB.class.getName(), ClassThatReturnsClassA.class, false);
+		testMatches(ClassB.class.getName(), ClassThatReturnsArrayClassA.class, false);
+		testMatches(ClassB.class.getName(), ClassThatInvokesClassA.class, false);
+		testMatches(ClassB.class.getName(), ClassThatInvokesClassThatInvokesClassA.class, false);
 		// Inner class
-		testMatches(filterPredicateParentClass, InnerClassThatExtendsClassA.B.class, true);
-		testMatches(filterPredicateParentClass, InnerClassWithFieldClassA.B.class, true);
-		testMatches(filterPredicateParentClass, InnerClassWithFieldArrayClassA.B.class, true);
-		testMatches(filterPredicateParentClass, InnerClassWithParameterClassA.B.class, true);
-		testMatches(filterPredicateParentClass, InnerClassWithParameterArrayClassA.B.class, true);
-		testMatches(filterPredicateParentClass, InnerClassThatReturnsClassA.B.class, true);
-		testMatches(filterPredicateParentClass, InnerClassThatReturnsArrayClassA.B.class, true);
-		testMatches(filterPredicateParentClass, InnerClassThatInvokesClassA.B.class, true);
-		testMatches(filterPredicateParentClass, InnerClassThatInvokesClassThatInvokesClassA.B.class, true);
+		testMatches(ClassB.class.getName(), InnerClassThatExtendsClassA.B.class, false);
+		testMatches(ClassB.class.getName(), InnerClassWithFieldClassA.B.class, false);
+		testMatches(ClassB.class.getName(), InnerClassWithFieldArrayClassA.B.class, false);
+		testMatches(ClassB.class.getName(), InnerClassWithParameterClassA.B.class, false);
+		testMatches(ClassB.class.getName(), InnerClassWithParameterArrayClassA.B.class, false);
+		testMatches(ClassB.class.getName(), InnerClassThatReturnsClassA.B.class, false);
+		testMatches(ClassB.class.getName(), InnerClassThatReturnsArrayClassA.B.class, false);
+		testMatches(ClassB.class.getName(), InnerClassThatInvokesClassA.B.class, false);
+		testMatches(ClassB.class.getName(), InnerClassThatInvokesClassThatInvokesClassA.B.class, false);
 		// Inner static class
-		testMatches(filterPredicateParentClass, StaticInnerClassThatExtendsClassA.B.class, true);
-		testMatches(filterPredicateParentClass, StaticInnerClassWithFieldClassA.B.class, true);
-		testMatches(filterPredicateParentClass, StaticInnerClassWithFieldArrayClassA.B.class, true);
-		testMatches(filterPredicateParentClass, StaticInnerClassWithParameterClassA.B.class, true);
-		testMatches(filterPredicateParentClass, StaticInnerClassWithParameterArrayClassA.B.class, true);
-		testMatches(filterPredicateParentClass, StaticInnerClassThatReturnsClassA.B.class, true);
-		testMatches(filterPredicateParentClass, StaticInnerClassThatReturnsArrayClassA.B.class, true);
-		testMatches(filterPredicateParentClass, StaticInnerClassThatInvokesClassA.B.class, true);
-		testMatches(filterPredicateParentClass, StaticInnerClassThatInvokesClassThatInvokesClassA.B.class, true);
+		testMatches(ClassB.class.getName(), StaticInnerClassThatExtendsClassA.B.class, false);
+		testMatches(ClassB.class.getName(), StaticInnerClassWithFieldClassA.B.class, false);
+		testMatches(ClassB.class.getName(), StaticInnerClassWithFieldArrayClassA.B.class, false);
+		testMatches(ClassB.class.getName(), StaticInnerClassWithParameterClassA.B.class, false);
+		testMatches(ClassB.class.getName(), StaticInnerClassWithParameterArrayClassA.B.class, false);
+		testMatches(ClassB.class.getName(), StaticInnerClassThatReturnsClassA.B.class, false);
+		testMatches(ClassB.class.getName(), StaticInnerClassThatReturnsArrayClassA.B.class, false);
+		testMatches(ClassB.class.getName(), StaticInnerClassThatInvokesClassA.B.class, false);
+		testMatches(ClassB.class.getName(), StaticInnerClassThatInvokesClassThatInvokesClassA.B.class, false);
 		// Static methods
-		testMatches(filterPredicateParentClass, ClassWithStaticFieldClassA.class, true);
-		testMatches(filterPredicateParentClass, ClassWithStaticFieldArrayClassA.class, true);
-		testMatches(filterPredicateParentClass, ClassWithStaticParameterClassA.class, true);
-		testMatches(filterPredicateParentClass, ClassWithStaticParameterArrayClassA.class, true);
-		testMatches(filterPredicateParentClass, ClassThatStaticReturnsClassA.class, true);
-		testMatches(filterPredicateParentClass, ClassThatStaticReturnsArrayClassA.class, true);
-		testMatches(filterPredicateParentClass, ClassThatStaticInvokesClassA.class, true);
-		testMatches(filterPredicateParentClass, ClassThatStaticInvokesClassThatInvokesClassA.class, true);
+		testMatches(ClassB.class.getName(), ClassWithStaticFieldClassA.class, false);
+		testMatches(ClassB.class.getName(), ClassWithStaticFieldArrayClassA.class, false);
+		testMatches(ClassB.class.getName(), ClassWithStaticParameterClassA.class, false);
+		testMatches(ClassB.class.getName(), ClassWithStaticParameterArrayClassA.class, false);
+		testMatches(ClassB.class.getName(), ClassThatStaticReturnsClassA.class, false);
+		testMatches(ClassB.class.getName(), ClassThatStaticReturnsArrayClassA.class, false);
+		testMatches(ClassB.class.getName(), ClassThatStaticInvokesClassA.class, false);
+		testMatches(ClassB.class.getName(), ClassThatStaticInvokesClassThatInvokesClassA.class, false);
 		// Primitive fields
-		testMatches(Boolean.class.getName(), ClassWithPrimitiveTypes.class, true);
-		testMatches(Character.class.getName(), ClassWithPrimitiveTypes.class, true);
-		testMatches(Float.class.getName(), ClassWithPrimitiveTypes.class, true);
-		testMatches(Double.class.getName(), ClassWithPrimitiveTypes.class, true);
-		testMatches(Byte.class.getName(), ClassWithPrimitiveTypes.class, true);
-		testMatches(Short.class.getName(), ClassWithPrimitiveTypes.class, true);
-		testMatches(Integer.class.getName(), ClassWithPrimitiveTypes.class, true);
-		testMatches(Long.class.getName(), ClassWithPrimitiveTypes.class, true);
+		testMatches(ClassB.class.getName(), ClassWithPrimitiveTypes.class, true);
+		// Interface usage
+		testMatches(ClassB.class.getName(), ClassWithFieldInterfaceA.class, false);
+		testMatches(InterfaceA.class.getName(), ClassWithFieldInterfaceA.class, true);
+		testMatches(List.class.getName(), ClassWithFieldList.class, true);
 	}
 
 	private void testMatches(String filterPredicateParentClass, Class<?> usagePredicateClass, boolean matches) throws ClassNotFoundException {
-		final TypingPredicate filterPredicate = new TypingPredicate();
-		filterPredicate.setFilterPredicate(new NamingPredicate(filterPredicateParentClass));
+
+		final TypingPredicate filterPredicate2 = new TypingPredicate();
+		filterPredicate2.setFilterPredicate(new NamingPredicate(filterPredicateParentClass));
+
+		final NamingPredicate filterPredicate3 = new NamingPredicate("java.**");
+
+		final OrPredicate filterPredicate = new OrPredicate();
+		filterPredicate.setPredicates(new Predicate[] { filterPredicate2, filterPredicate3 });
+
 		final Type type = RepositoryLocator.getRepository().lookupType(usagePredicateClass);
+
 		final UsagePredicate usagePredicate = new UsagePredicate();
 		usagePredicate.setFilterPredicate(filterPredicate);
 		assertEquals(matches, usagePredicate.evaluate(type, null));

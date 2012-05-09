@@ -18,7 +18,11 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.test.dao;
 
+import java.util.List;
+
+import ar.com.fluxit.jqa.test.entity.vehicles.Bike;
 import ar.com.fluxit.jqa.test.fmk.dao.DataAccessObject;
+import ar.com.fluxit.jqa.test.fmk.dao.DataAccessObjectException;
 
 /**
  * TODO javadoc
@@ -26,5 +30,7 @@ import ar.com.fluxit.jqa.test.fmk.dao.DataAccessObject;
  * @author Juan Ignacio Barisich
  */
 public interface BikeDAO extends DataAccessObject {
+
+	List<Bike> getBikes() throws DataAccessObjectException;
 
 }

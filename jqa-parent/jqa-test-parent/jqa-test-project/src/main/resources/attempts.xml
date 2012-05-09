@@ -24,7 +24,7 @@
 		<predicate xsi:type="jqa:AbstractionPredicate" abstractionType="INTERFACE" />
 		<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="DAO attempt" />
 	</globalPredicate>
-			
+
 	<!-- Classes that try to be a DataAccessObject implementation -->
 	<globalPredicate name="DAO implementation attempt" xsi:type="jqa:AndPredicate">
 		<predicate xsi:type="jqa:AbstractionPredicate" abstractionType="CONCRETE" />
@@ -86,13 +86,29 @@
 	</globalPredicate>
 
 	<!-- Classes that try to be an Entity -->
-	<globalPredicate name="Entity attempt" xsi:type="jqa:OrPredicate">
-		<predicate xsi:type="jqa:NamingPredicate" namePattern="**.entity.**" />
-		<predicate xsi:type="jqa:NamingPredicate" namePattern="**.entities.**" />
-		<predicate xsi:type="jqa:NamingPredicate" namePattern="**.domain.**" />
+	<globalPredicate name="Entity attempt" xsi:type="jqa:AndPredicate">
+		<predicate xsi:type="jqa:OrPredicate">
+			<predicate xsi:type="jqa:NamingPredicate" namePattern="**.entity.**" />
+			<predicate xsi:type="jqa:NamingPredicate" namePattern="**.entities.**" />
+			<predicate xsi:type="jqa:NamingPredicate" namePattern="**.domain.**" />
+		</predicate>
 		<!-- The Entity superclass is not an attempt -->
-		<predicate xsi:type="jqa:TypingPredicate">
+		<predicate xsi:type="jqa:NotPredicate">
 			<predicate xsi:type="jqa:NamingPredicate" namePattern="ar.com.fluxit.jqa.test.fmk.entity.Entity" />
+		</predicate>
+	</globalPredicate>
+
+	<!-- Classes that try to be a View -->
+	<globalPredicate name="View attempt" xsi:type="jqa:AndPredicate">
+		<predicate xsi:type="jqa:OrPredicate">
+			<predicate xsi:type="jqa:NamingPredicate" namePattern="**.view.**" />
+			<predicate xsi:type="jqa:NamingPredicate" namePattern="**.views.**" />
+			<predicate xsi:type="jqa:NamingPredicate" namePattern="**.action.**" />
+			<predicate xsi:type="jqa:NamingPredicate" namePattern="**.actions.**" />
+		</predicate>
+		<!-- The View superclass is not an attempt -->
+		<predicate xsi:type="jqa:NotPredicate">
+			<predicate xsi:type="jqa:NamingPredicate" namePattern="ar.com.fluxit.jqa.test.fmk.view.View" />
 		</predicate>
 	</globalPredicate>
 

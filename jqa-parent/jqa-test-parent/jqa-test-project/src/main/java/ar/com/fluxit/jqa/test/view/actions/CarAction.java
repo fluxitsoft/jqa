@@ -18,6 +18,10 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.test.view.actions;
 
+import java.util.List;
+
+import ar.com.fluxit.jqa.test.dao.CarDAO;
+import ar.com.fluxit.jqa.test.entities.vehicles.Car;
 import ar.com.fluxit.jqa.test.fmk.view.View;
 
 /**
@@ -26,5 +30,14 @@ import ar.com.fluxit.jqa.test.fmk.view.View;
  * @author Juan Ignacio Barisich
  */
 public class CarAction implements View {
+
+	private CarDAO carDAO;
+	private List<Car> cars;
+
+	public String listCars() {
+		this.cars.clear();
+		this.cars = this.carDAO.getCars();
+		return "SUCESS";
+	}
 
 }

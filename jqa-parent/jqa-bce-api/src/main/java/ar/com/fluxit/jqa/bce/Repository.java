@@ -66,4 +66,6 @@ public interface Repository {
 
 	void setClassPath(Collection<File> classPathFiles) throws IntrospectionException, FileNotFoundException, TypeFormatException, IOException;
 
+	void setJavaVersion(String javaVersion);
+
 }

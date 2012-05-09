@@ -33,7 +33,7 @@ class BcelJavaType implements Type {
 		if (parse == null) {
 			throw new IllegalArgumentException("Wrapped class can not be null");
 		}
-		wrapped = parse;
+		this.wrapped = parse;
 	}
 
 	@Override
@@ -49,31 +49,31 @@ class BcelJavaType implements Type {
 
 	@Override
 	public String getName() {
-		return wrapped.getClassName();
+		return this.wrapped.getClassName();
 	}
 
 	org.apache.bcel.classfile.JavaClass getWrapped() {
-		return wrapped;
+		return this.wrapped;
 	}
 
 	@Override
 	public int hashCode() {
-		return wrapped.getClassName().hashCode();
+		return this.wrapped.getClassName().hashCode();
 	}
 
 	@Override
 	public boolean isAbstract() {
-		return wrapped.isAbstract() && !wrapped.isInterface();
+		return this.wrapped.isAbstract() && !this.wrapped.isInterface();
 	}
 
 	@Override
 	public boolean isInterface() {
-		return wrapped.isInterface();
+		return this.wrapped.isInterface();
 	}
 
 	@Override
 	public String toString() {
-		return wrapped.toString();
+		return this.wrapped.getClassName();
 	}
 
 }

@@ -18,6 +18,11 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.test.dao;
 
+import java.sql.SQLException;
+import java.util.Collections;
+import java.util.List;
+
+import ar.com.fluxit.jqa.test.entity.vehicles.Motorcycle;
 import ar.com.fluxit.jqa.test.fmk.dao.DataAccessObject;
 
 /**
@@ -26,5 +31,9 @@ import ar.com.fluxit.jqa.test.fmk.dao.DataAccessObject;
  * @author Juan Ignacio Barisich
  */
 public class MotorcycleDAO implements DataAccessObject {
+
+	List<Motorcycle> getMotorcycles() throws SQLException {
+		return Collections.emptyList();
+	}
 
 }

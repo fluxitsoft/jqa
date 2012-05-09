@@ -7,6 +7,6 @@
 	<!-- Ruleset imports -->
 	<rulesContextImport resource="/ar/com/fluxit/jqa/naming.xml" />
 	<rulesContextImport resource="/ar/com/fluxit/jqa/typing.xml" />
-<!--	<rulesContextImport resource="/ar/com/fluxit/jqa/usage.xml" />-->
+	<rulesContextImport resource="/ar/com/fluxit/jqa/usage.xml" />
 
 </jqa_ctx:RulesContext>

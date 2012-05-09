@@ -18,6 +18,9 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.test.services.impl;
 
+import java.util.List;
+
+import ar.com.fluxit.jqa.test.entity.vehicles.rails.Train;
 import ar.com.fluxit.jqa.test.services.TrainService;
 
 /**
@@ -26,5 +29,10 @@ import ar.com.fluxit.jqa.test.services.TrainService;
  * @author Juan Ignacio Barisich
  */
 public class TrainServiceImpl implements TrainService {
+
+	@Override
+	public List<Train> getTrains() {
+		return null;
+	}
 
 }

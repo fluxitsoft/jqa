@@ -7,6 +7,6 @@
 	<!-- Ruleset imports -->
 	<rulesContextImport resource="naming.xml" />
 	<rulesContextImport resource="typing.xml" />
-<!--	<rulesContextImport resource="usage.xml" />-->
+	<rulesContextImport resource="usage.xml" />
 
 </jqa_ctx:RulesContext>

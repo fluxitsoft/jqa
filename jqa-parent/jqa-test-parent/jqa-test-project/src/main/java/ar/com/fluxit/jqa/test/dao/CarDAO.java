@@ -18,11 +18,21 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.test.dao;
 
+import java.util.List;
+
+import javax.activation.DataSource;
+
+import ar.com.fluxit.jqa.test.entities.vehicles.Car;
+
 /**
  * TODO javadoc
  * 
  * @author Juan Ignacio Barisich
  */
 public interface CarDAO {
+
+	List<Car> getCars();
+
+	DataSource getDataSource();
 
 }

@@ -16,32 +16,21 @@
  * You should have received a copy of the GNU General Public License
  * along with JQA.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package ar.com.fluxit.jqa.test.bo.impl;
+package ar.com.fluxit.jqa.test.dao;
 
+import java.sql.SQLException;
 import java.util.List;
 
-import ar.com.fluxit.jqa.test.bo.BikeBO;
-import ar.com.fluxit.jqa.test.dao.BikeDAO;
-import ar.com.fluxit.jqa.test.entity.vehicles.Bike;
-import ar.com.fluxit.jqa.test.fmk.bo.BusinessObjectException;
-import ar.com.fluxit.jqa.test.fmk.dao.DataAccessObjectException;
+import ar.com.fluxit.jqa.test.domain.vehicles.Boat;
+import ar.com.fluxit.jqa.test.fmk.dao.DataAccessObject;
 
 /**
  * TODO javadoc
  * 
  * @author Juan Ignacio Barisich
  */
-public class BikeBOImpl implements BikeBO {
+public interface BoatDAO extends DataAccessObject {
 
-	private BikeDAO bikeDAO;
-
-	@Override
-	public List<Bike> getBikes() throws BusinessObjectException {
-		try {
-			return this.bikeDAO.getBikes();
-		} catch (DataAccessObjectException e) {
-			throw new BusinessObjectException(e);
-		}
-	}
+	List<Boat> getBoats() throws SQLException;
 
 }

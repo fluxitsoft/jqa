@@ -18,11 +18,17 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.test.dao.impl;
 
+import javax.sql.DataSource;
+
 /**
  * TODO javadoc
  * 
  * @author Juan Ignacio Barisich
  */
 public class CarDAOImpl {
+
+	DataSource getDataSource() {
+		return null;
+	}
 
 }

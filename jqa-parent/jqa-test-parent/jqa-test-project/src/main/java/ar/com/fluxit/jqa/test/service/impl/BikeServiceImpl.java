@@ -18,6 +18,12 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.test.service.impl;
 
+import java.util.List;
+
+import ar.com.fluxit.jqa.test.bo.BikeBO;
+import ar.com.fluxit.jqa.test.entity.vehicles.Bike;
+import ar.com.fluxit.jqa.test.fmk.bo.BusinessObjectException;
+import ar.com.fluxit.jqa.test.fmk.service.ServiceException;
 import ar.com.fluxit.jqa.test.service.BikeService;
 
 /**
@@ -26,5 +32,16 @@ import ar.com.fluxit.jqa.test.service.BikeService;
  * @author Juan Ignacio Barisich
  */
 public class BikeServiceImpl implements BikeService {
+
+	private BikeBO bikeBO;
+
+	@Override
+	public List<Bike> getBikes() throws ServiceException {
+		try {
+			return this.bikeBO.getBikes();
+		} catch (BusinessObjectException e) {
+			throw new ServiceException(e);
+		}
+	}
 
 }

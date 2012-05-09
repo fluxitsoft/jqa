@@ -18,6 +18,7 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.test.service.impl;
 
+import ar.com.fluxit.jqa.test.dao.impl.DAOForTrucksImpl;
 import ar.com.fluxit.jqa.test.service.ServiceForTrucks;
 
 /**
@@ -26,5 +27,11 @@ import ar.com.fluxit.jqa.test.service.ServiceForTrucks;
  * @author Juan Ignacio Barisich
  */
 public class ServiceForTrucksImpl implements ServiceForTrucks {
+
+	private DAOForTrucksImpl daoForTrucksImpl;
+
+	public void getTrucks() {
+		this.daoForTrucksImpl.getTrucks();
+	}
 
 }

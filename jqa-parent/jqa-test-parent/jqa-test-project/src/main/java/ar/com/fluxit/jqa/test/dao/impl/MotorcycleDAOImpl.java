@@ -18,6 +18,10 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.test.dao.impl;
 
+import java.util.Collections;
+import java.util.List;
+
+import ar.com.fluxit.jqa.test.entity.vehicles.Motorcycle;
 import ar.com.fluxit.jqa.test.fmk.dao.DataAccessObject;
 
 /**
@@ -26,5 +30,9 @@ import ar.com.fluxit.jqa.test.fmk.dao.DataAccessObject;
  * @author Juan Ignacio Barisich
  */
 public class MotorcycleDAOImpl implements DataAccessObject {
+
+	public List<Motorcycle> getMotorcycles() {
+		return Collections.emptyList();
+	}
 
 }

@@ -18,11 +18,15 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.test.service;
 
+import ar.com.fluxit.jqa.test.bo.CarBO;
+
 /**
  * TODO javadoc
  * 
  * @author Juan Ignacio Barisich
  */
 public interface CarService {
+
+	CarBO getCarBO();
 
 }

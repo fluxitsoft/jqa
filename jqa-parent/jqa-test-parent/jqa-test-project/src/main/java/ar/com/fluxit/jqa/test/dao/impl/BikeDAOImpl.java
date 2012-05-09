@@ -18,7 +18,16 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.test.dao.impl;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.sql.DataSource;
+
 import ar.com.fluxit.jqa.test.dao.BikeDAO;
+import ar.com.fluxit.jqa.test.entity.vehicles.Bike;
+import ar.com.fluxit.jqa.test.fmk.dao.DataAccessObjectException;
 
 /**
  * TODO javadoc
@@ -26,5 +35,21 @@ import ar.com.fluxit.jqa.test.dao.BikeDAO;
  * @author Juan Ignacio Barisich
  */
 public class BikeDAOImpl implements BikeDAO {
+
+	private DataSource dataSource;
+
+	@Override
+	public List<Bike> getBikes() throws DataAccessObjectException {
+		List<Bike> result = new ArrayList<Bike>();
+		try {
+			ResultSet executeQuery = this.dataSource.getConnection().createStatement().executeQuery("SELECT * FROM BIKE");
+			while (executeQuery.next()) {
+				result.add(new Bike());
+			}
+			return result;
+		} catch (SQLException e) {
+			throw new DataAccessObjectException(e);
+		}
+	}
 
 }

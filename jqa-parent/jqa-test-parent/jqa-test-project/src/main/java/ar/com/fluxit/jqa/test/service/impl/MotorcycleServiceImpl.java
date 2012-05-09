@@ -18,6 +18,7 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.test.service.impl;
 
+import ar.com.fluxit.jqa.test.bo.MotorcycleBO;
 import ar.com.fluxit.jqa.test.fmk.service.Service;
 
 /**
@@ -26,5 +27,9 @@ import ar.com.fluxit.jqa.test.fmk.service.Service;
  * @author Juan Ignacio Barisich
  */
 public class MotorcycleServiceImpl implements Service {
+
+	MotorcycleBO getMotorcycleBO() {
+		return null;
+	}
 
 }

@@ -56,4 +56,9 @@ public class TypingPredicate extends FilteredPredicate {
 		return getFilterPredicate().evaluate(type, context);
 	}
 
+	@Override
+	public String toString() {
+		return "TypingPredicate: [" + getFilterPredicate().toString() + "]";
+	}
+
 }

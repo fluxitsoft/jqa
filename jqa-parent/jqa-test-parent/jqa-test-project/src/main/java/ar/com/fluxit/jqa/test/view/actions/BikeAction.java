@@ -16,31 +16,33 @@
  * You should have received a copy of the GNU General Public License
  * along with JQA.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package ar.com.fluxit.jqa.test.bo.impl;
+package ar.com.fluxit.jqa.test.view.actions;
 
 import java.util.List;
 
 import ar.com.fluxit.jqa.test.bo.BikeBO;
-import ar.com.fluxit.jqa.test.dao.BikeDAO;
 import ar.com.fluxit.jqa.test.entity.vehicles.Bike;
 import ar.com.fluxit.jqa.test.fmk.bo.BusinessObjectException;
-import ar.com.fluxit.jqa.test.fmk.dao.DataAccessObjectException;
+import ar.com.fluxit.jqa.test.fmk.view.View;
+import ar.com.fluxit.jqa.test.fmk.view.ViewException;
 
 /**
  * TODO javadoc
  * 
  * @author Juan Ignacio Barisich
  */
-public class BikeBOImpl implements BikeBO {
+public class BikeAction implements View {
 
-	private BikeDAO bikeDAO;
+	private BikeBO bikeBO;
+	private List<Bike> bikes;
 
-	@Override
-	public List<Bike> getBikes() throws BusinessObjectException {
+	public String listCars() throws ViewException {
+		this.bikes.clear();
 		try {
-			return this.bikeDAO.getBikes();
-		} catch (DataAccessObjectException e) {
-			throw new BusinessObjectException(e);
+			this.bikes = this.bikeBO.getBikes();
+			return "SUCESS";
+		} catch (BusinessObjectException e) {
+			throw new ViewException(e);
 		}
 	}
 

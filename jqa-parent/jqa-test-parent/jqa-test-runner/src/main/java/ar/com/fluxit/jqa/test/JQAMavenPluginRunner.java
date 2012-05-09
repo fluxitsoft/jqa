@@ -28,18 +28,18 @@ import com.thoughtworks.xstream.XStream;
  * 
  * @author Juan Ignacio Barisich
  */
-public class JQAPluginRunner {
+public class JQAMavenPluginRunner {
 
 	private static RuleCheckFailed assertContains(CheckingResult result, String ruleName, String targetClassName, List<RuleCheckFailed> fails) {
-		RuleCheckFailed founded = null;
+		RuleCheckFailed found = null;
 		for (RuleCheckFailed fail : result.getRuleChecksFailed()) {
 			if (ruleName.equals(fail.getRuleName()) && targetClassName.equals(fail.getTargetClassName())) {
-				founded = fail;
+				found = fail;
 				fails.remove(fail);
 			}
 		}
-		Assert.assertTrue("Expected fail: ruleName(" + ruleName + ") targetClassName(" + targetClassName + ")", founded != null);
-		return founded;
+		Assert.assertTrue("Expected fail did not occur: ruleName(" + ruleName + ") targetClassName(" + targetClassName + ")", found != null);
+		return found;
 	}
 
 	private static void doAsserts(CheckingResult result) {
@@ -62,6 +62,7 @@ public class JQAPluginRunner {
 		assertContains(result, "Service implementation naming", "ar.com.fluxit.jqa.test.service.MotorcycleService", fails);
 		assertContains(result, "Service implementation naming", "ar.com.fluxit.jqa.test.services.impl.TrainServiceImpl", fails);
 		assertContains(result, "Entity naming", "ar.com.fluxit.jqa.test.entities.vehicles.Car", fails);
+		assertContains(result, "Entity naming", "ar.com.fluxit.jqa.test.domain.vehicles.Boat", fails);
 
 		// Typing asserts
 		assertContains(result, "BO contract typing", "ar.com.fluxit.jqa.test.bo.CarBO", fails);
@@ -78,7 +79,24 @@ public class JQAPluginRunner {
 		assertContains(result, "Service implementation typing", "ar.com.fluxit.jqa.test.service.MotorcycleService", fails);
 		assertContains(result, "Entity typing", "ar.com.fluxit.jqa.test.entity.vehicles.Motorcycle", fails);
 
-		Assert.assertEquals(fails.size() + " not expected fails: " + fails.toString(), 0, fails.size());
+		// Usages asserts
+		assertContains(result, "View usages", "ar.com.fluxit.jqa.test.view.actions.CarAction", fails);
+		assertContains(result, "View usages", "ar.com.fluxit.jqa.test.view.actions.TrainAction", fails);
+		assertContains(result, "Service contract usages", "ar.com.fluxit.jqa.test.service.CarService", fails);
+		assertContains(result, "Service contract usages", "ar.com.fluxit.jqa.test.service.BoatService", fails);
+		assertContains(result, "Service implementation usages", "ar.com.fluxit.jqa.test.service.MotorcycleService", fails);
+		assertContains(result, "Service implementation usages", "ar.com.fluxit.jqa.test.service.MotorcycleService", fails);
+		assertContains(result, "Service implementation usages", "ar.com.fluxit.jqa.test.service.impl.MotorcycleServiceImpl", fails);
+		assertContains(result, "Service implementation usages", "ar.com.fluxit.jqa.test.service.impl.ServiceForTrucksImpl", fails);
+		assertContains(result, "BO contract usages", "ar.com.fluxit.jqa.test.bo.CarBO", fails);
+		assertContains(result, "BO contract usages", "ar.com.fluxit.jqa.test.bo.BoatBO", fails);
+		assertContains(result, "BO implementation usages", "ar.com.fluxit.jqa.test.bo.MotorcycleBO", fails);
+		assertContains(result, "BO implementation usages", "ar.com.fluxit.jqa.test.bo.impl.MotorcycleBOImpl", fails);
+		assertContains(result, "DAO contract usages", "ar.com.fluxit.jqa.test.dao.CarDAO", fails);
+		assertContains(result, "DAO implementation usages", "ar.com.fluxit.jqa.test.dao.MotorcycleDAO", fails);
+		assertContains(result, "DAO implementation usages", "ar.com.fluxit.jqa.test.dao.impl.MotorcycleDAOImpl", fails);
+
+		Assert.assertEquals(fails.size() + " unexpected fails occurred: " + fails.toString(), 0, fails.size());
 	}
 
 	public static void main(String[] args) {
@@ -89,7 +107,6 @@ public class JQAPluginRunner {
 				String mavenHomeArg = args[0];
 				String jqaVersionArg = args[1];
 				System.setProperty("maven.home", mavenHomeArg);
-				// installJQAPluginCheck();
 				runJQAPluginCheck(jqaVersionArg);
 			}
 		} catch (Exception e) {

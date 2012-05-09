@@ -18,12 +18,11 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.test.bo.impl;
 
+import java.util.Collections;
 import java.util.List;
 
-import ar.com.fluxit.jqa.test.bo.BikeBO;
-import ar.com.fluxit.jqa.test.dao.BikeDAO;
-import ar.com.fluxit.jqa.test.entity.vehicles.Bike;
-import ar.com.fluxit.jqa.test.fmk.bo.BusinessObjectException;
+import ar.com.fluxit.jqa.test.bo.BoatBO;
+import ar.com.fluxit.jqa.test.domain.vehicles.Boat;
 import ar.com.fluxit.jqa.test.fmk.dao.DataAccessObjectException;
 
 /**
@@ -31,17 +30,11 @@ import ar.com.fluxit.jqa.test.fmk.dao.DataAccessObjectException;
  * 
  * @author Juan Ignacio Barisich
  */
-public class BikeBOImpl implements BikeBO {
-
-	private BikeDAO bikeDAO;
+public class BoatBOImpl implements BoatBO {
 
 	@Override
-	public List<Bike> getBikes() throws BusinessObjectException {
-		try {
-			return this.bikeDAO.getBikes();
-		} catch (DataAccessObjectException e) {
-			throw new BusinessObjectException(e);
-		}
+	public List<Boat> getBoats() throws DataAccessObjectException {
+		return Collections.emptyList();
 	}
 
 }
