@@ -16,22 +16,22 @@
  * You should have received a copy of the GNU General Public License
  * along with JQA.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package ar.com.fluxit.jqa.mock.throwing;
+package ar.com.fluxit.jqa.mock.usage;
 
-import ar.com.fluxit.jqa.mock.ClassA;
+import ar.com.fluxit.jqa.mock.ClassB;
 
 /**
  * TODO javadoc
  * 
  * @author Juan Ignacio Barisich
  */
-public class ClassThatThrowsUncheckedExceptionOnMethod extends ClassA {
+public class ClassThatInvokesArrayClassA {
 
-	public ClassThatThrowsUncheckedExceptionOnMethod() {
+	public ClassThatInvokesArrayClassA() {
 		super();
 	}
 
-	protected void dummy() {
-		throw new IllegalStateException("An error occured");
+	void dummy(ClassB classB) {
+		classB.getArrayClassA();
 	}
 }

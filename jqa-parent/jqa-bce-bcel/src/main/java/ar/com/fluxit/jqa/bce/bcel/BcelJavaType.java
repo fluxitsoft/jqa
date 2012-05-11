@@ -18,6 +18,11 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.bce.bcel;
 
+import org.apache.bcel.Constants;
+import org.apache.bcel.generic.ArrayType;
+import org.apache.bcel.generic.BasicType;
+import org.apache.bcel.generic.ObjectType;
+
 import ar.com.fluxit.jqa.bce.Type;
 
 /**
@@ -27,13 +32,48 @@ import ar.com.fluxit.jqa.bce.Type;
  */
 class BcelJavaType implements Type {
 
+	private static final String VOID = "void";
+
+	public static BcelJavaType create(org.apache.bcel.classfile.JavaClass javaClass) {
+		return new BcelJavaType(javaClass);
+	}
+
+	public static BcelJavaType create(org.apache.bcel.generic.Type type) {
+		String className = getClassName(type);
+		return className.equals(VOID) ? null : BcelJavaType.create(className);
+	}
+
+	public static BcelJavaType create(String className) {
+		if (className.equals(VOID)) {
+			return null;
+		} else {
+			try {
+				return new BcelJavaType(org.apache.bcel.Repository.lookupClass(className));
+			} catch (ClassNotFoundException e) {
+				throw new IllegalArgumentException("Can not find class " + className, e);
+			}
+		}
+	}
+
+	private static String getClassName(org.apache.bcel.generic.Type type) {
+		String signatureClassName;
+		if (type instanceof BasicType) {
+			signatureClassName = Constants.CLASS_TYPE_NAMES[type.getType()];
+		} else if (type instanceof ObjectType) {
+			signatureClassName = ((ObjectType) type).getClassName();
+		} else {
+			signatureClassName = getClassName(((ArrayType) type).getBasicType());
+		}
+		return signatureClassName;
+	}
+
 	private final org.apache.bcel.classfile.JavaClass wrapped;
 
-	public BcelJavaType(org.apache.bcel.classfile.JavaClass parse) {
-		if (parse == null) {
+	private BcelJavaType(org.apache.bcel.classfile.JavaClass javaClass) {
+		if (javaClass == null) {
 			throw new IllegalArgumentException("Wrapped class can not be null");
 		}
-		this.wrapped = parse;
+		this.wrapped = javaClass;
 	}
 
 	@Override

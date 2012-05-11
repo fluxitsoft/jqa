@@ -29,7 +29,11 @@ import ar.com.fluxit.jqa.mock.ExceptionA;
 public class ClassThatThrowsExceptionAOnStaticMethod extends ClassA {
 
 	public static void dummy() throws ExceptionA {
-		throw new ExceptionA();
+		try {
+			System.out.println("");
+		} catch (Exception e) {
+			throw new ExceptionA("An exception occured", e);
+		}
 	}
 
 	public ClassThatThrowsExceptionAOnStaticMethod() {

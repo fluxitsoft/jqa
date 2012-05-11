@@ -33,6 +33,10 @@ public class ClassThatThrowsExceptionAOnMethod extends ClassA {
 	}
 
 	protected void dummy() throws ExceptionA {
-		throw new ExceptionA();
+		try {
+			System.out.println("");
+		} catch (Exception e) {
+			throw new ExceptionA(e);
+		}
 	}
 }

@@ -9,34 +9,11 @@
 	<!-- RuleSet that checks the classes naming -->
 	<ruleSet name="Naming ruleset">
 
-		<!-- DataAccessObject contract naming -->
-		<rule name="DAO contract naming" message="The DAO contract '${type.name}' must be named like '**.dao.*DAO'"
+		<!-- Entity naming -->
+		<rule name="Entity naming" message="The Entity '${type.name}' must be named like '**.entity.**'"
 			priority="4">
-			<filterPredicate xsi:type="jqa:ContextProvidedPredicate" predicateName="DAO contract attempt" />
-			<checkPredicate xsi:type="jqa:NamingPredicate" namePattern="**.dao.+DAO" />
-		</rule>
-
-		<!-- DataAccessObject implementation naming -->
-		<rule name="DAO implementation naming"
-			message="The DAO implementation '${type.name}' must be named like '**.dao.impl.*DAOImpl'"
-			priority="4">
-			<filterPredicate xsi:type="jqa:ContextProvidedPredicate" predicateName="DAO implementation attempt" />
-			<checkPredicate xsi:type="jqa:NamingPredicate" namePattern="**.dao.impl.+DAOImpl" />
-		</rule>
-
-		<!-- BusinessObject contract naming -->
-		<rule name="BO contract naming" message="The BO contract '${type.name}' must be named like '**.bo.*BO'"
-			priority="4">
-			<filterPredicate xsi:type="jqa:ContextProvidedPredicate" predicateName="BO contract attempt" />
-			<checkPredicate xsi:type="jqa:NamingPredicate" namePattern="**.bo.+BO" />
-		</rule>
-
-		<!-- BusinessObject implementation naming -->
-		<rule name="BO implementation naming"
-			message="The BO implementation '${type.name}' must be named like '**.bo.impl.*BOImpl'"
-			priority="4">
-			<filterPredicate xsi:type="jqa:ContextProvidedPredicate" predicateName="BO implementation attempt" />
-			<checkPredicate xsi:type="jqa:NamingPredicate" namePattern="**.bo.impl.+BOImpl" />
+			<filterPredicate xsi:type="jqa:ContextProvidedPredicate" predicateName="Entity attempt" />
+			<checkPredicate xsi:type="jqa:NamingPredicate" namePattern="**.entity.**" />
 		</rule>
 
 		<!-- Service contract naming -->
@@ -55,11 +32,34 @@
 			<checkPredicate xsi:type="jqa:NamingPredicate" namePattern="**.service.impl.+ServiceImpl" />
 		</rule>
 
-		<!-- Entity naming -->
-		<rule name="Entity naming" message="The Entity '${type.name}' must be named like '**.entity.**'"
+		<!-- BusinessObject contract naming -->
+		<rule name="BO contract naming" message="The BO contract '${type.name}' must be named like '**.bo.*BO'"
 			priority="4">
-			<filterPredicate xsi:type="jqa:ContextProvidedPredicate" predicateName="Entity attempt" />
-			<checkPredicate xsi:type="jqa:NamingPredicate" namePattern="**.entity.**" />
+			<filterPredicate xsi:type="jqa:ContextProvidedPredicate" predicateName="BO contract attempt" />
+			<checkPredicate xsi:type="jqa:NamingPredicate" namePattern="**.bo.+BO" />
+		</rule>
+
+		<!-- BusinessObject implementation naming -->
+		<rule name="BO implementation naming"
+			message="The BO implementation '${type.name}' must be named like '**.bo.impl.*BOImpl'"
+			priority="4">
+			<filterPredicate xsi:type="jqa:ContextProvidedPredicate" predicateName="BO implementation attempt" />
+			<checkPredicate xsi:type="jqa:NamingPredicate" namePattern="**.bo.impl.+BOImpl" />
+		</rule>
+
+		<!-- DataAccessObject contract naming -->
+		<rule name="DAO contract naming" message="The DAO contract '${type.name}' must be named like '**.dao.*DAO'"
+			priority="4">
+			<filterPredicate xsi:type="jqa:ContextProvidedPredicate" predicateName="DAO contract attempt" />
+			<checkPredicate xsi:type="jqa:NamingPredicate" namePattern="**.dao.+DAO" />
+		</rule>
+
+		<!-- DataAccessObject implementation naming -->
+		<rule name="DAO implementation naming"
+			message="The DAO implementation '${type.name}' must be named like '**.dao.impl.*DAOImpl'"
+			priority="4">
+			<filterPredicate xsi:type="jqa:ContextProvidedPredicate" predicateName="DAO implementation attempt" />
+			<checkPredicate xsi:type="jqa:NamingPredicate" namePattern="**.dao.impl.+DAOImpl" />
 		</rule>
 
 	</ruleSet>

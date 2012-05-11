@@ -28,7 +28,9 @@ import ar.com.fluxit.jqa.mock.ClassB;
 import ar.com.fluxit.jqa.mock.ClassC;
 import ar.com.fluxit.jqa.mock.InterfaceA;
 import ar.com.fluxit.jqa.mock.usage.ClassThatExtendsClassA;
+import ar.com.fluxit.jqa.mock.usage.ClassThatInvokesArrayClassA;
 import ar.com.fluxit.jqa.mock.usage.ClassThatInvokesClassA;
+import ar.com.fluxit.jqa.mock.usage.ClassThatInvokesClassThatInvokesArrayClassA;
 import ar.com.fluxit.jqa.mock.usage.ClassThatInvokesClassThatInvokesClassA;
 import ar.com.fluxit.jqa.mock.usage.ClassThatReturnsArrayClassA;
 import ar.com.fluxit.jqa.mock.usage.ClassThatReturnsClassA;
@@ -92,7 +94,9 @@ public class UsagePredicateTest extends TestCase {
 		testMatches(ClassB.class.getName(), ClassThatReturnsClassA.class, false);
 		testMatches(ClassB.class.getName(), ClassThatReturnsArrayClassA.class, false);
 		testMatches(ClassB.class.getName(), ClassThatInvokesClassA.class, false);
+		testMatches(ClassB.class.getName(), ClassThatInvokesArrayClassA.class, false);
 		testMatches(ClassB.class.getName(), ClassThatInvokesClassThatInvokesClassA.class, false);
+		testMatches(ClassB.class.getName(), ClassThatInvokesClassThatInvokesArrayClassA.class, false);
 		// Inner class
 		testMatches(ClassB.class.getName(), InnerClassThatExtendsClassA.B.class, false);
 		testMatches(ClassB.class.getName(), InnerClassWithFieldClassA.B.class, false);

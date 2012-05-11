@@ -29,6 +29,10 @@ public class ClassB {
 		super();
 	}
 
+	public ClassA[] getArrayClassA() {
+		return null;
+	}
+
 	public ClassA getClassA() {
 		return null;
 	}

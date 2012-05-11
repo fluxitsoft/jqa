@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jqa_ctx:RulesContext name=""
+	xmlns:jqa="http://www.fluxit.com.ar/jqa/schema/ruleset" xmlns:jqa_ctx="http://www.fluxit.com.ar/jqa/schema/rulescontext"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.fluxit.com.ar/jqa/schema/rulescontext https://raw.github.com/jbaris/jqa/master/jqa-parent/jqa-ctx-factory-xmlbeans/src/main/resources/schema/rulescontext.xsd http://www.fluxit.com.ar/jqa/schema/ruleset https://raw.github.com/jbaris/jqa/master/jqa-parent/jqa-ctx-factory-xmlbeans/src/main/resources/schema/ruleset.xsd ">
+
+	<rulesContextImport resource="attempts.xml" />
+	<rulesContextImport resource="exceptions.xml" />
+
+	<!-- RuleSet that checks exceptions thrown by the classes -->
+	<ruleSet name="Throwing ruleset">
+
+		<!-- Service throwing -->
+		<rule name="Service contract throwing"
+			message="The Service '${type.name}' must throw only exceptions that extend to ar.com.fluxit.jqa.test.fmk.service.ServiceException"
+			priority="3">
+			<filterPredicate xsi:type="jqa:ContextProvidedPredicate" predicateName="Service attempt" />
+			<checkPredicate xsi:type="jqa:ThrowingPredicate">
+				<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="Service exceptions"/>
+			</checkPredicate>
+		</rule>
+
+		<!-- BusinessObject throwing -->
+		<rule name="BO contract throwing"
+			message="The BO '${type.name}' must throw only exceptions that extend to ar.com.fluxit.jqa.test.fmk.bo.BusinessObjectException"
+			priority="3">
+			<filterPredicate xsi:type="jqa:ContextProvidedPredicate" predicateName="BO attempt" />
+			<checkPredicate xsi:type="jqa:ThrowingPredicate">
+				<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="BO exceptions"/>
+			</checkPredicate>
+		</rule>
+		
+		<!-- DataAccessObject throwing -->
+		<rule name="DAO contract throwing"
+			message="The DAO '${type.name}' must throw only exceptions that extend to ar.com.fluxit.jqa.test.fmk.dao.DataAccessObjectException"
+			priority="3">
+			<filterPredicate xsi:type="jqa:ContextProvidedPredicate" predicateName="DAO attempt" />
+			<checkPredicate xsi:type="jqa:ThrowingPredicate">
+				<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="DAO exceptions"/>
+			</checkPredicate>
+		</rule>
+
+	</ruleSet>
+</jqa_ctx:RulesContext>

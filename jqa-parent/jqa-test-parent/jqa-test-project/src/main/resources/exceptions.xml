@@ -4,26 +4,24 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.fluxit.com.ar/jqa/schema/rulescontext https://raw.github.com/jbaris/jqa/master/jqa-parent/jqa-ctx-factory-xmlbeans/src/main/resources/schema/rulescontext.xsd ">
 
-	<!-- DAO exception -->
-	<globalPredicate name="DAO exceptions" xsi:type="jqa:TypingPredicate">
-		<predicate xsi:type="jqa:NamingPredicate"
-			namePattern="ar.com.fluxit.jqa.test.fmk.dao.DataAccessObjectException" />
+	<!-- Service exception -->
+	<globalPredicate name="Service exceptions" xsi:type="jqa:TypingPredicate">
+		<predicate xsi:type="jqa:NamingPredicate" namePattern="ar.com.fluxit.jqa.test.fmk.service.ServiceException" />
 	</globalPredicate>
 
 	<!-- BO exception -->
 	<globalPredicate name="BO exceptions" xsi:type="jqa:TypingPredicate">
-		<predicate xsi:type="jqa:NamingPredicate"
-			namePattern="ar.com.fluxit.jqa.test.fmk.bo.BusinessObjectException" />
+		<predicate xsi:type="jqa:NamingPredicate" namePattern="ar.com.fluxit.jqa.test.fmk.bo.BusinessObjectException" />
 	</globalPredicate>
 
-	<!-- Service exception -->
-	<globalPredicate name="Service exceptions" xsi:type="jqa:TypingPredicate">
-		<predicate xsi:type="jqa:NamingPredicate" namePattern="ar.com.fluxit.jqa.test.fmk.service.ServiceException" />
+	<!-- DAO exception -->
+	<globalPredicate name="DAO exceptions" xsi:type="jqa:TypingPredicate">
+		<predicate xsi:type="jqa:NamingPredicate" namePattern="ar.com.fluxit.jqa.test.fmk.dao.DataAccessObjectException" />
 	</globalPredicate>
 
 	<!-- View exception -->
 	<globalPredicate name="View exceptions" xsi:type="jqa:TypingPredicate">
 		<predicate xsi:type="jqa:NamingPredicate" namePattern="ar.com.fluxit.jqa.test.fmk.view.ViewException" />
 	</globalPredicate>
-	
+
 </jqa_ctx:RulesContext>

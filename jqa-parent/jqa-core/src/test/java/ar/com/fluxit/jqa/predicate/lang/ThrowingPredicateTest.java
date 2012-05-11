@@ -23,7 +23,6 @@ import ar.com.fluxit.jqa.bce.RepositoryLocator;
 import ar.com.fluxit.jqa.bce.Type;
 import ar.com.fluxit.jqa.mock.ClassA;
 import ar.com.fluxit.jqa.mock.ExceptionA;
-import ar.com.fluxit.jqa.mock.throwing.ClassThatDoesntThrowsExceptionA;
 import ar.com.fluxit.jqa.mock.throwing.ClassThatThrowsExceptionAOnConstructor;
 import ar.com.fluxit.jqa.mock.throwing.ClassThatThrowsExceptionAOnMethod;
 import ar.com.fluxit.jqa.mock.throwing.ClassThatThrowsExceptionAOnStaticMethod;
@@ -42,7 +41,6 @@ public class ThrowingPredicateTest extends TestCase {
 		final String filterPredicateParentClass = ExceptionA.class.getName();
 		// No exceptions
 		testMatches(filterPredicateParentClass, ClassA.class, false);
-		testMatches(filterPredicateParentClass, ClassThatDoesntThrowsExceptionA.class, false);
 		// Checked exceptions
 		testMatches(filterPredicateParentClass, ClassThatThrowsExceptionAOnConstructor.class, true);
 		testMatches(filterPredicateParentClass, ClassThatThrowsExceptionAOnMethod.class, true);

@@ -11,115 +11,115 @@
 	<!-- RuleSet that checks the classes usage -->
 	<ruleSet name="Usage ruleset">
 
-		<!-- View usages -->
-		<rule name="View usages" message="The View '${type.name}' has an invalid usage"
-			priority="2">
-			<filterPredicate xsi:type="jqa:ContextProvidedPredicate" predicateName="View attempt" />
-			<!-- A view must only use a common-type, an Entity, a View or BO exception, a BO contract or the View interface -->
-			<checkPredicate xsi:type="jqa:UsagePredicate">
-				<predicate xsi:type="jqa:OrPredicate">
-					<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="Common types" />
-					<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="Entity attempt" />
-					<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="View exceptions"/>
-					<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="BO exceptions"/>
-					<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="BO contract attempt" />
-					<predicate xsi:type="jqa:NamingPredicate" namePattern="ar.com.fluxit.jqa.test.fmk.view.View" />
-				</predicate>
-			</checkPredicate>
-		</rule>
-		
 		<!-- Service contract usages -->
-		<rule name="Service contract usages" message="The Service contract '${type.name}' has an invalid usage"
+		<rule name="Service contract usages"
+			message="The Service contract '${type.name}' has an invalid usage. A service contract must only use a common-type, an Entity, a Service exception or the Service super-interface"
 			priority="2">
 			<filterPredicate xsi:type="jqa:ContextProvidedPredicate" predicateName="Service contract attempt" />
-			<!-- A service contract must only use a common-type, an Entity, a Service exception or the Service super-interface -->
 			<checkPredicate xsi:type="jqa:UsagePredicate">
 				<predicate xsi:type="jqa:OrPredicate">
 					<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="Common types" />
 					<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="Entity attempt" />
-					<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="Service exceptions"/>
+					<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="Service exceptions" />
 					<predicate xsi:type="jqa:NamingPredicate" namePattern="ar.com.fluxit.jqa.test.fmk.service.Service" />
 				</predicate>
 			</checkPredicate>
 		</rule>
-		
+
 		<!-- Service implementation usages -->
-		<rule name="Service implementation usages" message="The Service implementation '${type.name}' has an invalid usage"
+		<rule name="Service implementation usages"
+			message="The Service implementation '${type.name}' has an invalid usage. A service implementation must only use a common-type, an Entity, a Service or BO exception, a Service or BO contract"
 			priority="2">
 			<filterPredicate xsi:type="jqa:ContextProvidedPredicate" predicateName="Service implementation attempt" />
-			<!-- A service implementation must only use a common-type, an Entity, a Service or BO exception, a Service or a BO contract -->
 			<checkPredicate xsi:type="jqa:UsagePredicate">
 				<predicate xsi:type="jqa:OrPredicate">
 					<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="Common types" />
 					<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="Entity attempt" />
-					<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="Service exceptions"/>
-					<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="BO exceptions"/>
-					<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="Service contract attempt"/>
-					<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="BO contract attempt"/>
+					<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="Service exceptions" />
+					<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="BO exceptions" />
+					<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="Service contract attempt" />
+					<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="BO contract attempt" />
 				</predicate>
 			</checkPredicate>
 		</rule>
-		
+
 		<!-- BusinessObject contract usages -->
-		<rule name="BO contract usages" message="The BO contract '${type.name}' has an invalid usage"
+		<rule name="BO contract usages"
+			message="The BO contract '${type.name}' has an invalid usage. A BO contract must only use a common-type, an Entity, a BO exception or the BO super-interface"
 			priority="2">
 			<filterPredicate xsi:type="jqa:ContextProvidedPredicate" predicateName="BO contract attempt" />
-			<!-- A BO contract must only use a common-type, an Entity, a BO exception or the BO super-interface -->
 			<checkPredicate xsi:type="jqa:UsagePredicate">
 				<predicate xsi:type="jqa:OrPredicate">
 					<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="Common types" />
 					<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="Entity attempt" />
-					<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="BO exceptions"/>
+					<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="BO exceptions" />
 					<predicate xsi:type="jqa:NamingPredicate" namePattern="ar.com.fluxit.jqa.test.fmk.bo.BusinessObject" />
 				</predicate>
 			</checkPredicate>
 		</rule>
-		
+
 		<!-- BusinessObject implementation usages -->
-		<rule name="BO implementation usages" message="The BO implementation '${type.name}' has an invalid usage"
+		<rule name="BO implementation usages"
+			message="The BO implementation '${type.name}' has an invalid usage. A BO implementation must only use a common-type, an Entity, a BO or DAO exception, a BO or DAO contract"
 			priority="2">
 			<filterPredicate xsi:type="jqa:ContextProvidedPredicate" predicateName="BO implementation attempt" />
-			<!-- A BO implementation must only use a common-type, an Entity, a BO or DAO exception, a BO or a DAO contract -->
 			<checkPredicate xsi:type="jqa:UsagePredicate">
 				<predicate xsi:type="jqa:OrPredicate">
 					<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="Common types" />
 					<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="Entity attempt" />
-					<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="BO exceptions"/>
-					<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="DAO exceptions"/>
-					<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="BO contract attempt"/>
-					<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="DAO contract attempt"/>
+					<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="BO exceptions" />
+					<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="DAO exceptions" />
+					<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="BO contract attempt" />
+					<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="DAO contract attempt" />
 				</predicate>
 			</checkPredicate>
 		</rule>
-		
+
 		<!-- DataAccessObject contract usages -->
-		<rule name="DAO contract usages" message="The DAO contract '${type.name}' has an invalid usage"
+		<rule name="DAO contract usages"
+			message="The DAO contract '${type.name}' has an invalid usage. A DAO contract must only use a common-type, an Entity, a DAO exception or the DAO super-interface"
 			priority="2">
 			<filterPredicate xsi:type="jqa:ContextProvidedPredicate" predicateName="DAO contract attempt" />
-			<!-- A DAO contract must only use a common-type, an Entity, a DAO exception or the DAO super-interface -->
 			<checkPredicate xsi:type="jqa:UsagePredicate">
 				<predicate xsi:type="jqa:OrPredicate">
 					<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="Common types" />
 					<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="Entity attempt" />
-					<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="DAO exceptions"/>
+					<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="DAO exceptions" />
 					<predicate xsi:type="jqa:NamingPredicate" namePattern="ar.com.fluxit.jqa.test.fmk.dao.DataAccessObject" />
 				</predicate>
 			</checkPredicate>
 		</rule>
-		
+
 		<!-- DataAccessObject implementation usages -->
-		<rule name="DAO implementation usages" message="The DAO implementation '${type.name}' has an invalid usage"
+		<rule name="DAO implementation usages"
+			message="The DAO implementation '${type.name}' has an invalid usage. A DAO implementation must only use a common-type, an Entity, a DAO exception, a DAO contract or the JDBC API"
 			priority="2">
 			<filterPredicate xsi:type="jqa:ContextProvidedPredicate" predicateName="DAO implementation attempt" />
-			<!-- A DAO implementation must only use a common-type, an Entity or a DAO exception -->
 			<checkPredicate xsi:type="jqa:UsagePredicate">
 				<predicate xsi:type="jqa:OrPredicate">
 					<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="Common types" />
 					<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="Entity attempt" />
-					<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="BO exceptions"/>
-					<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="DAO exceptions"/>
-					<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="DAO contract attempt"/>
-					<predicate xsi:type="jqa:NamingPredicate" namePattern="javax.sql.**"/>
+					<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="BO exceptions" />
+					<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="DAO exceptions" />
+					<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="DAO contract attempt" />
+					<predicate xsi:type="jqa:NamingPredicate" namePattern="javax.sql.**" />
+				</predicate>
+			</checkPredicate>
+		</rule>
+
+		<!-- View usages -->
+		<rule name="View usages"
+			message="The View '${type.name}' has an invalid usage. A view must only use a common-type, an Entity, a View or BO exception, a BO contract or the View super-interface"
+			priority="2">
+			<filterPredicate xsi:type="jqa:ContextProvidedPredicate" predicateName="View attempt" />
+			<checkPredicate xsi:type="jqa:UsagePredicate">
+				<predicate xsi:type="jqa:OrPredicate">
+					<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="Common types" />
+					<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="Entity attempt" />
+					<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="View exceptions" />
+					<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="BO exceptions" />
+					<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="BO contract attempt" />
+					<predicate xsi:type="jqa:NamingPredicate" namePattern="ar.com.fluxit.jqa.test.fmk.view.View" />
 				</predicate>
 			</checkPredicate>
 		</rule>

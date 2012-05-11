@@ -8,5 +8,6 @@
 	<rulesContextImport resource="naming.xml" />
 	<rulesContextImport resource="typing.xml" />
 	<rulesContextImport resource="usage.xml" />
+	<rulesContextImport resource="throwing.xml" />
 
 </jqa_ctx:RulesContext>
