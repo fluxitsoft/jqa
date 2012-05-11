@@ -27,7 +27,9 @@ import ar.com.fluxit.jqa.mock.ClassA;
 import ar.com.fluxit.jqa.mock.ClassB;
 import ar.com.fluxit.jqa.mock.ClassC;
 import ar.com.fluxit.jqa.mock.InterfaceA;
+import ar.com.fluxit.jqa.mock.usage.ClassThatDeclaresExceptionA;
 import ar.com.fluxit.jqa.mock.usage.ClassThatExtendsClassA;
+import ar.com.fluxit.jqa.mock.usage.ClassThatImplementsInterfaceA;
 import ar.com.fluxit.jqa.mock.usage.ClassThatInvokesArrayClassA;
 import ar.com.fluxit.jqa.mock.usage.ClassThatInvokesClassA;
 import ar.com.fluxit.jqa.mock.usage.ClassThatInvokesClassThatInvokesArrayClassA;
@@ -38,11 +40,13 @@ import ar.com.fluxit.jqa.mock.usage.ClassThatStaticInvokesClassA;
 import ar.com.fluxit.jqa.mock.usage.ClassThatStaticInvokesClassThatInvokesClassA;
 import ar.com.fluxit.jqa.mock.usage.ClassThatStaticReturnsArrayClassA;
 import ar.com.fluxit.jqa.mock.usage.ClassThatStaticReturnsClassA;
+import ar.com.fluxit.jqa.mock.usage.ClassThatThrowsExceptionA;
 import ar.com.fluxit.jqa.mock.usage.ClassWithClassB;
 import ar.com.fluxit.jqa.mock.usage.ClassWithFieldArrayClassA;
 import ar.com.fluxit.jqa.mock.usage.ClassWithFieldClassA;
 import ar.com.fluxit.jqa.mock.usage.ClassWithFieldInterfaceA;
 import ar.com.fluxit.jqa.mock.usage.ClassWithFieldList;
+import ar.com.fluxit.jqa.mock.usage.ClassWithGenericClassA;
 import ar.com.fluxit.jqa.mock.usage.ClassWithParameterArrayClassA;
 import ar.com.fluxit.jqa.mock.usage.ClassWithParameterClassA;
 import ar.com.fluxit.jqa.mock.usage.ClassWithPrimitiveTypes;
@@ -60,6 +64,7 @@ import ar.com.fluxit.jqa.mock.usage.InnerClassWithFieldArrayClassA;
 import ar.com.fluxit.jqa.mock.usage.InnerClassWithFieldClassA;
 import ar.com.fluxit.jqa.mock.usage.InnerClassWithParameterArrayClassA;
 import ar.com.fluxit.jqa.mock.usage.InnerClassWithParameterClassA;
+import ar.com.fluxit.jqa.mock.usage.InterfaceThatDeclaresExceptionA;
 import ar.com.fluxit.jqa.mock.usage.StaticInnerClassThatExtendsClassA;
 import ar.com.fluxit.jqa.mock.usage.StaticInnerClassThatInvokesClassA;
 import ar.com.fluxit.jqa.mock.usage.StaticInnerClassThatInvokesClassThatInvokesClassA;
@@ -97,6 +102,9 @@ public class UsagePredicateTest extends TestCase {
 		testMatches(ClassB.class.getName(), ClassThatInvokesArrayClassA.class, false);
 		testMatches(ClassB.class.getName(), ClassThatInvokesClassThatInvokesClassA.class, false);
 		testMatches(ClassB.class.getName(), ClassThatInvokesClassThatInvokesArrayClassA.class, false);
+		testMatches(ClassB.class.getName(), ClassThatDeclaresExceptionA.class, false);
+		testMatches(ClassB.class.getName(), ClassThatThrowsExceptionA.class, false);
+		testMatches(ClassB.class.getName(), ClassWithGenericClassA.class, false);
 		// Inner class
 		testMatches(ClassB.class.getName(), InnerClassThatExtendsClassA.B.class, false);
 		testMatches(ClassB.class.getName(), InnerClassWithFieldClassA.B.class, false);
@@ -132,6 +140,8 @@ public class UsagePredicateTest extends TestCase {
 		testMatches(ClassB.class.getName(), ClassWithFieldInterfaceA.class, false);
 		testMatches(InterfaceA.class.getName(), ClassWithFieldInterfaceA.class, true);
 		testMatches(List.class.getName(), ClassWithFieldList.class, true);
+		testMatches(ClassB.class.getName(), InterfaceThatDeclaresExceptionA.class, false);
+		testMatches(ClassB.class.getName(), ClassThatImplementsInterfaceA.class, false);
 	}
 
 	private void testMatches(String filterPredicateParentClass, Class<?> usagePredicateClass, boolean matches) throws ClassNotFoundException {
@@ -150,4 +160,5 @@ public class UsagePredicateTest extends TestCase {
 		usagePredicate.setFilterPredicate(filterPredicate);
 		assertEquals(matches, usagePredicate.evaluate(type, null));
 	}
+
 }

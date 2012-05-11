@@ -63,7 +63,6 @@ public class JQAMavenPluginRunner {
 		assertContains(result, "Service implementation naming", "ar.com.fluxit.jqa.test.services.impl.TrainServiceImpl", fails);
 		assertContains(result, "Entity naming", "ar.com.fluxit.jqa.test.entities.vehicles.Car", fails);
 		assertContains(result, "Entity naming", "ar.com.fluxit.jqa.test.domain.vehicles.Boat", fails);
-
 		// Typing asserts
 		assertContains(result, "BO contract typing", "ar.com.fluxit.jqa.test.bo.CarBO", fails);
 		assertContains(result, "BO implementation typing", "ar.com.fluxit.jqa.test.bo.impl.CarBOImpl", fails);
@@ -78,7 +77,6 @@ public class JQAMavenPluginRunner {
 		assertContains(result, "Service implementation typing", "ar.com.fluxit.jqa.test.service.impl.MotorcycleServiceImpl", fails);
 		assertContains(result, "Service implementation typing", "ar.com.fluxit.jqa.test.service.MotorcycleService", fails);
 		assertContains(result, "Entity typing", "ar.com.fluxit.jqa.test.entity.vehicles.Motorcycle", fails);
-
 		// Usages asserts
 		assertContains(result, "View usages", "ar.com.fluxit.jqa.test.view.actions.CarAction", fails);
 		assertContains(result, "View usages", "ar.com.fluxit.jqa.test.view.actions.TrainAction", fails);

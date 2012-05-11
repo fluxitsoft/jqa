@@ -92,6 +92,22 @@ final class ClassNameTranslator {
 		return names;
 	}
 
+	public static List<String> signatureToClassNames2(String signature) {
+		List<String> result = new ArrayList<String>();
+		Pattern pattern = Pattern.compile("<([^>]*)>");
+		Matcher matcher = pattern.matcher(signature.replace("*", ""));
+		if (matcher.find()) {
+			int size = matcher.groupCount();
+			for (int i = 1; i <= size; i++) {
+				String typeNames = matcher.group(i);
+				if (!typeNames.isEmpty()) {
+					result.addAll(signatureToClassNames(typeNames));
+				}
+			}
+		}
+		return result;
+	}
+
 	public static String typeConstantToClassName(final String typeName) {
 		final Matcher arrayMatcher = arrayExtractorRE.matcher(typeName);
 		if (arrayMatcher.matches()) {

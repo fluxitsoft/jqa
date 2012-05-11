@@ -42,10 +42,14 @@ import org.apache.bcel.classfile.ClassParser;
 import org.apache.bcel.classfile.Code;
 import org.apache.bcel.classfile.ConstantCP;
 import org.apache.bcel.classfile.ConstantPool;
+import org.apache.bcel.classfile.ConstantUtf8;
 import org.apache.bcel.classfile.DescendingVisitor;
 import org.apache.bcel.classfile.EmptyVisitor;
+import org.apache.bcel.classfile.ExceptionTable;
 import org.apache.bcel.classfile.Field;
+import org.apache.bcel.classfile.JavaClass;
 import org.apache.bcel.classfile.Method;
+import org.apache.bcel.classfile.Signature;
 import org.apache.bcel.classfile.Visitor;
 import org.apache.bcel.generic.ATHROW;
 import org.apache.bcel.generic.CPInstruction;
@@ -181,22 +185,17 @@ public class RepositoryImpl implements Repository {
 		return result;
 	}
 
-	// private Type getType(String constantClassName) {
-	// final String usedClassName =
-	// ClassNameTranslator.typeConstantToClassName(constantClassName);
-	// return BcelJavaType.create(usedClassName);
-	// }
-
 	@Override
 	public Collection<Type> getUses(final Type type) {
 		// TODO cache
 		final Collection<Type> uses = new ArrayList<Type>();
+		final ConstantPool constantPool = getWrappedClass(type).getConstantPool();
 		final Visitor visitor = new EmptyVisitor() {
 
 			@Override
 			public void visitCode(Code code) {
-				final ConstantPool constantPool = getWrappedClass(type).getConstantPool();
 				iterateInstructions(code, type, new org.apache.bcel.generic.EmptyVisitor() {
+
 					@Override
 					public void visitInvokeInstruction(InvokeInstruction obj) {
 						ConstantPoolGen cpg = new ConstantPoolGen(constantPool);
@@ -211,7 +210,7 @@ public class RepositoryImpl implements Repository {
 						if (type != null) {
 							uses.add(type);
 						}
-					};
+					}
 
 				});
 			}
@@ -223,6 +222,14 @@ public class RepositoryImpl implements Repository {
 			}
 
 			@Override
+			public void visitJavaClass(JavaClass obj) {
+				for (String type : obj.getInterfaceNames()) {
+					uses.add(BcelJavaType.create(type));
+				}
+				uses.add(BcelJavaType.create(obj.getSuperclassName()));
+			}
+
+			@Override
 			public void visitMethod(Method method) {
 				final List<String> classNames = ClassNameTranslator.signatureToClassNames(method.getSignature());
 				for (final String className : classNames) {
@@ -230,6 +237,21 @@ public class RepositoryImpl implements Repository {
 					if (create != null) {
 						uses.add(create);
 					}
+				}
+				final ExceptionTable exceptionTable = method.getExceptionTable();
+				if (exceptionTable != null) {
+					for (final String exceptionClassName : exceptionTable.getExceptionNames()) {
+						uses.add(BcelJavaType.create(exceptionClassName));
+					}
+				}
+			}
+
+			@Override
+			public void visitSignature(Signature obj) {
+				final ConstantUtf8 constantString = (ConstantUtf8) constantPool.getConstant(obj.getSignatureIndex());
+				String signature = constantString.getBytes();
+				for (String type : ClassNameTranslator.signatureToClassNames2(signature)) {
+					uses.add(BcelJavaType.create(type));
 				}
 			}
 
@@ -254,7 +276,8 @@ public class RepositoryImpl implements Repository {
 	protected void iterateInstructions(Code code, Type type, org.apache.bcel.generic.Visitor visitor) {
 		Iterator<InstructionHandle> iterator = getInstructionListIterator(code);
 		while (iterator.hasNext()) {
-			iterator.next().getInstruction().accept(visitor);
+			final Instruction instruction = iterator.next().getInstruction();
+			instruction.accept(visitor);
 		}
 	}
 
