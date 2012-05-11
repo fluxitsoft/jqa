@@ -180,6 +180,16 @@ public class RepositoryImpl implements Repository {
 				}
 			}
 
+			@Override
+			public void visitMethod(Method obj) {
+				final ExceptionTable exceptionTable = obj.getExceptionTable();
+				if (exceptionTable != null) {
+					for (String type : exceptionTable.getExceptionNames()) {
+						result.add(BcelJavaType.create(type));
+					}
+				}
+			}
+
 		};
 		new DescendingVisitor(getWrappedClass(type), visitor).visit();
 		return result;

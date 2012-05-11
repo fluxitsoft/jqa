@@ -22,13 +22,15 @@ import junit.framework.TestCase;
 import ar.com.fluxit.jqa.bce.RepositoryLocator;
 import ar.com.fluxit.jqa.bce.Type;
 import ar.com.fluxit.jqa.mock.ClassA;
-import ar.com.fluxit.jqa.mock.ExceptionA;
+import ar.com.fluxit.jqa.mock.ExceptionB;
 import ar.com.fluxit.jqa.mock.throwing.ClassThatThrowsExceptionAOnConstructor;
 import ar.com.fluxit.jqa.mock.throwing.ClassThatThrowsExceptionAOnMethod;
 import ar.com.fluxit.jqa.mock.throwing.ClassThatThrowsExceptionAOnStaticMethod;
+import ar.com.fluxit.jqa.mock.throwing.ClassThatThrowsExceptionB;
 import ar.com.fluxit.jqa.mock.throwing.ClassThatThrowsUncheckedExceptionOnConstructor;
 import ar.com.fluxit.jqa.mock.throwing.ClassThatThrowsUncheckedExceptionOnMethod;
 import ar.com.fluxit.jqa.mock.throwing.ClassThatThrowsUncheckedExceptionOnStaticMethod;
+import ar.com.fluxit.jqa.mock.throwing.InterfaceThatThrowsExceptionA;
 
 /**
  * TODO javadoc
@@ -38,18 +40,19 @@ import ar.com.fluxit.jqa.mock.throwing.ClassThatThrowsUncheckedExceptionOnStatic
 public class ThrowingPredicateTest extends TestCase {
 
 	public final void testCheck() throws ClassNotFoundException {
-		final String filterPredicateParentClass = ExceptionA.class.getName();
+		final String filterPredicateParentClass = ExceptionB.class.getName();
 		// No exceptions
-		testMatches(filterPredicateParentClass, ClassA.class, false);
+		testMatches(filterPredicateParentClass, ClassA.class, true);
+		testMatches(filterPredicateParentClass, ClassThatThrowsExceptionB.class, true);
 		// Checked exceptions
-		testMatches(filterPredicateParentClass, ClassThatThrowsExceptionAOnConstructor.class, true);
-		testMatches(filterPredicateParentClass, ClassThatThrowsExceptionAOnMethod.class, true);
-		testMatches(filterPredicateParentClass, ClassThatThrowsExceptionAOnStaticMethod.class, true);
+		testMatches(filterPredicateParentClass, ClassThatThrowsExceptionAOnConstructor.class, false);
+		testMatches(filterPredicateParentClass, ClassThatThrowsExceptionAOnMethod.class, false);
+		testMatches(filterPredicateParentClass, ClassThatThrowsExceptionAOnStaticMethod.class, false);
+		testMatches(filterPredicateParentClass, InterfaceThatThrowsExceptionA.class, false);
 		// Unchecked exceptions
-		final String runtimeExceptionClassName = RuntimeException.class.getName();
-		testMatches(runtimeExceptionClassName, ClassThatThrowsUncheckedExceptionOnMethod.class, true);
-		testMatches(runtimeExceptionClassName, ClassThatThrowsUncheckedExceptionOnConstructor.class, true);
-		testMatches(runtimeExceptionClassName, ClassThatThrowsUncheckedExceptionOnStaticMethod.class, true);
+		testMatches(filterPredicateParentClass, ClassThatThrowsUncheckedExceptionOnMethod.class, false);
+		testMatches(filterPredicateParentClass, ClassThatThrowsUncheckedExceptionOnConstructor.class, false);
+		testMatches(filterPredicateParentClass, ClassThatThrowsUncheckedExceptionOnStaticMethod.class, false);
 	}
 
 	private void testMatches(String filterPredicateParentClass, Class<?> usagePredicateClass, boolean matches) throws ClassNotFoundException {

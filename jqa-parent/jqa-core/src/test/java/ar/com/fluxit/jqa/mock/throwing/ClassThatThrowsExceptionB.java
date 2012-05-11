@@ -16,35 +16,20 @@
  * You should have received a copy of the GNU General Public License
  * along with JQA.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package ar.com.fluxit.jqa.predicate.lang;
+package ar.com.fluxit.jqa.mock.throwing;
 
-import java.util.Collection;
-
-import ar.com.fluxit.jqa.bce.RepositoryLocator;
-import ar.com.fluxit.jqa.bce.Type;
-import ar.com.fluxit.jqa.context.RulesContext;
-import ar.com.fluxit.jqa.predicate.FilteredPredicate;
+import ar.com.fluxit.jqa.mock.ClassA;
+import ar.com.fluxit.jqa.mock.ExceptionB;
 
 /**
  * TODO javadoc
  * 
  * @author Juan Ignacio Barisich
  */
-public class ThrowingPredicate extends FilteredPredicate {
+public class ClassThatThrowsExceptionB extends ClassA {
 
-	public ThrowingPredicate() {
+	public ClassThatThrowsExceptionB() throws ExceptionB {
 		super();
+		throw new ExceptionB();
 	}
-
-	@Override
-	public boolean evaluate(Type type, RulesContext context) {
-		final Collection<Type> throwedClasses = RepositoryLocator.getRepository().getThrows(type);
-		for (final Type throwedClass : throwedClasses) {
-			if (!getFilterPredicate().evaluate(throwedClass, context)) {
-				return false;
-			}
-		}
-		return true;
-	}
-
 }
