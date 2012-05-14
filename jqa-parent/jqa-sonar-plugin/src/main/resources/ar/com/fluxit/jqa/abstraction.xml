@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jqa_ctx:RulesContext name=""
+	xmlns:jqa="http://www.fluxit.com.ar/jqa/schema/ruleset" xmlns:jqa_ctx="http://www.fluxit.com.ar/jqa/schema/rulescontext"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.fluxit.com.ar/jqa/schema/rulescontext https://raw.github.com/jbaris/jqa/master/jqa-parent/jqa-ctx-factory-xmlbeans/src/main/resources/schema/rulescontext.xsd http://www.fluxit.com.ar/jqa/schema/ruleset https://raw.github.com/jbaris/jqa/master/jqa-parent/jqa-ctx-factory-xmlbeans/src/main/resources/schema/ruleset.xsd ">
+
+	<!-- RuleSet that checks class allocations -->
+	<ruleSet name="Allocation ruleset">
+
+		<!-- Contracts abstraction -->
+		<rule name="Contract abstraction" message="The type '${type.name}' must be an interface"
+			priority="3">
+			<filterPredicate xsi:type="jqa:OrPredicate">
+				<predicate xsi:type="jqa:NamingPredicate" namePattern="**.service.*"/>
+				<predicate xsi:type="jqa:NamingPredicate" namePattern="**.bo.*"/>
+				<predicate xsi:type="jqa:NamingPredicate" namePattern="**.dao.*"/>
+			</filterPredicate>
+			<checkPredicate xsi:type="jqa:AbstractionPredicate" abstractionType="INTERFACE"/>
+		</rule>
+		
+		<!-- Implementations abstraction -->
+		<rule name="Implementation abstraction" message="The type '${type.name}' must be a concrete class"
+			priority="3">
+			<filterPredicate xsi:type="jqa:OrPredicate">
+				<predicate xsi:type="jqa:NamingPredicate" namePattern="**.service.impl.*"/>
+				<predicate xsi:type="jqa:NamingPredicate" namePattern="**.bo.impl.*"/>
+				<predicate xsi:type="jqa:NamingPredicate" namePattern="**.dao.impl.*"/>
+			</filterPredicate>
+			<checkPredicate xsi:type="jqa:AbstractionPredicate" abstractionType="CONCRETE"/>
+		</rule>
+
+	</ruleSet>
+</jqa_ctx:RulesContext>

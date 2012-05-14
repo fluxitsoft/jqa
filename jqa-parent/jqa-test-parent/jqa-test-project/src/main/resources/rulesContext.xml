@@ -10,5 +10,6 @@
 	<rulesContextImport resource="usage.xml" />
 	<rulesContextImport resource="throwing.xml" />
 	<rulesContextImport resource="allocation.xml" />
+	<rulesContextImport resource="abstraction.xml" />
 
 </jqa_ctx:RulesContext>

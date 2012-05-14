@@ -48,16 +48,19 @@ public class JQAMavenPluginRunner {
 		// Naming asserts
 		assertContains(result, "BO contract naming", "ar.com.fluxit.jqa.test.bo.BOForTrucks", fails);
 		assertContains(result, "BO contract naming", "ar.com.fluxit.jqa.test.bos.TrainBO", fails);
+		assertContains(result, "BO contract naming", "ar.com.fluxit.jqa.test.bo.impl.BusBO", fails);
 		assertContains(result, "BO implementation naming", "ar.com.fluxit.jqa.test.bo.impl.BOForTrucksImpl", fails);
 		assertContains(result, "BO implementation naming", "ar.com.fluxit.jqa.test.bo.MotorcycleBO", fails);
 		assertContains(result, "BO implementation naming", "ar.com.fluxit.jqa.test.bos.impl.TrainBOImpl", fails);
 		assertContains(result, "DAO contract naming", "ar.com.fluxit.jqa.test.dao.DAOForTrucks", fails);
 		assertContains(result, "DAO contract naming", "ar.com.fluxit.jqa.test.daos.TrainDAO", fails);
+		assertContains(result, "DAO contract naming", "ar.com.fluxit.jqa.test.dao.impl.BusDAO", fails);
 		assertContains(result, "DAO implementation naming", "ar.com.fluxit.jqa.test.dao.impl.DAOForTrucksImpl", fails);
 		assertContains(result, "DAO implementation naming", "ar.com.fluxit.jqa.test.dao.MotorcycleDAO", fails);
 		assertContains(result, "DAO implementation naming", "ar.com.fluxit.jqa.test.daos.impl.TrainDAOImpl", fails);
 		assertContains(result, "Service contract naming", "ar.com.fluxit.jqa.test.service.ServiceForTrucks", fails);
 		assertContains(result, "Service contract naming", "ar.com.fluxit.jqa.test.services.TrainService", fails);
+		assertContains(result, "Service contract naming", "ar.com.fluxit.jqa.test.service.impl.BusService", fails);
 		assertContains(result, "Service implementation naming", "ar.com.fluxit.jqa.test.service.impl.ServiceForTrucksImpl", fails);
 		assertContains(result, "Service implementation naming", "ar.com.fluxit.jqa.test.service.MotorcycleService", fails);
 		assertContains(result, "Service implementation naming", "ar.com.fluxit.jqa.test.services.impl.TrainServiceImpl", fails);
@@ -113,6 +116,13 @@ public class JQAMavenPluginRunner {
 		assertContains(result, "DAO allocation", "ar.com.fluxit.jqa.test.dao.impl.CarDAOImpl", fails);
 		assertContains(result, "View allocation", "ar.com.fluxit.jqa.test.view.actions.TrainAction", fails);
 		assertContains(result, "View allocation", "ar.com.fluxit.jqa.test.view.actions.CarAction", fails);
+		// Abstraction asserts
+		assertContains(result, "Contract abstraction", "ar.com.fluxit.jqa.test.service.MotorcycleService", fails);
+		assertContains(result, "Contract abstraction", "ar.com.fluxit.jqa.test.bo.MotorcycleBO", fails);
+		assertContains(result, "Contract abstraction", "ar.com.fluxit.jqa.test.dao.MotorcycleDAO", fails);
+		assertContains(result, "Implementation abstraction", "ar.com.fluxit.jqa.test.service.impl.BusService", fails);
+		assertContains(result, "Implementation abstraction", "ar.com.fluxit.jqa.test.bo.impl.BusBO", fails);
+		assertContains(result, "Implementation abstraction", "ar.com.fluxit.jqa.test.dao.impl.BusDAO", fails);
 
 		Assert.assertEquals(fails.size() + " unexpected fails occurred: " + fails.toString(), 0, fails.size());
 	}
