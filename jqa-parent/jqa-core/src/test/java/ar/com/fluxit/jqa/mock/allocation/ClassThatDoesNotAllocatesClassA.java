@@ -16,30 +16,25 @@
  * You should have received a copy of the GNU General Public License
  * along with JQA.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package ar.com.fluxit.jqa.test.view.actions;
+package ar.com.fluxit.jqa.mock.allocation;
 
-import java.util.List;
-
-import ar.com.fluxit.jqa.test.dao.CarDAO;
-import ar.com.fluxit.jqa.test.entities.vehicles.Car;
-import ar.com.fluxit.jqa.test.fmk.view.View;
+import ar.com.fluxit.jqa.mock.ClassA;
 
 /**
  * TODO javadoc
  * 
  * @author Juan Ignacio Barisich
  */
-public class CarAction implements View {
+public class ClassThatDoesNotAllocatesClassA extends ClassA {
 
-	public static CarAction instance = new CarAction();
+	private ClassA aClassA;
 
-	private CarDAO carDAO;
-	private List<Car> cars;
-
-	public String listCars() {
-		this.cars.clear();
-		this.cars = this.carDAO.getCars();
-		return "SUCESS";
+	public ClassThatDoesNotAllocatesClassA() {
+		dummy();
+	}
+	
+	private String dummy() {
+		return aClassA.getDate();
 	}
 
 }

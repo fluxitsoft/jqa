@@ -50,7 +50,12 @@ public class NamingPredicate extends IgnoringContextPredicate {
 
 	protected boolean evaluateClassName(String className) {
 		try {
-			return getRegEx().matches(className);
+			if (className.contains("$")) {
+				// Anonymous classes do not match
+				return false;
+			} else {
+				return getRegEx().matches(className);
+			}
 		} catch (final RegExSyntaxException e) {
 			throw new IllegalStateException(e);
 		}

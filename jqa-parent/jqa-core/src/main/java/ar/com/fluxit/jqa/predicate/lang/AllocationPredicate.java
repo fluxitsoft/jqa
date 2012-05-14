@@ -40,10 +40,10 @@ public class AllocationPredicate extends FilteredPredicate {
 	public boolean evaluate(Type type, RulesContext context) {
 		final Collection<Type> filteredClasses = RepositoryLocator.getRepository().getAllocations(type);
 		for (final Type usedClass : filteredClasses) {
-			if (getFilterPredicate().evaluate(usedClass, context)) {
-				return true;
+			if (!getFilterPredicate().evaluate(usedClass, context)) {
+				return false;
 			}
 		}
-		return false;
+		return true;
 	}
 }

@@ -9,5 +9,6 @@
 	<rulesContextImport resource="typing.xml" />
 	<rulesContextImport resource="usage.xml" />
 	<rulesContextImport resource="throwing.xml" />
+	<rulesContextImport resource="allocation.xml" />
 
 </jqa_ctx:RulesContext>

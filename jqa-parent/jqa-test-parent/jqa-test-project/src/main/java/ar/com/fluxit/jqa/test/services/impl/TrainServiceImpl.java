@@ -20,6 +20,8 @@ package ar.com.fluxit.jqa.test.services.impl;
 
 import java.util.List;
 
+import ar.com.fluxit.jqa.test.bos.TrainBO;
+import ar.com.fluxit.jqa.test.bos.impl.TrainBOImpl;
 import ar.com.fluxit.jqa.test.entity.vehicles.rails.Train;
 import ar.com.fluxit.jqa.test.services.TrainService;
 
@@ -30,9 +32,11 @@ import ar.com.fluxit.jqa.test.services.TrainService;
  */
 public class TrainServiceImpl implements TrainService {
 
+	private final TrainBO trainBO = new TrainBOImpl();
+
 	@Override
 	public List<Train> getTrains() {
-		return null;
+		return trainBO.getTrains();
 	}
 
 }

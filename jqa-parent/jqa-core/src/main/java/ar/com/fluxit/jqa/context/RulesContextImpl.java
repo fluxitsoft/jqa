@@ -34,6 +34,7 @@ import ar.com.fluxit.jqa.rule.RuleSet;
 public class RulesContextImpl implements RulesContext {
 
 	private final Collection<RuleSet> ruleSets;
+
 	private final Map<String, Predicate> globalPredicates;
 
 	public RulesContextImpl() {
@@ -77,5 +78,4 @@ public class RulesContextImpl implements RulesContext {
 	public Collection<RuleSet> getRuleSets() {
 		return ruleSets;
 	}
-
 }

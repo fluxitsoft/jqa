@@ -35,6 +35,5 @@ public class StaticInnerClassThatAllocatesClassA extends ClassA {
 
 	public StaticInnerClassThatAllocatesClassA() {
 		super();
-
 	}
 }

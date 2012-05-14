@@ -143,7 +143,11 @@ public class RepositoryImpl implements Repository {
 	}
 
 	public InputStream getSourceFile(Type type, File sourceDir) throws FileNotFoundException {
-		return new FileInputStream(sourceDir + "/" + type.getName().replace(".", "/") + ".java");
+		String sourceFile = sourceDir + "/" + type.getName().replace(".", "/");
+		if (sourceFile.contains("$")) {
+			sourceFile = sourceFile.substring(0, sourceFile.indexOf('$'));
+		}
+		return new FileInputStream(sourceFile + ".java");
 	}
 
 	@Override

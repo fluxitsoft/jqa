@@ -4,47 +4,18 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.fluxit.com.ar/jqa/schema/rulescontext https://raw.github.com/jbaris/jqa/master/jqa-parent/jqa-ctx-factory-xmlbeans/src/main/resources/schema/rulescontext.xsd ">
 
-	<rulesContextImport resource="/ar/com/fluxit/jqa/attempts.xml" />
+	<rulesContextImport resource="attempts.xml" />
 
 	<!-- RuleSet that checks the classes typing -->
 	<ruleSet name="Typing ruleset">
 
-		<!-- DataAccess contract typing -->
-		<rule name="DAO contract typing"
-			message="The DAO contract '${type.name}' must extend to 'ar.com.fluxit.jqa.test.fmk.dao.DataAccessObject'"
+		<!-- Entity typing -->
+		<rule name="Entity typing"
+			message="The Entity '${type.name}' must implement 'ar.com.fluxit.jqa.test.fmk.entity.Entity'"
 			priority="3">
-			<filterPredicate xsi:type="jqa:ContextProvidedPredicate" predicateName="DAO contract attempt" />
+			<filterPredicate xsi:type="jqa:ContextProvidedPredicate" predicateName="Entity attempt" />
 			<checkPredicate xsi:type="jqa:TypingPredicate">
-				<predicate xsi:type="jqa:NamingPredicate" namePattern="ar.com.fluxit.jqa.test.fmk.dao.DataAccessObject" />
-			</checkPredicate>
-		</rule>
-
-		<!-- DataAccess implementation typing -->
-		<rule name="DAO implementation typing"
-			message="The DAO implementation '${type.name}' must implement a valid DAO contract"
-			priority="3">
-			<filterPredicate xsi:type="jqa:ContextProvidedPredicate" predicateName="DAO implementation attempt" />
-			<checkPredicate xsi:type="jqa:TypingPredicate">
-				<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="DAO contract attempt" />
-			</checkPredicate>
-		</rule>
-
-		<!-- BusinessObject contract typing -->
-		<rule name="BO contract typing"
-			message="The BO contract '${type.name}' must extend to 'ar.com.fluxit.jqa.test.fmk.bo.BusinessObject'"
-			priority="3">
-			<filterPredicate xsi:type="jqa:ContextProvidedPredicate" predicateName="BO contract attempt" />
-			<checkPredicate xsi:type="jqa:TypingPredicate">
-				<predicate xsi:type="jqa:NamingPredicate" namePattern="ar.com.fluxit.jqa.test.fmk.bo.BusinessObject" />
-			</checkPredicate>
-		</rule>
-
-		<!-- BusinessObject implementation typing -->
-		<rule name="BO implementation typing" message="The BO implementation '${type.name}' must implement a valid BO contract"
-			priority="3">
-			<filterPredicate xsi:type="jqa:ContextProvidedPredicate" predicateName="BO implementation attempt" />
-			<checkPredicate xsi:type="jqa:TypingPredicate">
-				<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="BO contract attempt" />
+				<predicate xsi:type="jqa:NamingPredicate" namePattern="ar.com.fluxit.jqa.test.fmk.entity.Entity" />
 			</checkPredicate>
 		</rule>
 
@@ -68,13 +39,43 @@
 			</checkPredicate>
 		</rule>
 
-		<!-- Entity typing -->
-		<rule name="Entity typing"
-			message="The Entity '${type.name}' must implement 'ar.com.fluxit.jqa.test.fmk.entity.Entity'"
+		<!-- BusinessObject contract typing -->
+		<rule name="BO contract typing"
+			message="The BO contract '${type.name}' must extend to 'ar.com.fluxit.jqa.test.fmk.bo.BusinessObject'"
 			priority="3">
-			<filterPredicate xsi:type="jqa:ContextProvidedPredicate" predicateName="Entity attempt" />
+			<filterPredicate xsi:type="jqa:ContextProvidedPredicate" predicateName="BO contract attempt" />
 			<checkPredicate xsi:type="jqa:TypingPredicate">
-				<predicate xsi:type="jqa:NamingPredicate" namePattern="ar.com.fluxit.jqa.test.fmk.entity.Entity" />
+				<predicate xsi:type="jqa:NamingPredicate" namePattern="ar.com.fluxit.jqa.test.fmk.bo.BusinessObject" />
+			</checkPredicate>
+		</rule>
+
+		<!-- BusinessObject implementation typing -->
+		<rule name="BO implementation typing"
+			message="The BO implementation '${type.name}' must implement a valid BO contract"
+			priority="3">
+			<filterPredicate xsi:type="jqa:ContextProvidedPredicate" predicateName="BO implementation attempt" />
+			<checkPredicate xsi:type="jqa:TypingPredicate">
+				<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="BO contract attempt" />
+			</checkPredicate>
+		</rule>
+
+		<!-- DataAccess contract typing -->
+		<rule name="DAO contract typing"
+			message="The DAO contract '${type.name}' must extend to 'ar.com.fluxit.jqa.test.fmk.dao.DataAccessObject'"
+			priority="3">
+			<filterPredicate xsi:type="jqa:ContextProvidedPredicate" predicateName="DAO contract attempt" />
+			<checkPredicate xsi:type="jqa:TypingPredicate">
+				<predicate xsi:type="jqa:NamingPredicate" namePattern="ar.com.fluxit.jqa.test.fmk.dao.DataAccessObject" />
+			</checkPredicate>
+		</rule>
+
+		<!-- DataAccess implementation typing -->
+		<rule name="DAO implementation typing"
+			message="The DAO implementation '${type.name}' must implement a valid DAO contract"
+			priority="3">
+			<filterPredicate xsi:type="jqa:ContextProvidedPredicate" predicateName="DAO implementation attempt" />
+			<checkPredicate xsi:type="jqa:TypingPredicate">
+				<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="DAO contract attempt" />
 			</checkPredicate>
 		</rule>
 

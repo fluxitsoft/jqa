@@ -56,15 +56,15 @@ public class RulesContextLoader {
 	}
 
 	public RulesContext load() {
-		return load(getClass().getResourceAsStream("/ar/com/fluxit/jqa/rulesContext.xml"));
+		return load(getClass().getResourceAsStream("/ar/com/fluxit/jqa/rulesContext.xml"), "/ar/com/fluxit/jqa");
 	}
 
-	public RulesContext load(InputStream inputStream) {
+	public RulesContext load(InputStream inputStream, String packageBase) {
 		ClassLoader classLoader = null;
 		try {
 			classLoader = Thread.currentThread().getContextClassLoader();
 			Thread.currentThread().setContextClassLoader(this.getClass().getClassLoader());
-			final RulesContext rulesContext = RulesContextFactoryLocator.getRulesContextFactory().getRulesContext(inputStream);
+			final RulesContext rulesContext = RulesContextFactoryLocator.getRulesContextFactory().getRulesContext(inputStream, packageBase);
 			return rulesContext;
 		} catch (final RulesContextFactoryException e) {
 			throw new IllegalStateException(e);

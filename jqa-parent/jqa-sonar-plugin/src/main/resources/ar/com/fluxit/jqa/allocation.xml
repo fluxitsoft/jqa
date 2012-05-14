@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jqa_ctx:RulesContext name=""
+	xmlns:jqa="http://www.fluxit.com.ar/jqa/schema/ruleset" xmlns:jqa_ctx="http://www.fluxit.com.ar/jqa/schema/rulescontext"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.fluxit.com.ar/jqa/schema/rulescontext https://raw.github.com/jbaris/jqa/master/jqa-parent/jqa-ctx-factory-xmlbeans/src/main/resources/schema/rulescontext.xsd http://www.fluxit.com.ar/jqa/schema/ruleset https://raw.github.com/jbaris/jqa/master/jqa-parent/jqa-ctx-factory-xmlbeans/src/main/resources/schema/ruleset.xsd ">
+
+	<rulesContextImport resource="attempts.xml" />
+
+	<!-- RuleSet that checks class allocations -->
+	<ruleSet name="Allocation ruleset">
+
+		<!-- Service allocation -->
+		<rule name="Service allocation"
+			message="The Service '${type.name}' has an invalid allocation. A Service must only allocates a common-type, a Service exception or an Entity"
+			priority="2">
+			<filterPredicate xsi:type="jqa:ContextProvidedPredicate"
+				predicateName="Service attempt" />
+			<checkPredicate xsi:type="jqa:AllocationPredicate">
+				<predicate xsi:type="jqa:OrPredicate">
+					<predicate xsi:type="jqa:ContextProvidedPredicate"
+						predicateName="Common type" />
+					<predicate xsi:type="jqa:ContextProvidedPredicate"
+						predicateName="Service exceptions" />
+					<predicate xsi:type="jqa:ContextProvidedPredicate"
+						predicateName="Entity attempt" />
+				</predicate>
+			</checkPredicate>
+		</rule>
+
+		<!-- BusinessObject allocation -->
+		<rule name="BO allocation"
+			message="The BO '${type.name}' has an invalid allocation. A BusinessObject must only allocates a common-type, a BO exception or an Entity"
+			priority="2">
+			<filterPredicate xsi:type="jqa:ContextProvidedPredicate"
+				predicateName="BO attempt" />
+			<checkPredicate xsi:type="jqa:AllocationPredicate">
+				<predicate xsi:type="jqa:OrPredicate">
+					<predicate xsi:type="jqa:ContextProvidedPredicate"
+						predicateName="Common type" />
+					<predicate xsi:type="jqa:ContextProvidedPredicate"
+						predicateName="BO exceptions" />
+					<predicate xsi:type="jqa:ContextProvidedPredicate"
+						predicateName="Entity attempt" />
+				</predicate>
+			</checkPredicate>
+		</rule>
+
+		<!-- DataAccessObject allocation -->
+		<rule name="DAO allocation"
+			message="The DAO '${type.name}' has an invalid allocation. A DAO must only allocates a common-type, a DAO exception or an Entity"
+			priority="2">
+			<filterPredicate xsi:type="jqa:ContextProvidedPredicate"
+				predicateName="DAO attempt" />
+			<checkPredicate xsi:type="jqa:AllocationPredicate">
+				<predicate xsi:type="jqa:OrPredicate">
+					<predicate xsi:type="jqa:ContextProvidedPredicate"
+						predicateName="Common type" />
+					<predicate xsi:type="jqa:ContextProvidedPredicate"
+						predicateName="DAO exceptions" />
+					<predicate xsi:type="jqa:ContextProvidedPredicate"
+						predicateName="Entity attempt" />
+				</predicate>
+			</checkPredicate>
+		</rule>
+
+		<!-- View allocation -->
+		<rule name="View allocation"
+			message="The View '${type.name}' has an invalid allocation. A View must only allocates a common-type, a View exception or an Entity"
+			priority="2">
+			<filterPredicate xsi:type="jqa:ContextProvidedPredicate"
+				predicateName="View attempt" />
+			<checkPredicate xsi:type="jqa:AllocationPredicate">
+				<predicate xsi:type="jqa:OrPredicate">
+					<predicate xsi:type="jqa:ContextProvidedPredicate"
+						predicateName="Common type" />
+					<predicate xsi:type="jqa:ContextProvidedPredicate"
+						predicateName="View exceptions" />
+					<predicate xsi:type="jqa:ContextProvidedPredicate"
+						predicateName="Entity attempt" />
+				</predicate>
+			</checkPredicate>
+		</rule>
+
+	</ruleSet>
+</jqa_ctx:RulesContext>

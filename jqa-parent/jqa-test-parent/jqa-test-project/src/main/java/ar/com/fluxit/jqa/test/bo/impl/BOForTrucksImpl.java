@@ -27,4 +27,8 @@ import ar.com.fluxit.jqa.test.bo.BOForTrucks;
  */
 public class BOForTrucksImpl implements BOForTrucks {
 
+	public void dummy() {
+		throw new IllegalArgumentException();
+	}
+
 }

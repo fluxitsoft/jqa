@@ -18,10 +18,7 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.bce.bcel;
 
-import org.apache.bcel.Constants;
-import org.apache.bcel.generic.ArrayType;
-import org.apache.bcel.generic.BasicType;
-import org.apache.bcel.generic.ObjectType;
+import org.apache.bcel.classfile.JavaClass;
 
 import ar.com.fluxit.jqa.bce.Type;
 
@@ -39,13 +36,16 @@ class BcelJavaType implements Type {
 	}
 
 	public static BcelJavaType create(org.apache.bcel.generic.Type type) {
-		String className = getClassName(type);
+		String className = ClassNameTranslator.getClassName(type);
 		return className.equals(VOID) ? null : BcelJavaType.create(className);
 	}
 
 	public static BcelJavaType create(String className) {
+		JavaClass c;
 		if (className.equals(VOID)) {
 			return null;
+		} else if ((c = ClassNameTranslator.getPrimitive(className)) != null) {
+			return new BcelJavaType(c);
 		} else {
 			try {
 				return new BcelJavaType(org.apache.bcel.Repository.lookupClass(className));
@@ -53,18 +53,6 @@ class BcelJavaType implements Type {
 				throw new IllegalArgumentException("Can not find class " + className, e);
 			}
 		}
-	}
-
-	private static String getClassName(org.apache.bcel.generic.Type type) {
-		String signatureClassName;
-		if (type instanceof BasicType) {
-			signatureClassName = Constants.CLASS_TYPE_NAMES[type.getType()];
-		} else if (type instanceof ObjectType) {
-			signatureClassName = ((ObjectType) type).getClassName();
-		} else {
-			signatureClassName = getClassName(((ArrayType) type).getBasicType());
-		}
-		return signatureClassName;
 	}
 
 	private final org.apache.bcel.classfile.JavaClass wrapped;

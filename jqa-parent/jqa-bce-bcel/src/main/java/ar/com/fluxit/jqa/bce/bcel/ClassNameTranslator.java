@@ -27,6 +27,13 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.bcel.Constants;
+import org.apache.bcel.Repository;
+import org.apache.bcel.classfile.JavaClass;
+import org.apache.bcel.generic.ArrayType;
+import org.apache.bcel.generic.BasicType;
+import org.apache.bcel.generic.ObjectType;
+
 /**
  * @author Paul Cantrell
  */
@@ -41,6 +48,7 @@ final class ClassNameTranslator {
 	private static Pattern legalJavaIdentRE;
 
 	private static Map<String, String> primitiveTypeMap;
+	private static Map<String, JavaClass> primitiveClassMap;
 
 	static {
 		classSuffixRE = Pattern.compile("\\.class$");
@@ -59,10 +67,40 @@ final class ClassNameTranslator {
 		primitiveTypeMap.put("D", "double");
 		primitiveTypeMap.put("Z", "boolean");
 		primitiveTypeMap.put("V", "void");
+
+		try {
+			primitiveClassMap = new HashMap<String, JavaClass>();
+			primitiveClassMap.put("byte", Repository.lookupClass(Byte.class));
+			primitiveClassMap.put("short", Repository.lookupClass(Short.class));
+			primitiveClassMap.put("int", Repository.lookupClass(Integer.class));
+			primitiveClassMap.put("long", Repository.lookupClass(Long.class));
+			primitiveClassMap.put("char", Repository.lookupClass(Character.class));
+			primitiveClassMap.put("float", Repository.lookupClass(Float.class));
+			primitiveClassMap.put("double", Repository.lookupClass(Double.class));
+			primitiveClassMap.put("boolean", Repository.lookupClass(Boolean.class));
+		} catch (ClassNotFoundException e) {
+			throw new IllegalStateException(e);
+		}
 	}
 
 	public static String classToResourceName(final String resourceName) {
 		return (resourceName.replace('.', '/') + ".class").intern();
+	}
+
+	public static String getClassName(org.apache.bcel.generic.Type type) {
+		String signatureClassName;
+		if (type instanceof BasicType) {
+			signatureClassName = Constants.CLASS_TYPE_NAMES[type.getType()];
+		} else if (type instanceof ObjectType) {
+			signatureClassName = ((ObjectType) type).getClassName();
+		} else {
+			signatureClassName = getClassName(((ArrayType) type).getBasicType());
+		}
+		return signatureClassName;
+	}
+
+	public static JavaClass getPrimitive(String className) {
+		return primitiveClassMap.get(className);
 	}
 
 	public static boolean isJavaIdentifier(final String className) {
@@ -95,7 +133,7 @@ final class ClassNameTranslator {
 	public static List<String> signatureToClassNames2(String signature) {
 		List<String> result = new ArrayList<String>();
 		Pattern pattern = Pattern.compile("<([^>]*)>");
-		Matcher matcher = pattern.matcher(signature.replace("*", ""));
+		Matcher matcher = pattern.matcher(signature.replace("*", "").replace("T:", ""));
 		if (matcher.find()) {
 			int size = matcher.groupCount();
 			for (int i = 1; i <= size; i++) {
@@ -125,5 +163,6 @@ final class ClassNameTranslator {
 	 * Private constructor for utility class.
 	 */
 	private ClassNameTranslator() {
+
 	}
 }

@@ -30,7 +30,12 @@ public class ServiceForTrucksImpl implements ServiceForTrucks {
 
 	private DAOForTrucksImpl daoForTrucksImpl;
 
+	private void dummy() {
+		throw new IllegalArgumentException();
+	}
+
 	public void getTrucks() {
+		dummy();
 		this.daoForTrucksImpl.getTrucks();
 	}
 

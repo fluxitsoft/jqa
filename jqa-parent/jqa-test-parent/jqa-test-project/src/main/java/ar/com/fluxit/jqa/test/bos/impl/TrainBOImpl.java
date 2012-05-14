@@ -18,7 +18,12 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.test.bos.impl;
 
+import java.util.List;
+
 import ar.com.fluxit.jqa.test.bos.TrainBO;
+import ar.com.fluxit.jqa.test.daos.TrainDAO;
+import ar.com.fluxit.jqa.test.daos.impl.TrainDAOImpl;
+import ar.com.fluxit.jqa.test.entity.vehicles.rails.Train;
 
 /**
  * TODO javadoc
@@ -26,5 +31,12 @@ import ar.com.fluxit.jqa.test.bos.TrainBO;
  * @author Juan Ignacio Barisich
  */
 public class TrainBOImpl implements TrainBO {
+
+	private final TrainDAO trainDAO = new TrainDAOImpl();
+
+	@Override
+	public List<Train> getTrains() {
+		return trainDAO.getTrains();
+	}
 
 }

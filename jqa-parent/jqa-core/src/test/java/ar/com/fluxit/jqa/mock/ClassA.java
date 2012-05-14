@@ -18,6 +18,8 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.mock;
 
+import java.util.Date;
+
 /**
  * TODO javadoc
  * 
@@ -28,4 +30,9 @@ public class ClassA {
 	public ClassA() {
 		super();
 	}
+
+	public String getDate() {
+		return new Date().toString();
+	}
+
 }

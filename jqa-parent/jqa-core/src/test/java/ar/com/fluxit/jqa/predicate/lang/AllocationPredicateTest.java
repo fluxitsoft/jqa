@@ -22,7 +22,9 @@ import junit.framework.TestCase;
 import ar.com.fluxit.jqa.bce.RepositoryLocator;
 import ar.com.fluxit.jqa.bce.Type;
 import ar.com.fluxit.jqa.mock.ClassA;
+import ar.com.fluxit.jqa.mock.ClassB;
 import ar.com.fluxit.jqa.mock.allocation.ClassThatAllocatesClassA;
+import ar.com.fluxit.jqa.mock.allocation.ClassThatDoesNotAllocatesClassA;
 import ar.com.fluxit.jqa.mock.allocation.ClassThatStaticAllocatesClassA;
 import ar.com.fluxit.jqa.mock.allocation.InnerClassThatAllocatesClassA;
 import ar.com.fluxit.jqa.mock.allocation.StaticInnerClassThatAllocatesClassA;
@@ -35,13 +37,15 @@ import ar.com.fluxit.jqa.mock.allocation.StaticInnerClassThatAllocatesClassA;
 public class AllocationPredicateTest extends TestCase {
 
 	public final void testCheck() throws ClassNotFoundException {
-		final String filterPredicateParentClass = ClassA.class.getName();
+		final String filterPredicateParentClass = ClassB.class.getName();
 
+		testMatches(filterPredicateParentClass, ClassB.class, true);
+		testMatches(filterPredicateParentClass, ClassThatDoesNotAllocatesClassA.class, true);
 		testMatches(filterPredicateParentClass, ClassA.class, false);
-		testMatches(filterPredicateParentClass, ClassThatAllocatesClassA.class, true);
-		testMatches(filterPredicateParentClass, InnerClassThatAllocatesClassA.B.class, true);
-		testMatches(filterPredicateParentClass, StaticInnerClassThatAllocatesClassA.B.class, true);
-		testMatches(filterPredicateParentClass, ClassThatStaticAllocatesClassA.class, true);
+		testMatches(filterPredicateParentClass, ClassThatAllocatesClassA.class, false);
+		testMatches(filterPredicateParentClass, InnerClassThatAllocatesClassA.B.class, false);
+		testMatches(filterPredicateParentClass, StaticInnerClassThatAllocatesClassA.B.class, false);
+		testMatches(filterPredicateParentClass, ClassThatStaticAllocatesClassA.class, false);
 	}
 
 	private void testMatches(String filterPredicateParentClass, Class<?> usagePredicateclass, boolean matches) throws ClassNotFoundException {

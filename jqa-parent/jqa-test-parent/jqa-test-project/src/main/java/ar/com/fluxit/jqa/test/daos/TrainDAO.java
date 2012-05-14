@@ -18,6 +18,9 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.test.daos;
 
+import java.util.List;
+
+import ar.com.fluxit.jqa.test.entity.vehicles.rails.Train;
 import ar.com.fluxit.jqa.test.fmk.dao.DataAccessObject;
 
 /**
@@ -26,5 +29,7 @@ import ar.com.fluxit.jqa.test.fmk.dao.DataAccessObject;
  * @author Juan Ignacio Barisich
  */
 public interface TrainDAO extends DataAccessObject {
+
+	List<Train> getTrains();
 
 }

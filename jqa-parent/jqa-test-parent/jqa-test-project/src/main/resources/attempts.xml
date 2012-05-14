@@ -11,9 +11,12 @@
 			<predicate xsi:type="jqa:NamingPredicate" namePattern="**.entities.**" />
 			<predicate xsi:type="jqa:NamingPredicate" namePattern="**.domain.**" />
 		</predicate>
-		<!-- The Entity superclass is not an attempt -->
+		<!-- The Entity superclass is not an attempt. Nor the exceptions -->
 		<predicate xsi:type="jqa:NotPredicate">
-			<predicate xsi:type="jqa:NamingPredicate" namePattern="ar.com.fluxit.jqa.test.fmk.entity.Entity" />
+			<predicate xsi:type="jqa:OrPredicate">
+				<predicate xsi:type="jqa:NamingPredicate" namePattern="ar.com.fluxit.jqa.test.fmk.entity.Entity" />
+				<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="Exception"/>
+			</predicate>
 		</predicate>
 	</globalPredicate>
 
@@ -26,9 +29,12 @@
 				<predicate xsi:type="jqa:NamingPredicate" namePattern="ar.com.fluxit.jqa.test.fmk.service.Service" />
 			</predicate>
 		</predicate>
-		<!-- The Service superclass is not an attempt -->
+		<!-- The Service superclass is not an attempt. Nor the exceptions -->
 		<predicate xsi:type="jqa:NotPredicate">
-			<predicate xsi:type="jqa:NamingPredicate" namePattern="ar.com.fluxit.jqa.test.fmk.service.Service" />
+			<predicate xsi:type="jqa:OrPredicate">
+				<predicate xsi:type="jqa:NamingPredicate" namePattern="ar.com.fluxit.jqa.test.fmk.service.Service" />
+				<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="Exception"/>
+			</predicate>
 		</predicate>
 	</globalPredicate>
 
@@ -53,9 +59,12 @@
 				<predicate xsi:type="jqa:NamingPredicate" namePattern="ar.com.fluxit.jqa.test.fmk.bo.BusinessObject" />
 			</predicate>
 		</predicate>
-		<!-- The BusinessObject superclass is not an attempt -->
+		<!-- The BusinessObject superclass is not an attempt. Nor the exceptions -->
 		<predicate xsi:type="jqa:NotPredicate">
-			<predicate xsi:type="jqa:NamingPredicate" namePattern="ar.com.fluxit.jqa.test.fmk.bo.BusinessObject" />
+			<predicate xsi:type="jqa:OrPredicate">
+				<predicate xsi:type="jqa:NamingPredicate" namePattern="ar.com.fluxit.jqa.test.fmk.bo.BusinessObject" />
+				<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="Exception"/>
+			</predicate>
 		</predicate>
 	</globalPredicate>
 
@@ -80,9 +89,12 @@
 				<predicate xsi:type="jqa:NamingPredicate" namePattern="ar.com.fluxit.jqa.test.fmk.dao.DataAccessObject" />
 			</predicate>
 		</predicate>
-		<!-- The DataAccessObject superclass is not an attempt -->
+		<!-- The DataAccessObject superclass is not an attempt. Nor the exceptions -->
 		<predicate xsi:type="jqa:NotPredicate">
-			<predicate xsi:type="jqa:NamingPredicate" namePattern="ar.com.fluxit.jqa.test.fmk.dao.DataAccessObject" />
+			<predicate xsi:type="jqa:OrPredicate">
+				<predicate xsi:type="jqa:NamingPredicate" namePattern="ar.com.fluxit.jqa.test.fmk.dao.DataAccessObject" />
+				<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="Exception"/>
+			</predicate>
 		</predicate>
 	</globalPredicate>
 
@@ -98,7 +110,7 @@
 		<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="DAO attempt" />
 	</globalPredicate>
 
-	<!-- Classes that try to be a View -->
+	<!-- Classes that try to be a View. Nor the exceptions -->
 	<globalPredicate name="View attempt" xsi:type="jqa:AndPredicate">
 		<predicate xsi:type="jqa:OrPredicate">
 			<predicate xsi:type="jqa:NamingPredicate" namePattern="**.view.**" />
@@ -108,7 +120,10 @@
 		</predicate>
 		<!-- The View superclass is not an attempt -->
 		<predicate xsi:type="jqa:NotPredicate">
-			<predicate xsi:type="jqa:NamingPredicate" namePattern="ar.com.fluxit.jqa.test.fmk.view.View" />
+			<predicate xsi:type="jqa:OrPredicate">
+				<predicate xsi:type="jqa:NamingPredicate" namePattern="ar.com.fluxit.jqa.test.fmk.view.View" />
+				<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="Exception"/>
+			</predicate>
 		</predicate>
 	</globalPredicate>
 

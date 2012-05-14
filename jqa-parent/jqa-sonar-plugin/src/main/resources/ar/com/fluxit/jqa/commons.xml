@@ -5,10 +5,15 @@
 	xsi:schemaLocation="http://www.fluxit.com.ar/jqa/schema/rulescontext https://raw.github.com/jbaris/jqa/master/jqa-parent/jqa-ctx-factory-xmlbeans/src/main/resources/schema/rulescontext.xsd ">
 
 	<!-- Common types -->
-	<globalPredicate name="Common types" xsi:type="jqa:OrPredicate">
+	<globalPredicate name="Common type" xsi:type="jqa:OrPredicate">
 		<predicate xsi:type="jqa:NamingPredicate" namePattern="java.**" />
 		<predicate xsi:type="jqa:NamingPredicate" namePattern="org.apache.**" />
 		<predicate xsi:type="jqa:NamingPredicate" namePattern="org.spring.**" />
+	</globalPredicate>
+	
+	<!-- Exceptions -->
+	<globalPredicate name="Exception" xsi:type="jqa:TypingPredicate">
+		<predicate xsi:type="jqa:NamingPredicate" namePattern="java.lang.Exception"/>
 	</globalPredicate>
 
 </jqa_ctx:RulesContext>

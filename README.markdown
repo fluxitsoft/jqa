@@ -10,8 +10,8 @@ JQA allows you to check your application classes regarding:
 * __Naming:__ _e.g., "all my DataAccessObject classes must be in the package com.mycompany.myapp.dao and must be named like *DAO"_
 * __Typing:__ _e.g., "all my BusinessObject classes must extends to com.mycompany.myapp.bo.AbstractBO (directly or indirectly)"_
 * __Usages:__ _e.g., "all my View classes (actions) can't use a DAO class"_
-* __Allocations:__ _e.g., "all my DataAccessObject classes must not be allocated/instantiated (via the new keyword)"_
 * __Exception throwing:__ _e.g., "all my Service classes must throw only exceptions that extends to com.mycompany.myapp.exception.ServiceException"_
+* __Allocations:__ _e.g., "all my DataAccessObject classes must not be allocated/instantiated (via the new keyword)"_
 * __Abstraction:__ _e.g., "all my types (files) in the com.mycompany.myapp.service package must be interfaces (contracts)"_
 
 ## Screenshots
@@ -49,7 +49,7 @@ If you want to use JQA, see the [User's guide](http://github.com/jbaris/jqa/wiki
 If you want to contribute to JQA, see the [Developer's guide](http://github.com/jbaris/jqa/wiki/Developer-guide).
 
 ## Contribute
-JQA is under development, and contributors are welcome. If you have a feature request, suggestion, or bug report, please [open a new issue](http://github.com/jbaris/jqa/issues). To submit patches, please send a pull request. Once your changes get merged back in, you’ll automatically be added to the [Contributors List](http://github.com/jbaris/jqa/graphs/contributors)
+JQA is under development, and contributors are welcome. If you have a feature request, suggestion, or bug report, please [open a new issue](http://github.com/jbaris/jqa/issues). To submit patches, please send a pull request. Once your changes get merged back in, you’ll automatically be added to the [Contributors List](http://github.com/jbaris/jqa/graphs/contributors).
 
 ## License
-This project is under GNU General Public License version 3 or later (http://www.gnu.org/licenses/)
+This project is under GNU General Public License version 3 or later (http://www.gnu.org/licenses/).

@@ -24,6 +24,7 @@ import ar.com.fluxit.jqa.test.entity.vehicles.rails.Train;
 import ar.com.fluxit.jqa.test.fmk.dao.DataAccessObjectException;
 import ar.com.fluxit.jqa.test.fmk.view.View;
 import ar.com.fluxit.jqa.test.services.TrainService;
+import ar.com.fluxit.jqa.test.services.impl.TrainServiceImpl;
 
 /**
  * TODO javadoc
@@ -32,7 +33,7 @@ import ar.com.fluxit.jqa.test.services.TrainService;
  */
 public class TrainAction implements View {
 
-	private TrainService trainService;
+	private final TrainService trainService = new TrainServiceImpl();
 	private List<Train> trains;
 
 	public String listCars() throws DataAccessObjectException {

@@ -18,7 +18,11 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.test.daos.impl;
 
+import java.util.Collections;
+import java.util.List;
+
 import ar.com.fluxit.jqa.test.daos.TrainDAO;
+import ar.com.fluxit.jqa.test.entity.vehicles.rails.Train;
 
 /**
  * TODO javadoc
@@ -26,5 +30,10 @@ import ar.com.fluxit.jqa.test.daos.TrainDAO;
  * @author Juan Ignacio Barisich
  */
 public class TrainDAOImpl implements TrainDAO {
+
+	@Override
+	public List<Train> getTrains() {
+		return Collections.emptyList();
+	}
 
 }

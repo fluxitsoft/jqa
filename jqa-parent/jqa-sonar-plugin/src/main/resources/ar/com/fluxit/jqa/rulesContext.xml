@@ -5,8 +5,10 @@
 	xsi:schemaLocation="http://www.fluxit.com.ar/jqa/schema/rulescontext https://raw.github.com/jbaris/jqa/master/jqa-parent/jqa-ctx-factory-xmlbeans/src/main/resources/schema/rulescontext.xsd ">
 
 	<!-- Ruleset imports -->
-	<rulesContextImport resource="/ar/com/fluxit/jqa/naming.xml" />
-	<rulesContextImport resource="/ar/com/fluxit/jqa/typing.xml" />
-	<rulesContextImport resource="/ar/com/fluxit/jqa/usage.xml" />
+	<rulesContextImport resource="naming.xml" />
+	<rulesContextImport resource="typing.xml" />
+	<rulesContextImport resource="usage.xml" />
+	<rulesContextImport resource="throwing.xml" />
+	<rulesContextImport resource="allocation.xml" />
 
 </jqa_ctx:RulesContext>

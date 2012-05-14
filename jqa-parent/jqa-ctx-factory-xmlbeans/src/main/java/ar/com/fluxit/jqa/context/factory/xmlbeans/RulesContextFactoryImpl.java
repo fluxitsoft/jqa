@@ -76,11 +76,11 @@ public class RulesContextFactoryImpl implements RulesContextFactory {
 	}
 
 	@Override
-	public RulesContext getRulesContext(InputStream inputStream) throws RulesContextFactoryException {
+	public RulesContext getRulesContext(InputStream inputStream, String packageBase) throws RulesContextFactoryException {
 		try {
 			final RulesContextDocument document = RulesContextDocument.Factory.parse(inputStream);
 			validate(document, inputStream.toString());
-			return parse(document.getRulesContext(), "");
+			return parse(document.getRulesContext(), packageBase);
 		} catch (final RulesContextFactoryException e) {
 			throw e;
 		} catch (final XmlException e) {
@@ -303,7 +303,11 @@ public class RulesContextFactoryImpl implements RulesContextFactory {
 		if (file.exists()) {
 			return new FileInputStream(file);
 		} else {
-			return getClass().getResourceAsStream(resource);
+			InputStream resourceAsStream = getClass().getResourceAsStream(resource);
+			if (resourceAsStream == null) {
+				resourceAsStream = getClass().getResourceAsStream(fileName);
+			}
+			return resourceAsStream;
 		}
 	}
 

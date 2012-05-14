@@ -78,21 +78,41 @@ public class JQAMavenPluginRunner {
 		assertContains(result, "Service implementation typing", "ar.com.fluxit.jqa.test.service.MotorcycleService", fails);
 		assertContains(result, "Entity typing", "ar.com.fluxit.jqa.test.entity.vehicles.Motorcycle", fails);
 		// Usages asserts
-		assertContains(result, "View usages", "ar.com.fluxit.jqa.test.view.actions.CarAction", fails);
-		assertContains(result, "View usages", "ar.com.fluxit.jqa.test.view.actions.TrainAction", fails);
 		assertContains(result, "Service contract usages", "ar.com.fluxit.jqa.test.service.CarService", fails);
 		assertContains(result, "Service contract usages", "ar.com.fluxit.jqa.test.service.BoatService", fails);
 		assertContains(result, "Service implementation usages", "ar.com.fluxit.jqa.test.service.MotorcycleService", fails);
 		assertContains(result, "Service implementation usages", "ar.com.fluxit.jqa.test.service.MotorcycleService", fails);
 		assertContains(result, "Service implementation usages", "ar.com.fluxit.jqa.test.service.impl.MotorcycleServiceImpl", fails);
 		assertContains(result, "Service implementation usages", "ar.com.fluxit.jqa.test.service.impl.ServiceForTrucksImpl", fails);
+		assertContains(result, "Service implementation usages", "ar.com.fluxit.jqa.test.services.impl.TrainServiceImpl", fails);
 		assertContains(result, "BO contract usages", "ar.com.fluxit.jqa.test.bo.CarBO", fails);
 		assertContains(result, "BO contract usages", "ar.com.fluxit.jqa.test.bo.BoatBO", fails);
 		assertContains(result, "BO implementation usages", "ar.com.fluxit.jqa.test.bo.MotorcycleBO", fails);
 		assertContains(result, "BO implementation usages", "ar.com.fluxit.jqa.test.bo.impl.MotorcycleBOImpl", fails);
+		assertContains(result, "BO implementation usages", "ar.com.fluxit.jqa.test.bos.impl.TrainBOImpl", fails);
 		assertContains(result, "DAO contract usages", "ar.com.fluxit.jqa.test.dao.CarDAO", fails);
 		assertContains(result, "DAO implementation usages", "ar.com.fluxit.jqa.test.dao.MotorcycleDAO", fails);
 		assertContains(result, "DAO implementation usages", "ar.com.fluxit.jqa.test.dao.impl.MotorcycleDAOImpl", fails);
+		assertContains(result, "View usages", "ar.com.fluxit.jqa.test.view.actions.CarAction", fails);
+		assertContains(result, "View usages", "ar.com.fluxit.jqa.test.view.actions.TrainAction", fails);
+		// Throwing asserts
+		assertContains(result, "Service throwing", "ar.com.fluxit.jqa.test.service.BoatService", fails);
+		assertContains(result, "Service throwing", "ar.com.fluxit.jqa.test.service.impl.BoatServiceImpl", fails);
+		assertContains(result, "Service throwing", "ar.com.fluxit.jqa.test.service.impl.ServiceForTrucksImpl", fails);
+		assertContains(result, "BO throwing", "ar.com.fluxit.jqa.test.bo.MotorcycleBO", fails);
+		assertContains(result, "BO throwing", "ar.com.fluxit.jqa.test.bo.BoatBO", fails);
+		assertContains(result, "BO throwing", "ar.com.fluxit.jqa.test.bo.impl.BoatBOImpl", fails);
+		assertContains(result, "BO throwing", "ar.com.fluxit.jqa.test.bo.impl.BOForTrucksImpl", fails);
+		assertContains(result, "DAO throwing", "ar.com.fluxit.jqa.test.dao.MotorcycleDAO", fails);
+		assertContains(result, "DAO throwing", "ar.com.fluxit.jqa.test.dao.impl.BoatDAOImpl", fails);
+		assertContains(result, "DAO throwing", "ar.com.fluxit.jqa.test.dao.BoatDAO", fails);
+		assertContains(result, "DAO throwing", "ar.com.fluxit.jqa.test.dao.impl.DAOForTrucksImpl", fails);
+		// Allocation asserts
+		assertContains(result, "Service allocation", "ar.com.fluxit.jqa.test.services.impl.TrainServiceImpl", fails);
+		assertContains(result, "BO allocation", "ar.com.fluxit.jqa.test.bos.impl.TrainBOImpl", fails);
+		assertContains(result, "DAO allocation", "ar.com.fluxit.jqa.test.dao.impl.CarDAOImpl", fails);
+		assertContains(result, "View allocation", "ar.com.fluxit.jqa.test.view.actions.TrainAction", fails);
+		assertContains(result, "View allocation", "ar.com.fluxit.jqa.test.view.actions.CarAction", fails);
 
 		Assert.assertEquals(fails.size() + " unexpected fails occurred: " + fails.toString(), 0, fails.size());
 	}

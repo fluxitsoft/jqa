@@ -30,7 +30,7 @@ import ar.com.fluxit.jqa.context.factory.exception.RulesContextFactoryException;
  */
 public interface RulesContextFactory {
 
-	RulesContext getRulesContext(InputStream inputStream) throws RulesContextFactoryException;
+	RulesContext getRulesContext(InputStream inputStream, String packageBase) throws RulesContextFactoryException;
 
 	RulesContext getRulesContext(String resource) throws RulesContextFactoryException;
 

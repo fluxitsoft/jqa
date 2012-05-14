@@ -52,7 +52,7 @@ public class NamingPredicateTest extends TestCase {
 				new String[] { "java.lang.StringBuffer" });
 		testMatches(createNamingPredicate("**.String*"), new String[] { "String", "java.lang.String", "java.lang.StringBuffer" },
 				new String[] { "java.text.AttributedString" });
-		testMatches(createNamingPredicate("a.b"), new String[] { "a.b", "a$b" }, new String[] { "" });
+		testMatches(createNamingPredicate("a.b"), new String[] { "a.b" }, new String[] { "", "a$b" });
 		testMatches(createNamingPredicate("**.service.+Service"), new String[] { "ar.com.fluxit.test.service.CarService",
 				"ar.com.fluxit.test.old.service.TruckService" }, new String[] { "ar.com.fluxit.test.fmk.service.Service" });
 		testMatches(createNamingPredicate("**.service+.+Service"), new String[] { "ar.com.fluxit.test.services.CarService",

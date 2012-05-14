@@ -18,6 +18,9 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.test.bos;
 
+import java.util.List;
+
+import ar.com.fluxit.jqa.test.entity.vehicles.rails.Train;
 import ar.com.fluxit.jqa.test.fmk.bo.BusinessObject;
 
 /**
@@ -26,5 +29,7 @@ import ar.com.fluxit.jqa.test.fmk.bo.BusinessObject;
  * @author Juan Ignacio Barisich
  */
 public interface TrainBO extends BusinessObject {
+
+	List<Train> getTrains();
 
 }
