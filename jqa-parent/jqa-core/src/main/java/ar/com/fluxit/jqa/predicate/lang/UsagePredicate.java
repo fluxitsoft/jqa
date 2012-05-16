@@ -18,11 +18,13 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.predicate.lang;
 
+import java.io.File;
 import java.util.Collection;
 
 import ar.com.fluxit.jqa.bce.RepositoryLocator;
 import ar.com.fluxit.jqa.bce.Type;
 import ar.com.fluxit.jqa.context.RulesContext;
+import ar.com.fluxit.jqa.predicate.CheckPredicate;
 import ar.com.fluxit.jqa.predicate.FilteredPredicate;
 
 /**
@@ -30,7 +32,7 @@ import ar.com.fluxit.jqa.predicate.FilteredPredicate;
  * 
  * @author Juan Ignacio Barisich
  */
-public class UsagePredicate extends FilteredPredicate {
+public class UsagePredicate extends FilteredPredicate implements CheckPredicate {
 
 	public UsagePredicate() {
 		super();
@@ -45,6 +47,12 @@ public class UsagePredicate extends FilteredPredicate {
 			}
 		}
 		return true;
+	}
+
+	@Override
+	public Collection<Integer> getViolationLineIds(Type type, File sourcesDir, RulesContext context) {
+		// FIXME complete
+		return getDeclarationLineNumber(type, sourcesDir);
 	}
 
 }

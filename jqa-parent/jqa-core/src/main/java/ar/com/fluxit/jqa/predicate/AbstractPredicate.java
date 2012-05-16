@@ -18,6 +18,13 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.predicate;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Collection;
+
+import ar.com.fluxit.jqa.bce.RepositoryLocator;
+import ar.com.fluxit.jqa.bce.Type;
+
 /**
  * TODO javadoc
  * 
@@ -31,9 +38,15 @@ public abstract class AbstractPredicate implements Predicate {
 		super();
 	}
 
+	protected Collection<Integer> getDeclarationLineNumber(Type type, File sourcesDir) {
+		Collection<Integer> result = new ArrayList<Integer>();
+		result.add(RepositoryLocator.getRepository().getDeclarationLineNumber(type, sourcesDir));
+		return result;
+	}
+
 	@Override
 	public String getName() {
-		return name;
+		return this.name;
 	}
 
 	public void setName(String name) {

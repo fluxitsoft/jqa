@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.Vector;
 
 import junit.framework.TestCase;
-import ar.com.fluxit.jqa.bce.Repository;
+import ar.com.fluxit.jqa.bce.BCERepository;
 import ar.com.fluxit.jqa.bce.RepositoryLocator;
 import ar.com.fluxit.jqa.bce.Type;
 import ar.com.fluxit.jqa.mock.ExceptionA;
@@ -43,16 +43,16 @@ public class TypingPredicateTest extends TestCase {
 	}
 
 	public final void testCheck() throws ClassNotFoundException {
-		final Repository repository = RepositoryLocator.getRepository();
+		final BCERepository bCERepository = RepositoryLocator.getRepository();
 		// Test class type
-		testMatches(createTypingPredicate("java.lang.Number"), new Type[] { repository.lookupType(Integer.class), repository.lookupType(Long.class) },
-				new Type[] { repository.lookupType(String.class), repository.lookupType(Exception.class) });
+		testMatches(createTypingPredicate("java.lang.Number"), new Type[] { bCERepository.lookupType(Integer.class), bCERepository.lookupType(Long.class) },
+				new Type[] { bCERepository.lookupType(String.class), bCERepository.lookupType(Exception.class) });
 		// Test interface type
-		testMatches(createTypingPredicate("java.util.List"), new Type[] { repository.lookupType(ArrayList.class), repository.lookupType(Vector.class) },
-				new Type[] { repository.lookupType(String.class), repository.lookupType(Integer.class) });
+		testMatches(createTypingPredicate("java.util.List"), new Type[] { bCERepository.lookupType(ArrayList.class), bCERepository.lookupType(Vector.class) },
+				new Type[] { bCERepository.lookupType(String.class), bCERepository.lookupType(Integer.class) });
 		// Test inherited interfaces
-		testMatches(createTypingPredicate("ar.com.fluxit.jqa.mock.InterfaceA"), new Type[] { repository.lookupType(ClassThatImplementsInterfaceA.class),
-				repository.lookupType(ClassThatExtendsClassThatImplementsInterfaceA.class) }, new Type[] { repository.lookupType(ExceptionA.class) });
+		testMatches(createTypingPredicate("ar.com.fluxit.jqa.mock.InterfaceA"), new Type[] { bCERepository.lookupType(ClassThatImplementsInterfaceA.class),
+				bCERepository.lookupType(ClassThatExtendsClassThatImplementsInterfaceA.class) }, new Type[] { bCERepository.lookupType(ExceptionA.class) });
 	}
 
 	private void testMatches(TypingPredicate predicate, Type[] positive, Type[] negative) {

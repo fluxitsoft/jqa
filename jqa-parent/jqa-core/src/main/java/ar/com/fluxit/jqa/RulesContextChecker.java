@@ -30,11 +30,12 @@ import javax.management.IntrospectionException;
 
 import org.slf4j.Logger;
 
-import ar.com.fluxit.jqa.bce.Repository;
+import ar.com.fluxit.jqa.bce.BCERepository;
 import ar.com.fluxit.jqa.bce.RepositoryLocator;
 import ar.com.fluxit.jqa.bce.Type;
 import ar.com.fluxit.jqa.bce.TypeFormatException;
 import ar.com.fluxit.jqa.context.RulesContext;
+import ar.com.fluxit.jqa.predicate.CheckPredicate;
 import ar.com.fluxit.jqa.predicate.Predicate;
 import ar.com.fluxit.jqa.result.CheckingResult;
 import ar.com.fluxit.jqa.result.RuleCheckFailed;
@@ -66,18 +67,18 @@ public class RulesContextChecker {
 		return ruleMessage;
 	}
 
-	private void check(Collection<File> classFiles, Predicate filterPredicate, Predicate checkPredicate, CheckingResult result, RulesContext context,
+	private void check(Collection<File> classFiles, Predicate filterPredicate, CheckPredicate checkPredicate, CheckingResult result, RulesContext context,
 			int rulePriority, String ruleMessage, String ruleName, File sourceDir) throws TypeFormatException, IOException {
 		// Iterate class files
 		for (final File classFile : classFiles) {
 			final FileInputStream fis = new FileInputStream(classFile);
-			final Repository repository = RepositoryLocator.getRepository();
+			final BCERepository repository = RepositoryLocator.getRepository();
 			final Type type = repository.parse(fis, null);
 			fis.close();
 			if (filterPredicate.evaluate(type, context)) {
 				if (!checkPredicate.evaluate(type, context)) {
 					final RuleCheckFailed failed = new RuleCheckFailed(ruleName, buildMessage(ruleMessage, type), type.getName(), rulePriority);
-					failed.setLineId(repository.getDeclarationLineNumber(type, sourceDir));
+					failed.setLineIds(checkPredicate.getViolationLineIds(type, sourceDir, context));
 					result.addRuleExecutionFailed(failed);
 				}
 			}
@@ -100,11 +101,6 @@ public class RulesContextChecker {
 				log.debug("Checking rule (in normal mode): " + rule.getName());
 				check(classFiles, rule.getFilterPredicate(), rule.getCheckPredicate(), result, context, rule.getPriority(), rule.getMessage(), rule.getName(),
 						sourceDir);
-				if (rule.getBidirectionalCheck()) {
-					log.debug("Checking rule (in inverse mode): " + rule.getName());
-					check(classFiles, rule.getCheckPredicate(), rule.getFilterPredicate(), result, context, rule.getPriority(), rule.getMessage(),
-							rule.getName(), sourceDir);
-				}
 			}
 		}
 		return result;

@@ -53,7 +53,7 @@
 	<ruleSet name="InnerRulesetTest">
 		<rule name="RuleTest" message="InnerRule">
 			<filterPredicate xsi:type="jqa:TruePredicate" />
-			<checkPredicate xsi:type="jqa:TruePredicate" />
+			<checkPredicate xsi:type="jqa:NamingPredicate" namePattern="**" />
 		</rule>
 	</ruleSet>
 
@@ -61,7 +61,7 @@
 		<rule name="BidirectionalCheckRule" message="BidirectionalCheckRule"
 			bidirectionalCheck="true">
 			<filterPredicate xsi:type="jqa:TruePredicate" />
-			<checkPredicate xsi:type="jqa:TruePredicate" />
+			<checkPredicate xsi:type="jqa:NamingPredicate" namePattern="**" />
 		</rule>
 	</ruleSet>
 	
@@ -69,7 +69,7 @@
 		<rule name="PriorityCheckRule" message="PriorityCheckRule"
 			priority="3">
 			<filterPredicate xsi:type="jqa:TruePredicate" />
-			<checkPredicate xsi:type="jqa:TruePredicate" />
+			<checkPredicate xsi:type="jqa:NamingPredicate" namePattern="**" />
 		</rule>
 	</ruleSet>
 

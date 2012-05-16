@@ -18,11 +18,13 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.predicate.lang;
 
+import java.io.File;
 import java.util.Collection;
 
 import ar.com.fluxit.jqa.bce.RepositoryLocator;
 import ar.com.fluxit.jqa.bce.Type;
 import ar.com.fluxit.jqa.context.RulesContext;
+import ar.com.fluxit.jqa.predicate.CheckPredicate;
 import ar.com.fluxit.jqa.predicate.FilteredPredicate;
 
 /**
@@ -30,7 +32,7 @@ import ar.com.fluxit.jqa.predicate.FilteredPredicate;
  * 
  * @author Juan Ignacio Barisich
  */
-public class TypingPredicate extends FilteredPredicate {
+public class TypingPredicate extends FilteredPredicate implements CheckPredicate {
 
 	public TypingPredicate() {
 		super();
@@ -54,6 +56,11 @@ public class TypingPredicate extends FilteredPredicate {
 		}
 		// the class
 		return getFilterPredicate().evaluate(type, context);
+	}
+
+	@Override
+	public Collection<Integer> getViolationLineIds(Type type, File sourcesDir, RulesContext context) {
+		return getDeclarationLineNumber(type, sourcesDir);
 	}
 
 	@Override

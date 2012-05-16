@@ -60,7 +60,7 @@ import org.apache.bcel.generic.InstructionHandle;
 import org.apache.bcel.generic.InstructionList;
 import org.apache.bcel.generic.InvokeInstruction;
 
-import ar.com.fluxit.jqa.bce.Repository;
+import ar.com.fluxit.jqa.bce.BCERepository;
 import ar.com.fluxit.jqa.bce.Type;
 import ar.com.fluxit.jqa.bce.TypeFormatException;
 
@@ -69,7 +69,7 @@ import ar.com.fluxit.jqa.bce.TypeFormatException;
  * 
  * @author Juan Ignacio Barisich
  */
-public class RepositoryImpl implements Repository {
+public class BCERepositoryImpl implements BCERepository {
 
 	private String javaVersion;
 
@@ -104,7 +104,7 @@ public class RepositoryImpl implements Repository {
 	}
 
 	@Override
-	public Integer getDeclarationLineNumber(Type type, File sourceDir) throws FileNotFoundException {
+	public Integer getDeclarationLineNumber(Type type, File sourceDir) {
 		// TODO cache
 		final CharStream stream = new JavaCharStream(getSourceFile(type, sourceDir));
 		final JavaParser javaParser = new JavaParser(stream);
@@ -142,12 +142,16 @@ public class RepositoryImpl implements Repository {
 		}
 	}
 
-	public InputStream getSourceFile(Type type, File sourceDir) throws FileNotFoundException {
+	public InputStream getSourceFile(Type type, File sourceDir) {
 		String sourceFile = sourceDir + "/" + type.getName().replace(".", "/");
 		if (sourceFile.contains("$")) {
 			sourceFile = sourceFile.substring(0, sourceFile.indexOf('$'));
 		}
-		return new FileInputStream(sourceFile + ".java");
+		try {
+			return new FileInputStream(sourceFile + ".java");
+		} catch (FileNotFoundException e) {
+			throw new IllegalArgumentException("Invalid sources directory [" + sourceFile + "]", e);
+		}
 	}
 
 	@Override

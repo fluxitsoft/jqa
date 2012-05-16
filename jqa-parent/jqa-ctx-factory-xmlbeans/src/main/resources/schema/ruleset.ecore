@@ -15,7 +15,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="filterPredicate" lowerBound="1"
         eType="#//Predicate" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="checkPredicate" lowerBound="1"
-        eType="#//Predicate" containment="true"/>
+        eType="#//CheckPredicate" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="priority" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Int"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="bidirectionalCheck" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"/>
   </eClassifiers>
@@ -26,11 +26,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="predicateName" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="FilteredPredicate" abstract="true" eSuperTypes="#//Predicate">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="predicate" lowerBound="1"
-        eType="#//Predicate" containment="true"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="AbstractionPredicate" eSuperTypes="#//Predicate">
+  <eClassifiers xsi:type="ecore:EClass" name="AbstractionPredicate" eSuperTypes="#//CheckPredicate">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="abstractionType" lowerBound="1"
         eType="#//AbstractionType"/>
   </eClassifiers>
@@ -39,14 +35,26 @@
     <eLiterals name="INTERFACE" value="1"/>
     <eLiterals name="CONCRETE" value="2"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="AllocationPredicate" eSuperTypes="#//FilteredPredicate"/>
-  <eClassifiers xsi:type="ecore:EClass" name="NamingPredicate" eSuperTypes="#//Predicate">
+  <eClassifiers xsi:type="ecore:EClass" name="AllocationPredicate" eSuperTypes="#//CheckPredicate">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="predicate" lowerBound="1"
+        eType="#//Predicate" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NamingPredicate" eSuperTypes="#//CheckPredicate">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="namePattern" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ThrowingPredicate" eSuperTypes="#//FilteredPredicate"/>
-  <eClassifiers xsi:type="ecore:EClass" name="TypingPredicate" eSuperTypes="#//FilteredPredicate"/>
-  <eClassifiers xsi:type="ecore:EClass" name="UsagePredicate" eSuperTypes="#//FilteredPredicate"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ThrowingPredicate" eSuperTypes="#//CheckPredicate">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="predicate" lowerBound="1"
+        eType="#//Predicate" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TypingPredicate" eSuperTypes="#//CheckPredicate">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="predicate" lowerBound="1"
+        eType="#//Predicate" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="UsagePredicate" eSuperTypes="#//CheckPredicate">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="predicate" lowerBound="1"
+        eType="#//Predicate" containment="true"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="VarArgsLogicPredicate" abstract="true"
       eSuperTypes="#//Predicate">
     <eStructuralFeatures xsi:type="ecore:EReference" name="predicate" lowerBound="1"
@@ -61,4 +69,6 @@
   <eClassifiers xsi:type="ecore:EClass" name="OrPredicate" eSuperTypes="#//VarArgsLogicPredicate"/>
   <eClassifiers xsi:type="ecore:EClass" name="TruePredicate" eSuperTypes="#//Predicate"/>
   <eClassifiers xsi:type="ecore:EClass" name="XORPredicate" eSuperTypes="#//VarArgsLogicPredicate"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CheckPredicate" abstract="true" interface="true"
+      eSuperTypes="#//Predicate"/>
 </ecore:EPackage>

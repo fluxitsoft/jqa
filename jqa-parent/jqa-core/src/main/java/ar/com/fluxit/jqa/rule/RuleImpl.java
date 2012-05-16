@@ -18,6 +18,7 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.rule;
 
+import ar.com.fluxit.jqa.predicate.CheckPredicate;
 import ar.com.fluxit.jqa.predicate.Predicate;
 
 /**
@@ -28,59 +29,47 @@ import ar.com.fluxit.jqa.predicate.Predicate;
 public class RuleImpl implements Rule {
 
 	private static final int DEFAULT_PRIORITY = 5;
-	private static final boolean DEFAULT_BIDIRECTIONAL_CHECK = false;
 	private Predicate filterPredicate;
-	private Predicate checkPredicate;
+	private CheckPredicate checkPredicate;
 	private String name;
 	private String message;
 	private int priority;
-	private boolean bidirectionalCheck;
 
-	public RuleImpl(Predicate filterPredicate, Predicate checkPredicate, String name, String message) {
+	public RuleImpl(Predicate filterPredicate, CheckPredicate checkPredicate, String name, String message) {
 		super();
 		this.filterPredicate = filterPredicate;
 		this.checkPredicate = checkPredicate;
 		this.name = name;
 		this.message = message;
-		bidirectionalCheck = DEFAULT_BIDIRECTIONAL_CHECK;
-		priority = DEFAULT_PRIORITY;
+		this.priority = DEFAULT_PRIORITY;
 	}
 
 	@Override
-	public boolean getBidirectionalCheck() {
-		return bidirectionalCheck;
-	}
-
-	@Override
-	public Predicate getCheckPredicate() {
-		return checkPredicate;
+	public CheckPredicate getCheckPredicate() {
+		return this.checkPredicate;
 	}
 
 	@Override
 	public Predicate getFilterPredicate() {
-		return filterPredicate;
+		return this.filterPredicate;
 	}
 
 	@Override
 	public String getMessage() {
-		return message;
+		return this.message;
 	}
 
 	@Override
 	public String getName() {
-		return name;
+		return this.name;
 	}
 
 	@Override
 	public int getPriority() {
-		return priority;
+		return this.priority;
 	}
 
-	public void setBidirectionalCheck(boolean bidirectionalCheck) {
-		this.bidirectionalCheck = bidirectionalCheck;
-	}
-
-	public void setCheckPredicate(Predicate checkPredicate) {
+	public void setCheckPredicate(CheckPredicate checkPredicate) {
 		this.checkPredicate = checkPredicate;
 	}
 

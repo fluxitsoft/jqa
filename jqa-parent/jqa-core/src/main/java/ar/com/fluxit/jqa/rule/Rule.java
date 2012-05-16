@@ -18,6 +18,7 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.rule;
 
+import ar.com.fluxit.jqa.predicate.CheckPredicate;
 import ar.com.fluxit.jqa.predicate.Predicate;
 
 /**
@@ -27,9 +28,7 @@ import ar.com.fluxit.jqa.predicate.Predicate;
  */
 public interface Rule {
 
-	boolean getBidirectionalCheck();
-
-	Predicate getCheckPredicate();
+	CheckPredicate getCheckPredicate();
 
 	Predicate getFilterPredicate();
 

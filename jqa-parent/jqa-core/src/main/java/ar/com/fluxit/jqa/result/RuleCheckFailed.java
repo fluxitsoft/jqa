@@ -18,6 +18,8 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.result;
 
+import java.util.Collection;
+
 /**
  * TODO javadoc
  * 
@@ -29,7 +31,7 @@ public class RuleCheckFailed {
 	private String ruleMessage;
 	private String targetClassName;
 	private int rulePriority;
-	private Integer lineId;
+	private Collection<Integer> lineIds;
 
 	public RuleCheckFailed() {
 		super();
@@ -43,28 +45,28 @@ public class RuleCheckFailed {
 		this.rulePriority = rulePriority;
 	}
 
-	public Integer getLineId() {
-		return lineId;
+	public Collection<Integer> getLineIds() {
+		return this.lineIds;
 	}
 
 	public String getRuleMessage() {
-		return ruleMessage;
+		return this.ruleMessage;
 	}
 
 	public String getRuleName() {
-		return ruleName;
+		return this.ruleName;
 	}
 
 	public int getRulePriority() {
-		return rulePriority;
+		return this.rulePriority;
 	}
 
 	public String getTargetClassName() {
-		return targetClassName;
+		return this.targetClassName;
 	}
 
-	public void setLineId(Integer lineId) {
-		this.lineId = lineId;
+	public void setLineIds(Collection<Integer> lineIds) {
+		this.lineIds = lineIds;
 	}
 
 	public void setRuleMessage(String ruleMessage) {
@@ -80,7 +82,7 @@ public class RuleCheckFailed {
 	}
 
 	public void setTargetClassName(String className) {
-		targetClassName = className;
+		this.targetClassName = className;
 	}
 
 	@Override

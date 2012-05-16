@@ -77,13 +77,14 @@ public class JQASensor implements Sensor {
 
 	private void addViolations(SensorContext context, CheckingResult check) {
 		for (final RuleCheckFailed fail : check.getRuleChecksFailed()) {
-			final Rule rule = Rule.create(JQARuleRepository.REPOSITORY_KEY, fail.getRuleName());
-			final JavaFile resource = new JavaFile(fail.getTargetClassName());
-			final Violation violation = Violation.create(rule, resource);
-			violation.setMessage(fail.getRuleMessage());
-			violation.setLineId(fail.getLineId()); // TODO set the real line
-													// number
-			context.saveViolation(violation);
+			for (final Integer lineId : fail.getLineIds()) {
+				final Rule rule = Rule.create(JQARuleRepository.REPOSITORY_KEY, fail.getRuleName());
+				final JavaFile resource = new JavaFile(fail.getTargetClassName());
+				final Violation violation = Violation.create(rule, resource);
+				violation.setMessage(fail.getRuleMessage());
+				violation.setLineId(lineId);
+				context.saveViolation(violation);
+			}
 		}
 	}
 

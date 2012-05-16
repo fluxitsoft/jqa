@@ -18,7 +18,12 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.predicate.lang;
 
+import java.io.File;
+import java.util.Collection;
+
 import ar.com.fluxit.jqa.bce.Type;
+import ar.com.fluxit.jqa.context.RulesContext;
+import ar.com.fluxit.jqa.predicate.CheckPredicate;
 import ar.com.fluxit.jqa.predicate.IgnoringContextPredicate;
 
 /**
@@ -26,7 +31,7 @@ import ar.com.fluxit.jqa.predicate.IgnoringContextPredicate;
  * 
  * @author Juan Ignacio Barisich
  */
-public class AbstractionPredicate extends IgnoringContextPredicate {
+public class AbstractionPredicate extends IgnoringContextPredicate implements CheckPredicate {
 
 	public enum AbstractionType {
 		ABSTRACT() {
@@ -59,7 +64,12 @@ public class AbstractionPredicate extends IgnoringContextPredicate {
 	}
 
 	public AbstractionType getAbstractionType() {
-		return abstractionType;
+		return this.abstractionType;
+	}
+
+	@Override
+	public Collection<Integer> getViolationLineIds(Type type, File sourcesDir, RulesContext context) {
+		return getDeclarationLineNumber(type, sourcesDir);
 	}
 
 	public void setAbstractionType(AbstractionType abstractionType) {

@@ -16,24 +16,21 @@
  * You should have received a copy of the GNU General Public License
  * along with JQA.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package ar.com.fluxit.jqa.bce;
+package ar.com.fluxit.jqa.predicate;
 
-import ar.com.fluxit.jqa.bce.bcel.BCERepositoryImpl;
+import java.io.File;
+import java.util.Collection;
+
+import ar.com.fluxit.jqa.bce.Type;
+import ar.com.fluxit.jqa.context.RulesContext;
 
 /**
  * TODO javadoc
  * 
  * @author Juan Ignacio Barisich
  */
-public class RepositoryLocator {
+public interface CheckPredicate extends Predicate {
 
-	private static BCERepository bCERepository;
+	Collection<Integer> getViolationLineIds(Type type, File sourcesDir, RulesContext context);
 
-	static {
-		bCERepository = new BCERepositoryImpl();
-	}
-
-	public static BCERepository getRepository() {
-		return bCERepository;
-	}
 }

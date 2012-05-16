@@ -37,7 +37,7 @@ import ar.com.fluxit.jqa.context.RulesContextImpl;
 import ar.com.fluxit.jqa.context.factory.RulesContextFactory;
 import ar.com.fluxit.jqa.context.factory.exception.RulesContextFactoryException;
 import ar.com.fluxit.jqa.predicate.AbstractPredicate;
-import ar.com.fluxit.jqa.predicate.FilteredPredicate;
+import ar.com.fluxit.jqa.predicate.CheckPredicate;
 import ar.com.fluxit.jqa.predicate.Predicate;
 import ar.com.fluxit.jqa.predicate.lang.AbstractionPredicate.AbstractionType;
 import ar.com.fluxit.jqa.predicate.logic.VarArgsLogicPredicate;
@@ -135,6 +135,7 @@ public class RulesContextFactoryImpl implements RulesContextFactory {
 	Predicate parse(AllocationPredicate predicate) {
 		final ar.com.fluxit.jqa.predicate.lang.AllocationPredicate result = new ar.com.fluxit.jqa.predicate.lang.AllocationPredicate();
 		parse(predicate, result);
+		result.setFilterPredicate((Predicate) parse(predicate.getPredicate()));
 		return result;
 	}
 
@@ -162,11 +163,6 @@ public class RulesContextFactoryImpl implements RulesContextFactory {
 		return AbstractionType.valueOf(type.toString());
 	}
 
-	private void parse(ar.com.fluxit.jqa.schema.ruleset.FilteredPredicate predicate, FilteredPredicate result) {
-		result.setFilterPredicate((Predicate) parse(predicate.getPredicate()));
-		parse(predicate, (AbstractPredicate) result);
-	}
-
 	private void parse(ar.com.fluxit.jqa.schema.ruleset.Predicate predicate, AbstractPredicate result) {
 		result.setName(predicate.getName());
 	}
@@ -174,12 +170,10 @@ public class RulesContextFactoryImpl implements RulesContextFactory {
 	private Rule parse(ar.com.fluxit.jqa.schema.ruleset.Rule rule) {
 		final String name = rule.getName();
 		final String message = rule.getMessage();
-		final boolean bidirectionalCheck = rule.getBidirectionalCheck();
 		final int priority = rule.getPriority();
 		final Predicate filterPredicate = (Predicate) parse(rule.getFilterPredicate());
-		final Predicate checkPredicate = (Predicate) parse(rule.getCheckPredicate());
+		final CheckPredicate checkPredicate = (CheckPredicate) parse(rule.getCheckPredicate());
 		final RuleImpl result = new RuleImpl(filterPredicate, checkPredicate, name, message);
-		result.setBidirectionalCheck(bidirectionalCheck);
 		if (priority > 0) {
 			result.setPriority(priority);
 		}
@@ -272,6 +266,7 @@ public class RulesContextFactoryImpl implements RulesContextFactory {
 	Predicate parse(ThrowingPredicate predicate) {
 		final ar.com.fluxit.jqa.predicate.lang.ThrowingPredicate result = new ar.com.fluxit.jqa.predicate.lang.ThrowingPredicate();
 		parse(predicate, result);
+		result.setFilterPredicate((Predicate) parse(predicate.getPredicate()));
 		return result;
 	}
 
@@ -282,12 +277,14 @@ public class RulesContextFactoryImpl implements RulesContextFactory {
 	Predicate parse(TypingPredicate predicate) {
 		final ar.com.fluxit.jqa.predicate.lang.TypingPredicate result = new ar.com.fluxit.jqa.predicate.lang.TypingPredicate();
 		parse(predicate, result);
+		result.setFilterPredicate((Predicate) parse(predicate.getPredicate()));
 		return result;
 	}
 
 	Predicate parse(UsagePredicate predicate) {
 		final ar.com.fluxit.jqa.predicate.lang.UsagePredicate result = new ar.com.fluxit.jqa.predicate.lang.UsagePredicate();
 		parse(predicate, result);
+		result.setFilterPredicate((Predicate) parse(predicate.getPredicate()));
 		return result;
 	}
 

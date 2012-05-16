@@ -36,8 +36,10 @@ import ar.com.fluxit.jqa.bce.TypeFormatException;
 import ar.com.fluxit.jqa.context.RulesContext;
 import ar.com.fluxit.jqa.context.RulesContextImpl;
 import ar.com.fluxit.jqa.mock.ClassA;
+import ar.com.fluxit.jqa.mock.logic.FalseCheckPredicate;
+import ar.com.fluxit.jqa.mock.logic.TrueCheckPredicate;
+import ar.com.fluxit.jqa.predicate.CheckPredicate;
 import ar.com.fluxit.jqa.predicate.Predicate;
-import ar.com.fluxit.jqa.predicate.logic.FalsePredicate;
 import ar.com.fluxit.jqa.predicate.logic.TruePredicate;
 import ar.com.fluxit.jqa.result.CheckingResult;
 import ar.com.fluxit.jqa.rule.Rule;
@@ -55,9 +57,8 @@ public class RulesContextCheckerTest extends TestCase {
 
 	private Logger log;
 
-	private Rule createRule(Predicate instance, Predicate instance2, boolean bidirectionalCheckRule) {
-		final RuleImpl ruleImpl = new RuleImpl(instance, instance2, "", "");
-		ruleImpl.setBidirectionalCheck(bidirectionalCheckRule);
+	private Rule createRule(Predicate filterPredicate, CheckPredicate checkPredicate) {
+		final RuleImpl ruleImpl = new RuleImpl(filterPredicate, checkPredicate, "", "");
 		return ruleImpl;
 	}
 
@@ -67,19 +68,15 @@ public class RulesContextCheckerTest extends TestCase {
 		return result;
 	}
 
-	private RuleSet createRuleSet(Predicate instance, Predicate instance2, boolean bidirectionalCheckRule) {
+	private RuleSet createRuleSet(Predicate filterPredicate, CheckPredicate checkPredicate) {
 		final RuleSetImpl result = new RuleSetImpl();
-		result.addRule(createRule(instance, instance2, bidirectionalCheckRule));
+		result.addRule(createRule(filterPredicate, checkPredicate));
 		return result;
 	}
 
-	private Collection<RuleSet> createRuleSets(Predicate predicate, Predicate predicate2) {
-		return createRuleSets(predicate, predicate2, false);
-	}
-
-	private Collection<RuleSet> createRuleSets(Predicate predicate, Predicate predicate2, boolean bidirectionalCheckRule) {
+	private Collection<RuleSet> createRuleSets(Predicate filterPredicate, CheckPredicate checkPredicate) {
 		final Collection<RuleSet> result = new ArrayList<RuleSet>();
-		result.add(createRuleSet(predicate, predicate2, bidirectionalCheckRule));
+		result.add(createRuleSet(filterPredicate, checkPredicate));
 		return result;
 	}
 
@@ -107,20 +104,9 @@ public class RulesContextCheckerTest extends TestCase {
 		this.log = null;
 	}
 
-	public final void testBidirectionalCheckRule() throws IntrospectionException, FileNotFoundException, TypeFormatException, IOException {
-		final Collection<File> classFiles = FileUtils.INSTANCE.getClassFiles(ClassA.class);
-		final Collection<RuleSet> configuration = createRuleSets(FalsePredicate.INSTANCE, TruePredicate.INSTANCE, true);
-		final RulesContext context = createRulesContext(configuration);
-		final CheckingResult result = getChecker().check("", classFiles, Collections.<File> emptyList(), context, getSourceDir(), "1.6", getLog());
-		assertNotNull(result);
-		assertNotNull(result.getDate());
-		assertNotNull(result.getRuleChecksFailed());
-		assertEquals(1, result.getRuleChecksFailed().size());
-	}
-
 	public final void testCheckPredicateFail() throws IntrospectionException, FileNotFoundException, TypeFormatException, IOException {
 		final Collection<File> classFiles = FileUtils.INSTANCE.getClassFiles(ClassA.class);
-		final Collection<RuleSet> configuration = createRuleSets(TruePredicate.INSTANCE, FalsePredicate.INSTANCE);
+		final Collection<RuleSet> configuration = createRuleSets(TruePredicate.INSTANCE, FalseCheckPredicate.INSTANCE);
 		final RulesContext context = createRulesContext(configuration);
 		final CheckingResult result = getChecker().check("", classFiles, Collections.<File> emptyList(), context, getSourceDir(), "1.6", getLog());
 		assertNotNull(result);
@@ -131,7 +117,7 @@ public class RulesContextCheckerTest extends TestCase {
 
 	public final void testCheckPredicateSuccess() throws IntrospectionException, FileNotFoundException, TypeFormatException, IOException {
 		final Collection<File> classFiles = FileUtils.INSTANCE.getClassFiles(ClassA.class);
-		final Collection<RuleSet> configuration = createRuleSets(TruePredicate.INSTANCE, TruePredicate.INSTANCE);
+		final Collection<RuleSet> configuration = createRuleSets(TruePredicate.INSTANCE, TrueCheckPredicate.INSTANCE);
 		final RulesContext context = createRulesContext(configuration);
 		final CheckingResult result = getChecker().check("", classFiles, Collections.<File> emptyList(), context, getSourceDir(), "1.6", getLog());
 		assertNotNull(result);
@@ -142,7 +128,7 @@ public class RulesContextCheckerTest extends TestCase {
 
 	public final void testCheckWithNoFiles() throws IntrospectionException, FileNotFoundException, TypeFormatException, IOException {
 		final Collection<File> classFiles = new ArrayList<File>();
-		final Collection<RuleSet> configuration = createRuleSets(TruePredicate.INSTANCE, TruePredicate.INSTANCE);
+		final Collection<RuleSet> configuration = createRuleSets(TruePredicate.INSTANCE, TrueCheckPredicate.INSTANCE);
 		final RulesContext context = createRulesContext(configuration);
 		final CheckingResult result = getChecker().check("", classFiles, Collections.<File> emptyList(), context, getSourceDir(), "1.6", getLog());
 		assertNotNull(result);
@@ -153,7 +139,7 @@ public class RulesContextCheckerTest extends TestCase {
 
 	public final void testFilterPredicateFail() throws IntrospectionException, FileNotFoundException, TypeFormatException, IOException {
 		final Collection<File> classFiles = FileUtils.INSTANCE.getClassFiles(ClassA.class);
-		final Collection<RuleSet> configuration = createRuleSets(TruePredicate.INSTANCE, FalsePredicate.INSTANCE, true);
+		final Collection<RuleSet> configuration = createRuleSets(TruePredicate.INSTANCE, FalseCheckPredicate.INSTANCE);
 		final RulesContext context = createRulesContext(configuration);
 		final CheckingResult result = getChecker().check("", classFiles, Collections.<File> emptyList(), context, getSourceDir(), "1.6", getLog());
 		assertNotNull(result);
@@ -164,7 +150,7 @@ public class RulesContextCheckerTest extends TestCase {
 
 	public final void testFilterPredicateSuccess() throws IntrospectionException, FileNotFoundException, TypeFormatException, IOException {
 		final Collection<File> classFiles = FileUtils.INSTANCE.getClassFiles(ClassA.class);
-		final Collection<RuleSet> configuration = createRuleSets(TruePredicate.INSTANCE, TruePredicate.INSTANCE);
+		final Collection<RuleSet> configuration = createRuleSets(TruePredicate.INSTANCE, TrueCheckPredicate.INSTANCE);
 		final RulesContext context = createRulesContext(configuration);
 		final CheckingResult result = getChecker().check("", classFiles, Collections.<File> emptyList(), context, getSourceDir(), "1.6", getLog());
 		assertNotNull(result);

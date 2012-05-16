@@ -18,8 +18,13 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.predicate.lang;
 
+import java.io.File;
+import java.util.Collection;
+
 import ar.com.fluxit.jqa.bce.Type;
+import ar.com.fluxit.jqa.context.RulesContext;
 import ar.com.fluxit.jqa.exception.RegExSyntaxException;
+import ar.com.fluxit.jqa.predicate.CheckPredicate;
 import ar.com.fluxit.jqa.predicate.IgnoringContextPredicate;
 import ar.com.fluxit.jqa.util.RegEx;
 
@@ -28,7 +33,7 @@ import ar.com.fluxit.jqa.util.RegEx;
  * 
  * @author Juan Ignacio Barisich
  */
-public class NamingPredicate extends IgnoringContextPredicate {
+public class NamingPredicate extends IgnoringContextPredicate implements CheckPredicate {
 
 	private String classNamePattern;
 	// transient for XML serialization
@@ -62,22 +67,27 @@ public class NamingPredicate extends IgnoringContextPredicate {
 	}
 
 	public String getClassNamePattern() {
-		return classNamePattern;
+		return this.classNamePattern;
 	}
 
 	private RegEx getRegEx() throws RegExSyntaxException {
-		if (regEx == null) {
-			regEx = new RegEx(getClassNamePattern());
+		if (this.regEx == null) {
+			this.regEx = new RegEx(getClassNamePattern());
 		}
-		return regEx;
+		return this.regEx;
+	}
+
+	@Override
+	public Collection<Integer> getViolationLineIds(Type type, File sourcesDir, RulesContext context) {
+		return getDeclarationLineNumber(type, sourcesDir);
 	}
 
 	public void setClassNamePattern(String pattern) {
-		classNamePattern = pattern;
+		this.classNamePattern = pattern;
 	}
 
 	@Override
 	public String toString() {
-		return "NamingPredicate: " + classNamePattern;
+		return "NamingPredicate: " + this.classNamePattern;
 	}
 }

@@ -74,9 +74,7 @@
 					<sourceSchemas>
 						<sourceSchema>rulescontext.xsd</sourceSchema>
 					</sourceSchemas>
-					<sourceGenerationDirectory>src/main/java</sourceGenerationDirectory>
-					<classGenerationDirectory>target/classes</classGenerationDirectory>
-					<verbose>true</verbose>
+					<verbose>false</verbose>
 				</configuration>
 			</plugin>
 		</plugins>

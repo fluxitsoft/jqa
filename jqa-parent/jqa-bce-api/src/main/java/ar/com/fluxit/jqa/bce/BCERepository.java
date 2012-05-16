@@ -31,11 +31,11 @@ import java.util.Collection;
 
 import javax.management.IntrospectionException;
 
-public interface Repository {
+public interface BCERepository {
 
 	Collection<Type> getAllocations(Type type);
 
-	Integer getDeclarationLineNumber(Type type, File sourceDir) throws FileNotFoundException;
+	Integer getDeclarationLineNumber(Type type, File sourcesDir);
 
 	/**
 	 * @param type
