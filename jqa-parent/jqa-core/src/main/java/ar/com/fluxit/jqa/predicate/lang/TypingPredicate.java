@@ -21,7 +21,7 @@ package ar.com.fluxit.jqa.predicate.lang;
 import java.io.File;
 import java.util.Collection;
 
-import ar.com.fluxit.jqa.bce.RepositoryLocator;
+import ar.com.fluxit.jqa.bce.BCERepositoryLocator;
 import ar.com.fluxit.jqa.bce.Type;
 import ar.com.fluxit.jqa.context.RulesContext;
 import ar.com.fluxit.jqa.predicate.CheckPredicate;
@@ -40,7 +40,7 @@ public class TypingPredicate extends FilteredPredicate implements CheckPredicate
 
 	@Override
 	public boolean evaluate(Type type, RulesContext context) {
-		final Collection<Type> superClasses = RepositoryLocator.getRepository().getSuperClasses(type);
+		final Collection<Type> superClasses = BCERepositoryLocator.getRepository().getSuperClasses(type);
 		// superclases
 		for (final Type superClass : superClasses) {
 			if (getFilterPredicate().evaluate(superClass, context)) {
@@ -48,7 +48,7 @@ public class TypingPredicate extends FilteredPredicate implements CheckPredicate
 			}
 		}
 		// superinterfaces
-		final Collection<Type> interfaces = RepositoryLocator.getRepository().getInterfaces(type);
+		final Collection<Type> interfaces = BCERepositoryLocator.getRepository().getInterfaces(type);
 		for (final Type interfaz : interfaces) {
 			if (getFilterPredicate().evaluate(interfaz, context)) {
 				return true;

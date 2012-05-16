@@ -21,7 +21,7 @@ package ar.com.fluxit.jqa.predicate.lang;
 import java.util.List;
 
 import junit.framework.TestCase;
-import ar.com.fluxit.jqa.bce.RepositoryLocator;
+import ar.com.fluxit.jqa.bce.BCERepositoryLocator;
 import ar.com.fluxit.jqa.bce.Type;
 import ar.com.fluxit.jqa.mock.ClassA;
 import ar.com.fluxit.jqa.mock.ClassB;
@@ -154,7 +154,7 @@ public class UsagePredicateTest extends TestCase {
 		final OrPredicate filterPredicate = new OrPredicate();
 		filterPredicate.setPredicates(new Predicate[] { filterPredicate2, filterPredicate3 });
 
-		final Type type = RepositoryLocator.getRepository().lookupType(usagePredicateClass);
+		final Type type = BCERepositoryLocator.getRepository().lookupType(usagePredicateClass);
 
 		final UsagePredicate usagePredicate = new UsagePredicate();
 		usagePredicate.setFilterPredicate(filterPredicate);

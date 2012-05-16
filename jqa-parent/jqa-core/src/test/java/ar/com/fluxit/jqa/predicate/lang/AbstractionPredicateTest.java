@@ -22,7 +22,7 @@ import java.io.Serializable;
 
 import junit.framework.TestCase;
 import ar.com.fluxit.jqa.bce.BCERepository;
-import ar.com.fluxit.jqa.bce.RepositoryLocator;
+import ar.com.fluxit.jqa.bce.BCERepositoryLocator;
 import ar.com.fluxit.jqa.bce.Type;
 import ar.com.fluxit.jqa.predicate.lang.AbstractionPredicate.AbstractionType;
 
@@ -40,7 +40,7 @@ public class AbstractionPredicateTest extends TestCase {
 	}
 
 	public final void testCheck() throws ClassNotFoundException {
-		final BCERepository bCERepository = RepositoryLocator.getRepository();
+		final BCERepository bCERepository = BCERepositoryLocator.getRepository();
 		final Type concreteType = bCERepository.lookupType(Integer.class);
 		final Type interfaceType = bCERepository.lookupType(Serializable.class);
 		final Type abstractType = bCERepository.lookupType(Number.class);

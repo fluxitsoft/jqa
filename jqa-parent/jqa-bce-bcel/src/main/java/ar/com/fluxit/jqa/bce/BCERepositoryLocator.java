@@ -25,7 +25,7 @@ import ar.com.fluxit.jqa.bce.bcel.BCERepositoryImpl;
  * 
  * @author Juan Ignacio Barisich
  */
-public class RepositoryLocator {
+public class BCERepositoryLocator {
 
 	private static BCERepository bCERepository;
 

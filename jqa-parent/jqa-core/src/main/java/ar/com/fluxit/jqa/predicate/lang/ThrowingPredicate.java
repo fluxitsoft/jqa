@@ -21,7 +21,7 @@ package ar.com.fluxit.jqa.predicate.lang;
 import java.io.File;
 import java.util.Collection;
 
-import ar.com.fluxit.jqa.bce.RepositoryLocator;
+import ar.com.fluxit.jqa.bce.BCERepositoryLocator;
 import ar.com.fluxit.jqa.bce.Type;
 import ar.com.fluxit.jqa.context.RulesContext;
 import ar.com.fluxit.jqa.predicate.CheckPredicate;
@@ -40,7 +40,7 @@ public class ThrowingPredicate extends FilteredPredicate implements CheckPredica
 
 	@Override
 	public boolean evaluate(Type type, RulesContext context) {
-		final Collection<Type> throwedClasses = RepositoryLocator.getRepository().getThrows(type);
+		final Collection<Type> throwedClasses = BCERepositoryLocator.getRepository().getThrows(type);
 		for (final Type throwedClass : throwedClasses) {
 			if (!getFilterPredicate().evaluate(throwedClass, context)) {
 				return false;

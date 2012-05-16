@@ -22,7 +22,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import ar.com.fluxit.jqa.bce.RepositoryLocator;
+import ar.com.fluxit.jqa.bce.BCERepositoryLocator;
 import ar.com.fluxit.jqa.bce.Type;
 
 /**
@@ -40,7 +40,7 @@ public abstract class AbstractPredicate implements Predicate {
 
 	protected Collection<Integer> getDeclarationLineNumber(Type type, File sourcesDir) {
 		Collection<Integer> result = new ArrayList<Integer>();
-		result.add(RepositoryLocator.getRepository().getDeclarationLineNumber(type, sourcesDir));
+		result.add(BCERepositoryLocator.getRepository().getDeclarationLineNumber(type, sourcesDir));
 		return result;
 	}
 

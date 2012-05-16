@@ -21,7 +21,7 @@ package ar.com.fluxit.jqa.predicate.lang;
 import java.io.File;
 import java.util.Collection;
 
-import ar.com.fluxit.jqa.bce.RepositoryLocator;
+import ar.com.fluxit.jqa.bce.BCERepositoryLocator;
 import ar.com.fluxit.jqa.bce.Type;
 import ar.com.fluxit.jqa.context.RulesContext;
 import ar.com.fluxit.jqa.predicate.CheckPredicate;
@@ -40,7 +40,7 @@ public class AllocationPredicate extends FilteredPredicate implements CheckPredi
 
 	@Override
 	public boolean evaluate(Type type, RulesContext context) {
-		final Collection<Type> filteredClasses = RepositoryLocator.getRepository().getAllocations(type);
+		final Collection<Type> filteredClasses = BCERepositoryLocator.getRepository().getAllocations(type);
 		for (final Type usedClass : filteredClasses) {
 			if (!getFilterPredicate().evaluate(usedClass, context)) {
 				return false;

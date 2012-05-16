@@ -23,7 +23,7 @@ import java.util.Vector;
 
 import junit.framework.TestCase;
 import ar.com.fluxit.jqa.bce.BCERepository;
-import ar.com.fluxit.jqa.bce.RepositoryLocator;
+import ar.com.fluxit.jqa.bce.BCERepositoryLocator;
 import ar.com.fluxit.jqa.bce.Type;
 import ar.com.fluxit.jqa.mock.ExceptionA;
 import ar.com.fluxit.jqa.mock.typing.ClassThatExtendsClassThatImplementsInterfaceA;
@@ -43,7 +43,7 @@ public class TypingPredicateTest extends TestCase {
 	}
 
 	public final void testCheck() throws ClassNotFoundException {
-		final BCERepository bCERepository = RepositoryLocator.getRepository();
+		final BCERepository bCERepository = BCERepositoryLocator.getRepository();
 		// Test class type
 		testMatches(createTypingPredicate("java.lang.Number"), new Type[] { bCERepository.lookupType(Integer.class), bCERepository.lookupType(Long.class) },
 				new Type[] { bCERepository.lookupType(String.class), bCERepository.lookupType(Exception.class) });

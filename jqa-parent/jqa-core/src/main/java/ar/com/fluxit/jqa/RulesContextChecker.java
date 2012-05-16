@@ -31,7 +31,7 @@ import javax.management.IntrospectionException;
 import org.slf4j.Logger;
 
 import ar.com.fluxit.jqa.bce.BCERepository;
-import ar.com.fluxit.jqa.bce.RepositoryLocator;
+import ar.com.fluxit.jqa.bce.BCERepositoryLocator;
 import ar.com.fluxit.jqa.bce.Type;
 import ar.com.fluxit.jqa.bce.TypeFormatException;
 import ar.com.fluxit.jqa.context.RulesContext;
@@ -72,7 +72,7 @@ public class RulesContextChecker {
 		// Iterate class files
 		for (final File classFile : classFiles) {
 			final FileInputStream fis = new FileInputStream(classFile);
-			final BCERepository repository = RepositoryLocator.getRepository();
+			final BCERepository repository = BCERepositoryLocator.getRepository();
 			final Type type = repository.parse(fis, null);
 			fis.close();
 			if (filterPredicate.evaluate(type, context)) {
@@ -92,8 +92,8 @@ public class RulesContextChecker {
 		for (final File classPathFile : classPath) {
 			log.debug("Adding to classpath: " + classPathFile);
 		}
-		RepositoryLocator.getRepository().setJavaVersion(sourceJavaVersion);
-		RepositoryLocator.getRepository().setClassPath(classPath);
+		BCERepositoryLocator.getRepository().setJavaVersion(sourceJavaVersion);
+		BCERepositoryLocator.getRepository().setClassPath(classPath);
 		// Iterate rulesets
 		for (final RuleSet ruleset : context.getRuleSets()) {
 			// Iterate rules
