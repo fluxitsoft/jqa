@@ -31,8 +31,12 @@ import java.util.List;
 
 import javax.management.IntrospectionException;
 
+import net.sourceforge.pmd.ast.ASTAllocationExpression;
 import net.sourceforge.pmd.ast.ASTClassOrInterfaceDeclaration;
+import net.sourceforge.pmd.ast.ASTClassOrInterfaceType;
 import net.sourceforge.pmd.ast.ASTCompilationUnit;
+import net.sourceforge.pmd.ast.ASTImportDeclaration;
+import net.sourceforge.pmd.ast.ASTName;
 import net.sourceforge.pmd.ast.CharStream;
 import net.sourceforge.pmd.ast.JavaCharStream;
 import net.sourceforge.pmd.ast.JavaParser;
@@ -74,6 +78,24 @@ public class BCERepositoryImpl implements BCERepository {
 	private String javaVersion;
 
 	@Override
+	public Collection<Integer> getAllocationLineNumbers(Type type, Type allocatedClass, File sourcesDir) {
+		Collection<Integer> result = new ArrayList<Integer>();
+		final ASTCompilationUnit compilationUnit = getCompilationUnit(type, sourcesDir);
+		List<ASTAllocationExpression> allocationExpressions = compilationUnit.findChildrenOfType(ASTAllocationExpression.class);
+		for (ASTAllocationExpression allocationExpression : allocationExpressions) {
+			ASTClassOrInterfaceType classOrInterface = allocationExpression.getFirstChildOfType(ASTClassOrInterfaceType.class);
+			if (classOrInterface.getImage().equals(allocatedClass.getName())) {
+				result.add(allocationExpression.getBeginLine());
+			} else if (classOrInterface.getImage().equals(allocatedClass.getSimpleName())) {
+				if (hasImport(compilationUnit, allocatedClass.getName())) {
+					result.add(allocationExpression.getBeginLine());
+				}
+			}
+		}
+		return result;
+	}
+
+	@Override
 	public Collection<Type> getAllocations(final Type type) {
 		// TODO cache
 		final List<Type> result = new ArrayList<Type>();
@@ -103,15 +125,20 @@ public class BCERepositoryImpl implements BCERepository {
 		return result;
 	}
 
-	@Override
-	public Integer getDeclarationLineNumber(Type type, File sourceDir) {
+	private ASTCompilationUnit getCompilationUnit(Type type, File sourcesDir) {
 		// TODO cache
-		final CharStream stream = new JavaCharStream(getSourceFile(type, sourceDir));
+		final CharStream stream = new JavaCharStream(getSourceFile(type, sourcesDir));
 		final JavaParser javaParser = new JavaParser(stream);
 		if ("1.5".equals(this.javaVersion) || "1.6".equals(this.javaVersion)) {
 			javaParser.setJDK15();
 		}
-		final ASTCompilationUnit compilationUnit = javaParser.CompilationUnit();
+		return javaParser.CompilationUnit();
+	}
+
+	@Override
+	public Integer getDeclarationLineNumber(Type type, File sourceDir) {
+		// TODO cache
+		final ASTCompilationUnit compilationUnit = getCompilationUnit(type, sourceDir);
 		return compilationUnit.getFirstChildOfType(ASTClassOrInterfaceDeclaration.class).getBeginLine();
 	}
 
@@ -289,6 +316,16 @@ public class BCERepositoryImpl implements BCERepository {
 
 	private org.apache.bcel.classfile.JavaClass getWrappedClass(Type type) {
 		return ((BcelJavaType) type).getWrapped();
+	}
+
+	private boolean hasImport(ASTCompilationUnit compilationUnit, String typeName) {
+		for (ASTImportDeclaration importDeclaration : compilationUnit.findChildrenOfType(ASTImportDeclaration.class)) {
+			String importTypeName = importDeclaration.getFirstChildOfType(ASTName.class).getImage();
+			if (importTypeName.equals(typeName)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	protected void iterateInstructions(Code code, Type type, org.apache.bcel.generic.Visitor visitor) {

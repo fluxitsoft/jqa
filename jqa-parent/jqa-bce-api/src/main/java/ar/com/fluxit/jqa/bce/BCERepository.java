@@ -33,6 +33,8 @@ import javax.management.IntrospectionException;
 
 public interface BCERepository {
 
+	Collection<Integer> getAllocationLineNumbers(Type type, Type allocatedClass, File sourcesDir);
+
 	Collection<Type> getAllocations(Type type);
 
 	Integer getDeclarationLineNumber(Type type, File sourcesDir);

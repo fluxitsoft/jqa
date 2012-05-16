@@ -80,6 +80,11 @@ class BcelJavaType implements Type {
 		return this.wrapped.getClassName();
 	}
 
+	@Override
+	public String getSimpleName() {
+		return getName().substring(getName().lastIndexOf(".") + 1);
+	}
+
 	org.apache.bcel.classfile.JavaClass getWrapped() {
 		return this.wrapped;
 	}
