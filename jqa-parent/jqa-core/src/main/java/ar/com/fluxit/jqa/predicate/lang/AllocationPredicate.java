@@ -53,10 +53,10 @@ public class AllocationPredicate extends FilteredPredicate implements CheckPredi
 	@Override
 	public Collection<Integer> getViolationLineIds(Type type, File sourcesDir, RulesContext context) {
 		Collection<Integer> result = new ArrayList<Integer>();
-		final Collection<Type> allocatedClasses = BCERepositoryLocator.getRepository().getAllocations(type);
-		for (final Type allocatedClass : allocatedClasses) {
-			if (!getFilterPredicate().evaluate(allocatedClass, context)) {
-				result.addAll(BCERepositoryLocator.getRepository().getAllocationLineNumbers(type, allocatedClass, sourcesDir));
+		final Collection<Type> allocatedTypes = BCERepositoryLocator.getRepository().getAllocations(type);
+		for (final Type allocatedType : allocatedTypes) {
+			if (!getFilterPredicate().evaluate(allocatedType, context)) {
+				result.addAll(BCERepositoryLocator.getRepository().getAllocationLineNumbers(type, allocatedType, sourcesDir));
 			}
 		}
 		return result;

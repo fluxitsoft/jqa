@@ -37,6 +37,8 @@ import net.sourceforge.pmd.ast.ASTClassOrInterfaceType;
 import net.sourceforge.pmd.ast.ASTCompilationUnit;
 import net.sourceforge.pmd.ast.ASTImportDeclaration;
 import net.sourceforge.pmd.ast.ASTName;
+import net.sourceforge.pmd.ast.ASTNameList;
+import net.sourceforge.pmd.ast.ASTThrowStatement;
 import net.sourceforge.pmd.ast.CharStream;
 import net.sourceforge.pmd.ast.JavaCharStream;
 import net.sourceforge.pmd.ast.JavaParser;
@@ -84,12 +86,8 @@ public class BCERepositoryImpl implements BCERepository {
 		List<ASTAllocationExpression> allocationExpressions = compilationUnit.findChildrenOfType(ASTAllocationExpression.class);
 		for (ASTAllocationExpression allocationExpression : allocationExpressions) {
 			ASTClassOrInterfaceType classOrInterface = allocationExpression.getFirstChildOfType(ASTClassOrInterfaceType.class);
-			if (classOrInterface.getImage().equals(allocatedClass.getName())) {
+			if (match(classOrInterface.getImage(), allocatedClass, compilationUnit)) {
 				result.add(allocationExpression.getBeginLine());
-			} else if (classOrInterface.getImage().equals(allocatedClass.getSimpleName())) {
-				if (hasImport(compilationUnit, allocatedClass.getName())) {
-					result.add(allocationExpression.getBeginLine());
-				}
 			}
 		}
 		return result;
@@ -136,9 +134,9 @@ public class BCERepositoryImpl implements BCERepository {
 	}
 
 	@Override
-	public Integer getDeclarationLineNumber(Type type, File sourceDir) {
+	public Integer getDeclarationLineNumber(Type type, File sourcesDir) {
 		// TODO cache
-		final ASTCompilationUnit compilationUnit = getCompilationUnit(type, sourceDir);
+		final ASTCompilationUnit compilationUnit = getCompilationUnit(type, sourcesDir);
 		return compilationUnit.getFirstChildOfType(ASTClassOrInterfaceDeclaration.class).getBeginLine();
 	}
 
@@ -197,6 +195,27 @@ public class BCERepositoryImpl implements BCERepository {
 	}
 
 	@Override
+	public Collection<? extends Integer> getThrowLineNumbers(Type type, Type throwedType, File sourcesDir) {
+		Collection<Integer> result = new ArrayList<Integer>();
+		final ASTCompilationUnit compilationUnit = getCompilationUnit(type, sourcesDir);
+		for (ASTNameList nameList : compilationUnit.findChildrenOfType(ASTNameList.class)) {
+			for (ASTName name : nameList.findChildrenOfType(ASTName.class)) {
+				if (match(name.getImage(), throwedType, compilationUnit)) {
+					result.add(nameList.getBeginLine());
+				}
+			}
+		}
+		for (ASTThrowStatement throwStatement : compilationUnit.findChildrenOfType(ASTThrowStatement.class)) {
+			for (ASTClassOrInterfaceType classOrInterface : throwStatement.findChildrenOfType(ASTClassOrInterfaceType.class)) {
+				if (match(classOrInterface.getImage(), throwedType, compilationUnit)) {
+					result.add(throwStatement.getBeginLine());
+				}
+			}
+		}
+		return result;
+	}
+
+	@Override
 	public Collection<Type> getThrows(final Type type) {
 		final List<Type> result = new ArrayList<Type>();
 		final Visitor visitor = new EmptyVisitor() {
@@ -227,6 +246,23 @@ public class BCERepositoryImpl implements BCERepository {
 
 		};
 		new DescendingVisitor(getWrappedClass(type), visitor).visit();
+		return result;
+	}
+
+	@Override
+	public Collection<? extends Integer> getUseLineNumbers(Type type, Type usedType, File sourcesDir) {
+		Collection<Integer> result = new ArrayList<Integer>();
+		final ASTCompilationUnit compilationUnit = getCompilationUnit(type, sourcesDir);
+		for (ASTImportDeclaration importDeclaration : compilationUnit.findChildrenOfType(ASTImportDeclaration.class)) {
+			for (ASTName name : importDeclaration.findChildrenOfType(ASTName.class)) {
+				if (match(name.getImage(), usedType, compilationUnit)) {
+					result.add(importDeclaration.getBeginLine());
+				}
+			}
+		}
+		if (result.isEmpty()) {
+			result.add(getDeclarationLineNumber(type, sourcesDir));
+		}
 		return result;
 	}
 
@@ -319,13 +355,18 @@ public class BCERepositoryImpl implements BCERepository {
 	}
 
 	private boolean hasImport(ASTCompilationUnit compilationUnit, String typeName) {
-		for (ASTImportDeclaration importDeclaration : compilationUnit.findChildrenOfType(ASTImportDeclaration.class)) {
-			String importTypeName = importDeclaration.getFirstChildOfType(ASTName.class).getImage();
-			if (importTypeName.equals(typeName)) {
-				return true;
+		if (typeName.substring(0, typeName.lastIndexOf(".")).equals("java.lang")) {
+			// The java.lang package is imported by default
+			return true;
+		} else {
+			for (ASTImportDeclaration importDeclaration : compilationUnit.findChildrenOfType(ASTImportDeclaration.class)) {
+				String importTypeName = importDeclaration.getFirstChildOfType(ASTName.class).getImage();
+				if (importTypeName.equals(typeName)) {
+					return true;
+				}
 			}
+			return false;
 		}
-		return false;
 	}
 
 	protected void iterateInstructions(Code code, Type type, org.apache.bcel.generic.Visitor visitor) {
@@ -351,6 +392,17 @@ public class BCERepositoryImpl implements BCERepository {
 	public Type lookupType(String typeName) throws ClassNotFoundException {
 		// TODO cache
 		return BcelJavaType.create(typeName);
+	}
+
+	private boolean match(String image, Type type, ASTCompilationUnit compilationUnit) {
+		if (image.equals(type.getName())) {
+			return true;
+		} else if (image.equals(type.getSimpleName()) && hasImport(compilationUnit, type.getName())) {
+			return true;
+
+		} else {
+			return false;
+		}
 	}
 
 	@Override

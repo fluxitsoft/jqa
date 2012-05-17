@@ -33,7 +33,7 @@ import javax.management.IntrospectionException;
 
 public interface BCERepository {
 
-	Collection<Integer> getAllocationLineNumbers(Type type, Type allocatedClass, File sourcesDir);
+	Collection<Integer> getAllocationLineNumbers(Type type, Type allocatedType, File sourcesDir);
 
 	Collection<Type> getAllocations(Type type);
 
@@ -56,7 +56,11 @@ public interface BCERepository {
 	 */
 	Collection<Type> getSuperClasses(Type type);
 
+	Collection<? extends Integer> getThrowLineNumbers(Type type, Type throwedType, File sourcesDir);
+
 	Collection<Type> getThrows(Type type);
+
+	Collection<? extends Integer> getUseLineNumbers(Type type, Type usedType, File sourcesDir);
 
 	Collection<Type> getUses(Type type);
 

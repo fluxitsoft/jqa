@@ -19,6 +19,7 @@
 package ar.com.fluxit.jqa.predicate.lang;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Collection;
 
 import ar.com.fluxit.jqa.bce.BCERepositoryLocator;
@@ -51,8 +52,14 @@ public class ThrowingPredicate extends FilteredPredicate implements CheckPredica
 
 	@Override
 	public Collection<Integer> getViolationLineIds(Type type, File sourcesDir, RulesContext context) {
-		// FIXME complete
-		return getDeclarationLineNumber(type, sourcesDir);
+		Collection<Integer> result = new ArrayList<Integer>();
+		final Collection<Type> throwedTypes = BCERepositoryLocator.getRepository().getThrows(type);
+		for (final Type throwedType : throwedTypes) {
+			if (!getFilterPredicate().evaluate(throwedType, context)) {
+				result.addAll(BCERepositoryLocator.getRepository().getThrowLineNumbers(type, throwedType, sourcesDir));
+			}
+		}
+		return result;
 	}
 
 }
