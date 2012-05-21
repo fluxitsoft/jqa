@@ -34,6 +34,7 @@
     <eLiterals name="ABSTRACT"/>
     <eLiterals name="INTERFACE" value="1"/>
     <eLiterals name="CONCRETE" value="2"/>
+    <eLiterals name="CLASS" value="3" literal="CLASS"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="AllocationPredicate" eSuperTypes="#//CheckPredicate">
     <eStructuralFeatures xsi:type="ecore:EReference" name="predicate" lowerBound="1"

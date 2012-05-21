@@ -46,6 +46,12 @@ public class AbstractionPredicate extends IgnoringContextPredicate implements Ch
 				return type.isInterface();
 			}
 		},
+		CLASS() {
+			@Override
+			public boolean evaluate(Type type) {
+				return !type.isInterface();
+			}
+		},
 		CONCRETE() {
 			@Override
 			public boolean evaluate(Type type) {
