@@ -11,21 +11,21 @@
 
 		<!-- Entity typing -->
 		<rule name="Entity typing"
-			message="The Entity '${type.name}' must implement 'ar.com.fluxit.jqa.test.fmk.entity.Entity'"
+			message="The Entity '${type.name}' must extends to 'ar.com.osde.framework.entities.FrameworkEntity'"
 			priority="3">
 			<filterPredicate xsi:type="jqa:ContextProvidedPredicate" predicateName="Entity attempt" />
 			<checkPredicate xsi:type="jqa:TypingPredicate">
-				<predicate xsi:type="jqa:NamingPredicate" namePattern="ar.com.fluxit.jqa.test.fmk.entity.Entity" />
+				<predicate xsi:type="jqa:NamingPredicate" namePattern="ar.com.osde.framework.entities.FrameworkEntity" />
 			</checkPredicate>
 		</rule>
 
 		<!-- Service contract typing -->
 		<rule name="Service contract typing"
-			message="The Service contract '${type.name}' must extend to 'ar.com.fluxit.jqa.test.fmk.service.Service'"
+			message="The Service contract '${type.name}' must extend to 'ar.com.osde.framework.services.Service'"
 			priority="3">
 			<filterPredicate xsi:type="jqa:ContextProvidedPredicate" predicateName="Service contract attempt" />
 			<checkPredicate xsi:type="jqa:TypingPredicate">
-				<predicate xsi:type="jqa:NamingPredicate" namePattern="ar.com.fluxit.jqa.test.fmk.service.Service" />
+				<predicate xsi:type="jqa:NamingPredicate" namePattern="ar.com.osde.framework.services.Service" />
 			</checkPredicate>
 		</rule>
 
@@ -41,11 +41,11 @@
 
 		<!-- BusinessObject contract typing -->
 		<rule name="BO contract typing"
-			message="The BO contract '${type.name}' must extend to 'ar.com.fluxit.jqa.test.fmk.bo.BusinessObject'"
+			message="The BO contract '${type.name}' must extend to 'ar.com.osde.framework.business.base.BusinessObject'"
 			priority="3">
 			<filterPredicate xsi:type="jqa:ContextProvidedPredicate" predicateName="BO contract attempt" />
 			<checkPredicate xsi:type="jqa:TypingPredicate">
-				<predicate xsi:type="jqa:NamingPredicate" namePattern="ar.com.fluxit.jqa.test.fmk.bo.BusinessObject" />
+				<predicate xsi:type="jqa:NamingPredicate" namePattern="ar.com.osde.framework.business.base.BusinessObject" />
 			</checkPredicate>
 		</rule>
 
@@ -61,11 +61,11 @@
 
 		<!-- DataAccess contract typing -->
 		<rule name="DAO contract typing"
-			message="The DAO contract '${type.name}' must extend to 'ar.com.fluxit.jqa.test.fmk.dao.DataAccessObject'"
+			message="The DAO contract '${type.name}' must extend to 'ar.com.osde.framework.persistence.dao.DataAccessObject'"
 			priority="3">
 			<filterPredicate xsi:type="jqa:ContextProvidedPredicate" predicateName="DAO contract attempt" />
 			<checkPredicate xsi:type="jqa:TypingPredicate">
-				<predicate xsi:type="jqa:NamingPredicate" namePattern="ar.com.fluxit.jqa.test.fmk.dao.DataAccessObject" />
+				<predicate xsi:type="jqa:NamingPredicate" namePattern="ar.com.osde.framework.persistence.dao.DataAccessObject" />
 			</checkPredicate>
 		</rule>
 

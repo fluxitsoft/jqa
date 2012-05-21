@@ -16,14 +16,18 @@
  * You should have received a copy of the GNU General Public License
  * along with JQA.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package ar.com.fluxit.jqa.mock.typing;
+package ar.com.fluxit.jqa.mock.usage;
 
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * TODO javadoc
  * 
  * @author Juan Ignacio Barisich
  */
-public class ClassThatExtendsClassThatImplementsInterfaceA extends ClassThatImplementsInterfaceA {
+public abstract class ClassThatExtendsList<I extends Number> extends ArrayList<String> implements List<String>, Iterable<String> {
+
+	private static final long serialVersionUID = 1L;
 
 }

@@ -16,14 +16,27 @@
  * You should have received a copy of the GNU General Public License
  * along with JQA.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package ar.com.fluxit.jqa.mock.typing;
+package ar.com.fluxit.jqa.mock.throwing;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 /**
  * TODO javadoc
  * 
  * @author Juan Ignacio Barisich
  */
-public class ClassThatExtendsClassThatImplementsInterfaceA extends ClassThatImplementsInterfaceA {
+public class ClassWithFinallyBlock {
+
+	public void saveFile(String file, byte[] data) throws FileNotFoundException, IOException {
+		FileOutputStream out = new FileOutputStream(file);
+		try {
+			out.write(data);
+			out.flush();
+		} finally {
+			out.close();
+		}
+	}
 
 }

@@ -116,7 +116,7 @@
 				<predicate xsi:type="jqa:OrPredicate">
 					<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="Common type" />
 					<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="Entity attempt" />
-					<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="View exceptions" />
+					<!--predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="View exceptions" /-->
 					<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="BO exceptions" />
 					<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="BO contract attempt" />
 					<predicate xsi:type="jqa:NamingPredicate" namePattern="ar.com.fluxit.jqa.test.fmk.view.View" />

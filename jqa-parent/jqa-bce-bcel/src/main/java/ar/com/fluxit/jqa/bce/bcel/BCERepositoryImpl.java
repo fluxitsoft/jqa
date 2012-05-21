@@ -31,6 +31,9 @@ import java.util.List;
 
 import javax.management.IntrospectionException;
 
+import net.sf.ehcache.Cache;
+import net.sf.ehcache.CacheManager;
+import net.sf.ehcache.Element;
 import net.sourceforge.pmd.ast.ASTAllocationExpression;
 import net.sourceforge.pmd.ast.ASTClassOrInterfaceDeclaration;
 import net.sourceforge.pmd.ast.ASTClassOrInterfaceType;
@@ -39,9 +42,11 @@ import net.sourceforge.pmd.ast.ASTImportDeclaration;
 import net.sourceforge.pmd.ast.ASTName;
 import net.sourceforge.pmd.ast.ASTNameList;
 import net.sourceforge.pmd.ast.ASTThrowStatement;
+import net.sourceforge.pmd.ast.ASTTypeDeclaration;
 import net.sourceforge.pmd.ast.CharStream;
 import net.sourceforge.pmd.ast.JavaCharStream;
 import net.sourceforge.pmd.ast.JavaParser;
+import net.sourceforge.pmd.ast.SimpleNode;
 
 import org.apache.bcel.Constants;
 import org.apache.bcel.classfile.ClassParser;
@@ -78,10 +83,15 @@ import ar.com.fluxit.jqa.bce.TypeFormatException;
 public class BCERepositoryImpl implements BCERepository {
 
 	private String javaVersion;
+	private final CacheManager cacheManager;
+
+	public BCERepositoryImpl() {
+		cacheManager = CacheManager.newInstance(getClass().getResourceAsStream("/ehcache.xml"));
+	}
 
 	@Override
 	public Collection<Integer> getAllocationLineNumbers(Type type, Type allocatedClass, File sourcesDir) {
-		Collection<Integer> result = new ArrayList<Integer>();
+		Collection<Integer> result = new HashSet<Integer>();
 		final ASTCompilationUnit compilationUnit = getCompilationUnit(type, sourcesDir);
 		List<ASTAllocationExpression> allocationExpressions = compilationUnit.findChildrenOfType(ASTAllocationExpression.class);
 		for (ASTAllocationExpression allocationExpression : allocationExpressions) {
@@ -96,7 +106,7 @@ public class BCERepositoryImpl implements BCERepository {
 	@Override
 	public Collection<Type> getAllocations(final Type type) {
 		// TODO cache
-		final List<Type> result = new ArrayList<Type>();
+		final Collection<Type> result = new HashSet<Type>();
 		getWrappedClass(type).getMethods();
 		final Visitor visitor = new EmptyVisitor() {
 
@@ -123,21 +133,35 @@ public class BCERepositoryImpl implements BCERepository {
 		return result;
 	}
 
+	private CacheManager getCacheManager() {
+		return cacheManager;
+	}
+
 	private ASTCompilationUnit getCompilationUnit(Type type, File sourcesDir) {
-		// TODO cache
-		final CharStream stream = new JavaCharStream(getSourceFile(type, sourcesDir));
-		final JavaParser javaParser = new JavaParser(stream);
-		if ("1.5".equals(this.javaVersion) || "1.6".equals(this.javaVersion)) {
-			javaParser.setJDK15();
+		final Cache cache = getCacheManager().getCache("COMPILATION_UNIT");
+		Element result = cache.get(type.getName());
+		if (result == null) {
+			final CharStream stream = new JavaCharStream(getSourceFile(type, sourcesDir));
+			final JavaParser javaParser = new JavaParser(stream);
+			if ("1.5".equals(this.javaVersion) || "1.6".equals(this.javaVersion)) {
+				javaParser.setJDK15();
+			}
+			final ASTCompilationUnit compilationUnit = javaParser.CompilationUnit();
+			result = new Element(type.getName(), compilationUnit);
+			cache.put(result);
 		}
-		return javaParser.CompilationUnit();
+		return (ASTCompilationUnit) result.getObjectValue();
 	}
 
 	@Override
 	public Integer getDeclarationLineNumber(Type type, File sourcesDir) {
 		// TODO cache
 		final ASTCompilationUnit compilationUnit = getCompilationUnit(type, sourcesDir);
-		return compilationUnit.getFirstChildOfType(ASTClassOrInterfaceDeclaration.class).getBeginLine();
+		SimpleNode firstChildOfType = compilationUnit.getFirstChildOfType(ASTClassOrInterfaceDeclaration.class);
+		if (firstChildOfType == null) {
+			firstChildOfType = compilationUnit.getFirstChildOfType(ASTTypeDeclaration.class);
+		}
+		return firstChildOfType.getBeginLine();
 	}
 
 	protected Type getException(ConstantPool constantPool, CPInstruction instruction) {
@@ -196,7 +220,7 @@ public class BCERepositoryImpl implements BCERepository {
 
 	@Override
 	public Collection<? extends Integer> getThrowLineNumbers(Type type, Type throwedType, File sourcesDir) {
-		Collection<Integer> result = new ArrayList<Integer>();
+		Collection<Integer> result = new HashSet<Integer>();
 		final ASTCompilationUnit compilationUnit = getCompilationUnit(type, sourcesDir);
 		for (ASTNameList nameList : compilationUnit.findChildrenOfType(ASTNameList.class)) {
 			for (ASTName name : nameList.findChildrenOfType(ASTName.class)) {
@@ -217,7 +241,7 @@ public class BCERepositoryImpl implements BCERepository {
 
 	@Override
 	public Collection<Type> getThrows(final Type type) {
-		final List<Type> result = new ArrayList<Type>();
+		final Collection<Type> result = new HashSet<Type>();
 		final Visitor visitor = new EmptyVisitor() {
 
 			@Override
@@ -228,7 +252,9 @@ public class BCERepositoryImpl implements BCERepository {
 				while (iterator.hasNext()) {
 					Instruction current = iterator.next().getInstruction();
 					if (current instanceof ATHROW) {
-						result.add(getException(constantPool, (CPInstruction) last));
+						if (last instanceof CPInstruction) {
+							result.add(getException(constantPool, (CPInstruction) last));
+						}
 					}
 					last = current;
 				}
@@ -251,7 +277,7 @@ public class BCERepositoryImpl implements BCERepository {
 
 	@Override
 	public Collection<? extends Integer> getUseLineNumbers(Type type, Type usedType, File sourcesDir) {
-		Collection<Integer> result = new ArrayList<Integer>();
+		Collection<Integer> result = new HashSet<Integer>();
 		final ASTCompilationUnit compilationUnit = getCompilationUnit(type, sourcesDir);
 		for (ASTImportDeclaration importDeclaration : compilationUnit.findChildrenOfType(ASTImportDeclaration.class)) {
 			for (ASTName name : importDeclaration.findChildrenOfType(ASTName.class)) {
@@ -269,7 +295,7 @@ public class BCERepositoryImpl implements BCERepository {
 	@Override
 	public Collection<Type> getUses(final Type type) {
 		// TODO cache
-		final Collection<Type> uses = new ArrayList<Type>();
+		final Collection<Type> uses = new HashSet<Type>();
 		final ConstantPool constantPool = getWrappedClass(type).getConstantPool();
 		final Visitor visitor = new EmptyVisitor() {
 

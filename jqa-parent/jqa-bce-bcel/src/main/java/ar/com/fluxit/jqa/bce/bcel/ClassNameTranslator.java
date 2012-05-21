@@ -111,7 +111,7 @@ final class ClassNameTranslator {
 		return classSuffixRE.matcher(className).replaceAll("").replace('/', '.').intern();
 	}
 
-	public static List<String> signatureToClassNames(final String signature) {
+	public static List<String> signatureToClassNames(String signature) {
 		final List<String> names = new ArrayList<String>();
 		for (int pos = 0; pos < signature.length();) {
 			final String remaining = signature.substring(pos);
@@ -133,12 +133,13 @@ final class ClassNameTranslator {
 	public static List<String> signatureToClassNames2(String signature) {
 		List<String> result = new ArrayList<String>();
 		Pattern pattern = Pattern.compile("<([^>]*)>");
-		Matcher matcher = pattern.matcher(signature.replace("*", "").replace("T:", ""));
+		Matcher matcher = pattern.matcher(signature.replace("*", ""));
 		if (matcher.find()) {
 			int size = matcher.groupCount();
 			for (int i = 1; i <= size; i++) {
 				String typeNames = matcher.group(i);
-				if (!typeNames.isEmpty()) {
+				if (!typeNames.isEmpty() && typeNames.contains(":")) {
+					typeNames = typeNames.substring(typeNames.lastIndexOf(':') + 1);
 					result.addAll(signatureToClassNames(typeNames));
 				}
 			}

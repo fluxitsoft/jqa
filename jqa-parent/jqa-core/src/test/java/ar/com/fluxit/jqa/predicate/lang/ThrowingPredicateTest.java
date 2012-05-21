@@ -30,6 +30,7 @@ import ar.com.fluxit.jqa.mock.throwing.ClassThatThrowsExceptionB;
 import ar.com.fluxit.jqa.mock.throwing.ClassThatThrowsUncheckedExceptionOnConstructor;
 import ar.com.fluxit.jqa.mock.throwing.ClassThatThrowsUncheckedExceptionOnMethod;
 import ar.com.fluxit.jqa.mock.throwing.ClassThatThrowsUncheckedExceptionOnStaticMethod;
+import ar.com.fluxit.jqa.mock.throwing.ClassWithFinallyBlock;
 import ar.com.fluxit.jqa.mock.throwing.InterfaceThatThrowsExceptionA;
 
 /**
@@ -49,6 +50,7 @@ public class ThrowingPredicateTest extends TestCase {
 		testMatches(filterPredicateParentClass, ClassThatThrowsExceptionAOnMethod.class, false);
 		testMatches(filterPredicateParentClass, ClassThatThrowsExceptionAOnStaticMethod.class, false);
 		testMatches(filterPredicateParentClass, InterfaceThatThrowsExceptionA.class, false);
+		testMatches(filterPredicateParentClass, ClassWithFinallyBlock.class, false);
 		// Unchecked exceptions
 		testMatches(filterPredicateParentClass, ClassThatThrowsUncheckedExceptionOnMethod.class, false);
 		testMatches(filterPredicateParentClass, ClassThatThrowsUncheckedExceptionOnConstructor.class, false);

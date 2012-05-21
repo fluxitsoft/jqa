@@ -47,6 +47,7 @@ public class TypingPredicateTest extends TestCase {
 		// Test class type
 		testMatches(createTypingPredicate("java.lang.Number"), new Type[] { bCERepository.lookupType(Integer.class), bCERepository.lookupType(Long.class) },
 				new Type[] { bCERepository.lookupType(String.class), bCERepository.lookupType(Exception.class) });
+
 		// Test interface type
 		testMatches(createTypingPredicate("java.util.List"), new Type[] { bCERepository.lookupType(ArrayList.class), bCERepository.lookupType(Vector.class) },
 				new Type[] { bCERepository.lookupType(String.class), bCERepository.lookupType(Integer.class) });
