@@ -32,7 +32,6 @@
     <xsd:attribute name="name" type="xsd:string" use="required"/>
     <xsd:attribute name="message" type="xsd:string" use="required"/>
     <xsd:attribute ecore:unsettable="false" name="priority" type="xsd:int"/>
-    <xsd:attribute ecore:unsettable="false" name="bidirectionalCheck" type="xsd:boolean"/>
   </xsd:complexType>
   <xsd:complexType abstract="true" name="Predicate">
     <xsd:attribute name="name" type="xsd:string"/>

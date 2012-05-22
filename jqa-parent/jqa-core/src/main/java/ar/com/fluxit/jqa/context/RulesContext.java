@@ -34,6 +34,8 @@ public interface RulesContext {
 
 	Collection<Predicate> getGlobalPredicates();
 
+	String getGlobalVariable(String name);
+
 	Collection<RuleSet> getRuleSets();
 
 }

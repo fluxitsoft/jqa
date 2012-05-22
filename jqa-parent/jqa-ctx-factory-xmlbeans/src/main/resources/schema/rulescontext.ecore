@@ -11,8 +11,15 @@
         eType="ecore:EClass ruleset.ecore#//Predicate" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="ruleSet" upperBound="-1"
         eType="ecore:EClass ruleset.ecore#//Ruleset" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="globalVariable" upperBound="-1"
+        eType="#//GlobalVariable" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="RulesContextImport">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="resource" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="resource" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GlobalVariable">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
   </eClassifiers>
 </ecore:EPackage>

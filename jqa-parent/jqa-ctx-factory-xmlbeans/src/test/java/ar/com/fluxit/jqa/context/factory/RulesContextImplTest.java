@@ -21,6 +21,8 @@ package ar.com.fluxit.jqa.context.factory;
 import java.net.URL;
 
 import junit.framework.TestCase;
+import ar.com.fluxit.jqa.bce.BCERepositoryLocator;
+import ar.com.fluxit.jqa.bce.Type;
 import ar.com.fluxit.jqa.context.RulesContext;
 import ar.com.fluxit.jqa.context.factory.exception.RulesContextFactoryException;
 import ar.com.fluxit.jqa.predicate.ContextProvidedPredicate;
@@ -121,6 +123,22 @@ public class RulesContextImplTest extends TestCase {
 		assertEquals(2, ((XorPredicate) this.rulesContext.getGlobalPredicate("XORPredicateTest")).getPredicates().length);
 		assertTrue(((XorPredicate) this.rulesContext.getGlobalPredicate("XORPredicateTest")).getPredicates()[0] instanceof TruePredicate);
 		assertTrue(((XorPredicate) this.rulesContext.getGlobalPredicate("XORPredicateTest")).getPredicates()[1] instanceof TruePredicate);
+	}
+
+	public void testGlobalVariables() throws RulesContextFactoryException, ClassNotFoundException {
+		assertNotNull(this.rulesContext);
+		assertEquals("java.lang.String", this.rulesContext.getGlobalVariable("StringClass"));
+		Type stringType = BCERepositoryLocator.getRepository().lookupType(String.class);
+		assertTrue(this.rulesContext.getGlobalPredicate("VariablePredicate").evaluate(stringType, this.rulesContext));
+		for (RuleSet rs : this.rulesContext.getRuleSets()) {
+			if ("VariableRuleSet".equals(rs.getName())) {
+				Rule rule = rs.getRules().iterator().next();
+				assertEquals("Rule for java.lang.String", rule.getName());
+				assertEquals("Message java.lang.String", rule.getMessage());
+				assertTrue(rule.getFilterPredicate().evaluate(stringType, this.rulesContext));
+				assertTrue(rule.getCheckPredicate().evaluate(stringType, this.rulesContext));
+			}
+		}
 	}
 
 	public void testInvalidRulesContextFile() throws RulesContextFactoryException {

@@ -11,9 +11,14 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference rulescontext.ecore#//RulesContext/rulesContextImport"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference rulescontext.ecore#//RulesContext/globalPredicate"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference rulescontext.ecore#//RulesContext/ruleSet"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference rulescontext.ecore#//RulesContext/globalVariable"/>
     </genClasses>
     <genClasses ecoreClass="rulescontext.ecore#//RulesContextImport">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute rulescontext.ecore#//RulesContextImport/resource"/>
+    </genClasses>
+    <genClasses ecoreClass="rulescontext.ecore#//GlobalVariable">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute rulescontext.ecore#//GlobalVariable/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute rulescontext.ecore#//GlobalVariable/value"/>
     </genClasses>
   </genPackages>
   <genPackages prefix="Jqa" disposableProviderFactory="true" ecorePackage="ruleset.ecore#/">
@@ -21,6 +26,7 @@
       <genEnumLiterals ecoreEnumLiteral="ruleset.ecore#//AbstractionType/ABSTRACT"/>
       <genEnumLiterals ecoreEnumLiteral="ruleset.ecore#//AbstractionType/INTERFACE"/>
       <genEnumLiterals ecoreEnumLiteral="ruleset.ecore#//AbstractionType/CONCRETE"/>
+      <genEnumLiterals ecoreEnumLiteral="ruleset.ecore#//AbstractionType/CLASS"/>
     </genEnums>
     <genClasses ecoreClass="ruleset.ecore#//Ruleset">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ruleset.ecore#//Ruleset/name"/>
@@ -32,7 +38,6 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ruleset.ecore#//Rule/filterPredicate"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ruleset.ecore#//Rule/checkPredicate"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ruleset.ecore#//Rule/priority"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ruleset.ecore#//Rule/bidirectionalCheck"/>
     </genClasses>
     <genClasses image="false" ecoreClass="ruleset.ecore#//Predicate">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ruleset.ecore#//Predicate/name"/>
@@ -40,19 +45,24 @@
     <genClasses ecoreClass="ruleset.ecore#//ContextProvidedPredicate">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ruleset.ecore#//ContextProvidedPredicate/predicateName"/>
     </genClasses>
-    <genClasses image="false" ecoreClass="ruleset.ecore#//FilteredPredicate">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ruleset.ecore#//FilteredPredicate/predicate"/>
-    </genClasses>
     <genClasses ecoreClass="ruleset.ecore#//AbstractionPredicate">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ruleset.ecore#//AbstractionPredicate/abstractionType"/>
     </genClasses>
-    <genClasses ecoreClass="ruleset.ecore#//AllocationPredicate"/>
+    <genClasses ecoreClass="ruleset.ecore#//AllocationPredicate">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ruleset.ecore#//AllocationPredicate/predicate"/>
+    </genClasses>
     <genClasses ecoreClass="ruleset.ecore#//NamingPredicate">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ruleset.ecore#//NamingPredicate/namePattern"/>
     </genClasses>
-    <genClasses ecoreClass="ruleset.ecore#//ThrowingPredicate"/>
-    <genClasses ecoreClass="ruleset.ecore#//TypingPredicate"/>
-    <genClasses ecoreClass="ruleset.ecore#//UsagePredicate"/>
+    <genClasses ecoreClass="ruleset.ecore#//ThrowingPredicate">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ruleset.ecore#//ThrowingPredicate/predicate"/>
+    </genClasses>
+    <genClasses ecoreClass="ruleset.ecore#//TypingPredicate">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ruleset.ecore#//TypingPredicate/predicate"/>
+    </genClasses>
+    <genClasses ecoreClass="ruleset.ecore#//UsagePredicate">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ruleset.ecore#//UsagePredicate/predicate"/>
+    </genClasses>
     <genClasses image="false" ecoreClass="ruleset.ecore#//VarArgsLogicPredicate">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ruleset.ecore#//VarArgsLogicPredicate/predicate"/>
     </genClasses>
@@ -64,5 +74,6 @@
     <genClasses ecoreClass="ruleset.ecore#//OrPredicate"/>
     <genClasses ecoreClass="ruleset.ecore#//TruePredicate"/>
     <genClasses ecoreClass="ruleset.ecore#//XORPredicate"/>
+    <genClasses image="false" ecoreClass="ruleset.ecore#//CheckPredicate"/>
   </genPackages>
 </genmodel:GenModel>

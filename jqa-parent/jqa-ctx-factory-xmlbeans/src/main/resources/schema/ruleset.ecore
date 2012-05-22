@@ -17,7 +17,6 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="checkPredicate" lowerBound="1"
         eType="#//CheckPredicate" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="priority" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Int"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="bidirectionalCheck" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Predicate" abstract="true">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>

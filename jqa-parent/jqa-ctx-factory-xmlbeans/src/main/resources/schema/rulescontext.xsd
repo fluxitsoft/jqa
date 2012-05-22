@@ -3,15 +3,21 @@
   <xsd:import namespace="http://www.fluxit.com.ar/jqa/schema/ruleset" schemaLocation="ruleset.xsd"/>
   <xsd:element ecore:ignore="true" name="RulesContext" type="jqa_ctx:RulesContext"/>
   <xsd:element ecore:ignore="true" name="RulesContextImport" type="jqa_ctx:RulesContextImport"/>
+  <xsd:element ecore:ignore="true" name="GlobalVariable" type="jqa_ctx:GlobalVariable"/>
   <xsd:complexType name="RulesContext">
     <xsd:sequence>
       <xsd:element ecore:resolveProxies="true" maxOccurs="unbounded" minOccurs="0" name="rulesContextImport" type="jqa_ctx:RulesContextImport"/>
       <xsd:element ecore:resolveProxies="true" maxOccurs="unbounded" minOccurs="0" name="globalPredicate" type="jqa:Predicate"/>
       <xsd:element ecore:resolveProxies="true" maxOccurs="unbounded" minOccurs="0" name="ruleSet" type="jqa:Ruleset"/>
+      <xsd:element ecore:resolveProxies="true" maxOccurs="unbounded" minOccurs="0" name="globalVariable" type="jqa_ctx:GlobalVariable"/>
     </xsd:sequence>
     <xsd:attribute name="name" type="xsd:string"/>
   </xsd:complexType>
   <xsd:complexType name="RulesContextImport">
-    <xsd:attribute name="resource" type="xsd:string"/>
+    <xsd:attribute name="resource" type="xsd:string" use="required"/>
+  </xsd:complexType>
+  <xsd:complexType name="GlobalVariable">
+    <xsd:attribute name="name" type="xsd:string" use="required"/>
+    <xsd:attribute name="value" type="xsd:string" use="required"/>
   </xsd:complexType>
 </xsd:schema>

@@ -24,11 +24,5 @@
 		<filterPredicate xsi:type="jqa:TruePredicate" />
 		<checkPredicate xsi:type="jqa:NamingPredicate" namePattern="**" />
 	</rule>
-
-	<rule name="BidirectionalCheckRule" message="BidirectionalCheckRule"
-		bidirectionalCheck="true">
-		<filterPredicate xsi:type="jqa:TruePredicate" />
-		<checkPredicate xsi:type="jqa:NamingPredicate" namePattern="**" />
-	</rule>
 	
 </jqa:Ruleset>
