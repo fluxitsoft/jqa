@@ -20,12 +20,13 @@ package ar.com.fluxit.jqa.predicate.lang;
 
 import java.io.File;
 import java.util.Collection;
+import java.util.Map;
 
 import ar.com.fluxit.jqa.bce.Type;
 import ar.com.fluxit.jqa.context.RulesContext;
 import ar.com.fluxit.jqa.exception.RegExSyntaxException;
+import ar.com.fluxit.jqa.predicate.AbstractPredicate;
 import ar.com.fluxit.jqa.predicate.CheckPredicate;
-import ar.com.fluxit.jqa.predicate.IgnoringContextPredicate;
 import ar.com.fluxit.jqa.util.RegEx;
 
 /**
@@ -33,7 +34,7 @@ import ar.com.fluxit.jqa.util.RegEx;
  * 
  * @author Juan Ignacio Barisich
  */
-public class NamingPredicate extends IgnoringContextPredicate implements CheckPredicate {
+public class NamingPredicate extends AbstractPredicate implements CheckPredicate {
 
 	private String classNamePattern;
 	// transient for XML serialization
@@ -49,17 +50,17 @@ public class NamingPredicate extends IgnoringContextPredicate implements CheckPr
 	}
 
 	@Override
-	public boolean evaluate(Type type) {
-		return evaluateClassName(type.getName());
+	public boolean evaluate(Type type, RulesContext context) {
+		return evaluateClassName(type.getName(), context);
 	}
 
-	protected boolean evaluateClassName(String className) {
+	protected boolean evaluateClassName(String className, RulesContext context) {
 		try {
 			if (className.contains("$")) {
 				// Anonymous classes do not match
 				return false;
 			} else {
-				return getRegEx().matches(className);
+				return getRegEx(context).matches(className);
 			}
 		} catch (final RegExSyntaxException e) {
 			throw new IllegalStateException(e);
@@ -70,9 +71,9 @@ public class NamingPredicate extends IgnoringContextPredicate implements CheckPr
 		return this.classNamePattern;
 	}
 
-	private RegEx getRegEx() throws RegExSyntaxException {
+	private RegEx getRegEx(RulesContext context) throws RegExSyntaxException {
 		if (this.regEx == null) {
-			this.regEx = new RegEx(getClassNamePattern());
+			this.regEx = new RegEx(parse(getClassNamePattern(), context));
 		}
 		return this.regEx;
 	}
@@ -80,6 +81,18 @@ public class NamingPredicate extends IgnoringContextPredicate implements CheckPr
 	@Override
 	public Collection<Integer> getViolationLineIds(Type type, File sourcesDir, RulesContext context) {
 		return getDeclarationLineNumber(type, sourcesDir);
+	}
+
+	private String parse(String classNamePattern, RulesContext context) {
+		if (context != null) {
+			for (final Map.Entry<String, String> e : context.getGlobalVariables().entrySet()) {
+				classNamePattern = classNamePattern.replaceAll("\\$\\{" + e.getKey() + "\\}", e.getValue());
+			}
+		}
+		if (classNamePattern.contains("$")) {
+			throw new IllegalArgumentException("Variable in classNamePattern '" + classNamePattern + "' can not be resolved");
+		}
+		return classNamePattern;
 	}
 
 	public void setClassNamePattern(String pattern) {

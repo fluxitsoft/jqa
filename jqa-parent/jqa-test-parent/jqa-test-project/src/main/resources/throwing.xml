@@ -12,7 +12,7 @@
 
 		<!-- Service throwing -->
 		<rule name="Service throwing"
-			message="The Service '${type.name}' has an invalid throwing. A Service must throws only exceptions that extend to ar.com.fluxit.jqa.test.fmk.service.ServiceException"
+			message="The Service '${type.name}' has an invalid throwing. A Service must throws only exceptions that extend to ${serviceException.superType}"
 			priority="3">
 			<filterPredicate xsi:type="jqa:ContextProvidedPredicate" predicateName="Service attempt" />
 			<checkPredicate xsi:type="jqa:ThrowingPredicate">
@@ -22,7 +22,7 @@
 
 		<!-- BusinessObject throwing -->
 		<rule name="BO throwing"
-			message="The BO '${type.name}' has an invalid throwing. A BusinessObject must throws only exceptions that extend to ar.com.fluxit.jqa.test.fmk.bo.BusinessObjectException"
+			message="The BO '${type.name}' has an invalid throwing. A BusinessObject must throws only exceptions that extend to ${boException.superType}"
 			priority="3">
 			<filterPredicate xsi:type="jqa:ContextProvidedPredicate" predicateName="BO attempt" />
 			<checkPredicate xsi:type="jqa:ThrowingPredicate">
@@ -32,7 +32,7 @@
 		
 		<!-- DataAccessObject throwing -->
 		<rule name="DAO throwing"
-			message="The DAO '${type.name}' has an invalid throwing. A DataAccessObject must throws only exceptions that extend to ar.com.fluxit.jqa.test.fmk.dao.DataAccessObjectException"
+			message="The DAO '${type.name}' has an invalid throwing. A DataAccessObject must throws only exceptions that extend to ${daoException.superType}"
 			priority="3">
 			<filterPredicate xsi:type="jqa:ContextProvidedPredicate" predicateName="DAO attempt" />
 			<checkPredicate xsi:type="jqa:ThrowingPredicate">

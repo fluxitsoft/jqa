@@ -6,22 +6,22 @@
 
 	<!-- Service exception -->
 	<globalPredicate name="Service exceptions" xsi:type="jqa:TypingPredicate">
-		<predicate xsi:type="jqa:NamingPredicate" namePattern="ar.com.fluxit.jqa.test.fmk.service.ServiceException" />
+		<predicate xsi:type="jqa:NamingPredicate" namePattern="${serviceException.superType}" />
 	</globalPredicate>
 
 	<!-- BO exception -->
 	<globalPredicate name="BO exceptions" xsi:type="jqa:TypingPredicate">
-		<predicate xsi:type="jqa:NamingPredicate" namePattern="ar.com.fluxit.jqa.test.fmk.bo.BusinessObjectException" />
+		<predicate xsi:type="jqa:NamingPredicate" namePattern="${boException.superType}" />
 	</globalPredicate>
 
 	<!-- DAO exception -->
 	<globalPredicate name="DAO exceptions" xsi:type="jqa:TypingPredicate">
-		<predicate xsi:type="jqa:NamingPredicate" namePattern="ar.com.fluxit.jqa.test.fmk.dao.DataAccessObjectException" />
+		<predicate xsi:type="jqa:NamingPredicate" namePattern="${daoException.superType}" />
 	</globalPredicate>
 
 	<!-- View exception -->
 	<globalPredicate name="View exceptions" xsi:type="jqa:TypingPredicate">
-		<predicate xsi:type="jqa:NamingPredicate" namePattern="ar.com.fluxit.jqa.test.fmk.view.ViewException" />
+		<predicate xsi:type="jqa:NamingPredicate" namePattern="${viewException.superType}" />
 	</globalPredicate>
 
 </jqa_ctx:RulesContext>

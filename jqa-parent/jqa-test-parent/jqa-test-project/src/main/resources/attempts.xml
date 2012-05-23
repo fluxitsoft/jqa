@@ -10,6 +10,7 @@
 			<predicate xsi:type="jqa:NamingPredicate" namePattern="**.entity.**" />
 			<predicate xsi:type="jqa:NamingPredicate" namePattern="**.entities.**" />
 			<predicate xsi:type="jqa:NamingPredicate" namePattern="**.domain.**" />
+			<predicate xsi:type="jqa:NamingPredicate" namePattern="**.model.**" />
 		</predicate>
 		<!-- The Entity superclass is not an attempt. Nor the exceptions -->
 		<predicate xsi:type="jqa:NotPredicate">
@@ -26,13 +27,13 @@
 			<predicate xsi:type="jqa:NamingPredicate" namePattern="**Service*" />
 			<predicate xsi:type="jqa:NamingPredicate" namePattern="**.service.**" />
 			<predicate xsi:type="jqa:TypingPredicate">
-				<predicate xsi:type="jqa:NamingPredicate" namePattern="ar.com.fluxit.jqa.test.fmk.service.Service" />
+				<predicate xsi:type="jqa:NamingPredicate" namePattern="${service.superType}" />
 			</predicate>
 		</predicate>
 		<!-- The Service superclass is not an attempt. Nor the exceptions -->
 		<predicate xsi:type="jqa:NotPredicate">
 			<predicate xsi:type="jqa:OrPredicate">
-				<predicate xsi:type="jqa:NamingPredicate" namePattern="ar.com.fluxit.jqa.test.fmk.service.Service" />
+				<predicate xsi:type="jqa:NamingPredicate" namePattern="${service.superType}" />
 				<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="Exception"/>
 			</predicate>
 		</predicate>
@@ -53,16 +54,17 @@
 	<!-- Classes that try to be a BusinessObject -->
 	<globalPredicate name="BO attempt" xsi:type="jqa:AndPredicate">
 		<predicate xsi:type="jqa:OrPredicate">
+			<predicate xsi:type="jqa:NamingPredicate" namePattern="**BusinessObject*" />
 			<predicate xsi:type="jqa:NamingPredicate" namePattern="**BO*" />
 			<predicate xsi:type="jqa:NamingPredicate" namePattern="**.bo.**" />
 			<predicate xsi:type="jqa:TypingPredicate">
-				<predicate xsi:type="jqa:NamingPredicate" namePattern="ar.com.fluxit.jqa.test.fmk.bo.BusinessObject" />
+				<predicate xsi:type="jqa:NamingPredicate" namePattern="${bo.superType}" />
 			</predicate>
 		</predicate>
 		<!-- The BusinessObject superclass is not an attempt. Nor the exceptions -->
 		<predicate xsi:type="jqa:NotPredicate">
 			<predicate xsi:type="jqa:OrPredicate">
-				<predicate xsi:type="jqa:NamingPredicate" namePattern="ar.com.fluxit.jqa.test.fmk.bo.BusinessObject" />
+				<predicate xsi:type="jqa:NamingPredicate" namePattern="${bo.superType}" />
 				<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="Exception"/>
 			</predicate>
 		</predicate>
@@ -83,16 +85,18 @@
 	<!-- Classes that try to be a DataAccessObject -->
 	<globalPredicate name="DAO attempt" xsi:type="jqa:AndPredicate">
 		<predicate xsi:type="jqa:OrPredicate">
+		    <predicate xsi:type="jqa:NamingPredicate" namePattern="**Dao*" />
 			<predicate xsi:type="jqa:NamingPredicate" namePattern="**DAO*" />
+			<predicate xsi:type="jqa:NamingPredicate" namePattern="**DataAccessObject*" />
 			<predicate xsi:type="jqa:NamingPredicate" namePattern="**.dao.**" />
 			<predicate xsi:type="jqa:TypingPredicate">
-				<predicate xsi:type="jqa:NamingPredicate" namePattern="ar.com.fluxit.jqa.test.fmk.dao.DataAccessObject" />
+				<predicate xsi:type="jqa:NamingPredicate" namePattern="${dao.superType}" />
 			</predicate>
 		</predicate>
 		<!-- The DataAccessObject superclass is not an attempt. Nor the exceptions -->
 		<predicate xsi:type="jqa:NotPredicate">
 			<predicate xsi:type="jqa:OrPredicate">
-				<predicate xsi:type="jqa:NamingPredicate" namePattern="ar.com.fluxit.jqa.test.fmk.dao.DataAccessObject" />
+				<predicate xsi:type="jqa:NamingPredicate" namePattern="${dao.superType}" />
 				<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="Exception"/>
 			</predicate>
 		</predicate>
@@ -121,7 +125,7 @@
 		<!-- The View superclass is not an attempt -->
 		<predicate xsi:type="jqa:NotPredicate">
 			<predicate xsi:type="jqa:OrPredicate">
-				<predicate xsi:type="jqa:NamingPredicate" namePattern="ar.com.fluxit.jqa.test.fmk.view.View" />
+				<predicate xsi:type="jqa:NamingPredicate" namePattern="${view.superType}" />
 				<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="Exception"/>
 			</predicate>
 		</predicate>

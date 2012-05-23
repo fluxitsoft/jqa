@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import ar.com.fluxit.jqa.predicate.Predicate;
 import ar.com.fluxit.jqa.rule.RuleSet;
@@ -55,6 +56,9 @@ public class RulesContextImpl implements RulesContext {
 		for (final Predicate predicate : context.getGlobalPredicates()) {
 			add(predicate);
 		}
+		for (final Entry<String, String> variable : context.getGlobalVariables().entrySet()) {
+			add(variable.getKey(), variable.getValue());
+		}
 	}
 
 	public void add(RuleSet ruleSet) {
@@ -82,6 +86,11 @@ public class RulesContextImpl implements RulesContext {
 	@Override
 	public String getGlobalVariable(String name) {
 		return this.variables.get(name);
+	}
+
+	@Override
+	public Map<String, String> getGlobalVariables() {
+		return this.variables;
 	}
 
 	@Override

@@ -65,10 +65,10 @@ public class NamingPredicateTest extends TestCase {
 
 	private void testMatches(NamingPredicate predicate, String[] positive, String[] negative) {
 		for (final String element : positive) {
-			assertTrue("\"" + predicate + "\" should match \"" + element + "\"", predicate.evaluateClassName(element));
+			assertTrue("\"" + predicate + "\" should match \"" + element + "\"", predicate.evaluateClassName(element, null));
 		}
 		for (int n = 0; n < negative.length; n++) {
-			assertTrue("\"" + predicate + "\" shouldn't match \"" + negative[n] + "\"", !predicate.evaluateClassName(negative[n]));
+			assertTrue("\"" + predicate + "\" shouldn't match \"" + negative[n] + "\"", !predicate.evaluateClassName(negative[n], null));
 		}
 	}
 

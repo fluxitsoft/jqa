@@ -126,30 +126,30 @@ public class RulesContextFactoryImpl implements RulesContextFactory {
 		return resource.startsWith("/");
 	}
 
-	Predicate parse(AbstractionPredicate predicate, ar.com.fluxit.jqa.schema.rulescontext.RulesContext rulesContext) {
+	Predicate parse(AbstractionPredicate predicate) {
 		final ar.com.fluxit.jqa.predicate.lang.AbstractionPredicate result = new ar.com.fluxit.jqa.predicate.lang.AbstractionPredicate();
 		parse(predicate, result);
-		result.setAbstractionType(parse(predicate.getAbstractionType(), rulesContext));
+		result.setAbstractionType(parse(predicate.getAbstractionType()));
 		return result;
 	}
 
-	Predicate parse(AllocationPredicate predicate, ar.com.fluxit.jqa.schema.rulescontext.RulesContext rulesContext) {
+	Predicate parse(AllocationPredicate predicate) {
 		final ar.com.fluxit.jqa.predicate.lang.AllocationPredicate result = new ar.com.fluxit.jqa.predicate.lang.AllocationPredicate();
 		parse(predicate, result);
-		result.setFilterPredicate((Predicate) parse(predicate.getPredicate(), rulesContext));
+		result.setFilterPredicate((Predicate) parse(predicate.getPredicate()));
 		return result;
 	}
 
-	Predicate parse(AndPredicate predicate, ar.com.fluxit.jqa.schema.rulescontext.RulesContext rulesContext) {
+	Predicate parse(AndPredicate predicate) {
 		final ar.com.fluxit.jqa.predicate.logic.AndPredicate result = new ar.com.fluxit.jqa.predicate.logic.AndPredicate();
-		parse(predicate, result, rulesContext);
+		parse(predicate, result);
 		return result;
 	}
 
 	private RulesContext parse(ar.com.fluxit.jqa.schema.rulescontext.RulesContext rulesContext, String basePath) throws RulesContextFactoryException {
 		final RulesContextImpl result = new RulesContextImpl();
 		for (final ar.com.fluxit.jqa.schema.ruleset.Predicate globalPredicate : rulesContext.getGlobalPredicateList()) {
-			result.add((Predicate) parse(globalPredicate, rulesContext));
+			result.add((Predicate) parse(globalPredicate));
 		}
 		for (final GlobalVariable globalVariable : rulesContext.getGlobalVariableList()) {
 			result.add(globalVariable.getName(), globalVariable.getValue());
@@ -158,12 +158,12 @@ public class RulesContextFactoryImpl implements RulesContextFactory {
 			result.add(parse(rulesContextImport, basePath));
 		}
 		for (final Ruleset ruleSet : rulesContext.getRuleSetList()) {
-			result.add(parse(ruleSet, rulesContext));
+			result.add(parse(ruleSet));
 		}
 		return result;
 	}
 
-	AbstractionType parse(ar.com.fluxit.jqa.schema.ruleset.AbstractionType.Enum type, ar.com.fluxit.jqa.schema.rulescontext.RulesContext rulesContext) {
+	AbstractionType parse(ar.com.fluxit.jqa.schema.ruleset.AbstractionType.Enum type) {
 		return AbstractionType.valueOf(type.toString());
 	}
 
@@ -171,12 +171,12 @@ public class RulesContextFactoryImpl implements RulesContextFactory {
 		result.setName(predicate.getName());
 	}
 
-	private Rule parse(ar.com.fluxit.jqa.schema.ruleset.Rule rule, ar.com.fluxit.jqa.schema.rulescontext.RulesContext rulesContext) {
-		final String name = parse(rule.getName(), rulesContext);
-		final String message = parse(rule.getMessage(), rulesContext);
+	private Rule parse(ar.com.fluxit.jqa.schema.ruleset.Rule rule) {
+		final String name = rule.getName();
+		final String message = rule.getMessage();
 		final int priority = rule.getPriority();
-		final Predicate filterPredicate = (Predicate) parse(rule.getFilterPredicate(), rulesContext);
-		final CheckPredicate checkPredicate = (CheckPredicate) parse(rule.getCheckPredicate(), rulesContext);
+		final Predicate filterPredicate = (Predicate) parse(rule.getFilterPredicate());
+		final CheckPredicate checkPredicate = (CheckPredicate) parse(rule.getCheckPredicate());
 		final RuleImpl result = new RuleImpl(filterPredicate, checkPredicate, name, message);
 		if (priority > 0) {
 			result.setPriority(priority);
@@ -184,54 +184,52 @@ public class RulesContextFactoryImpl implements RulesContextFactory {
 		return result;
 	}
 
-	private void parse(ar.com.fluxit.jqa.schema.ruleset.VarArgsLogicPredicate predicate, VarArgsLogicPredicate result,
-			ar.com.fluxit.jqa.schema.rulescontext.RulesContext rulesContext) {
+	private void parse(ar.com.fluxit.jqa.schema.ruleset.VarArgsLogicPredicate predicate, VarArgsLogicPredicate result) {
 		final Predicate[] predicates = new Predicate[predicate.getPredicateList().size()];
 		for (int i = 0; i < predicates.length; i++) {
-			predicates[i] = (Predicate) parse(predicate.getPredicateArray(i), rulesContext);
+			predicates[i] = (Predicate) parse(predicate.getPredicateArray(i));
 		}
 		result.setPredicates(predicates);
-		parse(predicate, result);
+		parse(predicate, (AbstractPredicate) result);
 	}
 
-	Predicate parse(ContextProvidedPredicate predicate, ar.com.fluxit.jqa.schema.rulescontext.RulesContext rulesContext) {
+	Predicate parse(ContextProvidedPredicate predicate) {
 		final ar.com.fluxit.jqa.predicate.ContextProvidedPredicate result = new ar.com.fluxit.jqa.predicate.ContextProvidedPredicate();
 		parse(predicate, result);
 		result.setProvidedPredicateName(predicate.getPredicateName());
 		return result;
 	}
 
-	Predicate parse(FalsePredicate predicate, ar.com.fluxit.jqa.schema.rulescontext.RulesContext rulesContext) {
+	Predicate parse(FalsePredicate predicate) {
 		return ar.com.fluxit.jqa.predicate.logic.FalsePredicate.INSTANCE;
 	}
 
-	Predicate parse(NamingPredicate predicate, ar.com.fluxit.jqa.schema.rulescontext.RulesContext rulesContext) {
+	Predicate parse(NamingPredicate predicate) {
 		final ar.com.fluxit.jqa.predicate.lang.NamingPredicate result = new ar.com.fluxit.jqa.predicate.lang.NamingPredicate();
 		parse(predicate, result);
-		result.setClassNamePattern(parse(predicate.getNamePattern(), rulesContext));
+		String namePattern = predicate.getNamePattern();
+		result.setClassNamePattern(namePattern);
 		return result;
 	}
 
-	Predicate parse(NotPredicate predicate, ar.com.fluxit.jqa.schema.rulescontext.RulesContext rulesContext) {
+	Predicate parse(NotPredicate predicate) {
 		final ar.com.fluxit.jqa.predicate.logic.NotPredicate result = new ar.com.fluxit.jqa.predicate.logic.NotPredicate();
-		result.setPredicate((Predicate) parse(predicate.getPredicate(), rulesContext));
+		result.setPredicate((Predicate) parse(predicate.getPredicate()));
 		parse(predicate, result);
 		return result;
 	}
 
-	private Object parse(Object source, ar.com.fluxit.jqa.schema.rulescontext.RulesContext rulesContext) {
+	private Object parse(Object source) {
 		try {
-			return getClass().getDeclaredMethod("parse",
-					new Class[] { source.getClass().getInterfaces()[0], ar.com.fluxit.jqa.schema.rulescontext.RulesContext.class }).invoke(this,
-					new Object[] { source, rulesContext });
+			return getClass().getDeclaredMethod("parse", new Class[] { source.getClass().getInterfaces()[0] }).invoke(this, new Object[] { source });
 		} catch (final Exception e) {
 			throw new IllegalArgumentException("Cannot parse object: " + source, e);
 		}
 	}
 
-	Predicate parse(OrPredicate predicate, ar.com.fluxit.jqa.schema.rulescontext.RulesContext rulesContext) {
+	Predicate parse(OrPredicate predicate) {
 		final ar.com.fluxit.jqa.predicate.logic.OrPredicate result = new ar.com.fluxit.jqa.predicate.logic.OrPredicate();
-		parse(predicate, result, rulesContext);
+		parse(predicate, result);
 		return result;
 	}
 
@@ -259,52 +257,45 @@ public class RulesContextFactoryImpl implements RulesContextFactory {
 		}
 	}
 
-	private RuleSet parse(Ruleset rulesetDocument, ar.com.fluxit.jqa.schema.rulescontext.RulesContext rulesContext) {
+	private RuleSet parse(Ruleset rulesetDocument) {
 		final RuleSetImpl result = new RuleSetImpl();
 		result.setName(rulesetDocument.getName());
 		final List<Rule> rules = new ArrayList<Rule>(rulesetDocument.getRuleList().size());
 		for (final ar.com.fluxit.jqa.schema.ruleset.Rule rule : rulesetDocument.getRuleList()) {
-			rules.add(parse(rule, rulesContext));
+			rules.add(parse(rule));
 		}
 		result.setRules(rules);
 		return result;
 	}
 
-	private String parse(String value, ar.com.fluxit.jqa.schema.rulescontext.RulesContext rulesContext) {
-		for (GlobalVariable globalVariable : rulesContext.getGlobalVariableList()) {
-			value = value.replaceAll("\\$\\{" + globalVariable.getName() + "\\}", globalVariable.getValue());
-		}
-		return value;
-	}
-
-	Predicate parse(ThrowingPredicate predicate, ar.com.fluxit.jqa.schema.rulescontext.RulesContext rulesContext) {
+	Predicate parse(ThrowingPredicate predicate) {
 		final ar.com.fluxit.jqa.predicate.lang.ThrowingPredicate result = new ar.com.fluxit.jqa.predicate.lang.ThrowingPredicate();
 		parse(predicate, result);
-		result.setFilterPredicate((Predicate) parse(predicate.getPredicate(), rulesContext));
+		result.setFilterPredicate((Predicate) parse(predicate.getPredicate()));
 		return result;
 	}
 
-	Predicate parse(TruePredicate predicate, ar.com.fluxit.jqa.schema.rulescontext.RulesContext rulesContext) {
+	Predicate parse(TruePredicate predicate) {
 		return ar.com.fluxit.jqa.predicate.logic.TruePredicate.INSTANCE;
 	}
 
-	Predicate parse(TypingPredicate predicate, ar.com.fluxit.jqa.schema.rulescontext.RulesContext rulesContext) {
+	Predicate parse(TypingPredicate predicate) {
 		final ar.com.fluxit.jqa.predicate.lang.TypingPredicate result = new ar.com.fluxit.jqa.predicate.lang.TypingPredicate();
 		parse(predicate, result);
-		result.setFilterPredicate((Predicate) parse(predicate.getPredicate(), rulesContext));
+		result.setFilterPredicate((Predicate) parse(predicate.getPredicate()));
 		return result;
 	}
 
-	Predicate parse(UsagePredicate predicate, ar.com.fluxit.jqa.schema.rulescontext.RulesContext rulesContext) {
+	Predicate parse(UsagePredicate predicate) {
 		final ar.com.fluxit.jqa.predicate.lang.UsagePredicate result = new ar.com.fluxit.jqa.predicate.lang.UsagePredicate();
 		parse(predicate, result);
-		result.setFilterPredicate((Predicate) parse(predicate.getPredicate(), rulesContext));
+		result.setFilterPredicate((Predicate) parse(predicate.getPredicate()));
 		return result;
 	}
 
-	Predicate parse(XORPredicate predicate, ar.com.fluxit.jqa.schema.rulescontext.RulesContext rulesContext) {
+	Predicate parse(XORPredicate predicate) {
 		final ar.com.fluxit.jqa.predicate.logic.XorPredicate result = new ar.com.fluxit.jqa.predicate.logic.XorPredicate();
-		parse(predicate, result, rulesContext);
+		parse(predicate, result);
 		return result;
 	}
 

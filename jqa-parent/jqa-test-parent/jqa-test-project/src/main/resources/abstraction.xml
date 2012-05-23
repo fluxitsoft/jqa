@@ -11,22 +11,22 @@
 		<rule name="Contract abstraction" message="The type '${type.name}' must be an interface"
 			priority="3">
 			<filterPredicate xsi:type="jqa:OrPredicate">
-				<predicate xsi:type="jqa:NamingPredicate" namePattern="**.service.*"/>
-				<predicate xsi:type="jqa:NamingPredicate" namePattern="**.bo.*"/>
-				<predicate xsi:type="jqa:NamingPredicate" namePattern="**.dao.*"/>
+				<predicate xsi:type="jqa:NamingPredicate" namePattern="${serviceContract.packagePattern}" />
+				<predicate xsi:type="jqa:NamingPredicate" namePattern="${boContract.packagePattern}" />
+				<predicate xsi:type="jqa:NamingPredicate" namePattern="${daoContract.packagePattern}" />
 			</filterPredicate>
-			<checkPredicate xsi:type="jqa:AbstractionPredicate" abstractionType="INTERFACE"/>
+			<checkPredicate xsi:type="jqa:AbstractionPredicate" abstractionType="INTERFACE" />
 		</rule>
-		
+
 		<!-- Implementations abstraction -->
 		<rule name="Implementation abstraction" message="The type '${type.name}' must be a concrete class"
 			priority="3">
 			<filterPredicate xsi:type="jqa:OrPredicate">
-				<predicate xsi:type="jqa:NamingPredicate" namePattern="**.service.impl.*"/>
-				<predicate xsi:type="jqa:NamingPredicate" namePattern="**.bo.impl.*"/>
-				<predicate xsi:type="jqa:NamingPredicate" namePattern="**.dao.impl.*"/>
+				<predicate xsi:type="jqa:NamingPredicate" namePattern="${serviceImpl.packagePattern}" />
+				<predicate xsi:type="jqa:NamingPredicate" namePattern="${boImpl.packagePattern}" />
+				<predicate xsi:type="jqa:NamingPredicate" namePattern="${daoImpl.packagePattern}" />
 			</filterPredicate>
-			<checkPredicate xsi:type="jqa:AbstractionPredicate" abstractionType="CONCRETE"/>
+			<checkPredicate xsi:type="jqa:AbstractionPredicate" abstractionType="CONCRETE" />
 		</rule>
 
 	</ruleSet>

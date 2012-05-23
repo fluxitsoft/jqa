@@ -56,11 +56,14 @@ public class RulesContextChecker {
 		super();
 	}
 
-	private String buildMessage(String ruleMessage, Type type) {
+	private String buildMessage(String ruleMessage, Type type, RulesContext context) {
 		final Map<String, String> values = new HashMap<String, String>();
 		values.put("type.name", type.getName().replaceAll("\\$", "\\\\\\$"));
 		values.put("type.abstract", type.isAbstract() ? "abstract" : "concrete");
 		values.put("type.interface", type.isInterface() ? "interface" : "class");
+		for (Map.Entry<String, String> variable : context.getGlobalVariables().entrySet()) {
+			values.put(variable.getKey(), variable.getValue());
+		}
 		for (final Map.Entry<String, String> e : values.entrySet()) {
 			ruleMessage = ruleMessage.replaceAll("\\$\\{" + e.getKey() + "\\}", e.getValue());
 		}
@@ -77,7 +80,7 @@ public class RulesContextChecker {
 			fis.close();
 			if (filterPredicate.evaluate(type, context)) {
 				if (!checkPredicate.evaluate(type, context)) {
-					final RuleCheckFailed failed = new RuleCheckFailed(ruleName, buildMessage(ruleMessage, type), type.getName(), rulePriority);
+					final RuleCheckFailed failed = new RuleCheckFailed(ruleName, buildMessage(ruleMessage, type, context), type.getName(), rulePriority);
 					failed.setLineIds(checkPredicate.getViolationLineIds(type, sourceDir, context));
 					result.addRuleExecutionFailed(failed);
 				}

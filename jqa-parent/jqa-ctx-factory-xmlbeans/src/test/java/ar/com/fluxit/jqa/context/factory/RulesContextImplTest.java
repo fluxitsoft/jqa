@@ -133,8 +133,6 @@ public class RulesContextImplTest extends TestCase {
 		for (RuleSet rs : this.rulesContext.getRuleSets()) {
 			if ("VariableRuleSet".equals(rs.getName())) {
 				Rule rule = rs.getRules().iterator().next();
-				assertEquals("Rule for java.lang.String", rule.getName());
-				assertEquals("Message java.lang.String", rule.getMessage());
 				assertTrue(rule.getFilterPredicate().evaluate(stringType, this.rulesContext));
 				assertTrue(rule.getCheckPredicate().evaluate(stringType, this.rulesContext));
 			}

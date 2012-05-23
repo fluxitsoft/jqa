@@ -45,7 +45,7 @@ public final class RegEx {
 		}
 
 		public String getExp() {
-			return exp;
+			return this.exp;
 		}
 
 		@Override
@@ -65,7 +65,7 @@ public final class RegEx {
 		}
 
 		public String getVarName() {
-			return varName;
+			return this.varName;
 		}
 
 		@Override
@@ -143,23 +143,23 @@ public final class RegEx {
 	}
 
 	private Map<String, Boolean> getMatchCache() {
-		return matchCache;
+		return this.matchCache;
 	}
 
 	private Map<String, String> getMatchResultCache() {
-		return matchResultCache;
+		return this.matchResultCache;
 	}
 
 	private List<Part> getParts() {
-		return parts;
+		return this.parts;
 	}
 
 	public String getPatternString() {
-		return patternString;
+		return this.patternString;
 	}
 
 	private Pattern getRegex() {
-		return regex;
+		return this.regex;
 	}
 
 	public boolean matches(final String s) throws RegExSyntaxException {
@@ -199,14 +199,18 @@ public final class RegEx {
 		if (changed) {
 			final StringBuffer builtRegexStr = new StringBuffer("^\\.?");
 			for (final Part part : getParts()) {
-				builtRegexStr.append(((ExpPart) part).getExp());
+				try {
+					builtRegexStr.append(((ExpPart) part).getExp());
+				} catch (ClassCastException e) {
+					throw new RegExSyntaxException("An error occured while procesing the pattern = " + getPatternString(), e);
+				}
 			}
 			builtRegexStr.append('$');
 			try {
 				setRegex(Pattern.compile(builtRegexStr.toString()));
 			} catch (final PatternSyntaxException pse) {
 				System.out.println("builtRegexStr = " + builtRegexStr);
-				throw new RegExSyntaxException(getPatternString(), pse);
+				throw new RegExSyntaxException("An error occured while procesing the pattern = " + getPatternString(), pse);
 			}
 			setMatchCache(new HashMap<String, Boolean>());
 			setMatchResultCache(new HashMap<String, String>());

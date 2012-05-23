@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jqa_ctx:RulesContext name=""
+	xmlns:jqa="http://www.fluxit.com.ar/jqa/schema/ruleset" xmlns:jqa_ctx="http://www.fluxit.com.ar/jqa/schema/rulescontext"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.fluxit.com.ar/jqa/schema/rulescontext https://raw.github.com/jbaris/jqa/master/jqa-parent/jqa-ctx-factory-xmlbeans/src/main/resources/schema/rulescontext.xsd ">
+
+	<!-- How implementations should be called -->
+	<globalVariable name="entity.namePattern" value="**.entity.**" />
+	<globalVariable name="serviceContract.namePattern" value="**.service.+Service" />
+	<globalVariable name="boContract.namePattern" value="**.bo.+BO" />
+	<globalVariable name="daoContract.namePattern" value="**.dao.+DAO" />
+
+	<!-- How contracts should be called -->
+	<globalVariable name="serviceImpl.namePattern" value="**.service.impl.+ServiceImpl" />
+	<globalVariable name="boImpl.namePattern" value="**.bo.impl.+BOImpl" />
+	<globalVariable name="daoImpl.namePattern" value="**.dao.impl.+DAOImpl" />
+
+	<!-- Where the contracts should be located -->
+	<globalVariable name="serviceContract.packagePattern" value="**.service.+" />
+	<globalVariable name="boContract.packagePattern" value="**.bo.+" />
+	<globalVariable name="daoContract.packagePattern" value="**.dao.+" />
+
+	<!-- Where the implementations should be located -->
+	<globalVariable name="serviceImpl.packagePattern" value="**.service.impl.+" />
+	<globalVariable name="boImpl.packagePattern" value="**.bo.impl.+" />
+	<globalVariable name="daoImpl.packagePattern" value="**.dao.impl.+" />
+
+	<!-- Who should extend/implement the classes -->
+	<globalVariable name="entity.superType" value="ar.com.fluxit.jqa.test.fmk.entity.Entity" />
+	<globalVariable name="service.superType" value="ar.com.fluxit.jqa.test.fmk.service.Service" />
+	<globalVariable name="bo.superType" value="ar.com.fluxit.jqa.test.fmk.bo.BusinessObject" />
+	<globalVariable name="dao.superType" value="ar.com.fluxit.jqa.test.fmk.dao.DataAccessObject" />
+	<globalVariable name="view.superType" value="ar.com.fluxit.jqa.test.fmk.view.View" />
+
+	<!-- Who should extend/implement the exceptions -->
+	<globalVariable name="serviceException.superType" value="ar.com.fluxit.jqa.test.fmk.service.ServiceException" />
+	<globalVariable name="boException.superType" value="ar.com.fluxit.jqa.test.fmk.bo.BusinessObjectException" />
+	<globalVariable name="daoException.superType" value="ar.com.fluxit.jqa.test.fmk.dao.DataAccessObjectException" />
+	<globalVariable name="viewException.superType" value="ar.com.fluxit.jqa.test.fmk.view.ViewException" />
+
+</jqa_ctx:RulesContext>

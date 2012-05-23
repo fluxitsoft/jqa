@@ -19,6 +19,7 @@
 package ar.com.fluxit.jqa.context;
 
 import java.util.Collection;
+import java.util.Map;
 
 import ar.com.fluxit.jqa.predicate.Predicate;
 import ar.com.fluxit.jqa.rule.RuleSet;
@@ -35,6 +36,8 @@ public interface RulesContext {
 	Collection<Predicate> getGlobalPredicates();
 
 	String getGlobalVariable(String name);
+
+	Map<String, String> getGlobalVariables();
 
 	Collection<RuleSet> getRuleSets();
 
