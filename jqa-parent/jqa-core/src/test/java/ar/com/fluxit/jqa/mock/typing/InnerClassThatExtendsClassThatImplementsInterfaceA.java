@@ -16,21 +16,17 @@
  * You should have received a copy of the GNU General Public License
  * along with JQA.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package ar.com.fluxit.jqa.bce;
+package ar.com.fluxit.jqa.mock.typing;
 
 /**
  * TODO javadoc
  * 
  * @author Juan Ignacio Barisich
  */
-public interface Type {
+public class InnerClassThatExtendsClassThatImplementsInterfaceA {
 
-	String getName();
+	public static class B extends ClassThatImplementsInterfaceA {
 
-	String getShortName();
-
-	boolean isAbstract();
-
-	boolean isInterface();
+	}
 
 }

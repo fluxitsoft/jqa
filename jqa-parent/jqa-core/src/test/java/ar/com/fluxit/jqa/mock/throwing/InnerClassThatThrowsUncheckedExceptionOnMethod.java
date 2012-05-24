@@ -16,33 +16,23 @@
  * You should have received a copy of the GNU General Public License
  * along with JQA.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package ar.com.fluxit.jqa.mock.usage;
+package ar.com.fluxit.jqa.mock.throwing;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import ar.com.fluxit.jqa.mock.ClassB;
+import ar.com.fluxit.jqa.mock.ClassA;
 
 /**
  * TODO javadoc
  * 
  * @author Juan Ignacio Barisich
  */
-public abstract class GenericClass<I extends Number, T extends Object> extends ArrayList<String> implements List<String>, Iterable<String> {
+public class InnerClassThatThrowsUncheckedExceptionOnMethod extends ClassA {
 
-	private static final long serialVersionUID = 1L;
-	final List<ClassB> list = new ArrayList<ClassB>();
+	public static class B {
 
-	public List<ClassB> dummy() {
-		return null;
-	}
+		protected void dummy() {
+			throw new IllegalStateException("An error occured");
+		}
 
-	public void dummy2(List<ClassB> param) {
-
-	}
-
-	public List<ClassB> dummy3(List<ClassB> param) {
-		return null;
 	}
 
 }

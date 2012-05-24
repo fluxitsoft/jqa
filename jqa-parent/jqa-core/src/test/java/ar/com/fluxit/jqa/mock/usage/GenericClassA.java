@@ -16,21 +16,33 @@
  * You should have received a copy of the GNU General Public License
  * along with JQA.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package ar.com.fluxit.jqa.bce;
+package ar.com.fluxit.jqa.mock.usage;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import ar.com.fluxit.jqa.mock.ClassB;
 
 /**
  * TODO javadoc
  * 
  * @author Juan Ignacio Barisich
  */
-public interface Type {
+public class GenericClassA<I extends Number, T extends Object> extends ArrayList<String> implements List<String>, Iterable<String> {
 
-	String getName();
+	private static final long serialVersionUID = 1L;
+	final List<ClassB> list = new ArrayList<ClassB>();
 
-	String getShortName();
+	public List<ClassB> dummy() {
+		return null;
+	}
 
-	boolean isAbstract();
+	public void dummy2(List<ClassB> param) {
 
-	boolean isInterface();
+	}
+
+	public List<ClassB> dummy3(List<ClassB> param) {
+		return null;
+	}
 
 }

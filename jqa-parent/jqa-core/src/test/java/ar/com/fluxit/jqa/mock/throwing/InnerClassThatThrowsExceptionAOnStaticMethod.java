@@ -16,21 +16,28 @@
  * You should have received a copy of the GNU General Public License
  * along with JQA.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package ar.com.fluxit.jqa.bce;
+package ar.com.fluxit.jqa.mock.throwing;
+
+import ar.com.fluxit.jqa.mock.ClassA;
+import ar.com.fluxit.jqa.mock.ExceptionA;
 
 /**
  * TODO javadoc
  * 
  * @author Juan Ignacio Barisich
  */
-public interface Type {
+public class InnerClassThatThrowsExceptionAOnStaticMethod extends ClassA {
 
-	String getName();
+	public static class B {
 
-	String getShortName();
+		public static void dummy() throws ExceptionA {
+			try {
+				System.out.println("");
+			} catch (Exception e) {
+				throw new ExceptionA("An exception occured", e);
+			}
+		}
 
-	boolean isAbstract();
-
-	boolean isInterface();
+	}
 
 }

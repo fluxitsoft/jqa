@@ -28,6 +28,8 @@ import ar.com.fluxit.jqa.bce.Type;
 import ar.com.fluxit.jqa.mock.ExceptionA;
 import ar.com.fluxit.jqa.mock.typing.ClassThatExtendsClassThatImplementsInterfaceA;
 import ar.com.fluxit.jqa.mock.typing.ClassThatImplementsInterfaceA;
+import ar.com.fluxit.jqa.mock.typing.InnerClassThatExtendsClassThatImplementsInterfaceA;
+import ar.com.fluxit.jqa.mock.typing.InnerClassThatImplementsInterfaceA;
 
 /**
  * TODO javadoc
@@ -52,8 +54,14 @@ public class TypingPredicateTest extends TestCase {
 		testMatches(createTypingPredicate("java.util.List"), new Type[] { bCERepository.lookupType(ArrayList.class), bCERepository.lookupType(Vector.class) },
 				new Type[] { bCERepository.lookupType(String.class), bCERepository.lookupType(Integer.class) });
 		// Test inherited interfaces
-		testMatches(createTypingPredicate("ar.com.fluxit.jqa.mock.InterfaceA"), new Type[] { bCERepository.lookupType(ClassThatImplementsInterfaceA.class),
-				bCERepository.lookupType(ClassThatExtendsClassThatImplementsInterfaceA.class) }, new Type[] { bCERepository.lookupType(ExceptionA.class) });
+		testMatches(
+				createTypingPredicate("ar.com.fluxit.jqa.mock.InterfaceA"),
+				new Type[] { bCERepository.lookupType(ClassThatImplementsInterfaceA.class),
+						bCERepository.lookupType(ClassThatExtendsClassThatImplementsInterfaceA.class),
+						bCERepository.lookupType(InnerClassThatImplementsInterfaceA.B.class),
+						bCERepository.lookupType(InnerClassThatExtendsClassThatImplementsInterfaceA.B.class) },
+				new Type[] { bCERepository.lookupType(ExceptionA.class), bCERepository.lookupType(InnerClassThatImplementsInterfaceA.class),
+						bCERepository.lookupType(InnerClassThatExtendsClassThatImplementsInterfaceA.class) });
 	}
 
 	private void testMatches(TypingPredicate predicate, Type[] positive, Type[] negative) {

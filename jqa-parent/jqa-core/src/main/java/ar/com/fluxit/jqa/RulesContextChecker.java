@@ -59,8 +59,6 @@ public class RulesContextChecker {
 	private String buildMessage(String ruleMessage, Type type, RulesContext context) {
 		final Map<String, String> values = new HashMap<String, String>();
 		values.put("type.name", type.getName().replaceAll("\\$", "\\\\\\$"));
-		values.put("type.abstract", type.isAbstract() ? "abstract" : "concrete");
-		values.put("type.interface", type.isInterface() ? "interface" : "class");
 		for (Map.Entry<String, String> variable : context.getGlobalVariables().entrySet()) {
 			values.put(variable.getKey(), variable.getValue());
 		}

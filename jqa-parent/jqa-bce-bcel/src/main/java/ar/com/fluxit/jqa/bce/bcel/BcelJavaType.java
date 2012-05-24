@@ -81,7 +81,7 @@ class BcelJavaType implements Type {
 	}
 
 	@Override
-	public String getSimpleName() {
+	public String getShortName() {
 		return getName().substring(getName().lastIndexOf(".") + 1);
 	}
 

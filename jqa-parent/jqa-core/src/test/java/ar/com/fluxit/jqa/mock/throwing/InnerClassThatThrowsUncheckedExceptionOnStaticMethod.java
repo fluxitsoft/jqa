@@ -26,23 +26,14 @@ import ar.com.fluxit.jqa.mock.ExceptionA;
  * 
  * @author Juan Ignacio Barisich
  */
-public class ClassThatDoesntThrowsExceptionA extends ClassA {
+public class InnerClassThatThrowsUncheckedExceptionOnStaticMethod extends ClassA {
 
 	public static class B {
-		public B() throws ExceptionA {
 
+		public static void dummy() throws ExceptionA {
+			throw new IllegalStateException();
 		}
 
-		protected void dummy() throws ExceptionA {
-
-		}
 	}
 
-	public ClassThatDoesntThrowsExceptionA() throws ExceptionA {
-		super();
-	}
-
-	protected void dummy() throws ExceptionA {
-
-	}
 }

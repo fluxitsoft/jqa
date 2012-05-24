@@ -16,22 +16,29 @@
  * You should have received a copy of the GNU General Public License
  * along with JQA.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package ar.com.fluxit.jqa.mock.usage;
+package ar.com.fluxit.jqa.mock.throwing;
 
-import java.util.List;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 /**
  * TODO javadoc
  * 
  * @author Juan Ignacio Barisich
  */
-public abstract class GenericClass2<E, F, G> {
+public class InnerClassWithFinallyBlock {
 
-	public List<F> getFilterList() {
-		return null;
+	public class B {
+		public void saveFile(String file, byte[] data) throws FileNotFoundException, IOException {
+			FileOutputStream out = new FileOutputStream(file);
+			try {
+				out.write(data);
+				out.flush();
+			} finally {
+				out.close();
+			}
+		}
 	}
 
-	public void setFilterList(List<F> filterList) {
-
-	}
 }

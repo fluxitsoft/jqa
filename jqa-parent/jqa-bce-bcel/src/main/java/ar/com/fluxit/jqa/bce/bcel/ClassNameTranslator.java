@@ -138,9 +138,15 @@ final class ClassNameTranslator {
 			int size = matcher.groupCount();
 			for (int i = 1; i <= size; i++) {
 				String typeNames = matcher.group(i);
-				if (!typeNames.isEmpty() && typeNames.contains(":")) {
-					typeNames = typeNames.substring(typeNames.lastIndexOf(':') + 1);
-					result.addAll(signatureToClassNames(typeNames));
+				if (!typeNames.isEmpty()) {
+					if (typeNames.contains(":")) {
+						typeNames = typeNames.substring(typeNames.lastIndexOf(':') + 1);
+					}
+					for (String type : typeNames.split(";")) {
+						if (type.startsWith("L")) {
+							result.add(typeConstantToClassName(type).substring(1));
+						}
+					}
 				}
 			}
 		}

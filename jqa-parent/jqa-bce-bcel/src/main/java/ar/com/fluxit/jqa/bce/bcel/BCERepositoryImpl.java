@@ -423,7 +423,7 @@ public class BCERepositoryImpl implements BCERepository {
 	private boolean match(String image, Type type, ASTCompilationUnit compilationUnit) {
 		if (image.equals(type.getName())) {
 			return true;
-		} else if (image.equals(type.getSimpleName()) && hasImport(compilationUnit, type.getName())) {
+		} else if (image.equals(type.getShortName()) && hasImport(compilationUnit, type.getName())) {
 			return true;
 
 		} else {

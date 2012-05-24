@@ -23,6 +23,7 @@ import ar.com.fluxit.jqa.bce.BCERepositoryLocator;
 import ar.com.fluxit.jqa.bce.Type;
 import ar.com.fluxit.jqa.mock.ClassA;
 import ar.com.fluxit.jqa.mock.ExceptionB;
+import ar.com.fluxit.jqa.mock.throwing.ClassThatDoesNotThrowsExceptionA;
 import ar.com.fluxit.jqa.mock.throwing.ClassThatThrowsExceptionAOnConstructor;
 import ar.com.fluxit.jqa.mock.throwing.ClassThatThrowsExceptionAOnMethod;
 import ar.com.fluxit.jqa.mock.throwing.ClassThatThrowsExceptionAOnStaticMethod;
@@ -31,6 +32,13 @@ import ar.com.fluxit.jqa.mock.throwing.ClassThatThrowsUncheckedExceptionOnConstr
 import ar.com.fluxit.jqa.mock.throwing.ClassThatThrowsUncheckedExceptionOnMethod;
 import ar.com.fluxit.jqa.mock.throwing.ClassThatThrowsUncheckedExceptionOnStaticMethod;
 import ar.com.fluxit.jqa.mock.throwing.ClassWithFinallyBlock;
+import ar.com.fluxit.jqa.mock.throwing.InnerClassThatThrowsExceptionAOnConstructor;
+import ar.com.fluxit.jqa.mock.throwing.InnerClassThatThrowsExceptionAOnMethod;
+import ar.com.fluxit.jqa.mock.throwing.InnerClassThatThrowsExceptionAOnStaticMethod;
+import ar.com.fluxit.jqa.mock.throwing.InnerClassThatThrowsUncheckedExceptionOnConstructor;
+import ar.com.fluxit.jqa.mock.throwing.InnerClassThatThrowsUncheckedExceptionOnMethod;
+import ar.com.fluxit.jqa.mock.throwing.InnerClassThatThrowsUncheckedExceptionOnStaticMethod;
+import ar.com.fluxit.jqa.mock.throwing.InnerClassWithFinallyBlock;
 import ar.com.fluxit.jqa.mock.throwing.InterfaceThatThrowsExceptionA;
 
 /**
@@ -44,17 +52,33 @@ public class ThrowingPredicateTest extends TestCase {
 		final String filterPredicateParentClass = ExceptionB.class.getName();
 		// No exceptions
 		testMatches(filterPredicateParentClass, ClassA.class, true);
+		testMatches(filterPredicateParentClass, ClassThatDoesNotThrowsExceptionA.class, true);
 		testMatches(filterPredicateParentClass, ClassThatThrowsExceptionB.class, true);
+		testMatches(filterPredicateParentClass, InnerClassThatThrowsExceptionAOnConstructor.class, true);
+		testMatches(filterPredicateParentClass, InnerClassThatThrowsExceptionAOnMethod.class, true);
+		testMatches(filterPredicateParentClass, InnerClassThatThrowsExceptionAOnStaticMethod.class, true);
+		testMatches(filterPredicateParentClass, InnerClassWithFinallyBlock.class, true);
+		testMatches(filterPredicateParentClass, InnerClassThatThrowsUncheckedExceptionOnMethod.class, true);
+		testMatches(filterPredicateParentClass, InnerClassThatThrowsUncheckedExceptionOnConstructor.class, true);
+		testMatches(filterPredicateParentClass, InnerClassThatThrowsUncheckedExceptionOnStaticMethod.class, true);
+
 		// Checked exceptions
 		testMatches(filterPredicateParentClass, ClassThatThrowsExceptionAOnConstructor.class, false);
 		testMatches(filterPredicateParentClass, ClassThatThrowsExceptionAOnMethod.class, false);
 		testMatches(filterPredicateParentClass, ClassThatThrowsExceptionAOnStaticMethod.class, false);
 		testMatches(filterPredicateParentClass, InterfaceThatThrowsExceptionA.class, false);
 		testMatches(filterPredicateParentClass, ClassWithFinallyBlock.class, false);
+		testMatches(filterPredicateParentClass, InnerClassThatThrowsExceptionAOnConstructor.B.class, false);
+		testMatches(filterPredicateParentClass, InnerClassThatThrowsExceptionAOnMethod.B.class, false);
+		testMatches(filterPredicateParentClass, InnerClassThatThrowsExceptionAOnStaticMethod.B.class, false);
+		testMatches(filterPredicateParentClass, InnerClassWithFinallyBlock.B.class, false);
 		// Unchecked exceptions
 		testMatches(filterPredicateParentClass, ClassThatThrowsUncheckedExceptionOnMethod.class, false);
 		testMatches(filterPredicateParentClass, ClassThatThrowsUncheckedExceptionOnConstructor.class, false);
 		testMatches(filterPredicateParentClass, ClassThatThrowsUncheckedExceptionOnStaticMethod.class, false);
+		testMatches(filterPredicateParentClass, InnerClassThatThrowsUncheckedExceptionOnMethod.B.class, false);
+		testMatches(filterPredicateParentClass, InnerClassThatThrowsUncheckedExceptionOnConstructor.B.class, false);
+		testMatches(filterPredicateParentClass, InnerClassThatThrowsUncheckedExceptionOnStaticMethod.B.class, false);
 	}
 
 	private void testMatches(String filterPredicateParentClass, Class<?> usagePredicateClass, boolean matches) throws ClassNotFoundException {

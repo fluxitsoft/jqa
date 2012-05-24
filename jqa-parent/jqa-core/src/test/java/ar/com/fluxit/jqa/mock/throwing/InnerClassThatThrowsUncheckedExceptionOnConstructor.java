@@ -16,21 +16,23 @@
  * You should have received a copy of the GNU General Public License
  * along with JQA.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package ar.com.fluxit.jqa.bce;
+package ar.com.fluxit.jqa.mock.throwing;
+
+import ar.com.fluxit.jqa.mock.ClassA;
 
 /**
  * TODO javadoc
  * 
  * @author Juan Ignacio Barisich
  */
-public interface Type {
+public class InnerClassThatThrowsUncheckedExceptionOnConstructor extends ClassA {
 
-	String getName();
+	public static class B {
 
-	String getShortName();
+		public B() {
+			throw new IllegalStateException();
+		}
 
-	boolean isAbstract();
-
-	boolean isInterface();
+	}
 
 }

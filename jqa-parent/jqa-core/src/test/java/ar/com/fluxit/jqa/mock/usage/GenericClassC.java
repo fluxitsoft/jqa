@@ -16,21 +16,28 @@
  * You should have received a copy of the GNU General Public License
  * along with JQA.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package ar.com.fluxit.jqa.bce;
+package ar.com.fluxit.jqa.mock.usage;
+
+import java.util.Map;
+
+import ar.com.fluxit.jqa.mock.ClassA;
 
 /**
  * TODO javadoc
  * 
  * @author Juan Ignacio Barisich
  */
-public interface Type {
+public class GenericClassC<E, F, L> {
 
-	String getName();
+	public Map<F, ClassA> a() {
+		return null;
+	}
 
-	String getShortName();
+	public Map<ClassA, E> b() {
+		return null;
+	}
 
-	boolean isAbstract();
-
-	boolean isInterface();
-
+	public GenericClassC<String, String, ClassA> c() {
+		return null;
+	}
 }
