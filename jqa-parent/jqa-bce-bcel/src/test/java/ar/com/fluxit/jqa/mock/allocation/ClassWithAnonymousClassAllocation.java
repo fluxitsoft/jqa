@@ -16,26 +16,66 @@
  * You should have received a copy of the GNU General Public License
  * along with JQA.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package ar.com.fluxit.jqa.context.factory;
+package ar.com.fluxit.jqa.mock.allocation;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
+import java.util.Iterator;
 
 /**
  * TODO javadoc
  * 
  * @author Juan Ignacio Barisich
  */
-public class AllTests {
+public class ClassWithAnonymousClassAllocation {
 
-	public static Test suite() {
-		final TestSuite suite = new TestSuite("Test for ar.com.fluxit.jqa.context.factory");
-		// $JUnit-BEGIN$
-		suite.addTestSuite(RulesContextImplTest2.class);
-		suite.addTestSuite(RulesContextImplTest3.class);
-		suite.addTestSuite(RulesContextImplTest.class);
-		// $JUnit-END$
-		return suite;
+	public static class Inner {
+
+		public Inner() {
+			new Iterable<String>() {
+
+				@Override
+				public Iterator<String> iterator() {
+					return null;
+				}
+			};
+		}
+
+		public void dummy() {
+			new Iterable<String>() {
+
+				@Override
+				public Iterator<String> iterator() {
+					return null;
+				}
+			};
+		}
+	}
+
+	Iterable<String> anonymous = new Iterable<String>() {
+
+		@Override
+		public Iterator<String> iterator() {
+			return null;
+		}
+	};
+
+	public ClassWithAnonymousClassAllocation() {
+		new Iterable<String>() {
+
+			@Override
+			public Iterator<String> iterator() {
+				return null;
+			}
+		};
+	}
+
+	public void dummy() {
+		new Iterable<String>() {
+
+			@Override
+			public Iterator<String> iterator() {
+				return null;
+			}
+		};
 	}
 
 }

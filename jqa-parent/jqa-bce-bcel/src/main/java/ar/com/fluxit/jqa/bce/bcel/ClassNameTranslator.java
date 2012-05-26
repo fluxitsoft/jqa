@@ -40,13 +40,8 @@ import org.apache.bcel.generic.ObjectType;
 final class ClassNameTranslator {
 
 	private static Pattern classSuffixRE;
-
 	private static Pattern arrayExtractorRE;
-
 	private static Pattern sigExtractorRE;
-
-	private static Pattern legalJavaIdentRE;
-
 	private static Map<String, String> primitiveTypeMap;
 	private static Map<String, JavaClass> primitiveClassMap;
 
@@ -55,8 +50,7 @@ final class ClassNameTranslator {
 		arrayExtractorRE = Pattern.compile("^(\\[+([BSIJCFDZV])|\\[+L([^;]*);)$");
 		sigExtractorRE = Pattern.compile("^\\(?\\)?(\\[*([BSIJCFDZV])|\\[*L([^;]*);)");
 		final String javaIdent = "[\\p{Alpha}$_][\\p{Alnum}$_]*";
-		legalJavaIdentRE = Pattern.compile("^(" + javaIdent + ")(\\.(" + javaIdent + "))*$");
-
+		Pattern.compile("^(" + javaIdent + ")(\\.(" + javaIdent + "))*$");
 		primitiveTypeMap = new HashMap<String, String>();
 		primitiveTypeMap.put("B", "byte");
 		primitiveTypeMap.put("S", "short");
@@ -67,7 +61,6 @@ final class ClassNameTranslator {
 		primitiveTypeMap.put("D", "double");
 		primitiveTypeMap.put("Z", "boolean");
 		primitiveTypeMap.put("V", "void");
-
 		try {
 			primitiveClassMap = new HashMap<String, JavaClass>();
 			primitiveClassMap.put("byte", Repository.lookupClass(Byte.class));
@@ -83,11 +76,10 @@ final class ClassNameTranslator {
 		}
 	}
 
-	public static String classToResourceName(final String resourceName) {
-		return (resourceName.replace('.', '/') + ".class").intern();
-	}
-
-	public static String getClassName(org.apache.bcel.generic.Type type) {
+	static String getClassName(org.apache.bcel.generic.Type type) {
+		if (type == null) {
+			throw new IllegalArgumentException("Type can not be null");
+		}
 		String signatureClassName;
 		if (type instanceof BasicType) {
 			signatureClassName = Constants.CLASS_TYPE_NAMES[type.getType()];
@@ -99,19 +91,15 @@ final class ClassNameTranslator {
 		return signatureClassName;
 	}
 
-	public static JavaClass getPrimitive(String className) {
+	static JavaClass getPrimitive(String className) {
 		return primitiveClassMap.get(className);
 	}
 
-	public static boolean isJavaIdentifier(final String className) {
-		return legalJavaIdentRE.matcher(className).matches();
-	}
-
-	public static String resourceToClassName(final String className) {
+	private static String resourceToClassName(final String className) {
 		return classSuffixRE.matcher(className).replaceAll("").replace('/', '.').intern();
 	}
 
-	public static List<String> signatureToClassNames(String signature) {
+	static List<String> signatureToClassNames(String signature) {
 		final List<String> names = new ArrayList<String>();
 		for (int pos = 0; pos < signature.length();) {
 			final String remaining = signature.substring(pos);
@@ -130,7 +118,7 @@ final class ClassNameTranslator {
 		return names;
 	}
 
-	public static List<String> signatureToClassNames2(String signature) {
+	static List<String> signatureToClassNames2(String signature) {
 		List<String> result = new ArrayList<String>();
 		Pattern pattern = Pattern.compile("<([^>]*)>");
 		Matcher matcher = pattern.matcher(signature.replace("*", ""));
@@ -153,7 +141,7 @@ final class ClassNameTranslator {
 		return result;
 	}
 
-	public static String typeConstantToClassName(final String typeName) {
+	private static String typeConstantToClassName(final String typeName) {
 		final Matcher arrayMatcher = arrayExtractorRE.matcher(typeName);
 		if (arrayMatcher.matches()) {
 			if (arrayMatcher.group(2) != null) {

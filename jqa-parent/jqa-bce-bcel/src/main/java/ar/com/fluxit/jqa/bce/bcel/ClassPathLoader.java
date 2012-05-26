@@ -61,7 +61,7 @@ class ClassPathLoader {
 		}
 	}
 
-	public void setClassPath(Collection<File> classPathFiles) throws IntrospectionException, FileNotFoundException, TypeFormatException, IOException {
+	void setClassPath(Collection<File> classPathFiles) throws IntrospectionException, FileNotFoundException, TypeFormatException, IOException {
 		for (final File classPathFile : classPathFiles) {
 			addToClassPath(classPathFile);
 		}

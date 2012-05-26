@@ -36,4 +36,5 @@ public class BCERepositoryLocator {
 	public static BCERepository getRepository() {
 		return bCERepository;
 	}
+
 }

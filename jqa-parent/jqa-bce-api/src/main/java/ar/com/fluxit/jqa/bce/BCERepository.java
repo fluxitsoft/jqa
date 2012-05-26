@@ -51,8 +51,7 @@ public interface BCERepository {
 	/**
 	 * @param type
 	 *            a type
-	 * @return list of super classes of the type in ascending order, i.e.,
-	 *         java.lang.Object is always the last element
+	 * @return list of super classes of the type
 	 */
 	Collection<Type> getSuperClasses(Type type);
 

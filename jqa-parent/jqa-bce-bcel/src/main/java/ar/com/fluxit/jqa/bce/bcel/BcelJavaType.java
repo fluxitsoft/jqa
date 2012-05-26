@@ -31,16 +31,19 @@ class BcelJavaType implements Type {
 
 	private static final String VOID = "void";
 
-	public static BcelJavaType create(org.apache.bcel.classfile.JavaClass javaClass) {
+	static BcelJavaType create(org.apache.bcel.classfile.JavaClass javaClass) {
 		return new BcelJavaType(javaClass);
 	}
 
-	public static BcelJavaType create(org.apache.bcel.generic.Type type) {
+	static BcelJavaType create(org.apache.bcel.generic.Type type) {
 		String className = ClassNameTranslator.getClassName(type);
 		return className.equals(VOID) ? null : BcelJavaType.create(className);
 	}
 
-	public static BcelJavaType create(String className) {
+	static BcelJavaType create(String className) {
+		if (className == null) {
+			throw new IllegalArgumentException("ClassName can not be null");
+		}
 		JavaClass c;
 		if (className.equals(VOID)) {
 			return null;
@@ -81,8 +84,17 @@ class BcelJavaType implements Type {
 	}
 
 	@Override
+	public String getPackage() {
+		return this.wrapped.getPackageName();
+	}
+
+	@Override
 	public String getShortName() {
-		return getName().substring(getName().lastIndexOf(".") + 1);
+		String result = getName().substring(getName().lastIndexOf(".") + 1);
+		if (result.contains("$")) {
+			result = result.substring(result.lastIndexOf("$") + 1);
+		}
+		return result;
 	}
 
 	org.apache.bcel.classfile.JavaClass getWrapped() {
@@ -97,6 +109,11 @@ class BcelJavaType implements Type {
 	@Override
 	public boolean isAbstract() {
 		return this.wrapped.isAbstract() && !this.wrapped.isInterface();
+	}
+
+	@Override
+	public boolean isAnonymous() {
+		return getName().matches(".*\\$\\d+");
 	}
 
 	@Override

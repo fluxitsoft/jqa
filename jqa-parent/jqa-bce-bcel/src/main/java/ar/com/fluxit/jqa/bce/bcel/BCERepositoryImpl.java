@@ -35,17 +35,19 @@ import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
 import net.sourceforge.pmd.ast.ASTAllocationExpression;
+import net.sourceforge.pmd.ast.ASTClassOrInterfaceBody;
 import net.sourceforge.pmd.ast.ASTClassOrInterfaceDeclaration;
 import net.sourceforge.pmd.ast.ASTClassOrInterfaceType;
 import net.sourceforge.pmd.ast.ASTCompilationUnit;
 import net.sourceforge.pmd.ast.ASTImportDeclaration;
 import net.sourceforge.pmd.ast.ASTName;
 import net.sourceforge.pmd.ast.ASTNameList;
+import net.sourceforge.pmd.ast.ASTPackageDeclaration;
 import net.sourceforge.pmd.ast.ASTThrowStatement;
-import net.sourceforge.pmd.ast.ASTTypeDeclaration;
 import net.sourceforge.pmd.ast.CharStream;
 import net.sourceforge.pmd.ast.JavaCharStream;
 import net.sourceforge.pmd.ast.JavaParser;
+import net.sourceforge.pmd.ast.Node;
 import net.sourceforge.pmd.ast.SimpleNode;
 
 import org.apache.bcel.Constants;
@@ -70,6 +72,9 @@ import org.apache.bcel.generic.Instruction;
 import org.apache.bcel.generic.InstructionHandle;
 import org.apache.bcel.generic.InstructionList;
 import org.apache.bcel.generic.InvokeInstruction;
+import org.jaxen.JaxenException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import ar.com.fluxit.jqa.bce.BCERepository;
 import ar.com.fluxit.jqa.bce.Type;
@@ -82,22 +87,37 @@ import ar.com.fluxit.jqa.bce.TypeFormatException;
  */
 public class BCERepositoryImpl implements BCERepository {
 
+	private static Logger LOGGER = LoggerFactory.getLogger(BCERepositoryImpl.class);
 	private String javaVersion;
 	private final CacheManager cacheManager;
 
+	// FIXME replace tokens Class for Type (type is generic)
 	public BCERepositoryImpl() {
-		cacheManager = CacheManager.newInstance(getClass().getResourceAsStream("/ehcache.xml"));
+		this.cacheManager = CacheManager.newInstance(getClass().getResourceAsStream("/ehcache.xml"));
 	}
 
 	@Override
-	public Collection<Integer> getAllocationLineNumbers(Type type, Type allocatedClass, File sourcesDir) {
+	public Collection<Integer> getAllocationLineNumbers(Type type, Type allocatedType, File sourcesDir) {
 		Collection<Integer> result = new HashSet<Integer>();
 		final ASTCompilationUnit compilationUnit = getCompilationUnit(type, sourcesDir);
-		List<ASTAllocationExpression> allocationExpressions = compilationUnit.findChildrenOfType(ASTAllocationExpression.class);
-		for (ASTAllocationExpression allocationExpression : allocationExpressions) {
-			ASTClassOrInterfaceType classOrInterface = allocationExpression.getFirstChildOfType(ASTClassOrInterfaceType.class);
-			if (match(classOrInterface.getImage(), allocatedClass, compilationUnit)) {
-				result.add(allocationExpression.getBeginLine());
+		int anonymousTypeCount = 0;
+		List<ASTAllocationExpression> allocations = compilationUnit.findChildrenOfType(ASTAllocationExpression.class);
+		for (ASTAllocationExpression allocation : allocations) {
+			// Omit inner classes allocations
+			if (type.getShortName().equals(getParentTypeDeclarationImage(allocation))) {
+				if (allocation.containsChildOfType(ASTClassOrInterfaceBody.class)) {
+					// Is an anonymous an type
+					anonymousTypeCount++;
+					if (allocatedType.isAnonymous() && allocatedType.getShortName().equals(String.valueOf(anonymousTypeCount))) {
+						result.add(allocation.getBeginLine());
+					}
+				} else {
+					// Is named type allocation
+					ASTClassOrInterfaceType classOrInterface = allocation.getFirstChildOfType(ASTClassOrInterfaceType.class);
+					if (match(classOrInterface.getImage(), allocatedType, compilationUnit)) {
+						result.add(classOrInterface.getBeginLine());
+					}
+				}
 			}
 		}
 		return result;
@@ -107,7 +127,6 @@ public class BCERepositoryImpl implements BCERepository {
 	public Collection<Type> getAllocations(final Type type) {
 		// TODO cache
 		final Collection<Type> result = new HashSet<Type>();
-		getWrappedClass(type).getMethods();
 		final Visitor visitor = new EmptyVisitor() {
 
 			@Override
@@ -130,11 +149,19 @@ public class BCERepositoryImpl implements BCERepository {
 			}
 		};
 		new DescendingVisitor(getWrappedClass(type), visitor).visit();
+		// Visit anonymous types
+		Collection<Type> anonymousAllocations = new ArrayList<Type>();
+		for (Type allocationType : result) {
+			if (allocationType.isAnonymous()) {
+				anonymousAllocations.addAll(getAllocations(allocationType));
+			}
+		}
+		result.addAll(anonymousAllocations);
 		return result;
 	}
 
 	private CacheManager getCacheManager() {
-		return cacheManager;
+		return this.cacheManager;
 	}
 
 	private ASTCompilationUnit getCompilationUnit(Type type, File sourcesDir) {
@@ -157,14 +184,39 @@ public class BCERepositoryImpl implements BCERepository {
 	public Integer getDeclarationLineNumber(Type type, File sourcesDir) {
 		// TODO cache
 		final ASTCompilationUnit compilationUnit = getCompilationUnit(type, sourcesDir);
-		SimpleNode firstChildOfType = compilationUnit.getFirstChildOfType(ASTClassOrInterfaceDeclaration.class);
-		if (firstChildOfType == null) {
-			firstChildOfType = compilationUnit.getFirstChildOfType(ASTTypeDeclaration.class);
+		try {
+			if (type.isAnonymous()) {
+				String parentName = getParentImage(type);
+				int anonymousTypeCount = 0;
+				@SuppressWarnings("unchecked")
+				List<SimpleNode> anonymousDeclarations = compilationUnit
+						.findChildNodesWithXPath("//AllocationExpression[ClassOrInterfaceBody]/ClassOrInterfaceType");
+				for (SimpleNode anonymousDeclaration : anonymousDeclarations) {
+					// Avoid other scope classes
+					if (parentName.equals(getParentTypeDeclarationImage(anonymousDeclaration))) {
+						anonymousTypeCount++;
+						if (type.getShortName().equals(String.valueOf(anonymousTypeCount))) {
+							return anonymousDeclaration.getBeginLine();
+						}
+					}
+				}
+			} else {
+				@SuppressWarnings("unchecked")
+				List<SimpleNode> declarations = compilationUnit.findChildNodesWithXPath("//ClassOrInterfaceDeclaration[@Image='" + type.getShortName() + "']");
+				if (declarations.isEmpty()) {
+					throw new IllegalArgumentException("Can not find declaration line number of type: " + type);
+				} else if (declarations.size() > 1) {
+					LOGGER.warn("Multiple declaration line numbers found for the type: " + type);
+				}
+				return declarations.get(0).getBeginLine();
+			}
+		} catch (JaxenException e) {
+			throw new IllegalArgumentException("Error occured while looking for declaration line number of type: " + type, e);
 		}
-		return firstChildOfType.getBeginLine();
+		throw new IllegalArgumentException("Can not find declaration line number of type: " + type);
 	}
 
-	protected Type getException(ConstantPool constantPool, CPInstruction instruction) {
+	private Type getException(ConstantPool constantPool, CPInstruction instruction) {
 		ConstantCP constantRef = (ConstantCP) constantPool.getConstant(instruction.getIndex());
 		String typeName = constantPool.getConstantString(constantRef.getClassIndex(), Constants.CONSTANT_Class);
 		return BcelJavaType.create(typeName);
@@ -189,6 +241,37 @@ public class BCERepositoryImpl implements BCERepository {
 		} catch (ClassNotFoundException e) {
 			throw new IllegalArgumentException(e);
 		}
+	}
+
+	private String getPackage(ASTCompilationUnit compilationUnit) {
+		ASTPackageDeclaration packageDeclaration = compilationUnit.getFirstChildOfType(ASTPackageDeclaration.class);
+		return packageDeclaration.getFirstChildOfType(ASTName.class).getImage();
+	}
+
+	private String getParentImage(Type anonymousType) {
+		if (!anonymousType.isAnonymous()) {
+			throw new IllegalArgumentException("Type must be anonymous");
+		}
+		String name = anonymousType.getName();
+		name = name.substring(name.lastIndexOf(".") + 1);
+		name = name.substring(0, name.lastIndexOf("$"));
+		if (name.contains("$")) {
+			// The parent is an inner class
+			name = name.substring(name.lastIndexOf("$") + 1);
+		}
+		return name;
+	}
+
+	private String getParentTypeDeclarationImage(Node node) {
+		Node parent = node.jjtGetParent();
+		while (parent != null) {
+			if (parent instanceof ASTClassOrInterfaceDeclaration) {
+				return ((ASTClassOrInterfaceDeclaration) parent).getImage();
+			} else {
+				parent = parent.jjtGetParent();
+			}
+		}
+		return null;
 	}
 
 	public InputStream getSourceFile(Type type, File sourceDir) {
@@ -380,14 +463,15 @@ public class BCERepositoryImpl implements BCERepository {
 		return ((BcelJavaType) type).getWrapped();
 	}
 
-	private boolean hasImport(ASTCompilationUnit compilationUnit, String typeName) {
-		if (typeName.substring(0, typeName.lastIndexOf(".")).equals("java.lang")) {
+	boolean hasImport(ASTCompilationUnit compilationUnit, Type type) {
+		if (type.getPackage().equals("java.lang") || type.getPackage().equals(getPackage(compilationUnit))) {
 			// The java.lang package is imported by default
+			// The classes on the same package are not imported
 			return true;
 		} else {
 			for (ASTImportDeclaration importDeclaration : compilationUnit.findChildrenOfType(ASTImportDeclaration.class)) {
 				String importTypeName = importDeclaration.getFirstChildOfType(ASTName.class).getImage();
-				if (importTypeName.equals(typeName)) {
+				if (importTypeName.equals(type.getName())) {
 					return true;
 				}
 			}
@@ -395,7 +479,7 @@ public class BCERepositoryImpl implements BCERepository {
 		}
 	}
 
-	protected void iterateInstructions(Code code, Type type, org.apache.bcel.generic.Visitor visitor) {
+	private void iterateInstructions(Code code, Type type, org.apache.bcel.generic.Visitor visitor) {
 		Iterator<InstructionHandle> iterator = getInstructionListIterator(code);
 		while (iterator.hasNext()) {
 			final Instruction instruction = iterator.next().getInstruction();
@@ -420,12 +504,14 @@ public class BCERepositoryImpl implements BCERepository {
 		return BcelJavaType.create(typeName);
 	}
 
+	// TODO improve method name
 	private boolean match(String image, Type type, ASTCompilationUnit compilationUnit) {
 		if (image.equals(type.getName())) {
+			// Explicit reference
 			return true;
-		} else if (image.equals(type.getShortName()) && hasImport(compilationUnit, type.getName())) {
+		} else if (image.equals(type.getShortName()) && hasImport(compilationUnit, type)) {
+			// Implicit reference, via import
 			return true;
-
 		} else {
 			return false;
 		}
