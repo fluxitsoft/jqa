@@ -36,7 +36,7 @@ class BcelJavaType implements Type {
 	}
 
 	static BcelJavaType create(org.apache.bcel.generic.Type type) {
-		String className = ClassNameTranslator.getClassName(type);
+		String className = TypeNameTranslator.getClassName(type);
 		return className.equals(VOID) ? null : BcelJavaType.create(className);
 	}
 
@@ -47,7 +47,7 @@ class BcelJavaType implements Type {
 		JavaClass c;
 		if (className.equals(VOID)) {
 			return null;
-		} else if ((c = ClassNameTranslator.getPrimitive(className)) != null) {
+		} else if ((c = TypeNameTranslator.getPrimitive(className)) != null) {
 			return new BcelJavaType(c);
 		} else {
 			try {
@@ -90,11 +90,7 @@ class BcelJavaType implements Type {
 
 	@Override
 	public String getShortName() {
-		String result = getName().substring(getName().lastIndexOf(".") + 1);
-		if (result.contains("$")) {
-			result = result.substring(result.lastIndexOf("$") + 1);
-		}
-		return result;
+		return getName().substring(getName().lastIndexOf(".") + 1);
 	}
 
 	org.apache.bcel.classfile.JavaClass getWrapped() {

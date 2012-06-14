@@ -48,6 +48,10 @@ import ar.com.fluxit.jqa.mock.throwing.InterfaceThatThrowsExceptionA;
  */
 public class ThrowingPredicateTest extends TestCase {
 
+	public ThrowingPredicateTest() {
+		BCERepositoryLocator.init(null, "1.5", null);
+	}
+
 	public final void testCheck() throws ClassNotFoundException {
 		final String filterPredicateParentClass = ExceptionB.class.getName();
 		// No exceptions

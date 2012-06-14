@@ -21,6 +21,8 @@ package ar.com.fluxit.jqa.predicate.lang;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import ar.com.fluxit.jqa.bce.BCERepositoryLocator;
 import ar.com.fluxit.jqa.bce.Type;
@@ -41,7 +43,7 @@ public class AllocationPredicate extends FilteredPredicate implements CheckPredi
 
 	@Override
 	public boolean evaluate(Type type, RulesContext context) {
-		final Collection<Type> filteredClasses = BCERepositoryLocator.getRepository().getAllocations(type);
+		final Collection<Type> filteredClasses = BCERepositoryLocator.getRepository().getAllocations(type).keySet();
 		for (final Type usedClass : filteredClasses) {
 			if (!getFilterPredicate().evaluate(usedClass, context)) {
 				return false;
@@ -53,10 +55,10 @@ public class AllocationPredicate extends FilteredPredicate implements CheckPredi
 	@Override
 	public Collection<Integer> getViolationLineIds(Type type, File sourcesDir, RulesContext context) {
 		Collection<Integer> result = new ArrayList<Integer>();
-		final Collection<Type> allocatedTypes = BCERepositoryLocator.getRepository().getAllocations(type);
-		for (final Type allocatedType : allocatedTypes) {
-			if (!getFilterPredicate().evaluate(allocatedType, context)) {
-				result.addAll(BCERepositoryLocator.getRepository().getAllocationLineNumbers(type, allocatedType, sourcesDir));
+		final Map<Type, Collection<Integer>> allocatedTypes = BCERepositoryLocator.getRepository().getAllocations(type);
+		for (final Entry<Type, Collection<Integer>> allocatedType : allocatedTypes.entrySet()) {
+			if (!getFilterPredicate().evaluate(allocatedType.getKey(), context)) {
+				result.addAll(allocatedType.getValue());
 			}
 		}
 		return result;

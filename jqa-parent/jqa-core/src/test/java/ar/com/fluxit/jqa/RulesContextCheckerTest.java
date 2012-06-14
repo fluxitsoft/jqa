@@ -32,6 +32,7 @@ import junit.framework.TestCase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import ar.com.fluxit.jqa.bce.BCERepositoryLocator;
 import ar.com.fluxit.jqa.bce.TypeFormatException;
 import ar.com.fluxit.jqa.context.RulesContext;
 import ar.com.fluxit.jqa.context.RulesContextImpl;
@@ -56,6 +57,10 @@ import ar.com.fluxit.jqa.util.FileUtils;
 public class RulesContextCheckerTest extends TestCase {
 
 	private Logger log;
+
+	public RulesContextCheckerTest() {
+		BCERepositoryLocator.init(null, "1.5", null);
+	}
 
 	private Rule createRule(Predicate filterPredicate, CheckPredicate checkPredicate) {
 		final RuleImpl ruleImpl = new RuleImpl(filterPredicate, checkPredicate, "", "");

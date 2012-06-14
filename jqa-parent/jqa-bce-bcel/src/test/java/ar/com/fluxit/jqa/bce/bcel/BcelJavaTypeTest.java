@@ -28,7 +28,7 @@ import org.apache.bcel.classfile.JavaClass;
 import org.junit.Test;
 
 import ar.com.fluxit.jqa.bce.Type;
-import ar.com.fluxit.jqa.mock.allocation.ClassWithMultipleAllocations;
+import ar.com.fluxit.jqa.mock.sub.ClassWithMultipleAllocations;
 
 /**
  * TODO javadoc
@@ -135,9 +135,9 @@ public class BcelJavaTypeTest {
 
 	@Test
 	public void testIsAnonymous() {
-		assertTrue(BcelJavaType.create("ar.com.fluxit.jqa.mock.allocation.ClassWithMultipleAllocations$1").isAnonymous());
-		assertFalse(BcelJavaType.create("ar.com.fluxit.jqa.mock.allocation.ClassWithMultipleAllocations").isAnonymous());
-		assertTrue(BcelJavaType.create("ar.com.fluxit.jqa.mock.allocation.ClassWithMultipleAllocations$Inner$1").isAnonymous());
+		assertTrue(BcelJavaType.create(ClassWithMultipleAllocations.class.getName() + "$1").isAnonymous());
+		assertFalse(BcelJavaType.create(ClassWithMultipleAllocations.class.getName()).isAnonymous());
+		assertTrue(BcelJavaType.create(ClassWithMultipleAllocations.class.getName() + "$Inner$1").isAnonymous());
 		assertFalse(BcelJavaType.create(org.apache.bcel.generic.Type.getType(ClassWithMultipleAllocations.Inner.class)).isAnonymous());
 	}
 
@@ -149,6 +149,12 @@ public class BcelJavaTypeTest {
 		assertFalse(stringType.isInterface());
 		assertTrue(listType.isInterface());
 		assertFalse(numberType.isInterface());
+	}
+
+	@Test
+	public void testToString() {
+		assertEquals("java.lang.String", BcelJavaType.create("java.lang.String").toString());
+		assertEquals("long", BcelJavaType.create("long").toString());
 	}
 
 }

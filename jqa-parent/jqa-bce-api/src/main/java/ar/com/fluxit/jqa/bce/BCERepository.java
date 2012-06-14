@@ -23,54 +23,29 @@ package ar.com.fluxit.jqa.bce;
  * 
  * @author Juan Ignacio Barisich
  */
-import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Collection;
-
-import javax.management.IntrospectionException;
+import java.util.Map;
 
 public interface BCERepository {
 
-	Collection<Integer> getAllocationLineNumbers(Type type, Type allocatedType, File sourcesDir);
+	Map<Type, Collection<Integer>> getAllocations(Type type);
 
-	Collection<Type> getAllocations(Type type);
+	Integer getDeclarationLineNumber(Type type);
 
-	Integer getDeclarationLineNumber(Type type, File sourcesDir);
-
-	/**
-	 * @param type
-	 *            a type
-	 * @return all interfaces implemented by the type and its super classes and
-	 *         the interfaces that those interfaces extend, and so on. (Some
-	 *         people call this a transitive hull).
-	 */
 	Collection<Type> getInterfaces(Type type);
 
-	/**
-	 * @param type
-	 *            a type
-	 * @return list of super classes of the type
-	 */
 	Collection<Type> getSuperClasses(Type type);
 
-	Collection<? extends Integer> getThrowLineNumbers(Type type, Type throwedType, File sourcesDir);
+	Map<Type, Collection<Integer>> getThrows(Type type);
 
-	Collection<Type> getThrows(Type type);
-
-	Collection<? extends Integer> getUseLineNumbers(Type type, Type usedType, File sourcesDir);
-
-	Collection<Type> getUses(Type type);
+	Map<Type, Collection<Integer>> getUses(Type type);
 
 	Type lookupType(Class<?> clazz) throws ClassNotFoundException;
 
 	Type lookupType(String typeName) throws ClassNotFoundException;
 
 	Type parse(FileInputStream classFile, String typeName) throws TypeFormatException, IOException;
-
-	void setClassPath(Collection<File> classPathFiles) throws IntrospectionException, FileNotFoundException, TypeFormatException, IOException;
-
-	void setJavaVersion(String javaVersion);
 
 }

@@ -33,6 +33,10 @@ import ar.com.fluxit.jqa.predicate.lang.AbstractionPredicate.AbstractionType;
  */
 public class AbstractionPredicateTest extends TestCase {
 
+	public AbstractionPredicateTest() {
+		BCERepositoryLocator.init(null, "1.5", null);
+	}
+
 	private AbstractionPredicate createPredicate(AbstractionType abstractionType) {
 		final AbstractionPredicate result = new AbstractionPredicate();
 		result.setAbstractionType(abstractionType);
@@ -58,5 +62,4 @@ public class AbstractionPredicateTest extends TestCase {
 		assertFalse(createPredicate(AbstractionType.CONCRETE).evaluate(interfaceType));
 		assertFalse(createPredicate(AbstractionType.CONCRETE).evaluate(abstractType));
 	}
-
 }

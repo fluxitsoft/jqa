@@ -128,6 +128,7 @@ public class RulesContextImplTest extends TestCase {
 	public void testGlobalVariables() throws RulesContextFactoryException, ClassNotFoundException {
 		assertNotNull(this.rulesContext);
 		assertEquals("java.lang.String", this.rulesContext.getGlobalVariable("StringClass"));
+		BCERepositoryLocator.init(null, "1.5", null);
 		Type stringType = BCERepositoryLocator.getRepository().lookupType(String.class);
 		assertTrue(this.rulesContext.getGlobalPredicate("VariablePredicate").evaluate(stringType, this.rulesContext));
 		for (RuleSet rs : this.rulesContext.getRuleSets()) {

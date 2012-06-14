@@ -21,6 +21,8 @@ package ar.com.fluxit.jqa.predicate.lang;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import ar.com.fluxit.jqa.bce.BCERepositoryLocator;
 import ar.com.fluxit.jqa.bce.Type;
@@ -41,7 +43,7 @@ public class UsagePredicate extends FilteredPredicate implements CheckPredicate 
 
 	@Override
 	public boolean evaluate(Type type, RulesContext context) {
-		final Collection<Type> filteredClasses = BCERepositoryLocator.getRepository().getUses(type);
+		final Collection<Type> filteredClasses = BCERepositoryLocator.getRepository().getUses(type).keySet();
 		for (final Type usedClass : filteredClasses) {
 			if (!getFilterPredicate().evaluate(usedClass, context)) {
 				return false;
@@ -53,10 +55,10 @@ public class UsagePredicate extends FilteredPredicate implements CheckPredicate 
 	@Override
 	public Collection<Integer> getViolationLineIds(Type type, File sourcesDir, RulesContext context) {
 		Collection<Integer> result = new ArrayList<Integer>();
-		final Collection<Type> usedTypes = BCERepositoryLocator.getRepository().getUses(type);
-		for (final Type usedType : usedTypes) {
-			if (!getFilterPredicate().evaluate(usedType, context)) {
-				result.addAll(BCERepositoryLocator.getRepository().getUseLineNumbers(type, usedType, sourcesDir));
+		final Map<Type, Collection<Integer>> usedTypes = BCERepositoryLocator.getRepository().getUses(type);
+		for (final Entry<Type, Collection<Integer>> usedType : usedTypes.entrySet()) {
+			if (!getFilterPredicate().evaluate(usedType.getKey(), context)) {
+				result.addAll(usedType.getValue());
 			}
 		}
 		return result;

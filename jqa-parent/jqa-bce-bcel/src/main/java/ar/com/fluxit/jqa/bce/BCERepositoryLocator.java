@@ -18,6 +18,10 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.bce;
 
+import java.io.File;
+import java.util.Collection;
+import java.util.Collections;
+
 import ar.com.fluxit.jqa.bce.bcel.BCERepositoryImpl;
 
 /**
@@ -27,14 +31,22 @@ import ar.com.fluxit.jqa.bce.bcel.BCERepositoryImpl;
  */
 public class BCERepositoryLocator {
 
-	private static BCERepository bCERepository;
-
-	static {
-		bCERepository = new BCERepositoryImpl();
-	}
+	private static BCERepository bceRepository;
 
 	public static BCERepository getRepository() {
-		return bCERepository;
+		if (bceRepository == null) {
+			throw new IllegalStateException("The repository is not initializated. Please, call to init method.");
+		}
+		return bceRepository;
+	}
+
+	private static String getSourcesDir() {
+		return System.getProperty("user.dir") + File.separatorChar + "src" + File.separatorChar + "test" + File.separatorChar + "java";
+	}
+
+	public static void init(Collection<File> classPath, String javaVersion, String sourcesDir) {
+		bceRepository = new BCERepositoryImpl(classPath == null ? Collections.<File> emptyList() : classPath, javaVersion, sourcesDir == null ? getSourcesDir()
+				: sourcesDir);
 	}
 
 }

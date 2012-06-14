@@ -21,6 +21,8 @@ package ar.com.fluxit.jqa.predicate.lang;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import ar.com.fluxit.jqa.bce.BCERepositoryLocator;
 import ar.com.fluxit.jqa.bce.Type;
@@ -41,7 +43,7 @@ public class ThrowingPredicate extends FilteredPredicate implements CheckPredica
 
 	@Override
 	public boolean evaluate(Type type, RulesContext context) {
-		final Collection<Type> throwedClasses = BCERepositoryLocator.getRepository().getThrows(type);
+		final Collection<Type> throwedClasses = BCERepositoryLocator.getRepository().getThrows(type).keySet();
 		for (final Type throwedClass : throwedClasses) {
 			if (!getFilterPredicate().evaluate(throwedClass, context)) {
 				return false;
@@ -53,10 +55,10 @@ public class ThrowingPredicate extends FilteredPredicate implements CheckPredica
 	@Override
 	public Collection<Integer> getViolationLineIds(Type type, File sourcesDir, RulesContext context) {
 		Collection<Integer> result = new ArrayList<Integer>();
-		final Collection<Type> throwedTypes = BCERepositoryLocator.getRepository().getThrows(type);
-		for (final Type throwedType : throwedTypes) {
-			if (!getFilterPredicate().evaluate(throwedType, context)) {
-				result.addAll(BCERepositoryLocator.getRepository().getThrowLineNumbers(type, throwedType, sourcesDir));
+		final Map<Type, Collection<Integer>> throwedTypes = BCERepositoryLocator.getRepository().getThrows(type);
+		for (final Entry<Type, Collection<Integer>> throwedType : throwedTypes.entrySet()) {
+			if (!getFilterPredicate().evaluate(throwedType.getKey(), context)) {
+				result.addAll(throwedType.getValue());
 			}
 		}
 		return result;

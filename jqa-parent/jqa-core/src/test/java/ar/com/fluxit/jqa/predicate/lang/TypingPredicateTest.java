@@ -38,6 +38,10 @@ import ar.com.fluxit.jqa.mock.typing.InnerClassThatImplementsInterfaceA;
  */
 public class TypingPredicateTest extends TestCase {
 
+	public TypingPredicateTest() {
+		BCERepositoryLocator.init(null, "1.5", null);
+	}
+
 	private TypingPredicate createTypingPredicate(String string) {
 		final TypingPredicate result = new TypingPredicate();
 		result.setFilterPredicate(new NamingPredicate(string));

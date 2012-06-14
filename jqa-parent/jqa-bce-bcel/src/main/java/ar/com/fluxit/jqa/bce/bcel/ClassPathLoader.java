@@ -61,11 +61,15 @@ class ClassPathLoader {
 		}
 	}
 
-	void setClassPath(Collection<File> classPathFiles) throws IntrospectionException, FileNotFoundException, TypeFormatException, IOException {
-		for (final File classPathFile : classPathFiles) {
-			addToClassPath(classPathFile);
+	void setClassPath(Collection<File> classPathFiles) {
+		try {
+			for (final File classPathFile : classPathFiles) {
+				addToClassPath(classPathFile);
+			}
+			reloadBCELClassPath();
+		} catch (Exception e) {
+			throw new IllegalStateException("An error occured while initializing the ", e);
 		}
-		reloadBCELClassPath();
 	}
 
 }

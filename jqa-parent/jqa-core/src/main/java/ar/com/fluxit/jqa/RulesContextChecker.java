@@ -86,22 +86,21 @@ public class RulesContextChecker {
 		}
 	}
 
-	public CheckingResult check(String project, Collection<File> classFiles, Collection<File> classPath, RulesContext context, File sourceDir,
+	public CheckingResult check(String project, Collection<File> classFiles, Collection<File> classPath, RulesContext context, File sourcesDir,
 			String sourceJavaVersion, Logger log) throws IntrospectionException, FileNotFoundException, TypeFormatException, IOException {
 		final CheckingResult result = new CheckingResult(project);
 		// Add files to classpath
 		for (final File classPathFile : classPath) {
 			log.debug("Adding to classpath: " + classPathFile);
 		}
-		BCERepositoryLocator.getRepository().setJavaVersion(sourceJavaVersion);
-		BCERepositoryLocator.getRepository().setClassPath(classPath);
+		BCERepositoryLocator.init(classPath, sourceJavaVersion, sourcesDir.getPath());
 		// Iterate rulesets
 		for (final RuleSet ruleset : context.getRuleSets()) {
 			// Iterate rules
 			for (final Rule rule : ruleset.getRules()) {
 				log.debug("Checking rule (in normal mode): " + rule.getName());
 				check(classFiles, rule.getFilterPredicate(), rule.getCheckPredicate(), result, context, rule.getPriority(), rule.getMessage(), rule.getName(),
-						sourceDir);
+						sourcesDir);
 			}
 		}
 		return result;

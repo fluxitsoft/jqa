@@ -89,6 +89,10 @@ import ar.com.fluxit.jqa.predicate.logic.OrPredicate;
  */
 public class UsagePredicateTest extends TestCase {
 
+	public UsagePredicateTest() {
+		BCERepositoryLocator.init(null, "1.5", null);
+	}
+
 	public final void testCheck() throws ClassNotFoundException {
 		// Simple class
 		testMatches(ClassB.class.getName(), ClassA.class, true);
@@ -159,10 +163,10 @@ public class UsagePredicateTest extends TestCase {
 		final TypingPredicate filterPredicate2 = new TypingPredicate();
 		filterPredicate2.setFilterPredicate(new NamingPredicate(filterPredicateParentClass));
 
-		final NamingPredicate filterPredicate3 = new NamingPredicate("java.**");
-
 		final OrPredicate filterPredicate = new OrPredicate();
-		filterPredicate.setPredicates(new Predicate[] { filterPredicate2, filterPredicate3 });
+		filterPredicate.setPredicates(new Predicate[] { filterPredicate2, new NamingPredicate("java.**"), new NamingPredicate("long"),
+				new NamingPredicate("short"), new NamingPredicate("byte"), new NamingPredicate("char"), new NamingPredicate("int"),
+				new NamingPredicate("boolean"), new NamingPredicate("double"), new NamingPredicate("float") });
 
 		final Type type = BCERepositoryLocator.getRepository().lookupType(usagePredicateClass);
 

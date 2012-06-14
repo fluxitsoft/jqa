@@ -36,6 +36,10 @@ import ar.com.fluxit.jqa.mock.allocation.StaticInnerClassThatAllocatesClassA;
  */
 public class AllocationPredicateTest extends TestCase {
 
+	public AllocationPredicateTest() {
+		BCERepositoryLocator.init(null, "1.5", null);
+	}
+
 	public final void testCheck() throws ClassNotFoundException {
 		final String filterPredicateParentClass = ClassB.class.getName();
 

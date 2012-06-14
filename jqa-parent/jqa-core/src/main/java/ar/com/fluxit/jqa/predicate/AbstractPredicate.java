@@ -40,7 +40,7 @@ public abstract class AbstractPredicate implements Predicate {
 
 	protected Collection<Integer> getDeclarationLineNumber(Type type, File sourcesDir) {
 		Collection<Integer> result = new ArrayList<Integer>();
-		result.add(BCERepositoryLocator.getRepository().getDeclarationLineNumber(type, sourcesDir));
+		result.add(BCERepositoryLocator.getRepository().getDeclarationLineNumber(type));
 		return result;
 	}
 
