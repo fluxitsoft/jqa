@@ -21,6 +21,8 @@ package ar.com.fluxit.jqa.test.dao.impl;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.SQLFeatureNotSupportedException;
+import java.util.logging.Logger;
 
 import javax.sql.DataSource;
 
@@ -52,6 +54,11 @@ public class CarDAOImpl {
 			@Override
 			public PrintWriter getLogWriter() throws SQLException {
 				throw new UnsupportedOperationException();
+			}
+
+			@SuppressWarnings("unused")
+			public Logger getParentLogger() throws SQLFeatureNotSupportedException {
+				return null;
 			}
 
 			@Override
