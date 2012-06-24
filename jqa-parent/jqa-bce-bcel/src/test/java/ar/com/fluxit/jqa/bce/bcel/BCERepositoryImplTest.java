@@ -18,10 +18,10 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.bce.bcel;
 
-import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.awt.AWTException;
 import java.awt.BasicStroke;
@@ -30,6 +30,7 @@ import java.awt.Checkbox;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Frame;
+import java.awt.IllegalComponentStateException;
 import java.awt.Label;
 import java.io.BufferedInputStream;
 import java.io.Externalizable;
@@ -40,18 +41,23 @@ import java.lang.instrument.UnmodifiableClassException;
 import java.net.Socket;
 import java.rmi.server.RemoteRef;
 import java.rmi.server.ServerRef;
+import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.AbstractCollection;
 import java.util.AbstractList;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Vector;
+import java.util.concurrent.TimeoutException;
+import java.util.prefs.BackingStoreException;
 import java.util.zip.DataFormatException;
 
 import javax.print.attribute.UnmodifiableSetException;
 import javax.xml.parsers.FactoryConfigurationError;
+import javax.xml.transform.TransformerException;
 
 import net.sourceforge.pmd.FileDataSource;
 import nu.xom.Attribute;
@@ -63,13 +69,16 @@ import org.apache.wml.dom.WMLAnchorElementImpl;
 import org.apache.wml.dom.WMLImgElementImpl;
 import org.junit.Test;
 
+import sun.awt.image.BadDepthException;
 import ar.com.fluxit.jqa.bce.BCERepository;
 import ar.com.fluxit.jqa.bce.Type;
 import ar.com.fluxit.jqa.mock.ClassA;
 import ar.com.fluxit.jqa.mock.EnumA;
+import ar.com.fluxit.jqa.mock.ExceptionA;
 import ar.com.fluxit.jqa.mock.sub.ClassWithInnerTypes;
 import ar.com.fluxit.jqa.mock.sub.ClassWithMultipleAllocations;
 import ar.com.fluxit.jqa.mock.sub.ClassWithMultipleThrows;
+import ar.com.fluxit.jqa.mock.sub.ClassWithMultipleThrows.Inner.InnerException;
 
 /**
  * TODO javadoc
@@ -85,19 +94,27 @@ public class BCERepositoryImplTest {
 				+ File.separatorChar + "test" + File.separatorChar + "java");
 	}
 
-	private void assertContainsAllocation(Map<Type, Collection<Integer>> allocations, Class<?> allocatedClass, Integer[] sourceLines) {
+	private void assertContainsAll(Integer[] expecteds, Collection<Integer> actuals) {
+		for (Integer expected : expecteds) {
+			if (!actuals.contains(expected)) {
+				fail(String.format("Actual [%s] not contains [%s]. Expected is [%s]", actuals.toString(), expected.toString(), Arrays.toString(expecteds)));
+			}
+		}
+	}
+
+	private void assertContainsAllocation(Map<Type, Collection<Integer>> actuals, Class<?> allocatedClass, Integer[] expecteds) {
 		try {
 			Type allocatedType = this.repository.lookupType(allocatedClass);
-			assertContainsAllocation(allocations, allocatedType, sourceLines);
+			assertContainsAllocation(actuals, allocatedType, expecteds);
 		} catch (ClassNotFoundException e) {
 			throw new IllegalArgumentException(e);
 		}
 	}
 
-	private void assertContainsAllocation(Map<Type, Collection<Integer>> allocations, Type allocatedType, Integer[] sourceLines) {
-		Collection<Integer> allocationLineNumbers = allocations.get(allocatedType);
-		assertNotNull(allocationLineNumbers);
-		assertArrayEquals(sourceLines, allocationLineNumbers.toArray());
+	private void assertContainsAllocation(Map<Type, Collection<Integer>> actuals, Type allocatedType, Integer[] expecteds) {
+		Collection<Integer> actualLineNumbers = actuals.get(allocatedType);
+		assertNotNull(actualLineNumbers);
+		assertContainsAll(expecteds, actualLineNumbers);
 	}
 
 	@Test
@@ -209,10 +226,40 @@ public class BCERepositoryImplTest {
 		// Main class
 		Type type = this.repository.lookupType(ClassWithMultipleThrows.class);
 		Map<Type, Collection<Integer>> allocations = this.repository.getThrows(type);
-		assertEquals(7, allocations.size());
-		assertContainsAllocation(allocations, DataFormatException.class, new Integer[] { 155, 156 });
-		assertContainsAllocation(allocations, UnmodifiableClassException.class, new Integer[] { 159 });
-		assertContainsAllocation(allocations, UnmodifiableSetException.class, new Integer[] { 160 });
+		assertEquals(8, allocations.size());
+		assertContainsAllocation(allocations, DataFormatException.class, new Integer[] { 158, 159 });
+		assertContainsAllocation(allocations, UnmodifiableClassException.class, new Integer[] { 162 });
+		assertContainsAllocation(allocations, UnmodifiableSetException.class, new Integer[] { 163 });
+		assertContainsAllocation(allocations, UnsupportedClassVersionError.class, new Integer[] { 166 });
+		assertContainsAllocation(allocations, TransformerException.class, new Integer[] { 190, 186 });
+		assertContainsAllocation(allocations, IllegalArgumentException.class, new Integer[] { 176, 180 });
+		assertContainsAllocation(allocations, TimeoutException.class, new Integer[] { 194, 196 });
+		assertContainsAllocation(allocations, SQLException.class, new Integer[] { 200 });
+		// Inner class
+		Type type2 = this.repository.lookupType(ClassWithMultipleThrows.Inner.class);
+		Map<Type, Collection<Integer>> allocations2 = this.repository.getThrows(type2);
+		assertEquals(10, allocations2.size());
+		assertContainsAllocation(allocations2, InnerException.class, new Integer[] { 100, 99 });
+		assertContainsAllocation(allocations2, AWTException.class, new Integer[] { 103, 104 });
+		assertContainsAllocation(allocations2, BackingStoreException.class, new Integer[] { 113 });
+		assertContainsAllocation(allocations2, IllegalStateException.class, new Integer[] { 122 });
+		assertContainsAllocation(allocations2, IllegalArgumentException.class, new Integer[] { 127 });
+		assertContainsAllocation(allocations2, BadDepthException.class, new Integer[] { 135 });
+		assertContainsAllocation(allocations2, IllegalAccessError.class, new Integer[] { 137 });
+		assertContainsAllocation(allocations2, CloneNotSupportedException.class, new Integer[] { 141, 143 });
+		assertContainsAllocation(allocations2, UnsupportedClassVersionError.class, new Integer[] { 147 });
+		assertContainsAllocation(allocations2, UnsupportedOperationException.class, new Integer[] { 149 });
+		// Nested inner class
+		Type type3 = this.repository.lookupType(ClassWithMultipleThrows.Inner.NestedInner.class);
+		Map<Type, Collection<Integer>> allocations3 = this.repository.getThrows(type3);
+		assertEquals(7, allocations3.size());
+		assertContainsAllocation(allocations3, IllegalArgumentException.class, new Integer[] { 57 });
+		assertContainsAllocation(allocations3, ExceptionA.class, new Integer[] { 61, 60 });
+		assertContainsAllocation(allocations3, IllegalAccessError.class, new Integer[] { 71 });
+		assertContainsAllocation(allocations3, AWTException.class, new Integer[] { 81, 77 });
+		assertContainsAllocation(allocations3, IllegalComponentStateException.class, new Integer[] { 79 });
+		assertContainsAllocation(allocations3, Exception.class, new Integer[] { 85, 87 });
+		assertContainsAllocation(allocations3, InstantiationError.class, new Integer[] { 94, 91 });
 	}
 	//
 	// @Test

@@ -36,6 +36,7 @@ import javax.xml.transform.TransformerException;
 import sun.awt.image.BadDepthException;
 import ar.com.fluxit.jqa.mock.ClassA;
 import ar.com.fluxit.jqa.mock.ExceptionA;
+import ar.com.fluxit.jqa.mock.Helper;
 
 /**
  * TODO javadoc
@@ -46,9 +47,8 @@ public class ClassWithMultipleThrows {
 
 	public static class Inner {
 
-		private class InnerException extends Exception {
+		public class InnerException extends Exception {
 			private static final long serialVersionUID = 1L;
-
 		}
 
 		public class NestedInner {
@@ -94,7 +94,6 @@ public class ClassWithMultipleThrows {
 					throw new InstantiationError();
 				}
 			}
-
 		}
 
 		public Inner() throws InnerException {
@@ -150,6 +149,10 @@ public class ClassWithMultipleThrows {
 				throw new UnsupportedOperationException();
 			}
 		}
+
+		public void dummy6() {
+			Helper.dummy();
+		}
 	}
 
 	public ClassWithMultipleThrows() throws DataFormatException {
@@ -174,7 +177,7 @@ public class ClassWithMultipleThrows {
 					}
 
 				}.compareTo(null);
-				return null;
+				throw new IllegalArgumentException();
 			}
 
 		};
@@ -182,7 +185,7 @@ public class ClassWithMultipleThrows {
 
 	public void dummy3() throws TransformerException {
 		try {
-			System.out.println(new DecimalFormat());
+			System.out.println(new DecimalFormat()); // isnt a throw
 		} catch (Exception e) {
 			throw new TransformerException("");
 		}
@@ -200,4 +203,7 @@ public class ClassWithMultipleThrows {
 		}
 	}
 
+	public void dummy6() {
+		Helper.dummy2();
+	}
 }

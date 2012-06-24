@@ -58,6 +58,8 @@ import org.apache.bcel.classfile.DescendingVisitor;
 import org.apache.bcel.classfile.EmptyVisitor;
 import org.apache.bcel.classfile.ExceptionTable;
 import org.apache.bcel.classfile.Field;
+import org.apache.bcel.classfile.InnerClass;
+import org.apache.bcel.classfile.InnerClasses;
 import org.apache.bcel.classfile.JavaClass;
 import org.apache.bcel.classfile.LineNumberTable;
 import org.apache.bcel.classfile.Method;
@@ -66,6 +68,7 @@ import org.apache.bcel.classfile.Visitor;
 import org.apache.bcel.generic.ATHROW;
 import org.apache.bcel.generic.CPInstruction;
 import org.apache.bcel.generic.ConstantPoolGen;
+import org.apache.bcel.generic.FieldOrMethod;
 import org.apache.bcel.generic.INVOKEVIRTUAL;
 import org.apache.bcel.generic.Instruction;
 import org.apache.bcel.generic.InstructionHandle;
@@ -107,6 +110,24 @@ public class BCERepositoryImpl implements BCERepository {
 		}
 		collection.add(sourceLine);
 		result.put(type, collection);
+	}
+
+	private Collection<Type> doGetAnonymousTypes(Type type, Collection<Type> anonymousTypes) {
+		JavaClass wrappedType = getWrappedType(type);
+		ConstantPool constantPool = wrappedType.getConstantPool();
+		for (Attribute attribute : wrappedType.getAttributes()) {
+			if (attribute instanceof InnerClasses) {
+				for (InnerClass innerClass : ((InnerClasses) attribute).getInnerClasses()) {
+					String innerTypeName = constantPool.getConstantString(innerClass.getInnerClassIndex(), Constants.CONSTANT_Class);
+					BcelJavaType innerType = BcelJavaType.create(innerTypeName);
+					if (innerType.isAnonymous() && !anonymousTypes.contains(innerType)) {
+						anonymousTypes.add(innerType);
+						doGetAnonymousTypes(innerType, anonymousTypes);
+					}
+				}
+			}
+		}
+		return anonymousTypes;
 	}
 
 	private SimpleNode doGetTypeNode(SimpleNode node, String typeShortName) {
@@ -233,6 +254,11 @@ public class BCERepositoryImpl implements BCERepository {
 		return result;
 	}
 
+	private Collection<Type> getAnonymousTypes(Type type) {
+		Collection<Type> result = new ArrayList<Type>();
+		return doGetAnonymousTypes(type, result);
+	}
+
 	private CacheManager getCacheManager() {
 		return this.cacheManager;
 	}
@@ -303,12 +329,24 @@ public class BCERepositoryImpl implements BCERepository {
 		}
 	}
 
+	private Instruction getInvokeInstruction(final InstructionList instructionList) {
+		@SuppressWarnings("unchecked")
+		Iterator<InstructionHandle> iterator = instructionList.iterator();
+		while (iterator.hasNext()) {
+			Instruction ih = iterator.next().getInstruction();
+			if (ih instanceof FieldOrMethod) {
+				return ih;
+			}
+		}
+		throw new IllegalArgumentException("Method instruction not found :" + instructionList);
+	}
+
 	private int getMethodSourceLine(final Method method, Type parentType) {
 		Code code = method.getCode();
-		if (method.getName().matches("<.*>")) {
+		if (isConstructor(method)) {
 			// Constructors
-			final LineNumberTable lineNumberTable = code.getLineNumberTable();
-			return lineNumberTable.getSourceLine(0);
+			final InstructionList instructionList = new InstructionList(code.getCode());
+			return getSourceLine(code, getInvokeInstruction(instructionList), instructionList);
 		} else {
 			// Non constructors
 			String xpathString = "//MethodDeclarator[@Image='" + method.getName() + "']";
@@ -367,11 +405,11 @@ public class BCERepositoryImpl implements BCERepository {
 	@Override
 	public Map<Type, Collection<Integer>> getThrows(final Type type) {
 		final Map<Type, Collection<Integer>> result = new HashMap<Type, Collection<Integer>>();
+		JavaClass wrappedType = getWrappedType(type);
 		final Visitor visitor = new EmptyVisitor() {
 
 			@Override
 			public void visitCode(Code code) {
-				final ConstantPool constantPool = code.getConstantPool();
 				InstructionList instructionList = new InstructionList(code.getCode());
 				@SuppressWarnings("unchecked")
 				Iterator<InstructionHandle> iterator = instructionList.iterator();
@@ -381,7 +419,7 @@ public class BCERepositoryImpl implements BCERepository {
 					if (current instanceof ATHROW) {
 						if (last instanceof CPInstruction) {
 							final int sourceLine = getSourceLine(code, last, instructionList);
-							addToResult(sourceLine, getException(constantPool, (CPInstruction) last), result);
+							addToResult(sourceLine, getException(code.getConstantPool(), (CPInstruction) last), result);
 						}
 					}
 					last = current;
@@ -400,7 +438,20 @@ public class BCERepositoryImpl implements BCERepository {
 			}
 
 		};
-		new DescendingVisitor(getWrappedType(type), visitor).visit();
+		new DescendingVisitor(wrappedType, visitor).visit();
+		// Visit anonymous types
+		Collection<Type> anonymousTypes = getAnonymousTypes(type);
+		for (Type anonymousType : anonymousTypes) {
+			new DescendingVisitor(getWrappedType(anonymousType), visitor) {
+				@Override
+				public void visitMethod(Method method) {
+					// Skip implicit constructor of anonymous types
+					if (!isConstructor(method)) {
+						super.visitMethod(method);
+					}
+				};
+			}.visit();
+		}
 		return result;
 	}
 
@@ -550,6 +601,10 @@ public class BCERepositoryImpl implements BCERepository {
 		} catch (NumberFormatException e) {
 			return false;
 		}
+	}
+
+	private boolean isConstructor(final Method method) {
+		return method.getName().matches("<.*>");
 	}
 
 	private void iterateInstructions(Code code, Type type, org.apache.bcel.generic.Visitor visitor) {
