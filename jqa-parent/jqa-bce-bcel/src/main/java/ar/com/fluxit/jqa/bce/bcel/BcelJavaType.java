@@ -113,6 +113,11 @@ class BcelJavaType implements Type {
 	}
 
 	@Override
+	public boolean isInner() {
+		return getName().contains("$");
+	}
+
+	@Override
 	public boolean isInterface() {
 		return this.wrapped.isInterface();
 	}

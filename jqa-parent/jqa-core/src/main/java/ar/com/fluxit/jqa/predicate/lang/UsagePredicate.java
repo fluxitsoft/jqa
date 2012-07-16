@@ -43,9 +43,9 @@ public class UsagePredicate extends FilteredPredicate implements CheckPredicate 
 
 	@Override
 	public boolean evaluate(Type type, RulesContext context) {
-		final Collection<Type> filteredClasses = BCERepositoryLocator.getRepository().getUses(type).keySet();
-		for (final Type usedClass : filteredClasses) {
-			if (!getFilterPredicate().evaluate(usedClass, context)) {
+		final Collection<Type> usedTypes = BCERepositoryLocator.getRepository().getUses(type).keySet();
+		for (final Type usedType : usedTypes) {
+			if (!getFilterPredicate().evaluate(usedType, context)) {
 				return false;
 			}
 		}

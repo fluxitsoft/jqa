@@ -38,6 +38,8 @@ public interface Type {
 
 	boolean isAnonymous();
 
+	boolean isInner();
+
 	/**
 	 * @return if the type is an interface
 	 */

@@ -18,11 +18,13 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.bce.bcel;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -30,6 +32,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
@@ -51,6 +54,7 @@ import org.apache.bcel.Constants;
 import org.apache.bcel.classfile.Attribute;
 import org.apache.bcel.classfile.ClassParser;
 import org.apache.bcel.classfile.Code;
+import org.apache.bcel.classfile.CodeException;
 import org.apache.bcel.classfile.ConstantCP;
 import org.apache.bcel.classfile.ConstantPool;
 import org.apache.bcel.classfile.ConstantUtf8;
@@ -58,8 +62,6 @@ import org.apache.bcel.classfile.DescendingVisitor;
 import org.apache.bcel.classfile.EmptyVisitor;
 import org.apache.bcel.classfile.ExceptionTable;
 import org.apache.bcel.classfile.Field;
-import org.apache.bcel.classfile.InnerClass;
-import org.apache.bcel.classfile.InnerClasses;
 import org.apache.bcel.classfile.JavaClass;
 import org.apache.bcel.classfile.LineNumberTable;
 import org.apache.bcel.classfile.Method;
@@ -69,11 +71,13 @@ import org.apache.bcel.generic.ATHROW;
 import org.apache.bcel.generic.CPInstruction;
 import org.apache.bcel.generic.ConstantPoolGen;
 import org.apache.bcel.generic.FieldOrMethod;
+import org.apache.bcel.generic.GETSTATIC;
 import org.apache.bcel.generic.INVOKEVIRTUAL;
 import org.apache.bcel.generic.Instruction;
 import org.apache.bcel.generic.InstructionHandle;
 import org.apache.bcel.generic.InstructionList;
 import org.apache.bcel.generic.InvokeInstruction;
+import org.apache.bcel.generic.LocalVariableInstruction;
 import org.jaxen.JaxenException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -110,24 +114,6 @@ public class BCERepositoryImpl implements BCERepository {
 		}
 		collection.add(sourceLine);
 		result.put(type, collection);
-	}
-
-	private Collection<Type> doGetAnonymousTypes(Type type, Collection<Type> anonymousTypes) {
-		JavaClass wrappedType = getWrappedType(type);
-		ConstantPool constantPool = wrappedType.getConstantPool();
-		for (Attribute attribute : wrappedType.getAttributes()) {
-			if (attribute instanceof InnerClasses) {
-				for (InnerClass innerClass : ((InnerClasses) attribute).getInnerClasses()) {
-					String innerTypeName = constantPool.getConstantString(innerClass.getInnerClassIndex(), Constants.CONSTANT_Class);
-					BcelJavaType innerType = BcelJavaType.create(innerTypeName);
-					if (innerType.isAnonymous() && !anonymousTypes.contains(innerType)) {
-						anonymousTypes.add(innerType);
-						doGetAnonymousTypes(innerType, anonymousTypes);
-					}
-				}
-			}
-		}
-		return anonymousTypes;
 	}
 
 	private SimpleNode doGetTypeNode(SimpleNode node, String typeShortName) {
@@ -221,19 +207,19 @@ public class BCERepositoryImpl implements BCERepository {
 			@Override
 			public void visitCode(final Code code) {
 				final ConstantPool constantPool = getWrappedType(type).getConstantPool();
-				final InstructionList instructionList = new InstructionList(code.getCode());
-				iterateInstructions(code, type, new org.apache.bcel.generic.EmptyVisitor() {
+				final Map<Instruction, Integer> instructionOffset = new HashMap<Instruction, Integer>();
+				iterateInstructions(code, type, instructionOffset, new org.apache.bcel.generic.EmptyVisitor() {
 
 					@Override
 					public void visitNEW(org.apache.bcel.generic.NEW obj) {
-						final int sourceLine = getSourceLine(code, obj, instructionList);
+						final int sourceLine = getSourceLineNumber(code, instructionOffset.get(obj));
 						ConstantPoolGen cpg = new ConstantPoolGen(constantPool);
 						addToResult(sourceLine, BcelJavaType.create(obj.getType(cpg)), result);
 					};
 
 					@Override
 					public void visitNEWARRAY(org.apache.bcel.generic.NEWARRAY obj) {
-						final int sourceLine = getSourceLine(code, obj, instructionList);
+						final int sourceLine = getSourceLineNumber(code, instructionOffset.get(obj));
 						addToResult(sourceLine, BcelJavaType.create(obj.getType()), result);
 					};
 
@@ -254,11 +240,6 @@ public class BCERepositoryImpl implements BCERepository {
 		return result;
 	}
 
-	private Collection<Type> getAnonymousTypes(Type type) {
-		Collection<Type> result = new ArrayList<Type>();
-		return doGetAnonymousTypes(type, result);
-	}
-
 	private CacheManager getCacheManager() {
 		return this.cacheManager;
 	}
@@ -267,14 +248,26 @@ public class BCERepositoryImpl implements BCERepository {
 		final Cache cache = getCacheManager().getCache("COMPILATION_UNIT");
 		Element result = cache.get(type.getName());
 		if (result == null) {
-			final CharStream stream = new JavaCharStream(getSourceFile(type));
-			final JavaParser javaParser = new JavaParser(stream);
-			if ("1.5".equals(this.javaVersion) || "1.6".equals(this.javaVersion)) {
-				javaParser.setJDK15();
+			InputStream sourceFile = null;
+			try {
+				sourceFile = getSourceFile(type);
+				final CharStream stream = new JavaCharStream(sourceFile);
+				final JavaParser javaParser = new JavaParser(stream);
+				if ("1.5".equals(this.javaVersion) || "1.6".equals(this.javaVersion)) {
+					javaParser.setJDK15();
+				}
+				final ASTCompilationUnit compilationUnit = javaParser.CompilationUnit();
+				result = new Element(type.getName(), compilationUnit);
+				cache.put(result);
+			} finally {
+				if (sourceFile != null) {
+					try {
+						sourceFile.close();
+					} catch (IOException e) {
+						LOGGER.error("Can not close source file input stream", e);
+					}
+				}
 			}
-			final ASTCompilationUnit compilationUnit = javaParser.CompilationUnit();
-			result = new Element(type.getName(), compilationUnit);
-			cache.put(result);
 		}
 		return (ASTCompilationUnit) result.getObjectValue();
 	}
@@ -291,10 +284,9 @@ public class BCERepositoryImpl implements BCERepository {
 		return BcelJavaType.create(typeName);
 	}
 
-	private List<Integer> getFieldSourceLines(Type parentType, Type fieldType, String fieldName) {
-		// FIXME why return List<Integer> ?
+	private Collection<Integer> getFieldSourceLines(Type parentType, Type fieldType, String fieldName) {
 		List<Integer> result = new ArrayList<Integer>();
-		String xpathString = String.format("//VariableDeclarator/../Type[//ClassOrInterfaceType[@Image='%s' or @Image='%s'] or PrimitiveType[@Image='%s']]",
+		String xpathString = String.format("//VariableDeclarator/../Type[.//ClassOrInterfaceType[@Image='%s' or @Image='%s'] or PrimitiveType[@Image='%s']]",
 				fieldType.getName(), fieldType.getShortName(), fieldType.getShortName());
 		List<SimpleNode> fieldTypeNodes = findChildNodesWithXPath(parentType, xpathString);
 		if (fieldTypeNodes.isEmpty()) {
@@ -308,10 +300,16 @@ public class BCERepositoryImpl implements BCERepository {
 
 	}
 
-	@SuppressWarnings("unchecked")
-	private Iterator<InstructionHandle> getInstructionListIterator(Code code) {
-		InstructionList instructionList = new InstructionList(code.getCode());
-		return instructionList.iterator();
+	private int getFirstFieldOrMethodInstructionSourceLine(Code code) {
+		final InstructionList instructionList = new InstructionList(code.getCode());
+		for (int i = 0; i < instructionList.size(); i++) {
+			Instruction instruction = instructionList.getInstructions()[i];
+			if (instruction instanceof FieldOrMethod) {
+				int offset = instructionList.getInstructionPositions()[i];
+				return getSourceLineNumber(code, offset);
+			}
+		}
+		throw new IllegalArgumentException("FieldOrMethodInstruction instruction not found at :" + code);
 	}
 
 	@Override
@@ -329,36 +327,35 @@ public class BCERepositoryImpl implements BCERepository {
 		}
 	}
 
-	private Instruction getInvokeInstruction(final InstructionList instructionList) {
-		@SuppressWarnings("unchecked")
-		Iterator<InstructionHandle> iterator = instructionList.iterator();
-		while (iterator.hasNext()) {
-			Instruction ih = iterator.next().getInstruction();
-			if (ih instanceof FieldOrMethod) {
-				return ih;
-			}
-		}
-		throw new IllegalArgumentException("Method instruction not found :" + instructionList);
-	}
-
 	private int getMethodSourceLine(final Method method, Type parentType) {
 		Code code = method.getCode();
 		if (isConstructor(method)) {
 			// Constructors
-			final InstructionList instructionList = new InstructionList(code.getCode());
-			return getSourceLine(code, getInvokeInstruction(instructionList), instructionList);
+			return getFirstFieldOrMethodInstructionSourceLine(code);
 		} else {
 			// Non constructors
 			String xpathString = "//MethodDeclarator[@Image='" + method.getName() + "']";
+			if (method.getArgumentTypes().length == 0) {
+				xpathString += "[not(.//FormalParameter)]";
+			} else {
+				for (org.apache.bcel.generic.Type argumentType : method.getArgumentTypes()) {
+					Type argumentType2 = BcelJavaType.create(argumentType);
+					xpathString += "[.//FormalParameter//*[@Image='" + argumentType2.getShortName() + "']]";
+				}
+			}
 			List<SimpleNode> fieldTypeNodes = findChildNodesWithXPath(parentType, xpathString);
 			if (fieldTypeNodes.size() == 1) {
 				return fieldTypeNodes.get(0).getBeginLine();
-			}
-			if (xpathString.equals("//ConstructorDeclaration[count(FormalParameters/FormalParameter) = 0]") && fieldTypeNodes.isEmpty()) {
-				// Implicit constructor
-				return getDeclarationLineNumber(parentType);
+			} else if (fieldTypeNodes.size() > 1) {
+				throw new IllegalArgumentException("More than one method found for: " + method.getName() + " at type: " + parentType.getName());
 			} else {
-				throw new IllegalArgumentException("Method not found: " + method.getName());
+				// fieldTypeNodes == 0
+				if (xpathString.equals("//ConstructorDeclaration[count(FormalParameters/FormalParameter) = 0]")) {
+					// Implicit constructor
+					return getDeclarationLineNumber(parentType);
+				} else {
+					throw new IllegalArgumentException("Method not found: " + method.getName() + " for type: " + parentType.getName());
+				}
 			}
 		}
 	}
@@ -380,11 +377,35 @@ public class BCERepositoryImpl implements BCERepository {
 		}
 	}
 
-	int getSourceLine(Code code, Instruction obj, InstructionList instructionList) {
-		int pos = indexOf(instructionList.getInstructions(), obj);
-		int lenght = instructionList.getInstructionHandles()[pos].getPosition();
+	private String getSourceLine(Type type, int sourceLine) {
+		if (sourceLine < 1) {
+			throw new IllegalArgumentException("Line number must be greater than or equal to 1");
+		}
+		InputStream stream = null;
+		try {
+			stream = getSourceFile(type);
+			BufferedReader br = new BufferedReader(new InputStreamReader(stream));
+			String line = null;
+			for (int i = 0; i < sourceLine; i++) {
+				line = br.readLine();
+			}
+			return line;
+		} catch (IOException e) {
+			throw new IllegalStateException("An error occured while reading source file", e);
+		} finally {
+			try {
+				if (stream != null) {
+					stream.close();
+				}
+			} catch (IOException e) {
+				LOGGER.error("Can not close source file input stream", e);
+			}
+		}
+	}
+
+	private int getSourceLineNumber(Code code, int offset) {
 		final LineNumberTable lineNumberTable = code.getLineNumberTable();
-		return lineNumberTable.getSourceLine(lenght);
+		return lineNumberTable.getSourceLine(offset);
 	}
 
 	@Override
@@ -411,18 +432,19 @@ public class BCERepositoryImpl implements BCERepository {
 			@Override
 			public void visitCode(Code code) {
 				InstructionList instructionList = new InstructionList(code.getCode());
-				@SuppressWarnings("unchecked")
-				Iterator<InstructionHandle> iterator = instructionList.iterator();
-				Instruction last = null;
-				while (iterator.hasNext()) {
-					Instruction current = iterator.next().getInstruction();
-					if (current instanceof ATHROW) {
-						if (last instanceof CPInstruction) {
-							final int sourceLine = getSourceLine(code, last, instructionList);
-							addToResult(sourceLine, getException(code.getConstantPool(), (CPInstruction) last), result);
+				Instruction lastInstruction = null;
+				int lastOffset = 0;
+				for (int i = 0; i < instructionList.size(); i++) {
+					Instruction currentInstruction = instructionList.getInstructions()[i];
+					int currentOffset = instructionList.getInstructionPositions()[i];
+					if (currentInstruction instanceof ATHROW) {
+						if (lastInstruction instanceof CPInstruction) {
+							final int sourceLine = getSourceLineNumber(code, lastOffset);
+							addToResult(sourceLine, getException(code.getConstantPool(), (CPInstruction) lastInstruction), result);
 						}
 					}
-					last = current;
+					lastInstruction = currentInstruction;
+					lastOffset = currentOffset;
 				}
 			}
 
@@ -439,19 +461,6 @@ public class BCERepositoryImpl implements BCERepository {
 
 		};
 		new DescendingVisitor(wrappedType, visitor).visit();
-		// Visit anonymous types
-		Collection<Type> anonymousTypes = getAnonymousTypes(type);
-		for (Type anonymousType : anonymousTypes) {
-			new DescendingVisitor(getWrappedType(anonymousType), visitor) {
-				@Override
-				public void visitMethod(Method method) {
-					// Skip implicit constructor of anonymous types
-					if (!isConstructor(method)) {
-						super.visitMethod(method);
-					}
-				};
-			}.visit();
-		}
 		return result;
 	}
 
@@ -465,21 +474,27 @@ public class BCERepositoryImpl implements BCERepository {
 	public Map<Type, Collection<Integer>> getUses(final Type type) {
 		// TODO cache
 		final Map<Type, Collection<Integer>> result = new HashMap<Type, Collection<Integer>>();
-		final ConstantPool constantPool = getWrappedType(type).getConstantPool();
 		final Visitor visitor = new EmptyVisitor() {
 
 			@Override
 			public void visitCode(final Code code) {
-				final InstructionList instructionList = new InstructionList(code.getCode());
-				iterateInstructions(code, type, new org.apache.bcel.generic.EmptyVisitor() {
+				final ConstantPool constantPool = code.getConstantPool();
+				final Map<Instruction, Integer> instructionOffset = new HashMap<Instruction, Integer>();
+				iterateInstructions(code, type, instructionOffset, new org.apache.bcel.generic.EmptyVisitor() {
+
+					@Override
+					public void visitGETSTATIC(GETSTATIC obj) {
+						final int sourceLine = getSourceLineNumber(code, instructionOffset.get(obj));
+						ConstantPoolGen cpg = new ConstantPoolGen(constantPool);
+						addToResult(sourceLine, BcelJavaType.create(obj.getReferenceType(cpg)), result);
+					}
 
 					@Override
 					public void visitInvokeInstruction(InvokeInstruction obj) {
-						final int sourceLine = getSourceLine(code, obj, instructionList);
+						final int sourceLine = getSourceLineNumber(code, instructionOffset.get(obj));
 						ConstantPoolGen cpg = new ConstantPoolGen(constantPool);
 						addToResult(sourceLine, BcelJavaType.create(obj.getReferenceType(cpg)), result);
-
-					};
+					}
 
 					@Override
 					public void visitINVOKEVIRTUAL(INVOKEVIRTUAL obj) {
@@ -487,12 +502,36 @@ public class BCERepositoryImpl implements BCERepository {
 						org.apache.bcel.generic.Type returnType = obj.getReturnType(cpg);
 						BcelJavaType type = BcelJavaType.create(returnType);
 						if (type != null) {
-							final int sourceLine = getSourceLine(code, obj, instructionList);
+							final int sourceLine = getSourceLineNumber(code, instructionOffset.get(obj));
+							addToResult(sourceLine, type, result);
+						}
+					}
+
+					@Override
+					public void visitLocalVariableInstruction(LocalVariableInstruction obj) {
+						ConstantPoolGen cpg = new ConstantPoolGen(constantPool);
+						org.apache.bcel.generic.Type returnType = obj.getType(cpg);
+						BcelJavaType type = BcelJavaType.create(returnType);
+						if (type != null) {
+							final int sourceLine = getSourceLineNumber(code, instructionOffset.get(obj));
 							addToResult(sourceLine, type, result);
 						}
 					}
 
 				});
+				// Catchs blocks exceptions
+				for (CodeException codeException : code.getExceptionTable()) {
+					String typeName = constantPool.getConstantString(codeException.getCatchType(), Constants.CONSTANT_Class);
+					final LineNumberTable lineNumberTable = code.getLineNumberTable();
+					final int sourceLine = lineNumberTable.getSourceLine(codeException.getHandlerPC());
+					addToResult(sourceLine, BcelJavaType.create(typeName), result);
+				}
+			}
+
+			private void visitExceptionTable(ExceptionTable exceptionTable, int sourceLine) {
+				for (String exceptionName : exceptionTable.getExceptionNames()) {
+					addToResult(sourceLine, BcelJavaType.create(exceptionName), result);
+				}
 			}
 
 			@Override
@@ -500,7 +539,7 @@ public class BCERepositoryImpl implements BCERepository {
 				// Skip generated fields
 				if ((field.getAccessFlags() & Constants.ACC_SYNTHETIC) == 0) {
 					final Type fieldType = BcelJavaType.create(org.apache.bcel.generic.Type.getType(field.getSignature()));
-					List<Integer> sourceLines = getFieldSourceLines(type, fieldType, field.getName());
+					Collection<Integer> sourceLines = getFieldSourceLines(type, fieldType, field.getName());
 					for (Integer sourceLine : sourceLines) {
 						addToResult(sourceLine, fieldType, result);
 					}
@@ -509,7 +548,7 @@ public class BCERepositoryImpl implements BCERepository {
 
 			@Override
 			public void visitJavaClass(JavaClass obj) {
-				final int sourceLine = getDeclarationLineNumber(type);
+				final int sourceLine = getDeclarationLineNumber(BcelJavaType.create(obj));
 				for (String type : obj.getInterfaceNames()) {
 					addToResult(sourceLine, BcelJavaType.create(type), result);
 				}
@@ -523,29 +562,28 @@ public class BCERepositoryImpl implements BCERepository {
 
 			@Override
 			public void visitMethod(Method method) {
-				final int sourceLine = getMethodSourceLine(method, type);
-				final List<String> typeNames = TypeNameTranslator.signatureToTypeNames(method.getSignature());
-				for (final String typeName : typeNames) {
-					BcelJavaType type = BcelJavaType.create(typeName);
-					if (type != null) {
-						addToResult(sourceLine, type, result);
+				if ((method.getAccessFlags() & Constants.ACC_SYNTHETIC) == 0) {
+					final int sourceLineNumber = getMethodSourceLine(method, type);
+					String sourceLine = getSourceLine(type, sourceLineNumber);
+					final List<String> typeNames = TypeNameTranslator.signatureToTypeNames(method.getSignature());
+					for (final String typeName : typeNames) {
+						BcelJavaType methodType = BcelJavaType.create(typeName);
+						if (methodType != null && sourceLine.contains(methodType.getShortName())) {
+							addToResult(sourceLineNumber, methodType, result);
+						}
 					}
-				}
-				final ExceptionTable exceptionTable = method.getExceptionTable();
-				if (exceptionTable != null) {
-					for (final String exceptionClassName : exceptionTable.getExceptionNames()) {
-						addToResult(sourceLine, BcelJavaType.create(exceptionClassName), result);
-					}
-				}
-				for (Attribute attribute : method.getAttributes()) {
-					if (attribute instanceof Signature) {
-						visitSignature((Signature) attribute, sourceLine);
+					for (Attribute attribute : method.getAttributes()) {
+						if (attribute instanceof Signature) {
+							visitSignature((Signature) attribute, sourceLineNumber);
+						} else if (attribute instanceof ExceptionTable) {
+							visitExceptionTable((ExceptionTable) attribute, sourceLineNumber);
+						}
 					}
 				}
 			}
 
 			public void visitSignature(Signature obj, int sourceLine) {
-				final ConstantUtf8 constantString = (ConstantUtf8) constantPool.getConstant(obj.getSignatureIndex());
+				final ConstantUtf8 constantString = (ConstantUtf8) obj.getConstantPool().getConstant(obj.getSignatureIndex());
 				String signature = constantString.getBytes();
 				for (String type : TypeNameTranslator.signatureToTypeNames2(signature)) {
 					addToResult(sourceLine, BcelJavaType.create(type), result);
@@ -554,11 +592,10 @@ public class BCERepositoryImpl implements BCERepository {
 
 		};
 		new DescendingVisitor(getWrappedType(type), visitor).visit();
-		// Removes the target type and its inner types
-		result.remove(type);
-		for (Type type2 : new ArrayList<Type>(result.keySet())) {
-			if (type2.getName().contains("$")) {
-				result.remove(type2);
+		// Add throws
+		for (Entry<Type, Collection<Integer>> entry : getThrows(type).entrySet()) {
+			for (Integer sourceLine : entry.getValue()) {
+				addToResult(sourceLine, entry.getKey(), result);
 			}
 		}
 		return result;
@@ -584,16 +621,6 @@ public class BCERepositoryImpl implements BCERepository {
 		}
 	}
 
-	private int indexOf(Instruction[] instructions, Instruction instruction) {
-		for (int i = 0; i < instructions.length; i++) {
-			Instruction inst = instructions[i];
-			if (inst.equals(instruction)) {
-				return i;
-			}
-		}
-		throw new IllegalArgumentException("Instruction not found: " + instruction + " on array " + instructions);
-	}
-
 	private boolean isAnonymous(String currentTypeName) {
 		try {
 			new Integer(currentTypeName);
@@ -607,10 +634,15 @@ public class BCERepositoryImpl implements BCERepository {
 		return method.getName().matches("<.*>");
 	}
 
-	private void iterateInstructions(Code code, Type type, org.apache.bcel.generic.Visitor visitor) {
-		Iterator<InstructionHandle> iterator = getInstructionListIterator(code);
+	private void iterateInstructions(Code code, Type type, Map<Instruction, Integer> instructionOffset, org.apache.bcel.generic.Visitor visitor) {
+		InstructionList instructionList = new InstructionList(code.getCode());
+		@SuppressWarnings("unchecked")
+		Iterator<InstructionHandle> iterator = instructionList.iterator();
 		while (iterator.hasNext()) {
-			final Instruction instruction = iterator.next().getInstruction();
+			InstructionHandle ih = iterator.next();
+			final Instruction instruction = ih.getInstruction();
+			final int offset = ih.getPosition();
+			instructionOffset.put(instruction, offset); // TODO refactor?
 			instruction.accept(visitor);
 		}
 	}

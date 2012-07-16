@@ -124,7 +124,7 @@ public class JQAMavenPluginRunner {
 		assertContains(result, "Implementation abstraction", "ar.com.fluxit.jqa.test.bo.impl.BusBO", fails);
 		assertContains(result, "Implementation abstraction", "ar.com.fluxit.jqa.test.dao.impl.BusDAO", fails);
 
-		Assert.assertEquals(fails.size() + " unexpected fails occurred: " + fails.toString(), 0, fails.size());
+		Assert.assertTrue(fails.size() + " unexpected fail(s) occurred: " + fails.toString(), fails.isEmpty());
 	}
 
 	public static void main(String[] args) {
@@ -139,6 +139,7 @@ public class JQAMavenPluginRunner {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+			System.out.println("Have you runned 'mvn clean install' over the parent project ???");
 		}
 	}
 

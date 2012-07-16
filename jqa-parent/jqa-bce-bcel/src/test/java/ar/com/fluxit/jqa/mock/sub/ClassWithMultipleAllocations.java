@@ -49,7 +49,6 @@ import org.apache.wml.dom.WMLImgElementImpl;
 
 import ar.com.fluxit.jqa.mock.ClassA;
 
-
 /**
  * TODO javadoc
  * 
@@ -86,7 +85,7 @@ public class ClassWithMultipleAllocations {
 			public void dummy3() throws AWTException {
 				try {
 					System.out.println(new BasicStroke());
-				} catch (Exception e) {
+				} catch (IllegalStateException e) {
 					throw new AWTException("");
 				}
 			}
@@ -141,7 +140,7 @@ public class ClassWithMultipleAllocations {
 
 		public void dummy3() {
 			try {
-				System.out.println(new Vector<String>());
+				System.out.println(new Vector<Object>());
 			} catch (Exception e) {
 				System.out.println(new Font(null));
 			}
@@ -196,7 +195,7 @@ public class ClassWithMultipleAllocations {
 	public void dummy3() {
 		try {
 			System.out.println(new DecimalFormat());
-		} catch (Exception e) {
+		} catch (IllegalArgumentException e) {
 			System.out.println(new Label());
 		}
 	}
@@ -207,7 +206,7 @@ public class ClassWithMultipleAllocations {
 		}
 	}
 
-	public void dummy5() {
+	public void dummy4(String a) {
 		for (int i = 0; true; new Double("")) {
 			System.out.println(i);
 		}

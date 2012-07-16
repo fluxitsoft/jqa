@@ -30,10 +30,10 @@ import java.util.concurrent.TimeoutException;
 import java.util.prefs.BackingStoreException;
 import java.util.zip.DataFormatException;
 
+import javax.crypto.BadPaddingException;
 import javax.print.attribute.UnmodifiableSetException;
 import javax.xml.transform.TransformerException;
 
-import sun.awt.image.BadDepthException;
 import ar.com.fluxit.jqa.mock.ClassA;
 import ar.com.fluxit.jqa.mock.ExceptionA;
 import ar.com.fluxit.jqa.mock.Helper;
@@ -132,7 +132,7 @@ public class ClassWithMultipleThrows {
 
 		public void dummy3() {
 			try {
-				throw new BadDepthException();
+				throw new BadPaddingException();
 			} catch (Exception e) {
 				throw new IllegalAccessError();
 			}

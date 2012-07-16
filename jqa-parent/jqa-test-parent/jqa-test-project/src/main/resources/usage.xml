@@ -102,7 +102,9 @@
 					<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="BO exceptions" />
 					<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="DAO exceptions" />
 					<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="DAO contract attempt" />
-					<predicate xsi:type="jqa:NamingPredicate" namePattern="javax.sql.**" />
+					<predicate xsi:type="jqa:TypingPredicate">
+						<predicate xsi:type="jqa:NamingPredicate" namePattern="javax.sql.**" />
+					</predicate>
 				</predicate>
 			</checkPredicate>
 		</rule>
