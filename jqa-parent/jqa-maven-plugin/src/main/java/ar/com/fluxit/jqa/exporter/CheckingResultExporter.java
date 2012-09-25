@@ -35,6 +35,7 @@ import javax.xml.transform.stream.StreamSource;
 import org.slf4j.Logger;
 
 import ar.com.fluxit.jqa.result.CheckingResult;
+import ar.com.fluxit.jqa.util.FileUtils;
 
 import com.thoughtworks.xstream.XStream;
 
@@ -50,9 +51,12 @@ public class CheckingResultExporter {
 	private CheckingResultExporter() {
 	}
 
-	public void export(CheckingResult checkingResult, String projectName, File exportDir, File xsltFile, Logger logger) throws ExporterException {
+	public void export(CheckingResult checkingResult, String projectName,
+			File exportDir, File xsltFile, Logger logger)
+			throws ExporterException {
 		// Writes the results in XML
-		final File xmlFile = new File(exportDir, "results-" + projectName + ".xml");
+		final File xmlFile = new File(exportDir, "results-" + projectName
+				+ ".xml");
 		logger.debug("Writing the results on " + xmlFile);
 		Writer out = null;
 		try {
@@ -61,11 +65,12 @@ public class CheckingResultExporter {
 			final XStream xs = new XStream();
 			xs.setMode(XStream.NO_REFERENCES);
 			xs.toXML(checkingResult, out);
-
 			// Writes the results in HTML
 			logger.debug("Writing the results on " + xmlFile);
-			final File htmlFile = new File(exportDir, "results-" + projectName + ".html");
-			TransformerFactory transformerFactory = TransformerFactory.newInstance();
+			final File htmlFile = new File(exportDir, "results-" + projectName
+					+ ".html");
+			TransformerFactory transformerFactory = TransformerFactory
+					.newInstance();
 			Source source;
 			if (xsltFile != null) {
 				source = new StreamSource(xsltFile);
@@ -75,13 +80,20 @@ public class CheckingResultExporter {
 			Transformer transformer = transformerFactory.newTransformer(source);
 			Result result = new StreamResult(htmlFile);
 			transformer.transform(new StreamSource(xmlFile), result);
+			// Writes libs to export directory
+			FileUtils.INSTANCE.copyResourcesRecursively(
+					getClass().getResource("/lib"), exportDir);
 		} catch (Exception e) {
-			throw new ExporterException("An error has occured while exporting to the checking result to HTML", e);
+			throw new ExporterException(
+					"An error has occured while exporting to the checking result to HTML",
+					e);
 		} finally {
 			try {
 				out.close();
 			} catch (IOException e) {
-				logger.error("An error has occured while exporting to the checking result to HTML", e);
+				logger.error(
+						"An error has occured while exporting to the checking result to HTML",
+						e);
 			}
 		}
 	}
@@ -89,4 +101,5 @@ public class CheckingResultExporter {
 	private InputStream getDefaultTransformer() {
 		return getClass().getResourceAsStream("/defaultTransformer.xsl");
 	}
+
 }
