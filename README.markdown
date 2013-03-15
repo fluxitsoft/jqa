@@ -53,3 +53,7 @@ JQA is under development, and contributors are welcome. If you have a feature re
 
 ## License
 This project is under GNU General Public License version 3 or later (http://www.gnu.org/licenses/).
+
+[![githalytics.com alpha](https://cruel-carlota.pagodabox.com/0fbedc5327f5a3ec49f4cc11768f0190 "githalytics.com")](http://githalytics.com/jbaris/jqa)
+
+
