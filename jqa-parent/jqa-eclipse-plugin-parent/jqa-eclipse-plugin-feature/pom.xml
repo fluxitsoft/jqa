@@ -21,7 +21,6 @@
 	<artifactId>jqa-eclipse-plugin-feature</artifactId>
 	<name>JQA Eclipse Feature</name>
 	<url>http://github.com/jbaris/jqa</url>
-	<packaging>pom</packaging>
 
 	<build>
 		<plugins>
@@ -29,12 +28,18 @@
 				<artifactId>maven-eclipse-plugin</artifactId>
 				<version>2.9</version>
 				<configuration>
-					<additionalProjectnatures>
-						<projectnature>org.eclipse.pde.FeatureNature</projectnature>
-					</additionalProjectnatures>
-					<additionalBuildcommands>
-						<buildcommand>org.eclipse.pde.FeatureBuilder</buildcommand>
-					</additionalBuildcommands>
+					<additionalConfig>
+                                                <file>
+                                                        <name>.project</name>
+                                                        <content> <![CDATA[
+                                                                <projectDescription>
+								  <name>jqa-eclipse-plugin-feature</name>
+								  <projects/>
+								</projectDescription>
+								]]>
+                                                        </content>
+                                                </file>
+                                        </additionalConfig>
 				</configuration>
 			</plugin>
 		</plugins>
