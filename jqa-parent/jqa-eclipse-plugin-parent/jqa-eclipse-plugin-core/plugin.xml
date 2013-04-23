@@ -7,27 +7,27 @@
       <objectContribution
             objectClass="org.eclipse.jdt.core.IJavaProject"
             nameFilter="*"
-            id="ar.com.fluxit.jqa.actions.JQAAction">
+            id="ar.com.fluxit.jqa.action.JQAAction">
          <action
                label="Run &amp;JQA"
                icon="icons/ok.png"
-               class="ar.com.fluxit.jqa.actions.JQAAction"
+               class="ar.com.fluxit.jqa.action.JQAAction"
                menubarPath="additions"
                enablesFor="1"
-               id="ar.com.fluxit.jqa.actions.JQAAction">
+               id="ar.com.fluxit.jqa.action.JQAAction">
          </action>
       </objectContribution>
       <objectContribution
             objectClass="org.eclipse.core.resources.IProject"
             nameFilter="*"
-            id="ar.com.fluxit.jqa.actions.JQAAction">
+            id="ar.com.fluxit.jqa.action.JQAAction">
          <action
                label="Run &amp;JQA"
                icon="icons/ok.png"
-               class="ar.com.fluxit.jqa.actions.JQAAction"
+               class="ar.com.fluxit.jqa.action.JQAAction"
                menubarPath="additions"
                enablesFor="1"
-               id="ar.com.fluxit.jqa.actions.JQAAction">
+               id="ar.com.fluxit.jqa.action.JQAAction">
          </action>
       </objectContribution>
    </extension>
