@@ -74,6 +74,13 @@
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/org.eclipse.swt.gtk.linux.x86_3.6.1.v3655c.jar</systemPath>
 		</dependency>
+      <dependency>
+			<artifactId>equinox</artifactId>
+			<groupId>equinox</groupId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/org.eclipse.equinox.common_3.6.0.v20100503.jar</systemPath>
+		</dependency>
 		<!-- End dependencies only for compilation -->
 	</dependencies>
 	<build>
