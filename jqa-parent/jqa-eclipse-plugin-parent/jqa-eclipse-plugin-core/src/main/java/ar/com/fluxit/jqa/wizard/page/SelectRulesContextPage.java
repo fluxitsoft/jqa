@@ -1,5 +1,8 @@
 package ar.com.fluxit.jqa.wizard.page;
 
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -10,6 +13,9 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Layout;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.dialogs.ElementTreeSelectionDialog;
+import org.eclipse.ui.model.BaseWorkbenchContentProvider;
+import org.eclipse.ui.model.WorkbenchLabelProvider;
 
 public class SelectRulesContextPage extends WizardPage {
 
@@ -75,6 +81,32 @@ public class SelectRulesContextPage extends WizardPage {
 						selectionRulesContextButton);
 			}
 		});
+		selectionRulesContextButton
+				.addSelectionListener(new SelectionAdapter() {
+					@Override
+					public void widgetSelected(SelectionEvent e) {
+						SelectRulesContextPage.this
+								.openRulesContextSelectionDialog();
+					}
+				});
+	}
+
+	protected void openRulesContextSelectionDialog() {
+		ElementTreeSelectionDialog dialog = new ElementTreeSelectionDialog(
+				getShell(), new WorkbenchLabelProvider(),
+				new BaseWorkbenchContentProvider());
+		dialog.setTitle("Tree Selection");
+		dialog.setMessage("Select the elements from the tree:");
+		dialog.setInput(ResourcesPlugin.getWorkspace().getRoot());
+		dialog.addFilter(new ViewerFilter() {
+			
+			@Override
+			public boolean select(Viewer arg0, Object arg1, Object arg2) {
+				// TODO Auto-generated method stub
+				return true;
+			}
+		});
+		dialog.open();
 	}
 
 	protected void selectionRulesContextRadioSelected(

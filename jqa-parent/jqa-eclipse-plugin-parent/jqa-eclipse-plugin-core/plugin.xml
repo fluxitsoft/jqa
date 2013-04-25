@@ -1,35 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
-
- <extension
-         point="org.eclipse.ui.popupMenus">
-      <objectContribution
-            objectClass="org.eclipse.jdt.core.IJavaProject"
-            nameFilter="*"
-            id="ar.com.fluxit.jqa.action.JQAAction">
-         <action
-               label="Run &amp;JQA"
-               icon="icons/ok.png"
-               class="ar.com.fluxit.jqa.action.JQAAction"
-               menubarPath="additions"
-               enablesFor="1"
-               id="ar.com.fluxit.jqa.action.JQAAction">
-         </action>
-      </objectContribution>
-      <objectContribution
-            objectClass="org.eclipse.core.resources.IProject"
-            nameFilter="*"
-            id="ar.com.fluxit.jqa.action.JQAAction">
-         <action
-               label="Run &amp;JQA"
-               icon="icons/ok.png"
-               class="ar.com.fluxit.jqa.action.JQAAction"
-               menubarPath="additions"
-               enablesFor="1"
-               id="ar.com.fluxit.jqa.action.JQAAction">
-         </action>
-      </objectContribution>
+	<extension
+         point="org.eclipse.ui.commands">
+       <command
+            id="ar.com.fluxit.jqa.command.JQACommand"
+            name="Run JQA">
+      </command>
    </extension>
-
+   <extension
+         point="org.eclipse.ui.handlers">
+      <handler
+            class="ar.com.fluxit.jqa.handler.JQAHandler"
+            commandId="ar.com.fluxit.jqa.command.JQACommand">
+      </handler>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            locationURI="menu:org.eclipse.ui.run?after=additions">
+            <command
+                  commandId="ar.com.fluxit.jqa.command.JQACommand"
+                  id="ar.com.fluxit.jqa.menu.jdt.JQACommand"
+                  mnemonic="J">
+            </command>
+      </menuContribution>
+   </extension>
 </plugin>
