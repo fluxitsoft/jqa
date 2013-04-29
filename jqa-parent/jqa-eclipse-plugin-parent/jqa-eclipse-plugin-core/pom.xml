@@ -104,6 +104,20 @@
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/org.eclipse.core.resources_3.8.1.v20121114-124432.jar</systemPath>
 		</dependency>
+		<dependency>
+			<artifactId>ide</artifactId>
+			<groupId>ide</groupId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/org.eclipse.ui.ide_3.8.2.v20121106-165923.jar</systemPath>
+		</dependency>
+		<dependency>
+			<artifactId>jobs</artifactId>
+			<groupId>jobs</groupId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/org.eclipse.core.jobs_3.5.300.v20120912-155018.jar</systemPath>
+		</dependency>
 		<!-- End dependencies only for compilation -->
 	</dependencies>
 	<build>

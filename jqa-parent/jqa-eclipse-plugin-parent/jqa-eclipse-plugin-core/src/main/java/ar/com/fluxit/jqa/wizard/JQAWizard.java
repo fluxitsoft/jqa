@@ -18,19 +18,53 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.wizard;
 
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.jface.wizard.Wizard;
 
-import ar.com.fluxit.jqa.wizard.page.SelectRulesContextPage;
+import ar.com.fluxit.jqa.wizard.page.RulesContextSelectionWizardPage;
+import ar.com.fluxit.jqa.wizard.page.TargetProjectsSelectionWizardPage;
 
 public class JQAWizard extends Wizard {
 
+	private IPath rulesContextFile;
+	private IProject[] targetProjects;
+
+	public JQAWizard() {
+		setForcePreviousAndNextButtons(true);
+	}
+
+	@Override
 	public void addPages() {
-		addPage(new SelectRulesContextPage());
+		addPage(new RulesContextSelectionWizardPage());
+	}
+
+	@Override
+	public boolean canFinish() {
+		final String currentPageName = getContainer().getCurrentPage().getName();
+		return TargetProjectsSelectionWizardPage.PAGE_NAME.equals(currentPageName) && getTargetProjects() != null && getTargetProjects().length > 0;
+	}
+
+	public IPath getRulesContextFile() {
+		return rulesContextFile;
+	}
+
+	public IProject[] getTargetProjects() {
+		return targetProjects;
 	}
 
 	@Override
 	public boolean performFinish() {
-		return true;
+		return false;
+	}
+
+	public void setRulesContextFile(IPath rulesContextFile) {
+		this.rulesContextFile = rulesContextFile;
+		getContainer().updateButtons();
+	}
+
+	public void setTargetProjects(IProject[] targetProjects) {
+		this.targetProjects = targetProjects;
 	}
 
 }

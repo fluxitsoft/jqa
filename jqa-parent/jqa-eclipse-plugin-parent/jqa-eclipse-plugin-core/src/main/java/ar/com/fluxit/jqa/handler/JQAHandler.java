@@ -31,11 +31,12 @@ public class JQAHandler extends AbstractHandler {
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-		Shell shell = PlatformUI.getWorkbench()
-				.getActiveWorkbenchWindow().getShell();
+		Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
 		WizardDialog dialog = new WizardDialog(shell, new JQAWizard());
+		// TODO dialog title don't work
+		dialog.setTitle("Run JQA");
 		dialog.open();
 		return null;
 	}
-	
+
 }
