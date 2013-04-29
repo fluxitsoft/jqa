@@ -52,7 +52,7 @@ If you want to contribute to JQA, see the [Developer's guide](http://github.com/
 JQA is under development, and contributors are welcome. If you have a feature request, suggestion, or bug report, please [open a new issue](http://github.com/jbaris/jqa/issues). To submit patches, please send a pull request. Once your changes get merged back in, you’ll automatically be added to the [Contributors List](http://github.com/jbaris/jqa/graphs/contributors).
 
 ## License
-This project is under GNU General Public License version 3 or later (http://www.gnu.org/licenses/).
+This project is under GNU Lesser General Public License version 3 or later (http://www.gnu.org/licenses/).
 
 [![githalytics.com alpha](https://cruel-carlota.pagodabox.com/0fbedc5327f5a3ec49f4cc11768f0190 "githalytics.com")](http://githalytics.com/jbaris/jqa)
 
