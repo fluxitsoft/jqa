@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: JQA Eclipse Plugin
 Bundle-SymbolicName: jqa-eclipse-plugin-core;singleton:=true
 Bundle-Version: 1.0
-Bundle-Activator: ar.com.fluxit.jqa.Activator
+Bundle-Activator: ar.com.fluxit.jqa.JQAEclipsePlugin
 Bundle-Vendor: FluxIT
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,

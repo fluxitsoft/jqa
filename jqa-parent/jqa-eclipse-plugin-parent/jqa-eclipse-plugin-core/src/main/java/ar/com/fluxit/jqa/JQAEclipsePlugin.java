@@ -27,12 +27,12 @@ import org.osgi.framework.BundleContext;
  * 
  * @author Juan Ignacio Barisich
  */
-public class Activator extends AbstractUIPlugin {
+public class JQAEclipsePlugin extends AbstractUIPlugin {
 
 	public static final String PLUGIN_ID = "jqa-eclipse-plugin";
-	private static Activator plugin;
+	private static JQAEclipsePlugin plugin;
 
-	public static Activator getDefault() {
+	public static JQAEclipsePlugin getDefault() {
 		return plugin;
 	}
 
@@ -40,7 +40,7 @@ public class Activator extends AbstractUIPlugin {
 		return imageDescriptorFromPlugin(PLUGIN_ID, path);
 	}
 
-	public Activator() {
+	public JQAEclipsePlugin() {
 	}
 
 	@Override
