@@ -31,7 +31,8 @@ import ar.com.fluxit.jqa.predicate.IgnoringContextPredicate;
  * 
  * @author Juan Ignacio Barisich
  */
-public class AbstractionPredicate extends IgnoringContextPredicate implements CheckPredicate {
+public class AbstractionPredicate extends IgnoringContextPredicate implements
+		CheckPredicate {
 
 	public enum AbstractionType {
 		ABSTRACT() {
@@ -74,7 +75,8 @@ public class AbstractionPredicate extends IgnoringContextPredicate implements Ch
 	}
 
 	@Override
-	public Collection<Integer> getViolationLineIds(Type type, File sourcesDir, RulesContext context) {
+	public Collection<Integer> getViolationLineIds(Type type,
+			File[] sourcesDir, RulesContext context) {
 		return getDeclarationLineNumber(type, sourcesDir);
 	}
 

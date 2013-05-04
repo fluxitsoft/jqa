@@ -31,6 +31,7 @@ import ar.com.fluxit.jqa.context.RulesContext;
  */
 public interface CheckPredicate extends Predicate {
 
-	Collection<Integer> getViolationLineIds(Type type, File sourcesDir, RulesContext context);
+	Collection<Integer> getViolationLineIds(Type type, File[] sourcesDirs,
+			RulesContext context);
 
 }

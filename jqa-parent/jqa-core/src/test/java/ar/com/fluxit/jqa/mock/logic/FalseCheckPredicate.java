@@ -32,7 +32,8 @@ import ar.com.fluxit.jqa.predicate.IgnoringContextPredicate;
  * 
  * @author Juan Ignacio Barisich
  */
-public class FalseCheckPredicate extends IgnoringContextPredicate implements CheckPredicate {
+public class FalseCheckPredicate extends IgnoringContextPredicate implements
+		CheckPredicate {
 
 	public static final CheckPredicate INSTANCE = new FalseCheckPredicate();
 
@@ -47,7 +48,8 @@ public class FalseCheckPredicate extends IgnoringContextPredicate implements Che
 	}
 
 	@Override
-	public Collection<Integer> getViolationLineIds(Type type, File sourcesDir, RulesContext context) {
+	public Collection<Integer> getViolationLineIds(Type type,
+			File[] sourcesDir, RulesContext context) {
 		return Collections.emptyList();
 	}
 

@@ -44,22 +44,43 @@ public class JQAEclipseRunner {
 				.getLocation().toFile();
 	}
 
-	private Collection<File> getClassFiles(IJavaProject javaProject) {
+	private Collection<File> getClassFiles(IJavaProject javaProject)
+			throws JavaModelException {
 		Collection<File> result = new ArrayList<File>();
-		try {
-			File buildDir = getAbsolutePath(javaProject.getOutputLocation());
-			result.addAll(FileUtils.listFiles(buildDir, new SuffixFileFilter(
-					RulesContextChecker.CLASS_SUFFIX), TrueFileFilter.INSTANCE));
-			return result;
-		} catch (JavaModelException e) {
-			throw new IllegalStateException("Can not parse Java project: "
-					+ javaProject.getElementName(), e);
-		}
+		File buildDir = getAbsolutePath(javaProject.getOutputLocation());
+		result.addAll(FileUtils.listFiles(buildDir, new SuffixFileFilter(
+				RulesContextChecker.CLASS_SUFFIX), TrueFileFilter.INSTANCE));
+		return result;
 	}
 
-	private Collection<File> getClassPath(IJavaProject javaProject) {
-		// FIXME
-		return null;
+	private Collection<File> getClassPath(IJavaProject javaProject)
+			throws JavaModelException {
+		Collection<File> result = new ArrayList<File>();
+		for (IPackageFragmentRoot classpathEntry : javaProject
+				.getAllPackageFragmentRoots()) {
+			if (classpathEntry.isExternal()) {
+				result.add(classpathEntry.getPath().toFile());
+			} else {
+				result.add(getAbsolutePath(((IJavaProject) classpathEntry
+						.getParent()).getOutputLocation()));
+			}
+
+		}
+		return result;
+	}
+
+	private File[] getSourcesDirs(IJavaProject javaProject)
+			throws JavaModelException {
+		Collection<File> result = new ArrayList<File>();
+		IPackageFragmentRoot[] packageFragmentRoot = javaProject
+				.getAllPackageFragmentRoots();
+		for (int i = 0; i < packageFragmentRoot.length; i++) {
+			if (packageFragmentRoot[i].getElementType() == IJavaElement.PACKAGE_FRAGMENT_ROOT
+					&& !packageFragmentRoot[i].isArchive()) {
+				result.add(getAbsolutePath(packageFragmentRoot[i].getPath()));
+			}
+		}
+		return result.toArray(new File[result.size()]);
 	}
 
 	private void run(IResource rulesContextFile, IProject targetProject)
@@ -70,22 +91,15 @@ public class JQAEclipseRunner {
 				.getRulesContextFactory();
 		final RulesContext rulesContext = rulesContextFactory
 				.getRulesContext(rulesContextFile.getRawLocation().toOSString());
-		Collection<File> classPath = getClassPath(javaProject);
-		Collection<File> classFiles = getClassFiles(javaProject);
-		String sourceJavaVersion = javaProject.getJavaModel().toString(); // FIXME
 		try {
-			IPackageFragmentRoot[] packageFragmentRoot = javaProject
-					.getAllPackageFragmentRoots();
-			for (int i = 0; i < packageFragmentRoot.length; i++) {
-				if (packageFragmentRoot[i].getElementType() == IJavaElement.PACKAGE_FRAGMENT_ROOT
-						&& !packageFragmentRoot[i].isArchive()) {
-					File sourceDir = getAbsolutePath(packageFragmentRoot[i]
-							.getPath());
-					RulesContextChecker.INSTANCE.check(targetProject.getName(),
-							classFiles, classPath, rulesContext, sourceDir,
-							sourceJavaVersion, LOGGER);
-				}
-			}
+			Collection<File> classPath = getClassPath(javaProject);
+			Collection<File> classFiles = getClassFiles(javaProject);
+			String sourceJavaVersion = javaProject.getOption(
+					JavaCore.COMPILER_SOURCE, true);
+			File[] sourceDir = getSourcesDirs(javaProject);
+			RulesContextChecker.INSTANCE.check(targetProject.getName(),
+					classFiles, classPath, rulesContext, sourceDir,
+					sourceJavaVersion, LOGGER);
 		} catch (JavaModelException e) {
 			throw new IllegalStateException("Can not parse Java project: "
 					+ javaProject.getElementName(), e);

@@ -93,21 +93,25 @@ import ar.com.fluxit.jqa.bce.TypeFormatException;
  */
 public class BCERepositoryImpl implements BCERepository {
 
-	private static Logger LOGGER = LoggerFactory.getLogger(BCERepositoryImpl.class);
+	private static Logger LOGGER = LoggerFactory
+			.getLogger(BCERepositoryImpl.class);
 
 	private final String javaVersion;
 	private final CacheManager cacheManager;
-	private final String sourcesDir;
+	private final File[] sourcesDirs;
 
 	// FIXME replace tokens "Class" to "Type" ("Type" is generic)
-	public BCERepositoryImpl(Collection<File> classPathFiles, String javaVersion, String sourcesDir) {
+	public BCERepositoryImpl(Collection<File> classPathFiles,
+			String javaVersion, File[] sourcesDirs) {
 		ClassPathLoader.INSTANCE.setClassPath(classPathFiles);
 		this.javaVersion = javaVersion;
-		this.sourcesDir = sourcesDir;
-		this.cacheManager = CacheManager.newInstance(getClass().getResourceAsStream("/ehcache.xml"));
+		this.sourcesDirs = sourcesDirs;
+		this.cacheManager = CacheManager.newInstance(getClass()
+				.getResourceAsStream("/ehcache.xml"));
 	}
 
-	private void addToResult(int sourceLine, Type type, Map<Type, Collection<Integer>> result) {
+	private void addToResult(int sourceLine, Type type,
+			Map<Type, Collection<Integer>> result) {
 		Collection<Integer> collection = result.get(type);
 		if (collection == null) {
 			collection = new HashSet<Integer>();
@@ -119,80 +123,105 @@ public class BCERepositoryImpl implements BCERepository {
 	private SimpleNode doGetTypeNode(SimpleNode node, String typeShortName) {
 		if (typeShortName.contains("$")) {
 			// Is inner type
-			String currentTypeName = typeShortName.substring(0, typeShortName.indexOf("$"));
-			String nextTypeName = typeShortName.substring(typeShortName.indexOf("$") + 1);
-			SimpleNode declaration = findFirstLevelTypeDeclarationNode(node, currentTypeName);
+			String currentTypeName = typeShortName.substring(0,
+					typeShortName.indexOf("$"));
+			String nextTypeName = typeShortName.substring(typeShortName
+					.indexOf("$") + 1);
+			SimpleNode declaration = findFirstLevelTypeDeclarationNode(node,
+					currentTypeName);
 			return doGetTypeNode(declaration, nextTypeName);
 		} else {
 			return findFirstLevelTypeDeclarationNode(node, typeShortName);
 		}
 	}
 
-	private List<SimpleNode> findChildNodesWithXPath(Type parentType, String xpathString) {
+	private List<SimpleNode> findChildNodesWithXPath(Type parentType,
+			String xpathString) {
 		SimpleNode typeNode = getTypeNode(parentType);
 		try {
 			@SuppressWarnings("unchecked")
-			List<SimpleNode> result = typeNode.findChildNodesWithXPath(xpathString);
-			for (Iterator<SimpleNode> iterator = result.iterator(); iterator.hasNext();) {
+			List<SimpleNode> result = typeNode
+					.findChildNodesWithXPath(xpathString);
+			for (Iterator<SimpleNode> iterator = result.iterator(); iterator
+					.hasNext();) {
 				SimpleNode simpleNode = iterator.next();
-				if (simpleNode.getFirstParentOfType(ASTClassOrInterfaceDeclaration.class) != typeNode) {
+				if (simpleNode
+						.getFirstParentOfType(ASTClassOrInterfaceDeclaration.class) != typeNode) {
 					iterator.remove();
 				}
 			}
 			return result;
 		} catch (JaxenException e) {
-			throw new IllegalArgumentException("Error while looking for child of " + parentType.getName() + " with xpath " + xpathString, e);
+			throw new IllegalArgumentException(
+					"Error while looking for child of " + parentType.getName()
+							+ " with xpath " + xpathString, e);
 		}
 	}
 
-	private SimpleNode findFirstLevelAnonymousTypeDeclarationNode(SimpleNode parentNode, String namedTypeShortName) {
-		List<SimpleNode> declarations = findFirstLevelAnonymousTypeDeclarationNodes(parentNode, namedTypeShortName);
+	private SimpleNode findFirstLevelAnonymousTypeDeclarationNode(
+			SimpleNode parentNode, String namedTypeShortName) {
+		List<SimpleNode> declarations = findFirstLevelAnonymousTypeDeclarationNodes(
+				parentNode, namedTypeShortName);
 		return declarations.get(Integer.valueOf(namedTypeShortName) - 1);
 	}
 
-	private List<SimpleNode> findFirstLevelAnonymousTypeDeclarationNodes(SimpleNode parentNode, String namedTypeShortName) {
+	private List<SimpleNode> findFirstLevelAnonymousTypeDeclarationNodes(
+			SimpleNode parentNode, String namedTypeShortName) {
 		List<SimpleNode> result = new ArrayList<SimpleNode>();
 		for (int i = 0; i < parentNode.jjtGetNumChildren(); i++) {
 			SimpleNode children = (SimpleNode) parentNode.jjtGetChild(i);
 			if (!(children instanceof ASTClassOrInterfaceDeclaration || children instanceof ASTEnumDeclaration)) {
-				if (children instanceof ASTAllocationExpression && children.containsChildOfType(ASTClassOrInterfaceBody.class)) {
+				if (children instanceof ASTAllocationExpression
+						&& children
+								.containsChildOfType(ASTClassOrInterfaceBody.class)) {
 					// Is an anonymous type
 					result.add(children);
 				}
-				result.addAll(findFirstLevelAnonymousTypeDeclarationNodes(children, namedTypeShortName));
+				result.addAll(findFirstLevelAnonymousTypeDeclarationNodes(
+						children, namedTypeShortName));
 			}
 		}
 		return result;
 	}
 
-	private SimpleNode findFirstLevelNamedTypeDeclarationNode(SimpleNode parentNode, String namedTypeShortName) {
-		List<SimpleNode> declarations = findFirstLevelNamedTypeDeclarationNodes(parentNode, namedTypeShortName);
+	private SimpleNode findFirstLevelNamedTypeDeclarationNode(
+			SimpleNode parentNode, String namedTypeShortName) {
+		List<SimpleNode> declarations = findFirstLevelNamedTypeDeclarationNodes(
+				parentNode, namedTypeShortName);
 		if (declarations.isEmpty()) {
-			throw new IllegalArgumentException("Can not find declaration line number of type: " + namedTypeShortName);
+			throw new IllegalArgumentException(
+					"Can not find declaration line number of type: "
+							+ namedTypeShortName);
 		} else if (declarations.size() > 1) {
-			LOGGER.warn("Multiple declaration line numbers found for the type: " + namedTypeShortName);
+			LOGGER.warn("Multiple declaration line numbers found for the type: "
+					+ namedTypeShortName);
 		}
 		return declarations.get(0);
 	}
 
-	private List<SimpleNode> findFirstLevelNamedTypeDeclarationNodes(SimpleNode parentNode, String namedTypeShortName) {
+	private List<SimpleNode> findFirstLevelNamedTypeDeclarationNodes(
+			SimpleNode parentNode, String namedTypeShortName) {
 		List<SimpleNode> result = new ArrayList<SimpleNode>();
 		for (int i = 0; i < parentNode.jjtGetNumChildren(); i++) {
 			SimpleNode children = (SimpleNode) parentNode.jjtGetChild(i);
-			if (children instanceof ASTClassOrInterfaceDeclaration || children instanceof ASTEnumDeclaration) {
+			if (children instanceof ASTClassOrInterfaceDeclaration
+					|| children instanceof ASTEnumDeclaration) {
 				if (children.getImage().equals(namedTypeShortName)) {
 					result.add(children);
 				}
 			} else {
-				result.addAll(findFirstLevelNamedTypeDeclarationNodes(children, namedTypeShortName));
+				result.addAll(findFirstLevelNamedTypeDeclarationNodes(children,
+						namedTypeShortName));
 			}
 		}
 		return result;
 	}
 
-	private SimpleNode findFirstLevelTypeDeclarationNode(SimpleNode node, String typeShortName) {
+	private SimpleNode findFirstLevelTypeDeclarationNode(SimpleNode node,
+			String typeShortName) {
 		if (isAnonymous(typeShortName)) {
-			return findFirstLevelAnonymousTypeDeclarationNode(node, typeShortName);
+			return findFirstLevelAnonymousTypeDeclarationNode(node,
+					typeShortName);
 		} else {
 			return findFirstLevelNamedTypeDeclarationNode(node, typeShortName);
 		}
@@ -206,24 +235,34 @@ public class BCERepositoryImpl implements BCERepository {
 
 			@Override
 			public void visitCode(final Code code) {
-				final ConstantPool constantPool = getWrappedType(type).getConstantPool();
+				final ConstantPool constantPool = getWrappedType(type)
+						.getConstantPool();
 				final Map<Instruction, Integer> instructionOffset = new HashMap<Instruction, Integer>();
-				iterateInstructions(code, type, instructionOffset, new org.apache.bcel.generic.EmptyVisitor() {
+				iterateInstructions(code, type, instructionOffset,
+						new org.apache.bcel.generic.EmptyVisitor() {
 
-					@Override
-					public void visitNEW(org.apache.bcel.generic.NEW obj) {
-						final int sourceLine = getSourceLineNumber(code, instructionOffset.get(obj));
-						ConstantPoolGen cpg = new ConstantPoolGen(constantPool);
-						addToResult(sourceLine, BcelJavaType.create(obj.getType(cpg)), result);
-					};
+							@Override
+							public void visitNEW(org.apache.bcel.generic.NEW obj) {
+								final int sourceLine = getSourceLineNumber(
+										code, instructionOffset.get(obj));
+								ConstantPoolGen cpg = new ConstantPoolGen(
+										constantPool);
+								addToResult(sourceLine,
+										BcelJavaType.create(obj.getType(cpg)),
+										result);
+							};
 
-					@Override
-					public void visitNEWARRAY(org.apache.bcel.generic.NEWARRAY obj) {
-						final int sourceLine = getSourceLineNumber(code, instructionOffset.get(obj));
-						addToResult(sourceLine, BcelJavaType.create(obj.getType()), result);
-					};
+							@Override
+							public void visitNEWARRAY(
+									org.apache.bcel.generic.NEWARRAY obj) {
+								final int sourceLine = getSourceLineNumber(
+										code, instructionOffset.get(obj));
+								addToResult(sourceLine,
+										BcelJavaType.create(obj.getType()),
+										result);
+							};
 
-				});
+						});
 			}
 		};
 		new DescendingVisitor(getWrappedType(type), visitor).visit();
@@ -253,10 +292,12 @@ public class BCERepositoryImpl implements BCERepository {
 				sourceFile = getSourceFile(type);
 				final CharStream stream = new JavaCharStream(sourceFile);
 				final JavaParser javaParser = new JavaParser(stream);
-				if ("1.5".equals(this.javaVersion) || "1.6".equals(this.javaVersion)) {
+				if ("1.5".equals(this.javaVersion)
+						|| "1.6".equals(this.javaVersion)) {
 					javaParser.setJDK15();
 				}
-				final ASTCompilationUnit compilationUnit = javaParser.CompilationUnit();
+				final ASTCompilationUnit compilationUnit = javaParser
+						.CompilationUnit();
 				result = new Element(type.getName(), compilationUnit);
 				cache.put(result);
 			} finally {
@@ -264,7 +305,8 @@ public class BCERepositoryImpl implements BCERepository {
 					try {
 						sourceFile.close();
 					} catch (IOException e) {
-						LOGGER.error("Can not close source file input stream", e);
+						LOGGER.error("Can not close source file input stream",
+								e);
 					}
 				}
 			}
@@ -278,17 +320,24 @@ public class BCERepositoryImpl implements BCERepository {
 		return typeNode.getBeginLine();
 	}
 
-	private Type getException(ConstantPool constantPool, CPInstruction instruction) {
-		ConstantCP constantRef = (ConstantCP) constantPool.getConstant(instruction.getIndex());
-		String typeName = constantPool.getConstantString(constantRef.getClassIndex(), Constants.CONSTANT_Class);
+	private Type getException(ConstantPool constantPool,
+			CPInstruction instruction) {
+		ConstantCP constantRef = (ConstantCP) constantPool
+				.getConstant(instruction.getIndex());
+		String typeName = constantPool.getConstantString(
+				constantRef.getClassIndex(), Constants.CONSTANT_Class);
 		return BcelJavaType.create(typeName);
 	}
 
-	private Collection<Integer> getFieldSourceLines(Type parentType, Type fieldType, String fieldName) {
+	private Collection<Integer> getFieldSourceLines(Type parentType,
+			Type fieldType, String fieldName) {
 		List<Integer> result = new ArrayList<Integer>();
-		String xpathString = String.format("//VariableDeclarator/../Type[.//ClassOrInterfaceType[@Image='%s' or @Image='%s'] or PrimitiveType[@Image='%s']]",
-				fieldType.getName(), fieldType.getShortName(), fieldType.getShortName());
-		List<SimpleNode> fieldTypeNodes = findChildNodesWithXPath(parentType, xpathString);
+		String xpathString = String
+				.format("//VariableDeclarator/../Type[.//ClassOrInterfaceType[@Image='%s' or @Image='%s'] or PrimitiveType[@Image='%s']]",
+						fieldType.getName(), fieldType.getShortName(),
+						fieldType.getShortName());
+		List<SimpleNode> fieldTypeNodes = findChildNodesWithXPath(parentType,
+				xpathString);
 		if (fieldTypeNodes.isEmpty()) {
 			throw new IllegalArgumentException("Field not found: " + fieldName);
 		} else {
@@ -301,7 +350,8 @@ public class BCERepositoryImpl implements BCERepository {
 	}
 
 	private int getFirstFieldOrMethodInstructionSourceLine(Code code) {
-		final InstructionList instructionList = new InstructionList(code.getCode());
+		final InstructionList instructionList = new InstructionList(
+				code.getCode());
 		for (int i = 0; i < instructionList.size(); i++) {
 			Instruction instruction = instructionList.getInstructions()[i];
 			if (instruction instanceof FieldOrMethod) {
@@ -309,14 +359,16 @@ public class BCERepositoryImpl implements BCERepository {
 				return getSourceLineNumber(code, offset);
 			}
 		}
-		throw new IllegalArgumentException("FieldOrMethodInstruction instruction not found at :" + code);
+		throw new IllegalArgumentException(
+				"FieldOrMethodInstruction instruction not found at :" + code);
 	}
 
 	@Override
 	public Collection<Type> getInterfaces(Type type) {
 		try {
 			org.apache.bcel.classfile.JavaClass[] interfaces;
-			interfaces = org.apache.bcel.Repository.getInterfaces(getWrappedType(type));
+			interfaces = org.apache.bcel.Repository
+					.getInterfaces(getWrappedType(type));
 			final List<Type> result = new ArrayList<Type>(interfaces.length);
 			for (final org.apache.bcel.classfile.JavaClass interfaz : interfaces) {
 				result.add(BcelJavaType.create(interfaz));
@@ -334,64 +386,88 @@ public class BCERepositoryImpl implements BCERepository {
 			return getFirstFieldOrMethodInstructionSourceLine(code);
 		} else {
 			// Non constructors
-			String xpathString = "//MethodDeclarator[@Image='" + method.getName() + "']";
+			String xpathString = "//MethodDeclarator[@Image='"
+					+ method.getName() + "']";
 			if (method.getArgumentTypes().length == 0) {
 				xpathString += "[not(.//FormalParameter)]";
 			} else {
-				for (org.apache.bcel.generic.Type argumentType : method.getArgumentTypes()) {
+				for (org.apache.bcel.generic.Type argumentType : method
+						.getArgumentTypes()) {
 					Type argumentType2 = BcelJavaType.create(argumentType);
-					xpathString += "[.//FormalParameter//*[@Image='" + argumentType2.getShortName() + "']]";
+					xpathString += "[.//FormalParameter//*[@Image='"
+							+ argumentType2.getShortName() + "']]";
 				}
 			}
-			List<SimpleNode> fieldTypeNodes = findChildNodesWithXPath(parentType, xpathString);
+			List<SimpleNode> fieldTypeNodes = findChildNodesWithXPath(
+					parentType, xpathString);
 			if (fieldTypeNodes.size() == 1) {
 				return fieldTypeNodes.get(0).getBeginLine();
 			} else if (fieldTypeNodes.size() > 1) {
-				throw new IllegalArgumentException("More than one method found for: " + method.getName() + " at type: " + parentType.getName());
+				throw new IllegalArgumentException(
+						"More than one method found for: " + method.getName()
+								+ " at type: " + parentType.getName());
 			} else {
 				// fieldTypeNodes == 0
-				if (xpathString.equals("//ConstructorDeclaration[count(FormalParameters/FormalParameter) = 0]")) {
+				if (xpathString
+						.equals("//ConstructorDeclaration[count(FormalParameters/FormalParameter) = 0]")) {
 					// Implicit constructor
 					return getDeclarationLineNumber(parentType);
 				} else {
-					throw new IllegalArgumentException("Method not found: " + method.getName() + " for type: " + parentType.getName());
+					throw new IllegalArgumentException("Method not found: "
+							+ method.getName() + " for type: "
+							+ parentType.getName());
 				}
 			}
 		}
 	}
 
 	private String getPackage(ASTCompilationUnit compilationUnit) {
-		ASTPackageDeclaration packageDeclaration = compilationUnit.getFirstChildOfType(ASTPackageDeclaration.class);
+		ASTPackageDeclaration packageDeclaration = compilationUnit
+				.getFirstChildOfType(ASTPackageDeclaration.class);
 		return packageDeclaration.getFirstChildOfType(ASTName.class).getImage();
 	}
 
 	private InputStream getSourceFile(Type type) {
-		String sourceFile = this.sourcesDir + "/" + type.getName().replace(".", "/");
+		for (File sourceDir : this.sourcesDirs) {
+			try {
+				return getSourceFile(type, sourceDir);
+			} catch (FileNotFoundException e) {
+				LOGGER.warn("Can not find the source code for type [" + type
+						+ "] in [" + sourceDir + "]");
+			}
+		}
+		throw new IllegalArgumentException(
+				"Can not find the source code for type [" + type + "]");
+	}
+
+	private InputStream getSourceFile(Type type, File sourcesDir2)
+			throws FileNotFoundException {
+		String sourceFile = sourcesDir2.getPath() + "/"
+				+ type.getName().replace(".", "/");
 		if (sourceFile.contains("$")) {
 			sourceFile = sourceFile.substring(0, sourceFile.indexOf('$'));
 		}
-		try {
-			return new FileInputStream(sourceFile + ".java");
-		} catch (FileNotFoundException e) {
-			throw new IllegalArgumentException("Invalid sources directory [" + sourceFile + "]", e);
-		}
+		return new FileInputStream(sourceFile + ".java");
 	}
 
 	private String getSourceLine(Type type, int sourceLine) {
 		if (sourceLine < 1) {
-			throw new IllegalArgumentException("Line number must be greater than or equal to 1");
+			throw new IllegalArgumentException(
+					"Line number must be greater than or equal to 1");
 		}
 		InputStream stream = null;
 		try {
 			stream = getSourceFile(type);
-			BufferedReader br = new BufferedReader(new InputStreamReader(stream));
+			BufferedReader br = new BufferedReader(
+					new InputStreamReader(stream));
 			String line = null;
 			for (int i = 0; i < sourceLine; i++) {
 				line = br.readLine();
 			}
 			return line;
 		} catch (IOException e) {
-			throw new IllegalStateException("An error occured while reading source file", e);
+			throw new IllegalStateException(
+					"An error occured while reading source file", e);
 		} finally {
 			try {
 				if (stream != null) {
@@ -412,7 +488,8 @@ public class BCERepositoryImpl implements BCERepository {
 	public Collection<Type> getSuperClasses(Type type) {
 		org.apache.bcel.classfile.JavaClass[] superClasses;
 		try {
-			superClasses = org.apache.bcel.Repository.getSuperClasses(getWrappedType(type));
+			superClasses = org.apache.bcel.Repository
+					.getSuperClasses(getWrappedType(type));
 			final List<Type> result = new ArrayList<Type>(superClasses.length);
 			for (final org.apache.bcel.classfile.JavaClass superClass : superClasses) {
 				result.add(BcelJavaType.create(superClass));
@@ -431,16 +508,24 @@ public class BCERepositoryImpl implements BCERepository {
 
 			@Override
 			public void visitCode(Code code) {
-				InstructionList instructionList = new InstructionList(code.getCode());
+				InstructionList instructionList = new InstructionList(
+						code.getCode());
 				Instruction lastInstruction = null;
 				int lastOffset = 0;
 				for (int i = 0; i < instructionList.size(); i++) {
-					Instruction currentInstruction = instructionList.getInstructions()[i];
-					int currentOffset = instructionList.getInstructionPositions()[i];
+					Instruction currentInstruction = instructionList
+							.getInstructions()[i];
+					int currentOffset = instructionList
+							.getInstructionPositions()[i];
 					if (currentInstruction instanceof ATHROW) {
 						if (lastInstruction instanceof CPInstruction) {
-							final int sourceLine = getSourceLineNumber(code, lastOffset);
-							addToResult(sourceLine, getException(code.getConstantPool(), (CPInstruction) lastInstruction), result);
+							final int sourceLine = getSourceLineNumber(code,
+									lastOffset);
+							addToResult(
+									sourceLine,
+									getException(code.getConstantPool(),
+											(CPInstruction) lastInstruction),
+									result);
 						}
 					}
 					lastInstruction = currentInstruction;
@@ -452,9 +537,11 @@ public class BCERepositoryImpl implements BCERepository {
 			public void visitMethod(Method obj) {
 				final ExceptionTable exceptionTable = obj.getExceptionTable();
 				if (exceptionTable != null) {
-					for (String exceptionName : exceptionTable.getExceptionNames()) {
+					for (String exceptionName : exceptionTable
+							.getExceptionNames()) {
 						final int sourceLine = getMethodSourceLine(obj, type);
-						addToResult(sourceLine, BcelJavaType.create(exceptionName), result);
+						addToResult(sourceLine,
+								BcelJavaType.create(exceptionName), result);
 					}
 				}
 			}
@@ -480,57 +567,81 @@ public class BCERepositoryImpl implements BCERepository {
 			public void visitCode(final Code code) {
 				final ConstantPool constantPool = code.getConstantPool();
 				final Map<Instruction, Integer> instructionOffset = new HashMap<Instruction, Integer>();
-				iterateInstructions(code, type, instructionOffset, new org.apache.bcel.generic.EmptyVisitor() {
+				iterateInstructions(code, type, instructionOffset,
+						new org.apache.bcel.generic.EmptyVisitor() {
 
-					@Override
-					public void visitGETSTATIC(GETSTATIC obj) {
-						final int sourceLine = getSourceLineNumber(code, instructionOffset.get(obj));
-						ConstantPoolGen cpg = new ConstantPoolGen(constantPool);
-						addToResult(sourceLine, BcelJavaType.create(obj.getReferenceType(cpg)), result);
-					}
+							@Override
+							public void visitGETSTATIC(GETSTATIC obj) {
+								final int sourceLine = getSourceLineNumber(
+										code, instructionOffset.get(obj));
+								ConstantPoolGen cpg = new ConstantPoolGen(
+										constantPool);
+								addToResult(sourceLine, BcelJavaType.create(obj
+										.getReferenceType(cpg)), result);
+							}
 
-					@Override
-					public void visitInvokeInstruction(InvokeInstruction obj) {
-						final int sourceLine = getSourceLineNumber(code, instructionOffset.get(obj));
-						ConstantPoolGen cpg = new ConstantPoolGen(constantPool);
-						addToResult(sourceLine, BcelJavaType.create(obj.getReferenceType(cpg)), result);
-					}
+							@Override
+							public void visitInvokeInstruction(
+									InvokeInstruction obj) {
+								final int sourceLine = getSourceLineNumber(
+										code, instructionOffset.get(obj));
+								ConstantPoolGen cpg = new ConstantPoolGen(
+										constantPool);
+								addToResult(sourceLine, BcelJavaType.create(obj
+										.getReferenceType(cpg)), result);
+							}
 
-					@Override
-					public void visitINVOKEVIRTUAL(INVOKEVIRTUAL obj) {
-						ConstantPoolGen cpg = new ConstantPoolGen(constantPool);
-						org.apache.bcel.generic.Type returnType = obj.getReturnType(cpg);
-						BcelJavaType type = BcelJavaType.create(returnType);
-						if (type != null) {
-							final int sourceLine = getSourceLineNumber(code, instructionOffset.get(obj));
-							addToResult(sourceLine, type, result);
-						}
-					}
+							@Override
+							public void visitINVOKEVIRTUAL(INVOKEVIRTUAL obj) {
+								ConstantPoolGen cpg = new ConstantPoolGen(
+										constantPool);
+								org.apache.bcel.generic.Type returnType = obj
+										.getReturnType(cpg);
+								BcelJavaType type = BcelJavaType
+										.create(returnType);
+								if (type != null) {
+									final int sourceLine = getSourceLineNumber(
+											code, instructionOffset.get(obj));
+									addToResult(sourceLine, type, result);
+								}
+							}
 
-					@Override
-					public void visitLocalVariableInstruction(LocalVariableInstruction obj) {
-						ConstantPoolGen cpg = new ConstantPoolGen(constantPool);
-						org.apache.bcel.generic.Type returnType = obj.getType(cpg);
-						BcelJavaType type = BcelJavaType.create(returnType);
-						if (type != null) {
-							final int sourceLine = getSourceLineNumber(code, instructionOffset.get(obj));
-							addToResult(sourceLine, type, result);
-						}
-					}
+							@Override
+							public void visitLocalVariableInstruction(
+									LocalVariableInstruction obj) {
+								ConstantPoolGen cpg = new ConstantPoolGen(
+										constantPool);
+								org.apache.bcel.generic.Type returnType = obj
+										.getType(cpg);
+								BcelJavaType type = BcelJavaType
+										.create(returnType);
+								if (type != null) {
+									final int sourceLine = getSourceLineNumber(
+											code, instructionOffset.get(obj));
+									addToResult(sourceLine, type, result);
+								}
+							}
 
-				});
+						});
 				// Catchs blocks exceptions
 				for (CodeException codeException : code.getExceptionTable()) {
-					String typeName = constantPool.getConstantString(codeException.getCatchType(), Constants.CONSTANT_Class);
-					final LineNumberTable lineNumberTable = code.getLineNumberTable();
-					final int sourceLine = lineNumberTable.getSourceLine(codeException.getHandlerPC());
-					addToResult(sourceLine, BcelJavaType.create(typeName), result);
+					String typeName = constantPool.getConstantString(
+							codeException.getCatchType(),
+							Constants.CONSTANT_Class);
+					final LineNumberTable lineNumberTable = code
+							.getLineNumberTable();
+					final int sourceLine = lineNumberTable
+							.getSourceLine(codeException.getHandlerPC());
+					addToResult(sourceLine, BcelJavaType.create(typeName),
+							result);
 				}
 			}
 
-			private void visitExceptionTable(ExceptionTable exceptionTable, int sourceLine) {
+			private void visitExceptionTable(ExceptionTable exceptionTable,
+					int sourceLine) {
 				for (String exceptionName : exceptionTable.getExceptionNames()) {
-					addToResult(sourceLine, BcelJavaType.create(exceptionName), result);
+					addToResult(sourceLine, BcelJavaType.create(exceptionName),
+							result);
 				}
 			}
 
@@ -538,8 +649,11 @@ public class BCERepositoryImpl implements BCERepository {
 			public void visitField(Field field) {
 				// Skip generated fields
 				if ((field.getAccessFlags() & Constants.ACC_SYNTHETIC) == 0) {
-					final Type fieldType = BcelJavaType.create(org.apache.bcel.generic.Type.getType(field.getSignature()));
-					Collection<Integer> sourceLines = getFieldSourceLines(type, fieldType, field.getName());
+					final Type fieldType = BcelJavaType
+							.create(org.apache.bcel.generic.Type.getType(field
+									.getSignature()));
+					Collection<Integer> sourceLines = getFieldSourceLines(type,
+							fieldType, field.getName());
 					for (Integer sourceLine : sourceLines) {
 						addToResult(sourceLine, fieldType, result);
 					}
@@ -548,11 +662,13 @@ public class BCERepositoryImpl implements BCERepository {
 
 			@Override
 			public void visitJavaClass(JavaClass obj) {
-				final int sourceLine = getDeclarationLineNumber(BcelJavaType.create(obj));
+				final int sourceLine = getDeclarationLineNumber(BcelJavaType
+						.create(obj));
 				for (String type : obj.getInterfaceNames()) {
 					addToResult(sourceLine, BcelJavaType.create(type), result);
 				}
-				addToResult(sourceLine, BcelJavaType.create(obj.getSuperclassName()), result);
+				addToResult(sourceLine,
+						BcelJavaType.create(obj.getSuperclassName()), result);
 				for (Attribute attribute : obj.getAttributes()) {
 					if (attribute instanceof Signature) {
 						visitSignature((Signature) attribute, sourceLine);
@@ -563,29 +679,37 @@ public class BCERepositoryImpl implements BCERepository {
 			@Override
 			public void visitMethod(Method method) {
 				if ((method.getAccessFlags() & Constants.ACC_SYNTHETIC) == 0) {
-					final int sourceLineNumber = getMethodSourceLine(method, type);
+					final int sourceLineNumber = getMethodSourceLine(method,
+							type);
 					String sourceLine = getSourceLine(type, sourceLineNumber);
-					final List<String> typeNames = TypeNameTranslator.signatureToTypeNames(method.getSignature());
+					final List<String> typeNames = TypeNameTranslator
+							.signatureToTypeNames(method.getSignature());
 					for (final String typeName : typeNames) {
 						BcelJavaType methodType = BcelJavaType.create(typeName);
-						if (methodType != null && sourceLine.contains(methodType.getShortName())) {
+						if (methodType != null
+								&& sourceLine.contains(methodType
+										.getShortName())) {
 							addToResult(sourceLineNumber, methodType, result);
 						}
 					}
 					for (Attribute attribute : method.getAttributes()) {
 						if (attribute instanceof Signature) {
-							visitSignature((Signature) attribute, sourceLineNumber);
+							visitSignature((Signature) attribute,
+									sourceLineNumber);
 						} else if (attribute instanceof ExceptionTable) {
-							visitExceptionTable((ExceptionTable) attribute, sourceLineNumber);
+							visitExceptionTable((ExceptionTable) attribute,
+									sourceLineNumber);
 						}
 					}
 				}
 			}
 
 			public void visitSignature(Signature obj, int sourceLine) {
-				final ConstantUtf8 constantString = (ConstantUtf8) obj.getConstantPool().getConstant(obj.getSignatureIndex());
+				final ConstantUtf8 constantString = (ConstantUtf8) obj
+						.getConstantPool().getConstant(obj.getSignatureIndex());
 				String signature = constantString.getBytes();
-				for (String type : TypeNameTranslator.signatureToTypeNames2(signature)) {
+				for (String type : TypeNameTranslator
+						.signatureToTypeNames2(signature)) {
 					addToResult(sourceLine, BcelJavaType.create(type), result);
 				}
 			}
@@ -593,7 +717,8 @@ public class BCERepositoryImpl implements BCERepository {
 		};
 		new DescendingVisitor(getWrappedType(type), visitor).visit();
 		// Add throws
-		for (Entry<Type, Collection<Integer>> entry : getThrows(type).entrySet()) {
+		for (Entry<Type, Collection<Integer>> entry : getThrows(type)
+				.entrySet()) {
 			for (Integer sourceLine : entry.getValue()) {
 				addToResult(sourceLine, entry.getKey(), result);
 			}
@@ -606,13 +731,16 @@ public class BCERepositoryImpl implements BCERepository {
 	}
 
 	boolean hasImport(ASTCompilationUnit compilationUnit, Type type) {
-		if (type.getPackage().equals("java.lang") || type.getPackage().equals(getPackage(compilationUnit))) {
+		if (type.getPackage().equals("java.lang")
+				|| type.getPackage().equals(getPackage(compilationUnit))) {
 			// The java.lang package is imported by default
 			// The types on the same package are not imported
 			return true;
 		} else {
-			for (ASTImportDeclaration importDeclaration : compilationUnit.findChildrenOfType(ASTImportDeclaration.class)) {
-				String importTypeName = importDeclaration.getFirstChildOfType(ASTName.class).getImage();
+			for (ASTImportDeclaration importDeclaration : compilationUnit
+					.findChildrenOfType(ASTImportDeclaration.class)) {
+				String importTypeName = importDeclaration.getFirstChildOfType(
+						ASTName.class).getImage();
 				if (importTypeName.equals(type.getName())) {
 					return true;
 				}
@@ -634,7 +762,9 @@ public class BCERepositoryImpl implements BCERepository {
 		return method.getName().matches("<.*>");
 	}
 
-	private void iterateInstructions(Code code, Type type, Map<Instruction, Integer> instructionOffset, org.apache.bcel.generic.Visitor visitor) {
+	private void iterateInstructions(Code code, Type type,
+			Map<Instruction, Integer> instructionOffset,
+			org.apache.bcel.generic.Visitor visitor) {
 		InstructionList instructionList = new InstructionList(code.getCode());
 		@SuppressWarnings("unchecked")
 		Iterator<InstructionHandle> iterator = instructionList.iterator();
@@ -650,9 +780,11 @@ public class BCERepositoryImpl implements BCERepository {
 	@Override
 	public Type lookupType(Class<?> clazz) throws ClassNotFoundException {
 		// TODO cache
-		final org.apache.bcel.classfile.JavaClass lookupClass = org.apache.bcel.Repository.lookupClass(clazz);
+		final org.apache.bcel.classfile.JavaClass lookupClass = org.apache.bcel.Repository
+				.lookupClass(clazz);
 		if (lookupClass == null) {
-			throw new ClassNotFoundException("Class not found: " + clazz.getName());
+			throw new ClassNotFoundException("Class not found: "
+					+ clazz.getName());
 		} else {
 			return BcelJavaType.create(lookupClass);
 		}
@@ -665,9 +797,11 @@ public class BCERepositoryImpl implements BCERepository {
 	}
 
 	@Override
-	public Type parse(FileInputStream classFile, String typeName) throws TypeFormatException, IOException {
+	public Type parse(FileInputStream classFile, String typeName)
+			throws TypeFormatException, IOException {
 		try {
-			return BcelJavaType.create(new ClassParser(classFile, typeName).parse());
+			return BcelJavaType.create(new ClassParser(classFile, typeName)
+					.parse());
 		} catch (final org.apache.bcel.classfile.ClassFormatException e) {
 			throw new TypeFormatException(e);
 		}

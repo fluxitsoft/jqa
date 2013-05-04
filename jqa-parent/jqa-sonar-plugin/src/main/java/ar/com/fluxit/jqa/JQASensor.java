@@ -59,8 +59,10 @@ public class JQASensor implements Sensor {
 	private void addViolations(SensorContext context, CheckingResult check) {
 		for (final RuleCheckFailed fail : check.getRuleChecksFailed()) {
 			for (final Integer lineId : fail.getLineIds()) {
-				final Rule rule = Rule.create(JQARuleRepository.REPOSITORY_KEY, fail.getRuleName());
-				final JavaFile resource = new JavaFile(fail.getTargetClassName());
+				final Rule rule = Rule.create(JQARuleRepository.REPOSITORY_KEY,
+						fail.getRuleName());
+				final JavaFile resource = new JavaFile(
+						fail.getTargetClassName());
 				final Violation violation = Violation.create(rule, resource);
 				violation.setMessage(fail.getRuleMessage());
 				violation.setLineId(lineId);
@@ -72,9 +74,13 @@ public class JQASensor implements Sensor {
 	@Override
 	public void analyse(Project project, SensorContext context) {
 		try {
-			final RulesContext rulesContext = RulesContextLoader.INSTANCE.load();
-			final File buildDirectory = project.getFileSystem().getBuildOutputDir();
-			final Collection<File> classFiles = FileUtils.listFiles(buildDirectory, new SuffixFileFilter(RulesContextChecker.CLASS_SUFFIX),
+			final RulesContext rulesContext = RulesContextLoader.INSTANCE
+					.load();
+			final File buildDirectory = project.getFileSystem()
+					.getBuildOutputDir();
+			final Collection<File> classFiles = FileUtils.listFiles(
+					buildDirectory, new SuffixFileFilter(
+							RulesContextChecker.CLASS_SUFFIX),
 					TrueFileFilter.INSTANCE);
 			final Collection<File> classPath = new ArrayList<File>();
 			@SuppressWarnings("unchecked")
@@ -89,9 +95,12 @@ public class JQASensor implements Sensor {
 			if (project.getFileSystem().getTestDirs() != null) {
 				classPath.addAll(project.getFileSystem().getTestDirs());
 			}
-			final File sourcesDir = new File((String) getProject().getCompileSourceRoots().get(0));
+			final File sourcesDir = new File((String) getProject()
+					.getCompileSourceRoots().get(0));
 			LOGGER.info("SourcesDir = " + sourcesDir.getPath());
-			final CheckingResult check = RulesContextChecker.INSTANCE.check(getProject().getArtifactId(), classFiles, classPath, rulesContext, sourcesDir,
+			final CheckingResult check = RulesContextChecker.INSTANCE.check(
+					getProject().getArtifactId(), classFiles, classPath,
+					rulesContext, new File[] { sourcesDir },
 					getSourceJavaVersion(getProject()), LOGGER);
 			addViolations(context, check);
 		} catch (final Exception e) {
@@ -106,8 +115,10 @@ public class JQASensor implements Sensor {
 
 	private String getSourceJavaVersion(MavenProject project) {
 		try {
-			return ((org.codehaus.plexus.util.xml.Xpp3Dom) ((org.apache.maven.model.Plugin) project.getBuild().getPluginsAsMap()
-					.get("org.apache.maven.plugins:maven-compiler-plugin")).getConfiguration()).getChild("source").getValue();
+			return ((org.codehaus.plexus.util.xml.Xpp3Dom) ((org.apache.maven.model.Plugin) project
+					.getBuild().getPluginsAsMap()
+					.get("org.apache.maven.plugins:maven-compiler-plugin"))
+					.getConfiguration()).getChild("source").getValue();
 		} catch (Exception e) {
 			return null;
 		}

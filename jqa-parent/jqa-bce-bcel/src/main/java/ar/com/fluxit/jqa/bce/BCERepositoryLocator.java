@@ -35,18 +35,24 @@ public class BCERepositoryLocator {
 
 	public static BCERepository getRepository() {
 		if (bceRepository == null) {
-			throw new IllegalStateException("The repository is not initializated. Please, call to init method.");
+			throw new IllegalStateException(
+					"The repository is not initializated. Please, call to init method.");
 		}
 		return bceRepository;
 	}
 
-	private static String getSourcesDir() {
-		return System.getProperty("user.dir") + File.separatorChar + "src" + File.separatorChar + "test" + File.separatorChar + "java";
+	private static File[] getSourcesDir() {
+		return new File[] { new File(System.getProperty("user.dir")
+				+ File.separatorChar + "src" + File.separatorChar + "test"
+				+ File.separatorChar + "java") };
 	}
 
-	public static void init(Collection<File> classPath, String javaVersion, String sourcesDir) {
-		bceRepository = new BCERepositoryImpl(classPath == null ? Collections.<File> emptyList() : classPath, javaVersion, sourcesDir == null ? getSourcesDir()
-				: sourcesDir);
+	public static void init(Collection<File> classPath, String javaVersion,
+			File[] sourcesDirs) {
+		bceRepository = new BCERepositoryImpl(
+				classPath == null ? Collections.<File> emptyList() : classPath,
+				javaVersion, sourcesDirs == null ? getSourcesDir()
+						: sourcesDirs);
 	}
 
 }

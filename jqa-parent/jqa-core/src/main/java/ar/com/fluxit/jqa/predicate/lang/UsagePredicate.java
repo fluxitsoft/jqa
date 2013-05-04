@@ -43,7 +43,8 @@ public class UsagePredicate extends FilteredPredicate implements CheckPredicate 
 
 	@Override
 	public boolean evaluate(Type type, RulesContext context) {
-		final Collection<Type> usedTypes = BCERepositoryLocator.getRepository().getUses(type).keySet();
+		final Collection<Type> usedTypes = BCERepositoryLocator.getRepository()
+				.getUses(type).keySet();
 		for (final Type usedType : usedTypes) {
 			if (!getFilterPredicate().evaluate(usedType, context)) {
 				return false;
@@ -53,10 +54,13 @@ public class UsagePredicate extends FilteredPredicate implements CheckPredicate 
 	}
 
 	@Override
-	public Collection<Integer> getViolationLineIds(Type type, File sourcesDir, RulesContext context) {
+	public Collection<Integer> getViolationLineIds(Type type,
+			File[] sourcesDir, RulesContext context) {
 		Collection<Integer> result = new ArrayList<Integer>();
-		final Map<Type, Collection<Integer>> usedTypes = BCERepositoryLocator.getRepository().getUses(type);
-		for (final Entry<Type, Collection<Integer>> usedType : usedTypes.entrySet()) {
+		final Map<Type, Collection<Integer>> usedTypes = BCERepositoryLocator
+				.getRepository().getUses(type);
+		for (final Entry<Type, Collection<Integer>> usedType : usedTypes
+				.entrySet()) {
 			if (!getFilterPredicate().evaluate(usedType.getKey(), context)) {
 				result.addAll(usedType.getValue());
 			}

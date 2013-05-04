@@ -32,7 +32,8 @@ import ar.com.fluxit.jqa.predicate.FilteredPredicate;
  * 
  * @author Juan Ignacio Barisich
  */
-public class TypingPredicate extends FilteredPredicate implements CheckPredicate {
+public class TypingPredicate extends FilteredPredicate implements
+		CheckPredicate {
 
 	public TypingPredicate() {
 		super();
@@ -40,7 +41,8 @@ public class TypingPredicate extends FilteredPredicate implements CheckPredicate
 
 	@Override
 	public boolean evaluate(Type type, RulesContext context) {
-		final Collection<Type> superClasses = BCERepositoryLocator.getRepository().getSuperClasses(type);
+		final Collection<Type> superClasses = BCERepositoryLocator
+				.getRepository().getSuperClasses(type);
 		// superclases
 		for (final Type superClass : superClasses) {
 			if (getFilterPredicate().evaluate(superClass, context)) {
@@ -48,7 +50,8 @@ public class TypingPredicate extends FilteredPredicate implements CheckPredicate
 			}
 		}
 		// superinterfaces
-		final Collection<Type> interfaces = BCERepositoryLocator.getRepository().getInterfaces(type);
+		final Collection<Type> interfaces = BCERepositoryLocator
+				.getRepository().getInterfaces(type);
 		for (final Type interfaz : interfaces) {
 			if (getFilterPredicate().evaluate(interfaz, context)) {
 				return true;
@@ -59,7 +62,8 @@ public class TypingPredicate extends FilteredPredicate implements CheckPredicate
 	}
 
 	@Override
-	public Collection<Integer> getViolationLineIds(Type type, File sourcesDir, RulesContext context) {
+	public Collection<Integer> getViolationLineIds(Type type,
+			File[] sourcesDir, RulesContext context) {
 		return getDeclarationLineNumber(type, sourcesDir);
 	}
 

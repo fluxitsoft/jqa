@@ -56,50 +56,65 @@ public class RulesContextChecker {
 		super();
 	}
 
-	private String buildMessage(String ruleMessage, Type type, RulesContext context) {
+	private String buildMessage(String ruleMessage, Type type,
+			RulesContext context) {
 		final Map<String, String> values = new HashMap<String, String>();
 		values.put("type.name", type.getName().replaceAll("\\$", "\\\\\\$"));
-		for (Map.Entry<String, String> variable : context.getGlobalVariables().entrySet()) {
+		for (Map.Entry<String, String> variable : context.getGlobalVariables()
+				.entrySet()) {
 			values.put(variable.getKey(), variable.getValue());
 		}
 		for (final Map.Entry<String, String> e : values.entrySet()) {
-			ruleMessage = ruleMessage.replaceAll("\\$\\{" + e.getKey() + "\\}", e.getValue());
+			ruleMessage = ruleMessage.replaceAll("\\$\\{" + e.getKey() + "\\}",
+					e.getValue());
 		}
 		return ruleMessage;
 	}
 
-	private void check(Collection<File> classFiles, Predicate filterPredicate, CheckPredicate checkPredicate, CheckingResult result, RulesContext context,
-			int rulePriority, String ruleMessage, String ruleName, File sourceDir) throws TypeFormatException, IOException {
+	private void check(Collection<File> classFiles, Predicate filterPredicate,
+			CheckPredicate checkPredicate, CheckingResult result,
+			RulesContext context, int rulePriority, String ruleMessage,
+			String ruleName, File[] sourceDir) throws TypeFormatException,
+			IOException {
 		// Iterate class files
 		for (final File classFile : classFiles) {
 			final FileInputStream fis = new FileInputStream(classFile);
-			final BCERepository repository = BCERepositoryLocator.getRepository();
+			final BCERepository repository = BCERepositoryLocator
+					.getRepository();
 			final Type type = repository.parse(fis, null);
 			fis.close();
 			if (filterPredicate.evaluate(type, context)) {
 				if (!checkPredicate.evaluate(type, context)) {
-					final RuleCheckFailed failed = new RuleCheckFailed(ruleName, buildMessage(ruleMessage, type, context), type.getName(), rulePriority);
-					failed.setLineIds(checkPredicate.getViolationLineIds(type, sourceDir, context));
+					final RuleCheckFailed failed = new RuleCheckFailed(
+							ruleName, buildMessage(ruleMessage, type, context),
+							type.getName(), rulePriority);
+					failed.setLineIds(checkPredicate.getViolationLineIds(type,
+							sourceDir, context));
 					result.addRuleExecutionFailed(failed);
 				}
 			}
 		}
 	}
 
-	public CheckingResult check(String project, Collection<File> classFiles, Collection<File> classPath, RulesContext context, File sourcesDir,
-			String sourceJavaVersion, Logger log) throws IntrospectionException, FileNotFoundException, TypeFormatException, IOException {
+	public CheckingResult check(String project, Collection<File> classFiles,
+			Collection<File> classPath, RulesContext context,
+			File[] sourcesDir, String sourceJavaVersion, Logger log)
+			throws IntrospectionException, FileNotFoundException,
+			TypeFormatException, IOException {
 		final CheckingResult result = new CheckingResult(project);
 		// Add files to classpath
 		for (final File classPathFile : classPath) {
 			log.debug("Adding to classpath: " + classPathFile);
 		}
-		BCERepositoryLocator.init(classPath, sourceJavaVersion, sourcesDir.getPath());
+		BCERepositoryLocator.init(classPath, sourceJavaVersion, sourcesDir);
 		// Iterate rulesets
 		for (final RuleSet ruleset : context.getRuleSets()) {
 			// Iterate rules
 			for (final Rule rule : ruleset.getRules()) {
 				log.debug("Checking rule (in normal mode): " + rule.getName());
-				check(classFiles, rule.getFilterPredicate(), rule.getCheckPredicate(), result, context, rule.getPriority(), rule.getMessage(), rule.getName(),
+				check(classFiles, rule.getFilterPredicate(),
+						rule.getCheckPredicate(), result, context,
+						rule.getPriority(), rule.getMessage(), rule.getName(),
 						sourcesDir);
 			}
 		}

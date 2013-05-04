@@ -34,7 +34,8 @@ import ar.com.fluxit.jqa.util.RegEx;
  * 
  * @author Juan Ignacio Barisich
  */
-public class NamingPredicate extends AbstractPredicate implements CheckPredicate {
+public class NamingPredicate extends AbstractPredicate implements
+		CheckPredicate {
 
 	private String classNamePattern;
 	// transient for XML serialization
@@ -79,18 +80,22 @@ public class NamingPredicate extends AbstractPredicate implements CheckPredicate
 	}
 
 	@Override
-	public Collection<Integer> getViolationLineIds(Type type, File sourcesDir, RulesContext context) {
+	public Collection<Integer> getViolationLineIds(Type type,
+			File[] sourcesDir, RulesContext context) {
 		return getDeclarationLineNumber(type, sourcesDir);
 	}
 
 	private String parse(String classNamePattern, RulesContext context) {
 		if (context != null) {
-			for (final Map.Entry<String, String> e : context.getGlobalVariables().entrySet()) {
-				classNamePattern = classNamePattern.replaceAll("\\$\\{" + e.getKey() + "\\}", e.getValue());
+			for (final Map.Entry<String, String> e : context
+					.getGlobalVariables().entrySet()) {
+				classNamePattern = classNamePattern.replaceAll(
+						"\\$\\{" + e.getKey() + "\\}", e.getValue());
 			}
 		}
 		if (classNamePattern.contains("$")) {
-			throw new IllegalArgumentException("Variable in classNamePattern '" + classNamePattern + "' can not be resolved");
+			throw new IllegalArgumentException("Variable in classNamePattern '"
+					+ classNamePattern + "' can not be resolved");
 		}
 		return classNamePattern;
 	}

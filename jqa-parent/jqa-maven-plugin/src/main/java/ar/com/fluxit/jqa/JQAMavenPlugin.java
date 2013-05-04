@@ -102,24 +102,34 @@ public class JQAMavenPlugin extends AbstractMojo {
 
 	private void checkParams() {
 		if (getRulesContextFile() == null) {
-			throw new IllegalArgumentException("Rules context file can not be null");
+			throw new IllegalArgumentException(
+					"Rules context file can not be null");
 		}
 		if (!getRulesContextFile().exists()) {
-			throw new IllegalArgumentException("Rules context file does not exist: " + getRulesContextFile());
+			throw new IllegalArgumentException(
+					"Rules context file does not exist: "
+							+ getRulesContextFile());
 		}
 		if (getResultsDirectory() == null) {
-			throw new IllegalArgumentException("Results directory can not be null");
+			throw new IllegalArgumentException(
+					"Results directory can not be null");
 		}
 		if (!getResultsDirectory().exists()) {
-			throw new IllegalArgumentException("Results directory does not exist: " + getResultsDirectory());
+			throw new IllegalArgumentException(
+					"Results directory does not exist: "
+							+ getResultsDirectory());
 		}
 		if (!getResultsDirectory().isDirectory()) {
-			throw new IllegalArgumentException("Invalid results directory: " + getResultsDirectory());
+			throw new IllegalArgumentException("Invalid results directory: "
+					+ getResultsDirectory());
 		}
 	}
 
-	private void doExecute(File buildDirectory, File outputDirectory, File testOutputDirectory, MavenProject project, File sourceDir, String sourceJavaVersion)
-			throws IntrospectionException, TypeFormatException, FileNotFoundException, IOException, RulesContextFactoryException, ExporterException {
+	private void doExecute(File buildDirectory, File outputDirectory,
+			File testOutputDirectory, MavenProject project, File sourceDir,
+			String sourceJavaVersion) throws IntrospectionException,
+			TypeFormatException, FileNotFoundException, IOException,
+			RulesContextFactoryException, ExporterException {
 		// Add project dependencies to classpath
 		getLog().debug("Adding project dependencies to classpath");
 		final Collection<File> classPath = new ArrayList<File>();
@@ -136,15 +146,22 @@ public class JQAMavenPlugin extends AbstractMojo {
 			classPath.add(testOutputDirectory);
 		}
 		getLog().debug("Adding project classes to classpath");
-		final Collection<File> classFiles = FileUtils
-				.listFiles(buildDirectory, new SuffixFileFilter(RulesContextChecker.CLASS_SUFFIX), TrueFileFilter.INSTANCE);
+		final Collection<File> classFiles = FileUtils.listFiles(buildDirectory,
+				new SuffixFileFilter(RulesContextChecker.CLASS_SUFFIX),
+				TrueFileFilter.INSTANCE);
 		// Reads the config file
 		getLog().debug("Reading rules context");
-		final RulesContext rulesContext = RulesContextFactoryLocator.getRulesContextFactory().getRulesContext(getRulesContextFile().getPath());
+		final RulesContext rulesContext = RulesContextFactoryLocator
+				.getRulesContextFactory().getRulesContext(
+						getRulesContextFile().getPath());
 		getLog().debug("Checking rules for " + classFiles.size() + " files");
-		final CheckingResult checkingResult = RulesContextChecker.INSTANCE.check(project.getArtifactId(), classFiles, classPath, rulesContext, sourceDir,
-				sourceJavaVersion, getLogger());
-		CheckingResultExporter.INSTANCE.export(checkingResult, project.getArtifactId(), getResultsDirectory(), this.xslt, getLogger());
+		final CheckingResult checkingResult = RulesContextChecker.INSTANCE
+				.check(project.getArtifactId(), classFiles, classPath,
+						rulesContext, new File[] { sourceDir },
+						sourceJavaVersion, getLogger());
+		CheckingResultExporter.INSTANCE.export(checkingResult,
+				project.getArtifactId(), getResultsDirectory(), this.xslt,
+				getLogger());
 	}
 
 	@Override
@@ -155,12 +172,16 @@ public class JQAMavenPlugin extends AbstractMojo {
 			} else {
 				checkParams();
 				String sourceJavaVersion = getSourceJavaVersion(this.project);
-				getLogger().info("The source Java version is " + sourceJavaVersion);
-				doExecute(this.outputDirectory, new File(this.project.getBuild().getOutputDirectory()), new File(this.project.getBuild()
-						.getTestOutputDirectory()), this.project, this.sourceDir, sourceJavaVersion);
+				getLogger().info(
+						"The source Java version is " + sourceJavaVersion);
+				doExecute(this.outputDirectory, new File(this.project
+						.getBuild().getOutputDirectory()), new File(
+						this.project.getBuild().getTestOutputDirectory()),
+						this.project, this.sourceDir, sourceJavaVersion);
 			}
 		} catch (final Exception e) {
-			throw new MojoExecutionException("An error occurred while executing the rules", e);
+			throw new MojoExecutionException(
+					"An error occurred while executing the rules", e);
 		}
 	}
 
@@ -181,8 +202,10 @@ public class JQAMavenPlugin extends AbstractMojo {
 
 	private String getSourceJavaVersion(MavenProject project) {
 		try {
-			return ((org.codehaus.plexus.util.xml.Xpp3Dom) ((org.apache.maven.model.Plugin) project.getBuild().getPluginsAsMap()
-					.get("org.apache.maven.plugins:maven-compiler-plugin")).getConfiguration()).getChild("source").getValue();
+			return ((org.codehaus.plexus.util.xml.Xpp3Dom) ((org.apache.maven.model.Plugin) project
+					.getBuild().getPluginsAsMap()
+					.get("org.apache.maven.plugins:maven-compiler-plugin"))
+					.getConfiguration()).getChild("source").getValue();
 		} catch (Exception e) {
 			return null;
 		}
