@@ -9,7 +9,6 @@ import org.eclipse.jface.viewers.CheckStateChangedEvent;
 import org.eclipse.jface.viewers.CheckboxTableViewer;
 import org.eclipse.jface.viewers.ICheckStateListener;
 import org.eclipse.jface.viewers.IElementComparer;
-import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.swt.SWT;
@@ -86,7 +85,7 @@ public class TargetProjectsSelectionWizardPage extends AbstractWizardPage {
 	private void restoreState(CheckboxTableViewer projectNames) {
 		final IProject[] targetProjects = getWizard().getTargetProjects();
 		if (targetProjects != null) {
-			projectNames.setSelection(new StructuredSelection(targetProjects));
+			projectNames.setCheckedElements(targetProjects);
 		}
 	}
 

@@ -67,7 +67,7 @@ public class RulesContextSelectionWizardPage extends AbstractWizardPage {
 		container.setLayout(layout);
 		setControl(container);
 		setPageComplete(false);
-		// New rules contexto
+		// New rules context
 		Composite newRulesContextContainer = new Composite(container, SWT.NONE);
 		Layout newRulesContextLayout = new GridLayout();
 		newRulesContextContainer.setLayout(newRulesContextLayout);
@@ -106,6 +106,8 @@ public class RulesContextSelectionWizardPage extends AbstractWizardPage {
 						existentRulesContextRadio, newRulesContextRadio,
 						existentRulesContextText, existentRulesContextButton,
 						true);
+				getWizard().setNewRulesContext(true);
+				getContainer().updateButtons();
 			}
 		});
 		existentRulesContextRadio.addSelectionListener(new SelectionAdapter() {
@@ -115,6 +117,8 @@ public class RulesContextSelectionWizardPage extends AbstractWizardPage {
 						existentRulesContextRadio, newRulesContextRadio,
 						existentRulesContextText, existentRulesContextButton,
 						false);
+				getWizard().setNewRulesContext(false);
+				getContainer().updateButtons();
 			}
 		});
 		existentRulesContextButton.addSelectionListener(new SelectionAdapter() {
@@ -126,16 +130,6 @@ public class RulesContextSelectionWizardPage extends AbstractWizardPage {
 		});
 		restoreState(existentRulesContextRadio, newRulesContextRadio,
 				existentRulesContextText, existentRulesContextButton);
-	}
-
-	protected void existentRulesContextRadioSelected(
-			Button newRulesContextRadio, Text selectionRulesContextText,
-			Button selectionRulesContextButton, Button existentRulesContextRadio) {
-		newRulesContextRadio.setSelection(false);
-		existentRulesContextRadio.setSelection(true);
-		selectionRulesContextText.setEnabled(true);
-		selectionRulesContextButton.setEnabled(true);
-		getWizard().setNewRulesContext(false);
 	}
 
 	@Override
@@ -184,17 +178,16 @@ public class RulesContextSelectionWizardPage extends AbstractWizardPage {
 			File file = (File) dialog.getResult()[0];
 			getWizard().setRulesContextFile(file.getFullPath());
 			selectionRulesContextText.setText(file.getFullPath().toOSString());
+			getContainer().updateButtons();
 		}
 	}
 
 	private void restoreState(Button existentRulesContextRadio,
 			Button newRulesContextRadio, Text existentRulesContextText,
 			Button existentRulesContextButton) {
-
 		updateSelection(existentRulesContextRadio, newRulesContextRadio,
 				existentRulesContextText, existentRulesContextButton,
 				getWizard().isNewRulesContext());
-
 		final IPath rulesContextFile = getWizard().getRulesContextFile();
 		if (rulesContextFile != null) {
 			existentRulesContextText.setText(rulesContextFile
@@ -209,7 +202,11 @@ public class RulesContextSelectionWizardPage extends AbstractWizardPage {
 		existentRulesContextRadio.setSelection(!isNewRulesContext);
 		existentRulesContextText.setEnabled(!isNewRulesContext);
 		existentRulesContextButton.setEnabled(!isNewRulesContext);
-		getWizard().setNewRulesContext(isNewRulesContext);
+		if (isNewRulesContext) {
+			newRulesContextRadio.setFocus();
+		} else {
+			existentRulesContextRadio.setFocus();
+		}
 	}
 
 }
