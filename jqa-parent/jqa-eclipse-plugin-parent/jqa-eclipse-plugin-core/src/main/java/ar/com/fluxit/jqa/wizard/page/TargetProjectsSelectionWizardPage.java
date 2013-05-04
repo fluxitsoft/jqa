@@ -5,6 +5,8 @@ import java.util.Arrays;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jface.viewers.CheckStateChangedEvent;
 import org.eclipse.jface.viewers.CheckboxTableViewer;
 import org.eclipse.jface.viewers.ICheckStateListener;
@@ -51,6 +53,13 @@ public class TargetProjectsSelectionWizardPage extends AbstractWizardPage {
 				}
 				IProject project = (IProject) element;
 				if (!project.isAccessible()) {
+					return false;
+				}
+				try {
+					if (!project.hasNature(JavaCore.NATURE_ID)) {
+						return false;
+					}
+				} catch (CoreException e) {
 					return false;
 				}
 				return true;

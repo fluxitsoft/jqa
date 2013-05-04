@@ -108,6 +108,13 @@
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib-compile/org.eclipse.core.jobs_3.5.300.v20120912-155018.jar</systemPath>
 		</dependency>
+		<dependency>
+			<artifactId>jdt</artifactId>
+			<groupId>jdt</groupId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib-compile/org.eclipse.jdt.core_3.8.3.v20130121-145325.jar</systemPath>
+		</dependency>
 		<!-- End dependencies only for compilation -->
 	</dependencies>
 	<build>

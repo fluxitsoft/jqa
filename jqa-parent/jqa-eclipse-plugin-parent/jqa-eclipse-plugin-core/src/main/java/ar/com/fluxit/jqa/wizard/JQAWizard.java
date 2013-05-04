@@ -31,10 +31,7 @@ import org.eclipse.jface.dialogs.IDialogSettings;
 import org.eclipse.jface.wizard.Wizard;
 
 import ar.com.fluxit.jqa.JQAEclipsePlugin;
-import ar.com.fluxit.jqa.context.RulesContext;
-import ar.com.fluxit.jqa.context.factory.RulesContextFactory;
-import ar.com.fluxit.jqa.context.factory.RulesContextFactoryLocator;
-import ar.com.fluxit.jqa.context.factory.exception.RulesContextFactoryException;
+import ar.com.fluxit.jqa.JQAEclipseRunner;
 import ar.com.fluxit.jqa.wizard.page.RulesContextSelectionWizardPage;
 import ar.com.fluxit.jqa.wizard.page.TargetProjectsSelectionWizardPage;
 
@@ -83,15 +80,11 @@ public class JQAWizard extends Wizard {
 
 	@Override
 	public boolean performFinish() {
-		final RulesContextFactory rulesContextFactory = RulesContextFactoryLocator
-				.getRulesContextFactory();
 		try {
-			final RulesContext rulesContext = rulesContextFactory
-					.getRulesContext(getRulesContextFile().getRawLocation()
-							.toOSString());
-			System.out.println(rulesContext);
+			JQAEclipseRunner.INSTANCE.run(getRulesContextFile(),
+					getTargetProjects());
 			return true;
-		} catch (RulesContextFactoryException e) {
+		} catch (Exception e) {
 			Status status = new Status(IStatus.ERROR,
 					JQAEclipsePlugin.PLUGIN_ID, e.getLocalizedMessage(), e);
 			JQAEclipsePlugin.getDefault().getLog().log(status);
