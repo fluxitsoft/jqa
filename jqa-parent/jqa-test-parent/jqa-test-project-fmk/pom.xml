@@ -25,8 +25,6 @@
 		<version>1.0</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
-
-	<groupId>ar.com.fluxit.jqa</groupId>
 	<artifactId>jqa-test-project-fmk</artifactId>
 	<packaging>jar</packaging>
 	<name>JQA test project framework</name>

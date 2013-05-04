@@ -18,23 +18,30 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.wizard;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.dialogs.IDialogSettings;
 import org.eclipse.jface.wizard.Wizard;
 
 import ar.com.fluxit.jqa.JQAEclipsePlugin;
+import ar.com.fluxit.jqa.context.RulesContext;
+import ar.com.fluxit.jqa.context.factory.RulesContextFactory;
+import ar.com.fluxit.jqa.context.factory.RulesContextFactoryLocator;
+import ar.com.fluxit.jqa.context.factory.exception.RulesContextFactoryException;
 import ar.com.fluxit.jqa.wizard.page.RulesContextSelectionWizardPage;
 import ar.com.fluxit.jqa.wizard.page.TargetProjectsSelectionWizardPage;
 
 public class JQAWizard extends Wizard {
 
 	private boolean newRulesContext;
-	private IPath rulesContextFile;
+	private IResource rulesContextFile;
 	private IProject[] targetProjects;
 
 	public JQAWizard() {
@@ -62,7 +69,7 @@ public class JQAWizard extends Wizard {
 		super.dispose();
 	}
 
-	public IPath getRulesContextFile() {
+	public IResource getRulesContextFile() {
 		return rulesContextFile;
 	}
 
@@ -76,8 +83,26 @@ public class JQAWizard extends Wizard {
 
 	@Override
 	public boolean performFinish() {
-		// TODO
-		return false;
+		final RulesContextFactory rulesContextFactory = RulesContextFactoryLocator
+				.getRulesContextFactory();
+		try {
+			final RulesContext rulesContext = rulesContextFactory
+					.getRulesContext(getRulesContextFile().getRawLocation()
+							.toOSString());
+			System.out.println(rulesContext);
+			return true;
+		} catch (RulesContextFactoryException e) {
+			Status status = new Status(IStatus.ERROR,
+					JQAEclipsePlugin.PLUGIN_ID, e.getLocalizedMessage(), e);
+			JQAEclipsePlugin.getDefault().getLog().log(status);
+			ErrorDialog
+					.openError(
+							getShell(),
+							null,
+							"An error has occurred while trying to execute JQA",
+							status);
+			return false;
+		}
 	}
 
 	private void restoreState() {
@@ -87,8 +112,11 @@ public class JQAWizard extends Wizard {
 			final String rulesContextFileString = settings
 					.get("rulesContextFileName");
 			if (rulesContextFileString != null) {
-				setRulesContextFile(Path
-						.fromPortableString(rulesContextFileString));
+				final IPath rulesContextFilePath = Path
+						.fromPortableString(rulesContextFileString);
+				final IFile rulesContextFile = ResourcesPlugin.getWorkspace()
+						.getRoot().getFile(rulesContextFilePath);
+				setRulesContextFile(rulesContextFile);
 			}
 			final String[] targetProjectNames = settings
 					.getArray("targetProjectNames");
@@ -115,7 +143,7 @@ public class JQAWizard extends Wizard {
 		final IDialogSettings settings = JQAEclipsePlugin.getDefault()
 				.getDialogSettings();
 		settings.put("rulesContextFileName", getRulesContextFile()
-				.toPortableString());
+				.getFullPath().toPortableString());
 		final int targetProjectslength = getTargetProjects().length;
 		String[] targetProjectNames = new String[targetProjectslength];
 		for (int i = 0; i < targetProjectslength; i++) {
@@ -129,7 +157,7 @@ public class JQAWizard extends Wizard {
 		this.newRulesContext = newRulesContext;
 	}
 
-	public void setRulesContextFile(IPath rulesContextFile) {
+	public void setRulesContextFile(IResource rulesContextFile) {
 		this.rulesContextFile = rulesContextFile;
 	}
 

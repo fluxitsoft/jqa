@@ -25,14 +25,11 @@
 		<version>1.0</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
-
-	<groupId>ar.com.fluxit.jqa</groupId>
 	<artifactId>jqa-test-runner</artifactId>
 	<packaging>jar</packaging>
-
 	<name>JQA test runner</name>
 	<url>http://code.google.com/p/jqa-project/</url>
-
+	
 	<dependencies>
 		<dependency>
 			<groupId>org.apache.maven.shared</groupId>

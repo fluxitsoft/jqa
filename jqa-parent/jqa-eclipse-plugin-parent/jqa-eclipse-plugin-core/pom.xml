@@ -17,7 +17,6 @@
 		<groupId>ar.com.fluxit.jqa</groupId>
 		<version>1.0</version>
 	</parent>
-	<groupId>ar.com.fluxit.jqa</groupId>
 	<artifactId>jqa-eclipse-plugin-core</artifactId>
 	<name>JQA Eclipse Plugin</name>
 	<url>http://github.com/jbaris/jqa</url>
@@ -44,88 +43,119 @@
 			<groupId>jface</groupId>
 			<version>1.0</version>
 			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/org.eclipse.jface_3.6.1.M20100825-0800.jar</systemPath>
+			<systemPath>${project.basedir}/lib-compile/org.eclipse.jface_3.6.1.M20100825-0800.jar</systemPath>
 		</dependency>
 		<dependency>
 			<artifactId>osgi</artifactId>
 			<groupId>osgi</groupId>
 			<version>1.0</version>
 			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/org.eclipse.osgi_3.6.1.R36x_v20100806.jar</systemPath>
+			<systemPath>${project.basedir}/lib-compile/org.eclipse.osgi_3.6.1.R36x_v20100806.jar</systemPath>
 		</dependency>
 		<dependency>
 			<artifactId>workbench</artifactId>
 			<groupId>workbench</groupId>
 			<version>1.0</version>
 			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/org.eclipse.ui.workbench_3.7.0.I20110519-0100.jar</systemPath>
+			<systemPath>${project.basedir}/lib-compile/org.eclipse.ui.workbench_3.7.0.I20110519-0100.jar</systemPath>
 		</dependency>
 		<dependency>
 			<artifactId>runtime</artifactId>
 			<groupId>runtime</groupId>
 			<version>1.0</version>
 			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/org.eclipse.core.runtime_3.6.0.v20100505.jar</systemPath>
+			<systemPath>${project.basedir}/lib-compile/org.eclipse.core.runtime_3.6.0.v20100505.jar</systemPath>
 		</dependency>
 		<dependency>
 			<artifactId>swt</artifactId>
 			<groupId>swt</groupId>
 			<version>1.0</version>
 			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/org.eclipse.swt.gtk.linux.x86_3.6.1.v3655c.jar</systemPath>
+			<systemPath>${project.basedir}/lib-compile/org.eclipse.swt.gtk.linux.x86_3.6.1.v3655c.jar</systemPath>
 		</dependency>
 		<dependency>
 			<artifactId>commands</artifactId>
 			<groupId>commands</groupId>
 			<version>1.0</version>
 			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/org.eclipse.core.commands_3.6.2.v20130123-162658.jar</systemPath>
+			<systemPath>${project.basedir}/lib-compile/org.eclipse.core.commands_3.6.2.v20130123-162658.jar</systemPath>
 		</dependency>
 		<dependency>
 			<artifactId>equinox</artifactId>
 			<groupId>equinox</groupId>
 			<version>1.0</version>
 			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/org.eclipse.equinox.common_3.6.0.v20100503.jar</systemPath>
+			<systemPath>${project.basedir}/lib-compile/org.eclipse.equinox.common_3.6.0.v20100503.jar</systemPath>
 		</dependency>
 		<dependency>
 			<artifactId>resources</artifactId>
 			<groupId>resources</groupId>
 			<version>1.0</version>
 			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/org.eclipse.core.resources_3.8.1.v20121114-124432.jar</systemPath>
+			<systemPath>${project.basedir}/lib-compile/org.eclipse.core.resources_3.8.1.v20121114-124432.jar</systemPath>
 		</dependency>
 		<dependency>
 			<artifactId>ide</artifactId>
 			<groupId>ide</groupId>
 			<version>1.0</version>
 			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/org.eclipse.ui.ide_3.8.2.v20121106-165923.jar</systemPath>
+			<systemPath>${project.basedir}/lib-compile/org.eclipse.ui.ide_3.8.2.v20121106-165923.jar</systemPath>
 		</dependency>
 		<dependency>
 			<artifactId>jobs</artifactId>
 			<groupId>jobs</groupId>
 			<version>1.0</version>
 			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/org.eclipse.core.jobs_3.5.300.v20120912-155018.jar</systemPath>
+			<systemPath>${project.basedir}/lib-compile/org.eclipse.core.jobs_3.5.300.v20120912-155018.jar</systemPath>
 		</dependency>
 		<!-- End dependencies only for compilation -->
 	</dependencies>
 	<build>
-		<!--resources> <resource> <directory>./</directory> <includes> <include>plugin.xml</include> 
-			<include>build.properties</include> <include>icons/*</include> <include>META-INF/*</include> 
-			</includes> <excludes> <exclude>target/*</exclude> </excludes> </resource> 
-			</resources -->
 		<plugins>
 			<plugin>
 				<artifactId>maven-eclipse-plugin</artifactId>
 				<version>2.9</version>
 				<configuration>
-					<pde>true</pde>
-					<!--useProjectReferences>false</useProjectReferences -->
-					<!--excludes> <exclude>jface:jface</exclude> <exclude>osgi:osgi</exclude> 
-						<exclude>workbench:workbench</exclude> <exclude>runtime:runtime</exclude> 
-						<exclude>swt:swt</exclude> <exclude>classes</exclude> </excludes> <projectNameTemplate>jqa.eclipse.plugin.core</projectNameTemplate -->
+					<useProjectReferences>false</useProjectReferences>
+					<additionalProjectnatures>
+						<projectnature>org.eclipse.pde.PluginNature</projectnature>
+					</additionalProjectnatures>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>2.1</version>
+				<executions>
+					<execution>
+						<id>copy-dependencies</id>
+						<phase>process-sources</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${basedir}/lib</outputDirectory>
+							<overWriteReleases>false</overWriteReleases>
+							<overWriteSnapshots>false</overWriteSnapshots>
+							<overWriteIfNewer>true</overWriteIfNewer>
+							<excludeScope>system</excludeScope>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-clean-plugin</artifactId>
+				<version>2.3</version>
+				<configuration>
+					<filesets>
+						<fileset>
+							<directory>${basedir}/lib</directory>
+							<includes>
+								<include>*.jar</include>
+							</includes>
+							<followSymlinks>false</followSymlinks>
+						</fileset>
+					</filesets>
 				</configuration>
 			</plugin>
 		</plugins>

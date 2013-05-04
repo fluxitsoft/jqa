@@ -19,8 +19,8 @@
 package ar.com.fluxit.jqa.wizard.page;
 
 import org.eclipse.core.internal.resources.File;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.viewers.Viewer;
@@ -42,7 +42,6 @@ import org.eclipse.ui.model.WorkbenchLabelProvider;
 
 import ar.com.fluxit.jqa.JQAEclipsePlugin;
 
-@SuppressWarnings("restriction")
 public class RulesContextSelectionWizardPage extends AbstractWizardPage {
 
 	public static final String PAGE_NAME = "RulesContextSelectionWizardPage";
@@ -175,9 +174,10 @@ public class RulesContextSelectionWizardPage extends AbstractWizardPage {
 		});
 		dialog.open();
 		if (dialog.getResult() != null && dialog.getResult().length > 0) {
-			File file = (File) dialog.getResult()[0];
-			getWizard().setRulesContextFile(file.getFullPath());
-			selectionRulesContextText.setText(file.getFullPath().toOSString());
+			IResource file = (IResource) dialog.getResult()[0];
+			getWizard().setRulesContextFile(file);
+			selectionRulesContextText.setText(file.getFullPath()
+					.toPortableString());
 			getContainer().updateButtons();
 		}
 	}
@@ -185,12 +185,14 @@ public class RulesContextSelectionWizardPage extends AbstractWizardPage {
 	private void restoreState(Button existentRulesContextRadio,
 			Button newRulesContextRadio, Text existentRulesContextText,
 			Button existentRulesContextButton) {
+
 		updateSelection(existentRulesContextRadio, newRulesContextRadio,
 				existentRulesContextText, existentRulesContextButton,
 				getWizard().isNewRulesContext());
-		final IPath rulesContextFile = getWizard().getRulesContextFile();
+
+		final IResource rulesContextFile = getWizard().getRulesContextFile();
 		if (rulesContextFile != null) {
-			existentRulesContextText.setText(rulesContextFile
+			existentRulesContextText.setText(rulesContextFile.getFullPath()
 					.toPortableString());
 		}
 	}
@@ -202,11 +204,6 @@ public class RulesContextSelectionWizardPage extends AbstractWizardPage {
 		existentRulesContextRadio.setSelection(!isNewRulesContext);
 		existentRulesContextText.setEnabled(!isNewRulesContext);
 		existentRulesContextButton.setEnabled(!isNewRulesContext);
-		if (isNewRulesContext) {
-			newRulesContextRadio.setFocus();
-		} else {
-			existentRulesContextRadio.setFocus();
-		}
 	}
 
 }
