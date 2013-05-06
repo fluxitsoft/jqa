@@ -427,27 +427,41 @@ public class BCERepositoryImpl implements BCERepository {
 		return packageDeclaration.getFirstChildOfType(ASTName.class).getImage();
 	}
 
-	private InputStream getSourceFile(Type type) {
-		for (File sourceDir : this.sourcesDirs) {
-			try {
-				return getSourceFile(type, sourceDir);
-			} catch (FileNotFoundException e) {
-				LOGGER.warn("Can not find the source code for type [" + type
-						+ "] in [" + sourceDir + "]");
+	@Override
+	public File getSourceFile(String typeName, File[] sourceDirs)
+			throws FileNotFoundException {
+		for (File sourceDir : sourceDirs) {
+			String sourceFile = sourceDir.getPath() + "/"
+					+ typeName.replace(".", "/");
+			if (sourceFile.contains("$")) {
+				sourceFile = sourceFile.substring(0, sourceFile.indexOf('$'));
+			}
+			sourceFile += ".java";
+			File result = new File(sourceFile);
+			if (!result.exists()) {
+				LOGGER.warn("Can not find the source code for type ["
+						+ typeName + "] in [" + sourceDir + "]");
+			} else {
+				return result;
 			}
 		}
-		throw new IllegalArgumentException(
-				"Can not find the source code for type [" + type + "]");
+		throw new FileNotFoundException(
+				"Can not find the source code for type [" + typeName + "]");
 	}
 
-	private InputStream getSourceFile(Type type, File sourcesDir2)
-			throws FileNotFoundException {
-		String sourceFile = sourcesDir2.getPath() + "/"
-				+ type.getName().replace(".", "/");
-		if (sourceFile.contains("$")) {
-			sourceFile = sourceFile.substring(0, sourceFile.indexOf('$'));
+	private InputStream getSourceFile(Type type) {
+		return getSourceFile(type, this.sourcesDirs);
+	}
+
+	private InputStream getSourceFile(Type type, File[] sourcesDir2) {
+		try {
+			return new FileInputStream(getSourceFile(type.getName(),
+					sourcesDir2));
+		} catch (FileNotFoundException e) {
+			throw new IllegalArgumentException(
+					"Can not find the source code for type [" + type.getName()
+							+ "]", e);
 		}
-		return new FileInputStream(sourceFile + ".java");
 	}
 
 	private String getSourceLine(Type type, int sourceLine) {

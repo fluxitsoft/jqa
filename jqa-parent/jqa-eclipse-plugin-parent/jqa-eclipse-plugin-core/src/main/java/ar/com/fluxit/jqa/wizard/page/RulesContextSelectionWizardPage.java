@@ -74,7 +74,6 @@ public class RulesContextSelectionWizardPage extends AbstractWizardPage {
 				newRulesContextContainer, SWT.RADIO);
 		newRulesContextRadio.setSelection(true);
 		newRulesContextRadio.setText("New rules context");
-
 		// Existent rules context
 		Composite existenRulesContextContainer = new Composite(container,
 				SWT.NONE);

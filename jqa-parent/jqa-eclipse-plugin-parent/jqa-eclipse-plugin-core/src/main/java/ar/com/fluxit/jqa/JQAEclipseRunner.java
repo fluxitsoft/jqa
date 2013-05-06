@@ -1,3 +1,21 @@
+/*******************************************************************************
+ * Copyright (c) 2011 Juan Ignacio Barisich.
+ * 
+ * This file is part of JQA (http://github.com/jbaris/jqa).
+ * 
+ * JQA is free software: you can redistribute it and/or modify it 
+ * under the terms of the GNU Lesser General Public License as 
+ * published by the Free Software Foundation, either version 3 of 
+ * the License, or (at your option) any later version.
+ * 
+ * JQA is distributed in the hope that it will be useful, but WITHOUT 
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY 
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General 
+ * Public License for more details.
+ * 
+ * You should have received a copy of the GNU Lesser General Public 
+ * License along with JQA. If not, see <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
 package ar.com.fluxit.jqa;
 
 import java.io.File;
@@ -13,9 +31,6 @@ import org.apache.commons.io.filefilter.SuffixFileFilter;
 import org.apache.commons.io.filefilter.TrueFileFilter;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.IPath;
-import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaCore;
@@ -28,6 +43,8 @@ import ar.com.fluxit.jqa.context.RulesContext;
 import ar.com.fluxit.jqa.context.factory.RulesContextFactory;
 import ar.com.fluxit.jqa.context.factory.RulesContextFactoryLocator;
 import ar.com.fluxit.jqa.context.factory.exception.RulesContextFactoryException;
+import ar.com.fluxit.jqa.result.CheckingResult;
+import ar.com.fluxit.jqa.utils.Utils;
 
 public class JQAEclipseRunner {
 
@@ -39,15 +56,10 @@ public class JQAEclipseRunner {
 		// hide constructor
 	}
 
-	private File getAbsolutePath(IPath path) throws JavaModelException {
-		return ResourcesPlugin.getWorkspace().getRoot().findMember(path)
-				.getLocation().toFile();
-	}
-
 	private Collection<File> getClassFiles(IJavaProject javaProject)
 			throws JavaModelException {
 		Collection<File> result = new ArrayList<File>();
-		File buildDir = getAbsolutePath(javaProject.getOutputLocation());
+		File buildDir = Utils.getAbsolutePath(javaProject.getOutputLocation());
 		result.addAll(FileUtils.listFiles(buildDir, new SuffixFileFilter(
 				RulesContextChecker.CLASS_SUFFIX), TrueFileFilter.INSTANCE));
 		return result;
@@ -61,26 +73,12 @@ public class JQAEclipseRunner {
 			if (classpathEntry.isExternal()) {
 				result.add(classpathEntry.getPath().toFile());
 			} else {
-				result.add(getAbsolutePath(((IJavaProject) classpathEntry
+				result.add(Utils.getAbsolutePath(((IJavaProject) classpathEntry
 						.getParent()).getOutputLocation()));
 			}
 
 		}
 		return result;
-	}
-
-	private File[] getSourcesDirs(IJavaProject javaProject)
-			throws JavaModelException {
-		Collection<File> result = new ArrayList<File>();
-		IPackageFragmentRoot[] packageFragmentRoot = javaProject
-				.getAllPackageFragmentRoots();
-		for (int i = 0; i < packageFragmentRoot.length; i++) {
-			if (packageFragmentRoot[i].getElementType() == IJavaElement.PACKAGE_FRAGMENT_ROOT
-					&& !packageFragmentRoot[i].isArchive()) {
-				result.add(getAbsolutePath(packageFragmentRoot[i].getPath()));
-			}
-		}
-		return result.toArray(new File[result.size()]);
 	}
 
 	private void run(IResource rulesContextFile, IProject targetProject)
@@ -96,10 +94,11 @@ public class JQAEclipseRunner {
 			Collection<File> classFiles = getClassFiles(javaProject);
 			String sourceJavaVersion = javaProject.getOption(
 					JavaCore.COMPILER_SOURCE, true);
-			File[] sourceDir = getSourcesDirs(javaProject);
-			RulesContextChecker.INSTANCE.check(targetProject.getName(),
-					classFiles, classPath, rulesContext, sourceDir,
-					sourceJavaVersion, LOGGER);
+			File[] sourceDir = Utils.getSourcesDirs(javaProject);
+			final CheckingResult checkResult = RulesContextChecker.INSTANCE
+					.check(targetProject.getName(), classFiles, classPath,
+							rulesContext, sourceDir, sourceJavaVersion, LOGGER);
+			JQAEclipseMarker.INSTANCE.mark(javaProject, checkResult);
 		} catch (JavaModelException e) {
 			throw new IllegalStateException("Can not parse Java project: "
 					+ javaProject.getElementName(), e);

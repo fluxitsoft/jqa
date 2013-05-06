@@ -23,7 +23,9 @@ package ar.com.fluxit.jqa.bce;
  * 
  * @author Juan Ignacio Barisich
  */
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Map;
@@ -36,6 +38,9 @@ public interface BCERepository {
 
 	Collection<Type> getInterfaces(Type type);
 
+	File getSourceFile(String typeName, File[] sourceDirs)
+			throws FileNotFoundException;
+
 	Collection<Type> getSuperClasses(Type type);
 
 	Map<Type, Collection<Integer>> getThrows(Type type);
@@ -46,6 +51,7 @@ public interface BCERepository {
 
 	Type lookupType(String typeName) throws ClassNotFoundException;
 
-	Type parse(FileInputStream classFile, String typeName) throws TypeFormatException, IOException;
+	Type parse(FileInputStream classFile, String typeName)
+			throws TypeFormatException, IOException;
 
 }

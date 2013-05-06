@@ -32,12 +32,14 @@ public class RuleCheckFailed {
 	private String targetClassName;
 	private int rulePriority;
 	private Collection<Integer> lineIds;
+	private String targetFileName;
 
 	public RuleCheckFailed() {
 		super();
 	}
 
-	public RuleCheckFailed(String ruleName, String ruleMessage, String targetClassName, int rulePriority) {
+	public RuleCheckFailed(String ruleName, String ruleMessage,
+			String targetClassName, int rulePriority) {
 		super();
 		this.ruleName = ruleName;
 		this.ruleMessage = ruleMessage;
@@ -65,6 +67,10 @@ public class RuleCheckFailed {
 		return this.targetClassName;
 	}
 
+	public String getTargetFileName() {
+		return targetFileName;
+	}
+
 	public void setLineIds(Collection<Integer> lineIds) {
 		this.lineIds = lineIds;
 	}
@@ -85,9 +91,14 @@ public class RuleCheckFailed {
 		this.targetClassName = className;
 	}
 
+	public void setTargetFileName(String targetFileName) {
+		this.targetFileName = targetFileName;
+	}
+
 	@Override
 	public String toString() {
-		return "(RuleName='" + getRuleName() + "' TargetClassName=" + getTargetClassName() + ")";
+		return "(RuleName='" + getRuleName() + "' TargetClassName="
+				+ getTargetClassName() + ")";
 	}
 
 }
