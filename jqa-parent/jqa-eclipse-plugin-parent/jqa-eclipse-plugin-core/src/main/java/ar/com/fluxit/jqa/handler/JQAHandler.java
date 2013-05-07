@@ -27,6 +27,11 @@ import org.eclipse.ui.PlatformUI;
 
 import ar.com.fluxit.jqa.wizard.JQAWizard;
 
+/**
+ * TODO javadoc
+ * 
+ * @author Juan Ignacio Barisich
+ */
 public class JQAHandler extends AbstractHandler {
 
 	@Override

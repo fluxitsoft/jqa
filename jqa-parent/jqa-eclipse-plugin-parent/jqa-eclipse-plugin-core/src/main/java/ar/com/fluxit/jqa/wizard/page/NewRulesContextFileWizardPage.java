@@ -18,24 +18,30 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.wizard.page;
 
-import org.eclipse.jface.wizard.WizardPage;
+import java.util.Collections;
 
-import ar.com.fluxit.jqa.wizard.JQAWizard;
+import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.jface.wizard.IWizardPage;
+import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
 
 /**
  * TODO javadoc
  * 
  * @author Juan Ignacio Barisich
  */
-public abstract class AbstractWizardPage extends WizardPage {
+public class NewRulesContextFileWizardPage extends WizardNewFileCreationPage {
 
-	protected AbstractWizardPage(String pageName) {
-		super(pageName);
+	public static final String PAGE_NAME = "NewRulesContextFileWizardPage";
+
+	public NewRulesContextFileWizardPage() {
+		super(PAGE_NAME, new StructuredSelection(Collections.emptyList()));
+		setTitle("Rules context file creation");
+		setDescription("Creates a new rules context tu run");
+		setFileExtension("xml");
 	}
 
 	@Override
-	public JQAWizard getWizard() {
-		return (JQAWizard) super.getWizard();
+	public IWizardPage getNextPage() {
+		return getWizard().getPage(TargetProjectsSelectionWizardPage.PAGE_NAME);
 	}
-
 }

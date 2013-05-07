@@ -18,24 +18,32 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.wizard.page;
 
-import org.eclipse.jface.wizard.WizardPage;
-
-import ar.com.fluxit.jqa.wizard.JQAWizard;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Composite;
 
 /**
  * TODO javadoc
  * 
  * @author Juan Ignacio Barisich
  */
-public abstract class AbstractWizardPage extends WizardPage {
+public class LayersDefinitionWizardPage extends AbstractWizardPage {
 
-	protected AbstractWizardPage(String pageName) {
-		super(pageName);
+	public static final String PAGE_NAME = "LayersDefinitionWizardPage";
+
+	public LayersDefinitionWizardPage() {
+		super(PAGE_NAME);
+		setTitle("Layers definition");
+		setDescription("Define the layers of the target application");
 	}
 
 	@Override
-	public JQAWizard getWizard() {
-		return (JQAWizard) super.getWizard();
+	public void createControl(Composite parent) {
+		Composite container = new Composite(parent, SWT.NULL);
+		GridLayout layout = new GridLayout();
+		layout.numColumns = 1;
+		container.setLayout(layout);
+		setControl(container);
 	}
 
 }

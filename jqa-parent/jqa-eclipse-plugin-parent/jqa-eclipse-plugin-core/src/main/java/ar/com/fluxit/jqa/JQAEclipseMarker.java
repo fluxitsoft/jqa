@@ -41,6 +41,11 @@ import ar.com.fluxit.jqa.result.CheckingResult;
 import ar.com.fluxit.jqa.result.RuleCheckFailed;
 import ar.com.fluxit.jqa.utils.Utils;
 
+/**
+ * TODO javadoc
+ * 
+ * @author Juan Ignacio Barisich
+ */
 public class JQAEclipseMarker {
 
 	private static final Logger LOGGER = LoggerFactory

@@ -32,9 +32,16 @@ import org.eclipse.jface.wizard.Wizard;
 
 import ar.com.fluxit.jqa.JQAEclipsePlugin;
 import ar.com.fluxit.jqa.JQAEclipseRunner;
+import ar.com.fluxit.jqa.wizard.page.LayersDefinitionWizardPage;
+import ar.com.fluxit.jqa.wizard.page.NewRulesContextFileWizardPage;
 import ar.com.fluxit.jqa.wizard.page.RulesContextSelectionWizardPage;
 import ar.com.fluxit.jqa.wizard.page.TargetProjectsSelectionWizardPage;
 
+/**
+ * TODO javadoc
+ * 
+ * @author Juan Ignacio Barisich
+ */
 public class JQAWizard extends Wizard {
 
 	private boolean newRulesContext;
@@ -50,14 +57,20 @@ public class JQAWizard extends Wizard {
 	public void addPages() {
 		addPage(new RulesContextSelectionWizardPage());
 		addPage(new TargetProjectsSelectionWizardPage());
+		addPage(new NewRulesContextFileWizardPage());
+		addPage(new LayersDefinitionWizardPage());
 	}
 
 	@Override
 	public boolean canFinish() {
-		return TargetProjectsSelectionWizardPage.PAGE_NAME
-				.equals(getContainer().getCurrentPage().getName())
-				&& getTargetProjects() != null
-				&& getTargetProjects().length > 0;
+		if (isNewRulesContext()) {
+			// TODO
+			return false;
+		} else {
+			return TargetProjectsSelectionWizardPage.PAGE_NAME
+					.equals(getContainer().getCurrentPage().getName())
+					&& getContainer().getCurrentPage().isPageComplete();
+		}
 	}
 
 	@Override

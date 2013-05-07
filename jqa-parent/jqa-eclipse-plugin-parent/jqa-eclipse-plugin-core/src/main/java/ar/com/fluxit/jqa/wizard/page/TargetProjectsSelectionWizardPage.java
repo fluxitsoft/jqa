@@ -13,6 +13,7 @@ import org.eclipse.jface.viewers.ICheckStateListener;
 import org.eclipse.jface.viewers.IElementComparer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
+import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -20,6 +21,11 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.model.WorkbenchContentProvider;
 import org.eclipse.ui.model.WorkbenchLabelProvider;
 
+/**
+ * TODO javadoc
+ * 
+ * @author Juan Ignacio Barisich
+ */
 public class TargetProjectsSelectionWizardPage extends AbstractWizardPage {
 
 	public static final String PAGE_NAME = "TargetProjectsSelectionWizardPage";
@@ -89,6 +95,21 @@ public class TargetProjectsSelectionWizardPage extends AbstractWizardPage {
 			}
 		});
 		restoreState(projectNames);
+	}
+
+	@Override
+	public IWizardPage getNextPage() {
+		if (getWizard().isNewRulesContext()) {
+			return getWizard().getPage(LayersDefinitionWizardPage.PAGE_NAME);
+		} else {
+			return null;
+		}
+	}
+
+	@Override
+	public boolean isPageComplete() {
+		return getWizard().getTargetProjects() != null
+				&& getWizard().getTargetProjects().length > 0;
 	}
 
 	private void restoreState(CheckboxTableViewer projectNames) {

@@ -42,6 +42,11 @@ import org.eclipse.ui.model.WorkbenchLabelProvider;
 
 import ar.com.fluxit.jqa.JQAEclipsePlugin;
 
+/**
+ * TODO javadoc
+ * 
+ * @author Juan Ignacio Barisich
+ */
 public class RulesContextSelectionWizardPage extends AbstractWizardPage {
 
 	public static final String PAGE_NAME = "RulesContextSelectionWizardPage";
@@ -53,19 +58,12 @@ public class RulesContextSelectionWizardPage extends AbstractWizardPage {
 	}
 
 	@Override
-	public boolean canFlipToNextPage() {
-		return getWizard().isNewRulesContext()
-				|| getWizard().getRulesContextFile() != null;
-	}
-
-	@Override
 	public void createControl(Composite parent) {
 		Composite container = new Composite(parent, SWT.NULL);
 		GridLayout layout = new GridLayout();
 		layout.numColumns = 1;
 		container.setLayout(layout);
 		setControl(container);
-		setPageComplete(false);
 		// New rules context
 		Composite newRulesContextContainer = new Composite(container, SWT.NONE);
 		Layout newRulesContextLayout = new GridLayout();
@@ -133,12 +131,17 @@ public class RulesContextSelectionWizardPage extends AbstractWizardPage {
 	@Override
 	public IWizardPage getNextPage() {
 		if (getWizard().isNewRulesContext()) {
-			// TODO
-			return null;
+			return getWizard().getPage(NewRulesContextFileWizardPage.PAGE_NAME);
 		} else {
 			return getWizard().getPage(
 					TargetProjectsSelectionWizardPage.PAGE_NAME);
 		}
+	}
+
+	@Override
+	public boolean isPageComplete() {
+		return getWizard().isNewRulesContext()
+				|| getWizard().getRulesContextFile() != null;
 	}
 
 	protected void openRulesContextSelectionDialog(

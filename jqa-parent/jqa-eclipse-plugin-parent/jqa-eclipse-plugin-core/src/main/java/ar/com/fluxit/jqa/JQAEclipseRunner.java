@@ -46,6 +46,11 @@ import ar.com.fluxit.jqa.context.factory.exception.RulesContextFactoryException;
 import ar.com.fluxit.jqa.result.CheckingResult;
 import ar.com.fluxit.jqa.utils.Utils;
 
+/**
+ * TODO javadoc
+ * 
+ * @author Juan Ignacio Barisich
+ */
 public class JQAEclipseRunner {
 
 	public static JQAEclipseRunner INSTANCE = new JQAEclipseRunner();
