@@ -115,6 +115,13 @@
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib-compile/org.eclipse.jdt.core_3.8.3.v20130121-145325.jar</systemPath>
 		</dependency>
+		<dependency>
+			<artifactId>jdt-ui</artifactId>
+			<groupId>jdt-ui</groupId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib-compile/org.eclipse.jdt.ui_3.8.2.v20130107-165834.jar</systemPath>
+		</dependency>
 		<!-- End dependencies only for compilation -->
 	</dependencies>
 	<build>

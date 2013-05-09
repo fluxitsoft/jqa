@@ -18,9 +18,25 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.wizard.page;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.eclipse.core.resources.IProject;
+import org.eclipse.jdt.core.IJavaElement;
+import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.IPackageFragment;
+import org.eclipse.jdt.core.IPackageFragmentRoot;
+import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.jdt.ui.JavaElementLabelProvider;
+import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.SashForm;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Group;
+import org.eclipse.ui.dialogs.FilteredList;
 
 /**
  * TODO javadoc
@@ -37,6 +53,26 @@ public class LayersDefinitionWizardPage extends AbstractWizardPage {
 		setDescription("Define the layers of the target application");
 	}
 
+	private IJavaElement[] collectNonEmptyPackages() {
+		try {
+			List<IJavaElement> result = new ArrayList<IJavaElement>();
+			for (IProject project : getWizard().getTargetProjects()) {
+				final IJavaProject javaProject = JavaCore.create(project);
+				for (IPackageFragment packageFragment : javaProject
+						.getPackageFragments()) {
+					if (packageFragment.containsJavaResources()
+							&& packageFragment.getKind() == IPackageFragmentRoot.K_SOURCE) {
+						result.add(packageFragment);
+					}
+				}
+			}
+			return result.toArray(new IJavaElement[result.size()]);
+		} catch (JavaModelException e) {
+			throw new IllegalStateException(
+					"An error has occurred while collection Java packages", e);
+		}
+	}
+
 	@Override
 	public void createControl(Composite parent) {
 		Composite container = new Composite(parent, SWT.NULL);
@@ -44,6 +80,25 @@ public class LayersDefinitionWizardPage extends AbstractWizardPage {
 		layout.numColumns = 1;
 		container.setLayout(layout);
 		setControl(container);
+
+		SashForm sash = new SashForm(container, SWT.SMOOTH);
+		sash.setOrientation(SWT.HORIZONTAL);
+		sash.setLayoutData(new GridData(GridData.FILL_BOTH));
+
+		Group targetPackagesGroup = new Group(sash, SWT.NONE);
+		targetPackagesGroup.setLayout(new GridLayout());
+		targetPackagesGroup.setText("Target packages");
+
+		ILabelProvider targetPackagesLabelProvider = new JavaElementLabelProvider(
+				JavaElementLabelProvider.SHOW_DEFAULT);
+		FilteredList targetPackagesList = new FilteredList(targetPackagesGroup,
+				SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL | SWT.MULTI,
+				targetPackagesLabelProvider, false, false, true);
+		targetPackagesList.setElements(collectNonEmptyPackages());
+		targetPackagesList.setLayoutData(new GridData(GridData.FILL_BOTH));
+
+		Group layersGroup = new Group(sash, SWT.NONE);
+		Group layerPackagesGroup = new Group(sash, SWT.NONE);
 	}
 
 }
