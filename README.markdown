@@ -5,6 +5,7 @@ JQA is an open source tool for QA of Java applications. It is considered a suppl
 JQA is integrated with:
 * Maven 2 (http://maven.apache.org/)    
 * Sonar (http://www.sonarsource.org/)
+* Eclipse (http://www.eclipse.org/) <under development>
 
 JQA allows you to check your application classes regarding:
 * __Naming:__ _e.g., "all my DataAccessObject classes must be in the package com.mycompany.myapp.dao and must be named like *DAO"_
