@@ -29,14 +29,19 @@ import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.ui.JavaElementLabelProvider;
+import org.eclipse.jface.action.ToolBarManager;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
+import org.eclipse.swt.custom.ViewForm;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.ui.dialogs.FilteredList;
+
+import ar.com.fluxit.jqa.actions.NewLayoutAction;
 
 /**
  * TODO javadoc
@@ -98,6 +103,22 @@ public class LayersDefinitionWizardPage extends AbstractWizardPage {
 		targetPackagesList.setLayoutData(new GridData(GridData.FILL_BOTH));
 
 		Group layersGroup = new Group(sash, SWT.NONE);
+		layersGroup.setLayout(new GridLayout());
+		layersGroup.setText("Layers");
+
+		ViewForm viewForm = new ViewForm(layersGroup, SWT.FLAT | SWT.BORDER);
+		viewForm.setLayout(new GridLayout());
+
+		ToolBarManager toolBarManager = new ToolBarManager(SWT.FLAT);
+		ToolBar toolBar = toolBarManager.createControl(viewForm);
+		toolBarManager.add(new NewLayoutAction());
+		toolBar.setBackground(layersGroup.getBackground());
+
+		viewForm.setTopLeft(toolBar);
+		viewForm.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+
+		toolBarManager.update(true);
+
 		Group layerPackagesGroup = new Group(sash, SWT.NONE);
 	}
 
