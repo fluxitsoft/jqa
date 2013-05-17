@@ -1,4 +1,4 @@
-# Java Quality Assurance (JQA) [![](https://secure.travis-ci.org/jbaris/jqa.png?branch=master)](http://travis-ci.org/jbaris/jqa)
+# Java Quality Assurance (JQA) [![](https://secure.travis-ci.org/jbaris/jqa.png?branch=master)](http://travis-ci.org/jbaris/jqa) [![Build Status](https://jbaris.ci.cloudbees.com/job/jqa/badge/icon)](https://jbaris.ci.cloudbees.com/job/jqa/)
 JQA is an open source tool for QA of Java applications. It is considered a supplement to tools like PMD (http://pmd.sourceforge.net/) or Checkstyle (http://checkstyle.sourceforge.net/) because it allows to write rules that exploit the bytecode engine capabilities for high-level architecture validations.
 
 ## Features
