@@ -18,6 +18,8 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.wizard;
 
+import java.util.List;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -32,6 +34,7 @@ import org.eclipse.jface.wizard.Wizard;
 
 import ar.com.fluxit.jqa.JQAEclipsePlugin;
 import ar.com.fluxit.jqa.JQAEclipseRunner;
+import ar.com.fluxit.jqa.entities.Layer;
 import ar.com.fluxit.jqa.wizard.page.LayersDefinitionWizardPage;
 import ar.com.fluxit.jqa.wizard.page.NewRulesContextFileWizardPage;
 import ar.com.fluxit.jqa.wizard.page.RulesContextSelectionWizardPage;
@@ -47,10 +50,12 @@ public class JQAWizard extends Wizard {
 	private boolean newRulesContext;
 	private IResource rulesContextFile;
 	private IProject[] targetProjects;
+	private List<Layer> layers;
 
 	public JQAWizard() {
 		setForcePreviousAndNextButtons(true);
 		restoreState();
+		this.layers = Layer.buildStandardLayers();
 	}
 
 	@Override
@@ -77,6 +82,10 @@ public class JQAWizard extends Wizard {
 	public void dispose() {
 		saveState();
 		super.dispose();
+	}
+
+	public List<Layer> getLayers() {
+		return layers;
 	}
 
 	public IResource getRulesContextFile() {
@@ -157,6 +166,10 @@ public class JQAWizard extends Wizard {
 		}
 		settings.put("targetProjectNames", targetProjectNames);
 		settings.put("newRulesContext", isNewRulesContext());
+	}
+
+	public void setLayers(List<Layer> layers) {
+		this.layers = layers;
 	}
 
 	public void setNewRulesContext(boolean newRulesContext) {
