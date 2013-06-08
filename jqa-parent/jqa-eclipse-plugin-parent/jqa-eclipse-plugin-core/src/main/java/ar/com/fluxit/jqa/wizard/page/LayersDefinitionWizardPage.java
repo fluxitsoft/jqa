@@ -20,6 +20,7 @@ package ar.com.fluxit.jqa.wizard.page;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.jdt.core.IJavaElement;
@@ -28,6 +29,7 @@ import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.jdt.internal.corext.refactoring.reorg.JavaElementTransfer;
 import org.eclipse.jdt.ui.JavaElementLabelProvider;
 import org.eclipse.jface.action.ToolBarManager;
 import org.eclipse.jface.viewers.ArrayContentProvider;
@@ -37,23 +39,28 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.custom.ViewForm;
+import org.eclipse.swt.dnd.DND;
+import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.ToolBar;
-import org.eclipse.ui.dialogs.FilteredList;
 
 import ar.com.fluxit.jqa.actions.EditLayerAction;
 import ar.com.fluxit.jqa.actions.NewLayerAction;
 import ar.com.fluxit.jqa.actions.RemoveLayerAction;
+import ar.com.fluxit.jqa.entities.Layer;
 import ar.com.fluxit.jqa.viewer.LayerCellModifier;
+import ar.com.fluxit.jqa.viewer.LayersListTableDropListener;
+import ar.com.fluxit.jqa.viewer.TargetPackagesDragListener;
 
 /**
  * TODO javadoc
@@ -63,6 +70,7 @@ import ar.com.fluxit.jqa.viewer.LayerCellModifier;
 public class LayersDefinitionWizardPage extends AbstractWizardPage {
 
 	public static final String PAGE_NAME = "LayersDefinitionWizardPage";
+	private TableViewer layerPackagesTable;
 
 	public LayersDefinitionWizardPage() {
 		super(PAGE_NAME);
@@ -108,6 +116,17 @@ public class LayersDefinitionWizardPage extends AbstractWizardPage {
 	private void createLayerPackagesGroup(SashForm sash) {
 		final Group layerPackagesGroup = new Group(sash, SWT.NONE);
 		layerPackagesGroup.setText("Layer packages");
+		layerPackagesGroup.setLayout(new GridLayout());
+		ILabelProvider targetPackagesLabelProvider = new JavaElementLabelProvider(
+				JavaElementLabelProvider.SHOW_DEFAULT);
+		layerPackagesTable = new TableViewer(layerPackagesGroup, SWT.BORDER
+				| SWT.V_SCROLL | SWT.H_SCROLL | SWT.MULTI);
+		layerPackagesTable.setLabelProvider(targetPackagesLabelProvider);
+		layerPackagesTable.setContentProvider(ArrayContentProvider
+				.getInstance());
+		layerPackagesTable.setInput(new IJavaElement[0]);
+		layerPackagesTable.getTable().setLayoutData(
+				new GridData(GridData.FILL_BOTH));
 	}
 
 	private void createLayersGroup(SashForm sash) {
@@ -159,11 +178,15 @@ public class LayersDefinitionWizardPage extends AbstractWizardPage {
 					@Override
 					public void selectionChanged(
 							SelectionChangedEvent paramSelectionChangedEvent) {
-						updateActions(
+						layerSelectionChanged(
 								paramSelectionChangedEvent.getSelection(),
 								editLayerAction, removeLayerAction);
 					}
 				});
+		Transfer[] transferTypes = new Transfer[] { JavaElementTransfer
+				.getInstance() };
+		layersTable.addDropSupport(DND.DROP_MOVE, transferTypes,
+				new LayersListTableDropListener(layersTable));
 	}
 
 	private Group createTargetPackagesGroup(SashForm sash) {
@@ -172,19 +195,40 @@ public class LayersDefinitionWizardPage extends AbstractWizardPage {
 		targetPackagesGroup.setText("Target packages");
 		ILabelProvider targetPackagesLabelProvider = new JavaElementLabelProvider(
 				JavaElementLabelProvider.SHOW_DEFAULT);
-		FilteredList targetPackagesList = new FilteredList(targetPackagesGroup,
-				SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL | SWT.MULTI,
-				targetPackagesLabelProvider, false, false, true);
-		targetPackagesList.setElements(collectNonEmptyPackages());
-		targetPackagesList.setLayoutData(new GridData(GridData.FILL_BOTH));
+		TableViewer targetPackagesTable = new TableViewer(targetPackagesGroup,
+				SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL | SWT.MULTI);
+		targetPackagesTable.setLabelProvider(targetPackagesLabelProvider);
+		targetPackagesTable.setContentProvider(ArrayContentProvider
+				.getInstance());
+		targetPackagesTable.setInput(collectNonEmptyPackages());
+		targetPackagesTable.getTable().setLayoutData(
+				new GridData(GridData.FILL_BOTH));
+		Transfer[] transferTypes = new Transfer[] { JavaElementTransfer
+				.getInstance() };
+		targetPackagesTable.addDragSupport(DND.DROP_MOVE, transferTypes,
+				new TargetPackagesDragListener(targetPackagesTable));
+
 		return targetPackagesGroup;
 	}
 
-	protected void updateActions(ISelection selection,
+	private void layerSelectionChanged(ISelection selection,
 			EditLayerAction editLayerAction, RemoveLayerAction removeLayerAction) {
 		boolean selectionIsNotEmpty = !selection.isEmpty();
 		editLayerAction.setEnabled(selectionIsNotEmpty);
 		removeLayerAction.setEnabled(selectionIsNotEmpty);
+		updateLayerPackagesGroup(selection);
 	}
 
+	private void updateLayerPackagesGroup(ISelection selection) {
+		Object input;
+		if (selection.isEmpty()) {
+			input = new IJavaElement[0];
+		} else {
+			final Set<IJavaElement> currentLayerPackages = ((Layer) ((StructuredSelection) selection)
+					.getFirstElement()).getPackages();
+			input = currentLayerPackages
+					.toArray(new IJavaElement[currentLayerPackages.size()]);
+		}
+		layerPackagesTable.setInput(input);
+	}
 }
