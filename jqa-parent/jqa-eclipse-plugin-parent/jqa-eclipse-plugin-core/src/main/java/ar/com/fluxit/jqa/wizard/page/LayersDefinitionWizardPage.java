@@ -71,6 +71,8 @@ public class LayersDefinitionWizardPage extends AbstractWizardPage {
 
 	public static final String PAGE_NAME = "LayersDefinitionWizardPage";
 	private TableViewer layerPackagesTable;
+	private List<IJavaElement> targetPackages;
+	private TableViewer targetPackagesTable;
 
 	public LayersDefinitionWizardPage() {
 		super(PAGE_NAME);
@@ -78,7 +80,7 @@ public class LayersDefinitionWizardPage extends AbstractWizardPage {
 		setDescription("Define the layers of the target application");
 	}
 
-	private IJavaElement[] collectNonEmptyPackages() {
+	private List<IJavaElement> collectNonEmptyPackages() {
 		try {
 			List<IJavaElement> result = new ArrayList<IJavaElement>();
 			for (IProject project : getWizard().getTargetProjects()) {
@@ -91,7 +93,7 @@ public class LayersDefinitionWizardPage extends AbstractWizardPage {
 					}
 				}
 			}
-			return result.toArray(new IJavaElement[result.size()]);
+			return result;
 		} catch (JavaModelException e) {
 			throw new IllegalStateException(
 					"An error has occurred while collection Java packages", e);
@@ -156,7 +158,12 @@ public class LayersDefinitionWizardPage extends AbstractWizardPage {
 
 			@Override
 			public String getText(Object element) {
-				return element.toString();
+				Layer layer = (Layer) element;
+				String result = layer.getName();
+				if (!layer.getPackages().isEmpty()) {
+					result += " (" + layer.getPackages().size() + ")";
+				}
+				return result;
 			}
 		});
 		layersTable.setCellEditors(new CellEditor[] { new TextCellEditor(
@@ -186,7 +193,8 @@ public class LayersDefinitionWizardPage extends AbstractWizardPage {
 		Transfer[] transferTypes = new Transfer[] { JavaElementTransfer
 				.getInstance() };
 		layersTable.addDropSupport(DND.DROP_MOVE, transferTypes,
-				new LayersListTableDropListener(layersTable));
+				new LayersListTableDropListener(layersTable, targetPackages,
+						targetPackagesTable));
 	}
 
 	private Group createTargetPackagesGroup(SashForm sash) {
@@ -195,12 +203,13 @@ public class LayersDefinitionWizardPage extends AbstractWizardPage {
 		targetPackagesGroup.setText("Target packages");
 		ILabelProvider targetPackagesLabelProvider = new JavaElementLabelProvider(
 				JavaElementLabelProvider.SHOW_DEFAULT);
-		TableViewer targetPackagesTable = new TableViewer(targetPackagesGroup,
-				SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL | SWT.MULTI);
+		targetPackagesTable = new TableViewer(targetPackagesGroup, SWT.BORDER
+				| SWT.V_SCROLL | SWT.H_SCROLL | SWT.MULTI);
 		targetPackagesTable.setLabelProvider(targetPackagesLabelProvider);
 		targetPackagesTable.setContentProvider(ArrayContentProvider
 				.getInstance());
-		targetPackagesTable.setInput(collectNonEmptyPackages());
+		targetPackages = collectNonEmptyPackages();
+		targetPackagesTable.setInput(targetPackages);
 		targetPackagesTable.getTable().setLayoutData(
 				new GridData(GridData.FILL_BOTH));
 		Transfer[] transferTypes = new Transfer[] { JavaElementTransfer
@@ -209,6 +218,10 @@ public class LayersDefinitionWizardPage extends AbstractWizardPage {
 				new TargetPackagesDragListener(targetPackagesTable));
 
 		return targetPackagesGroup;
+	}
+
+	public List<IJavaElement> getTargetPackages() {
+		return targetPackages;
 	}
 
 	private void layerSelectionChanged(ISelection selection,
@@ -231,4 +244,5 @@ public class LayersDefinitionWizardPage extends AbstractWizardPage {
 		}
 		layerPackagesTable.setInput(input);
 	}
+
 }

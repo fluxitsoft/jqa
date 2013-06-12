@@ -18,7 +18,12 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.viewer;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.eclipse.jdt.core.IJavaElement;
+import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerDropAdapter;
 import org.eclipse.swt.dnd.DropTargetEvent;
@@ -33,14 +38,33 @@ import ar.com.fluxit.jqa.entities.Layer;
  */
 public class LayersListTableDropListener extends ViewerDropAdapter {
 
-	public LayersListTableDropListener(Viewer viewer) {
+	private final List<IJavaElement> targetPackages;
+	private final TableViewer targetPackagesTable;
+
+	public LayersListTableDropListener(Viewer viewer,
+			List<IJavaElement> targetPackages, TableViewer targetPackagesTable) {
 		super(viewer);
+		this.targetPackages = targetPackages;
+		this.targetPackagesTable = targetPackagesTable;
 	}
 
 	@Override
 	public void drop(DropTargetEvent event) {
 		Layer targetLayer = (Layer) event.item.getData();
-		targetLayer.addAll((IJavaElement[]) event.data);
+		final IJavaElement[] droppedPackages = (IJavaElement[]) event.data;
+		targetLayer.addAll(droppedPackages);
+		getTargetPackages().removeAll(Arrays.asList(droppedPackages));
+		getTargetPackagesTable().refresh(false);
+		getViewer().setSelection(new StructuredSelection(targetLayer));
+		getViewer().refresh();
+	}
+
+	public List<IJavaElement> getTargetPackages() {
+		return targetPackages;
+	}
+
+	public TableViewer getTargetPackagesTable() {
+		return targetPackagesTable;
 	}
 
 	@Override
