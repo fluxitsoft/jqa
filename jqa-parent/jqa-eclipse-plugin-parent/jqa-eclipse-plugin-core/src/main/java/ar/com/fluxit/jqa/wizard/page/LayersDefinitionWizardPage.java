@@ -19,6 +19,8 @@
 package ar.com.fluxit.jqa.wizard.page;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -30,6 +32,7 @@ import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.internal.corext.refactoring.reorg.JavaElementTransfer;
+import org.eclipse.jdt.ui.JavaElementComparator;
 import org.eclipse.jdt.ui.JavaElementLabelProvider;
 import org.eclipse.jface.action.ToolBarManager;
 import org.eclipse.jface.viewers.ArrayContentProvider;
@@ -42,6 +45,7 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TextCellEditor;
+import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.custom.ViewForm;
@@ -58,6 +62,7 @@ import ar.com.fluxit.jqa.actions.EditLayerAction;
 import ar.com.fluxit.jqa.actions.NewLayerAction;
 import ar.com.fluxit.jqa.actions.RemoveLayerAction;
 import ar.com.fluxit.jqa.entities.Layer;
+import ar.com.fluxit.jqa.viewer.Holder;
 import ar.com.fluxit.jqa.viewer.LayerCellModifier;
 import ar.com.fluxit.jqa.viewer.LayersListTableDropListener;
 import ar.com.fluxit.jqa.viewer.TargetPackagesDragListener;
@@ -71,13 +76,18 @@ public class LayersDefinitionWizardPage extends AbstractWizardPage {
 
 	public static final String PAGE_NAME = "LayersDefinitionWizardPage";
 	private TableViewer layerPackagesTable;
-	private List<IJavaElement> targetPackages;
 	private TableViewer targetPackagesTable;
+	private final Transfer[] transferTypes;
+	private final Holder<Viewer> viewerHolder;
+	private final Holder<Collection<IJavaElement>> inputHolder;
 
 	public LayersDefinitionWizardPage() {
 		super(PAGE_NAME);
 		setTitle("Layers definition");
 		setDescription("Define the layers of the target application");
+		transferTypes = new Transfer[] { JavaElementTransfer.getInstance() };
+		inputHolder = new Holder<Collection<IJavaElement>>();
+		viewerHolder = new Holder<Viewer>();
 	}
 
 	private List<IJavaElement> collectNonEmptyPackages() {
@@ -126,9 +136,13 @@ public class LayersDefinitionWizardPage extends AbstractWizardPage {
 		layerPackagesTable.setLabelProvider(targetPackagesLabelProvider);
 		layerPackagesTable.setContentProvider(ArrayContentProvider
 				.getInstance());
-		layerPackagesTable.setInput(new IJavaElement[0]);
+		layerPackagesTable.setComparator(new JavaElementComparator());
+		layerPackagesTable.setInput(Collections.emptySet());
 		layerPackagesTable.getTable().setLayoutData(
 				new GridData(GridData.FILL_BOTH));
+		layerPackagesTable.addDragSupport(DND.DROP_MOVE, getTransferTypes(),
+				new TargetPackagesDragListener(layerPackagesTable,
+						getDragViewerHolder(), getDragInputHolder()));
 	}
 
 	private void createLayersGroup(SashForm sash) {
@@ -176,7 +190,7 @@ public class LayersDefinitionWizardPage extends AbstractWizardPage {
 		editLayerAction.setEnabled(false);
 		toolBarManager.add(editLayerAction);
 		final RemoveLayerAction removeLayerAction = new RemoveLayerAction(
-				getWizard().getLayers(), layersTable);
+				getWizard().getLayers(), layersTable, targetPackagesTable);
 		removeLayerAction.setEnabled(false);
 		toolBarManager.add(removeLayerAction);
 		toolBarManager.update(true);
@@ -190,11 +204,10 @@ public class LayersDefinitionWizardPage extends AbstractWizardPage {
 								editLayerAction, removeLayerAction);
 					}
 				});
-		Transfer[] transferTypes = new Transfer[] { JavaElementTransfer
-				.getInstance() };
-		layersTable.addDropSupport(DND.DROP_MOVE, transferTypes,
-				new LayersListTableDropListener(layersTable, targetPackages,
-						targetPackagesTable));
+		layersTable.addDropSupport(DND.DROP_MOVE, getTransferTypes(),
+				new LayersListTableDropListener(layersTable,
+						targetPackagesTable, getDragViewerHolder(),
+						getDragInputHolder()));
 	}
 
 	private Group createTargetPackagesGroup(SashForm sash) {
@@ -208,20 +221,27 @@ public class LayersDefinitionWizardPage extends AbstractWizardPage {
 		targetPackagesTable.setLabelProvider(targetPackagesLabelProvider);
 		targetPackagesTable.setContentProvider(ArrayContentProvider
 				.getInstance());
-		targetPackages = collectNonEmptyPackages();
+		targetPackagesTable.setComparator(new JavaElementComparator());
+		List<IJavaElement> targetPackages = collectNonEmptyPackages();
 		targetPackagesTable.setInput(targetPackages);
 		targetPackagesTable.getTable().setLayoutData(
 				new GridData(GridData.FILL_BOTH));
-		Transfer[] transferTypes = new Transfer[] { JavaElementTransfer
-				.getInstance() };
-		targetPackagesTable.addDragSupport(DND.DROP_MOVE, transferTypes,
-				new TargetPackagesDragListener(targetPackagesTable));
-
+		targetPackagesTable.addDragSupport(DND.DROP_MOVE, getTransferTypes(),
+				new TargetPackagesDragListener(targetPackagesTable,
+						getDragViewerHolder(), getDragInputHolder()));
 		return targetPackagesGroup;
 	}
 
-	public List<IJavaElement> getTargetPackages() {
-		return targetPackages;
+	private Holder<Collection<IJavaElement>> getDragInputHolder() {
+		return inputHolder;
+	}
+
+	private Holder<Viewer> getDragViewerHolder() {
+		return viewerHolder;
+	}
+
+	public Transfer[] getTransferTypes() {
+		return transferTypes;
 	}
 
 	private void layerSelectionChanged(ISelection selection,
@@ -233,14 +253,12 @@ public class LayersDefinitionWizardPage extends AbstractWizardPage {
 	}
 
 	private void updateLayerPackagesGroup(ISelection selection) {
-		Object input;
+		Set<IJavaElement> input;
 		if (selection.isEmpty()) {
-			input = new IJavaElement[0];
+			input = Collections.emptySet();
 		} else {
-			final Set<IJavaElement> currentLayerPackages = ((Layer) ((StructuredSelection) selection)
+			input = ((Layer) ((StructuredSelection) selection)
 					.getFirstElement()).getPackages();
-			input = currentLayerPackages
-					.toArray(new IJavaElement[currentLayerPackages.size()]);
 		}
 		layerPackagesTable.setInput(input);
 	}

@@ -19,7 +19,6 @@
 package ar.com.fluxit.jqa.entities;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -32,6 +31,8 @@ import org.eclipse.jdt.core.IJavaElement;
  * @author Juan Ignacio Barisich
  */
 public class Layer {
+
+	private static final Layer EMPTY = new Layer("");
 
 	public static List<Layer> buildStandardLayers() {
 		List<Layer> result = new ArrayList<Layer>();
@@ -46,18 +47,17 @@ public class Layer {
 		return result;
 	}
 
+	public static Layer emptyLayer() {
+		return EMPTY;
+	}
+
 	private String name;
+
 	private final Set<IJavaElement> packages;
 
 	public Layer(String name) {
 		this.name = name;
 		this.packages = new HashSet<IJavaElement>();
-	}
-
-	public void addAll(IJavaElement[] datiJavaElements) {
-		for (IJavaElement iJavaElement : datiJavaElements) {
-			packages.add(iJavaElement);
-		}
 	}
 
 	@Override
@@ -78,16 +78,12 @@ public class Layer {
 	}
 
 	public Set<IJavaElement> getPackages() {
-		return Collections.unmodifiableSet(packages);
+		return packages;
 	}
 
 	@Override
 	public int hashCode() {
 		return getName().hashCode();
-	}
-
-	public boolean removePackage(String packaje) {
-		return packages.remove(packaje);
 	}
 
 	public void setName(String name) {
@@ -98,4 +94,5 @@ public class Layer {
 	public String toString() {
 		return name;
 	}
+
 }

@@ -18,9 +18,13 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.viewer;
 
+import java.util.Collection;
+import java.util.List;
+
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.dnd.DragSourceAdapter;
 import org.eclipse.swt.dnd.DragSourceEvent;
 
@@ -32,28 +36,45 @@ import org.eclipse.swt.dnd.DragSourceEvent;
 public class TargetPackagesDragListener extends DragSourceAdapter {
 
 	private final TableViewer tableViewer;
+	private final Holder<Viewer> viewerHolder;
+	private final Holder<Collection<IJavaElement>> inputHolder;
+	private IJavaElement[] currentSelection;
 
-	public TargetPackagesDragListener(TableViewer tableViewer) {
+	public TargetPackagesDragListener(TableViewer tableViewer,
+			Holder<Viewer> viewerHolder,
+			Holder<Collection<IJavaElement>> inputHolder) {
+		this.inputHolder = inputHolder;
+		this.viewerHolder = viewerHolder;
 		this.tableViewer = tableViewer;
 	}
 
 	@Override
-	public void dragFinished(DragSourceEvent paramDragSourceEvent) {
-		// do nothing
+	public void dragSetData(DragSourceEvent event) {
+		event.data = currentSelection;
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public void dragSetData(DragSourceEvent event) {
+	public void dragStart(DragSourceEvent event) {
 		IStructuredSelection selection = (IStructuredSelection) getTableViewer()
 				.getSelection();
-		event.data = selection.toList().toArray(
-				new IJavaElement[selection.size()]);
+		// Get the current selection at start because the table changes while
+		// selecting the target Layer. Also, allocates a new IJavaElement array
+		// because JavaElementTransfer.javaToNative
+		currentSelection = ((List<IJavaElement>) selection.toList())
+				.toArray(new IJavaElement[selection.size()]);
+		// Sets the target of drag
+		getDragViewerHolder().setValue(getTableViewer());
+		getDragInputHolder().setValue(
+				(Collection<IJavaElement>) getTableViewer().getInput());
 	}
 
-	@Override
-	public void dragStart(DragSourceEvent paramDragSourceEvent) {
-		// do nothing
+	private Holder<Collection<IJavaElement>> getDragInputHolder() {
+		return inputHolder;
+	}
+
+	private Holder<Viewer> getDragViewerHolder() {
+		return viewerHolder;
 	}
 
 	private TableViewer getTableViewer() {

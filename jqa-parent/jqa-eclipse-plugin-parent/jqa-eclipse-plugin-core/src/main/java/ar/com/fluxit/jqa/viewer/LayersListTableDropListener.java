@@ -19,7 +19,7 @@
 package ar.com.fluxit.jqa.viewer;
 
 import java.util.Arrays;
-import java.util.List;
+import java.util.Collection;
 
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jface.viewers.StructuredSelection;
@@ -38,29 +38,37 @@ import ar.com.fluxit.jqa.entities.Layer;
  */
 public class LayersListTableDropListener extends ViewerDropAdapter {
 
-	private final List<IJavaElement> targetPackages;
 	private final TableViewer targetPackagesTable;
+	private final Holder<Collection<IJavaElement>> inputHolder;
+	private final Holder<Viewer> viewerHolder;
 
 	public LayersListTableDropListener(Viewer viewer,
-			List<IJavaElement> targetPackages, TableViewer targetPackagesTable) {
+			TableViewer targetPackagesTable, Holder<Viewer> viewerHolder,
+			Holder<Collection<IJavaElement>> inputHolder) {
 		super(viewer);
-		this.targetPackages = targetPackages;
 		this.targetPackagesTable = targetPackagesTable;
+		this.viewerHolder = viewerHolder;
+		this.inputHolder = inputHolder;
 	}
 
 	@Override
 	public void drop(DropTargetEvent event) {
 		Layer targetLayer = (Layer) event.item.getData();
 		final IJavaElement[] droppedPackages = (IJavaElement[]) event.data;
-		targetLayer.addAll(droppedPackages);
-		getTargetPackages().removeAll(Arrays.asList(droppedPackages));
-		getTargetPackagesTable().refresh(false);
+		targetLayer.getPackages().addAll(Arrays.asList(droppedPackages));
+		getDragInputHolder().getValue().removeAll(
+				Arrays.asList(droppedPackages));
+		getDragViewerHolder().getValue().refresh();
 		getViewer().setSelection(new StructuredSelection(targetLayer));
 		getViewer().refresh();
 	}
 
-	public List<IJavaElement> getTargetPackages() {
-		return targetPackages;
+	private Holder<Collection<IJavaElement>> getDragInputHolder() {
+		return inputHolder;
+	}
+
+	private Holder<Viewer> getDragViewerHolder() {
+		return viewerHolder;
 	}
 
 	public TableViewer getTargetPackagesTable() {
@@ -74,7 +82,12 @@ public class LayersListTableDropListener extends ViewerDropAdapter {
 
 	@Override
 	public boolean validateDrop(Object target, int operation, TransferData data) {
-		return determineLocation(getCurrentEvent()) == ViewerDropAdapter.LOCATION_ON;
+		final boolean result = determineLocation(getCurrentEvent()) == ViewerDropAdapter.LOCATION_ON;
+		if (result) {
+			Layer targetLayer = (Layer) determineTarget(getCurrentEvent());
+			getViewer().setSelection(new StructuredSelection(targetLayer));
+			getViewer().refresh();
+		}
+		return result;
 	}
-
 }
