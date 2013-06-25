@@ -37,13 +37,10 @@ public class Layer {
 	public static List<Layer> buildStandardLayers() {
 		List<Layer> result = new ArrayList<Layer>();
 		result.add(new Layer("Entity"));
-		result.add(new Layer("Business Object API"));
-		result.add(new Layer("Data Access Object API"));
-		result.add(new Layer("Service API"));
+		result.add(new Layer("Business Object"));
+		result.add(new Layer("Data Access Object"));
+		result.add(new Layer("Service"));
 		result.add(new Layer("View"));
-		result.add(new Layer("Business Object Impl"));
-		result.add(new Layer("Data Access Object Impl"));
-		result.add(new Layer("Service Impl"));
 		return result;
 	}
 

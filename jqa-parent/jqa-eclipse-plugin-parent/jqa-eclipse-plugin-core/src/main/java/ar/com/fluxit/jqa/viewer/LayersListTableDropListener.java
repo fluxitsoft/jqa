@@ -26,6 +26,7 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerDropAdapter;
+import org.eclipse.jface.wizard.IWizardContainer;
 import org.eclipse.swt.dnd.DropTargetEvent;
 import org.eclipse.swt.dnd.TransferData;
 
@@ -41,14 +42,17 @@ public class LayersListTableDropListener extends ViewerDropAdapter {
 	private final TableViewer targetPackagesTable;
 	private final Holder<Collection<IJavaElement>> inputHolder;
 	private final Holder<Viewer> viewerHolder;
+	private final IWizardContainer wizardContainer;
 
 	public LayersListTableDropListener(Viewer viewer,
 			TableViewer targetPackagesTable, Holder<Viewer> viewerHolder,
-			Holder<Collection<IJavaElement>> inputHolder) {
+			Holder<Collection<IJavaElement>> inputHolder,
+			IWizardContainer wizardContainer) {
 		super(viewer);
 		this.targetPackagesTable = targetPackagesTable;
 		this.viewerHolder = viewerHolder;
 		this.inputHolder = inputHolder;
+		this.wizardContainer = wizardContainer;
 	}
 
 	@Override
@@ -61,6 +65,7 @@ public class LayersListTableDropListener extends ViewerDropAdapter {
 		getDragViewerHolder().getValue().refresh();
 		getViewer().setSelection(new StructuredSelection(targetLayer));
 		getViewer().refresh();
+		getWizardContainer().updateButtons();
 	}
 
 	private Holder<Collection<IJavaElement>> getDragInputHolder() {
@@ -73,6 +78,10 @@ public class LayersListTableDropListener extends ViewerDropAdapter {
 
 	public TableViewer getTargetPackagesTable() {
 		return targetPackagesTable;
+	}
+
+	private IWizardContainer getWizardContainer() {
+		return wizardContainer;
 	}
 
 	@Override

@@ -38,6 +38,7 @@ import ar.com.fluxit.jqa.entities.Layer;
 import ar.com.fluxit.jqa.wizard.page.LayersDefinitionWizardPage;
 import ar.com.fluxit.jqa.wizard.page.NewRulesContextFileWizardPage;
 import ar.com.fluxit.jqa.wizard.page.RulesContextSelectionWizardPage;
+import ar.com.fluxit.jqa.wizard.page.RulesDefinitionWizardPage;
 import ar.com.fluxit.jqa.wizard.page.TargetProjectsSelectionWizardPage;
 
 /**
@@ -64,6 +65,7 @@ public class JQAWizard extends Wizard {
 		addPage(new TargetProjectsSelectionWizardPage());
 		addPage(new NewRulesContextFileWizardPage());
 		addPage(new LayersDefinitionWizardPage());
+		addPage(new RulesDefinitionWizardPage());
 	}
 
 	@Override

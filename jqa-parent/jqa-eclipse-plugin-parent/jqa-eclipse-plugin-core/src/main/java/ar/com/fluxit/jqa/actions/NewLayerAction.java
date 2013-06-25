@@ -21,6 +21,7 @@ public class NewLayerAction extends Action {
 				.getImageDescriptor(ISharedImages.IMG_OBJ_ADD));
 		this.layers = layers;
 		this.layersTable = layersTable;
+
 	}
 
 	private List<Layer> getLayers() {

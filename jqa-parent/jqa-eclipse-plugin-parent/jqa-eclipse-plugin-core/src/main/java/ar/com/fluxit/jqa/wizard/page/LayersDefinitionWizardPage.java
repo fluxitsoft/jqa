@@ -190,7 +190,8 @@ public class LayersDefinitionWizardPage extends AbstractWizardPage {
 		editLayerAction.setEnabled(false);
 		toolBarManager.add(editLayerAction);
 		final RemoveLayerAction removeLayerAction = new RemoveLayerAction(
-				getWizard().getLayers(), layersTable, targetPackagesTable);
+				getWizard().getLayers(), layersTable, targetPackagesTable,
+				getContainer());
 		removeLayerAction.setEnabled(false);
 		toolBarManager.add(removeLayerAction);
 		toolBarManager.update(true);
@@ -207,7 +208,7 @@ public class LayersDefinitionWizardPage extends AbstractWizardPage {
 		layersTable.addDropSupport(DND.DROP_MOVE, getTransferTypes(),
 				new LayersListTableDropListener(layersTable,
 						targetPackagesTable, getDragViewerHolder(),
-						getDragInputHolder()));
+						getDragInputHolder(), getContainer()));
 	}
 
 	private Group createTargetPackagesGroup(SashForm sash) {
@@ -242,6 +243,11 @@ public class LayersDefinitionWizardPage extends AbstractWizardPage {
 
 	public Transfer[] getTransferTypes() {
 		return transferTypes;
+	}
+
+	@Override
+	public boolean isPageComplete() {
+		return targetPackagesTable.getTable().getItemCount() == 0;
 	}
 
 	private void layerSelectionChanged(ISelection selection,
