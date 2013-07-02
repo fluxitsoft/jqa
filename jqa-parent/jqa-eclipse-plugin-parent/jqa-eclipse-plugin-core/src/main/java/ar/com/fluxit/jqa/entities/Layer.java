@@ -52,9 +52,12 @@ public class Layer {
 
 	private final Set<IJavaElement> packages;
 
+	private boolean hasApi;
+
 	public Layer(String name) {
 		this.name = name;
 		this.packages = new HashSet<IJavaElement>();
+		this.hasApi = true;
 	}
 
 	@Override
@@ -81,6 +84,14 @@ public class Layer {
 	@Override
 	public int hashCode() {
 		return getName().hashCode();
+	}
+
+	public boolean isHasApi() {
+		return hasApi;
+	}
+
+	public void setHasApi(boolean hasApi) {
+		this.hasApi = hasApi;
 	}
 
 	public void setName(String name) {

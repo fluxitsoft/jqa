@@ -18,8 +18,13 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa;
 
+import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 
 /**
@@ -30,6 +35,8 @@ import org.osgi.framework.BundleContext;
 public class JQAEclipsePlugin extends AbstractUIPlugin {
 
 	public static final String PLUGIN_ID = "jqa-eclipse-plugin";
+	public static final String IMG_CHECK = "jqa.image.check";
+	public static final String IMG_UNCHECK = "jqa.image.uncheck";
 	private static JQAEclipsePlugin plugin;
 
 	public static JQAEclipsePlugin getDefault() {
@@ -44,6 +51,19 @@ public class JQAEclipsePlugin extends AbstractUIPlugin {
 	}
 
 	@Override
+	protected void initializeImageRegistry(ImageRegistry reg) {
+		super.initializeImageRegistry(reg);
+		Bundle bundle = Platform.getBundle(PLUGIN_ID);
+		ImageDescriptor checkImage = ImageDescriptor.createFromURL(FileLocator
+				.find(bundle, new Path("icons/check..gif"), null));
+		reg.put(IMG_CHECK, checkImage);
+		ImageDescriptor uncheckImage = ImageDescriptor
+				.createFromURL(FileLocator.find(bundle, new Path(
+						"icons/uncheck..gif"), null));
+		reg.put(IMG_UNCHECK, uncheckImage);
+	}
+
+	@Override
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
@@ -54,5 +74,4 @@ public class JQAEclipsePlugin extends AbstractUIPlugin {
 		plugin = null;
 		super.stop(context);
 	}
-
 }

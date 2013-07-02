@@ -37,10 +37,10 @@ import org.eclipse.jdt.ui.JavaElementLabelProvider;
 import org.eclipse.jface.action.ToolBarManager;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.CellEditor;
+import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
-import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
@@ -51,7 +51,6 @@ import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.custom.ViewForm;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.Transfer;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -164,11 +163,7 @@ public class LayersDefinitionWizardPage extends AbstractWizardPage {
 		layersTable.getTable().setLayoutData(new GridData(GridData.FILL_BOTH));
 		layersTable.setContentProvider(ArrayContentProvider.getInstance());
 		layersTable.setInput(getWizard().getLayers());
-		layersTable.setLabelProvider(new LabelProvider() {
-			@Override
-			public Image getImage(Object element) {
-				return null;
-			}
+		layersTable.setLabelProvider(new ColumnLabelProvider() {
 
 			@Override
 			public String getText(Object element) {
