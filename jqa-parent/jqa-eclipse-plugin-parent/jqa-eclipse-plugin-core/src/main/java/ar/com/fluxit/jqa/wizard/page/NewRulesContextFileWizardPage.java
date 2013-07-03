@@ -38,6 +38,8 @@ public class NewRulesContextFileWizardPage extends WizardNewFileCreationPage {
 		setTitle("Rules context file creation");
 		setDescription("Creates a new rules context tu run");
 		setFileExtension("xml");
+		setFileName("a");// FIXME remove
+
 	}
 
 	@Override

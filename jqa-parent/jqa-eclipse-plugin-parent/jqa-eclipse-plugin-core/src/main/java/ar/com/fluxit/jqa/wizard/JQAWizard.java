@@ -35,10 +35,10 @@ import org.eclipse.jface.wizard.Wizard;
 import ar.com.fluxit.jqa.JQAEclipsePlugin;
 import ar.com.fluxit.jqa.JQAEclipseRunner;
 import ar.com.fluxit.jqa.entities.Layer;
+import ar.com.fluxit.jqa.wizard.page.ApisDefinitionWizardPage;
 import ar.com.fluxit.jqa.wizard.page.LayersDefinitionWizardPage;
 import ar.com.fluxit.jqa.wizard.page.NewRulesContextFileWizardPage;
 import ar.com.fluxit.jqa.wizard.page.RulesContextSelectionWizardPage;
-import ar.com.fluxit.jqa.wizard.page.ApisDefinitionWizardPage;
 import ar.com.fluxit.jqa.wizard.page.TargetProjectsSelectionWizardPage;
 
 /**
@@ -61,11 +61,11 @@ public class JQAWizard extends Wizard {
 
 	@Override
 	public void addPages() {
+		addPage(new ApisDefinitionWizardPage());
 		addPage(new RulesContextSelectionWizardPage());
 		addPage(new TargetProjectsSelectionWizardPage());
 		addPage(new NewRulesContextFileWizardPage());
 		addPage(new LayersDefinitionWizardPage());
-		addPage(new ApisDefinitionWizardPage());
 	}
 
 	@Override

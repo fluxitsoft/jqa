@@ -225,6 +225,9 @@ public class LayersDefinitionWizardPage extends AbstractWizardPage {
 		targetPackagesTable.addDragSupport(DND.DROP_MOVE, getTransferTypes(),
 				new TargetPackagesDragListener(targetPackagesTable,
 						getDragViewerHolder(), getDragInputHolder()));
+		// FIXME delete
+		targetPackagesTable
+				.setSelection(new StructuredSelection(targetPackages));
 		return targetPackagesGroup;
 	}
 

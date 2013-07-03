@@ -19,16 +19,19 @@
 package ar.com.fluxit.jqa.wizard.page;
 
 import org.eclipse.jface.viewers.ArrayContentProvider;
+import org.eclipse.jface.viewers.CheckStateChangedEvent;
+import org.eclipse.jface.viewers.CheckboxTableViewer;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
-import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.jface.viewers.ICheckStateListener;
 import org.eclipse.jface.viewers.TableViewerColumn;
+import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.TableItem;
 
 import ar.com.fluxit.jqa.entities.Layer;
-import ar.com.fluxit.jqa.viewer.EmulatedNativeCheckBoxLabelProvider;
 
 /**
  * TODO javadoc
@@ -52,16 +55,44 @@ public class ApisDefinitionWizardPage extends AbstractWizardPage {
 		layout.numColumns = 1;
 		container.setLayout(layout);
 
-		TableViewer layersTable = new TableViewer(container, SWT.SINGLE
-				| SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL);
+		final CheckboxTableViewer layersTable = CheckboxTableViewer
+				.newCheckList(container, SWT.SINGLE | SWT.BORDER | SWT.V_SCROLL
+						| SWT.H_SCROLL);
 		layersTable.getTable().setLayoutData(new GridData(GridData.FILL_BOTH));
 		layersTable.setContentProvider(ArrayContentProvider.getInstance());
 		layersTable.getTable().setHeaderVisible(true);
 
+		TableViewerColumn selectionColumn = new TableViewerColumn(layersTable,
+				SWT.NONE);
+		selectionColumn.getColumn().setWidth(23);
+		selectionColumn.getColumn().setText("Has API");
+		selectionColumn.setLabelProvider(new ColumnLabelProvider() {
+
+			@Override
+			public String getText(Object element) {
+				return "";
+			}
+
+			@Override
+			public void update(ViewerCell cell) {
+				super.update(cell);
+				boolean checked = ((Layer) cell.getElement()).isHasApi();
+				((TableItem) cell.getItem()).setChecked(checked);
+			}
+
+		});
+		layersTable.addCheckStateListener(new ICheckStateListener() {
+
+			@Override
+			public void checkStateChanged(CheckStateChangedEvent event) {
+				((Layer) event.getElement()).setHasApi(event.getChecked());
+			}
+		});
+
 		TableViewerColumn layerColumn = new TableViewerColumn(layersTable,
 				SWT.NONE);
 		layerColumn.getColumn().setText("Layer");
-		layerColumn.getColumn().setWidth(200);
+		layerColumn.getColumn().setWidth(300);
 		layerColumn.setLabelProvider(new ColumnLabelProvider() {
 			@Override
 			public String getText(Object element) {
@@ -69,21 +100,8 @@ public class ApisDefinitionWizardPage extends AbstractWizardPage {
 				return layer.getName();
 			}
 		});
-
-		TableViewerColumn apiColumn = new TableViewerColumn(layersTable,
-				SWT.NONE);
-		apiColumn.getColumn().setText("Has API");
-		apiColumn.getColumn().setWidth(50);
-		apiColumn.setLabelProvider(new EmulatedNativeCheckBoxLabelProvider(
-				layersTable) {
-
-			@Override
-			protected boolean isChecked(Object element) {
-				Layer layer = (Layer) element;
-				return layer.isHasApi();
-			}
-		});
 		layersTable.setInput(getWizard().getLayers());
+		layersTable.getTable().setColumnOrder(new int[] { 1, 0 });
 		setControl(container);
 	}
 }
