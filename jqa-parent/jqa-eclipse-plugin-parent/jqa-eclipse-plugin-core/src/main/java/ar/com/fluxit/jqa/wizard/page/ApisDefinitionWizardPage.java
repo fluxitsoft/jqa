@@ -18,18 +18,20 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.wizard.page;
 
+import org.eclipse.jface.dialogs.IPageChangedListener;
+import org.eclipse.jface.dialogs.PageChangedEvent;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.CheckStateChangedEvent;
 import org.eclipse.jface.viewers.CheckboxTableViewer;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.ICheckStateListener;
+import org.eclipse.jface.viewers.ICheckStateProvider;
 import org.eclipse.jface.viewers.TableViewerColumn;
-import org.eclipse.jface.viewers.ViewerCell;
+import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.TableItem;
 
 import ar.com.fluxit.jqa.entities.Layer;
 
@@ -38,9 +40,11 @@ import ar.com.fluxit.jqa.entities.Layer;
  * 
  * @author Juan Ignacio Barisich
  */
-public class ApisDefinitionWizardPage extends AbstractWizardPage {
+public class ApisDefinitionWizardPage extends AbstractWizardPage implements
+		IPageChangedListener {
 
 	public static final String PAGE_NAME = "ApisDefinitionWizardPage";
+	private CheckboxTableViewer layersTable;
 
 	public ApisDefinitionWizardPage() {
 		super(PAGE_NAME);
@@ -55,9 +59,8 @@ public class ApisDefinitionWizardPage extends AbstractWizardPage {
 		layout.numColumns = 1;
 		container.setLayout(layout);
 
-		final CheckboxTableViewer layersTable = CheckboxTableViewer
-				.newCheckList(container, SWT.SINGLE | SWT.BORDER | SWT.V_SCROLL
-						| SWT.H_SCROLL);
+		layersTable = CheckboxTableViewer.newCheckList(container, SWT.SINGLE
+				| SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL);
 		layersTable.getTable().setLayoutData(new GridData(GridData.FILL_BOTH));
 		layersTable.setContentProvider(ArrayContentProvider.getInstance());
 		layersTable.getTable().setHeaderVisible(true);
@@ -73,13 +76,18 @@ public class ApisDefinitionWizardPage extends AbstractWizardPage {
 				return "";
 			}
 
+		});
+		layersTable.setCheckStateProvider(new ICheckStateProvider() {
+
 			@Override
-			public void update(ViewerCell cell) {
-				super.update(cell);
-				boolean checked = ((Layer) cell.getElement()).isHasApi();
-				((TableItem) cell.getItem()).setChecked(checked);
+			public boolean isChecked(Object element) {
+				return ((Layer) element).isHasApi();
 			}
 
+			@Override
+			public boolean isGrayed(Object element) {
+				return false;
+			}
 		});
 		layersTable.addCheckStateListener(new ICheckStateListener() {
 
@@ -103,5 +111,14 @@ public class ApisDefinitionWizardPage extends AbstractWizardPage {
 		layersTable.setInput(getWizard().getLayers());
 		layersTable.getTable().setColumnOrder(new int[] { 1, 0 });
 		setControl(container);
+		((WizardDialog) getContainer()).addPageChangedListener(this);
 	}
+
+	@Override
+	public void pageChanged(PageChangedEvent event) {
+		if (event.getSelectedPage() == this) {
+			layersTable.refresh(true);
+		}
+	}
+
 }

@@ -18,8 +18,7 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.wizard.page;
 
-import java.util.Collections;
-
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
@@ -33,13 +32,20 @@ public class NewRulesContextFileWizardPage extends WizardNewFileCreationPage {
 
 	public static final String PAGE_NAME = "NewRulesContextFileWizardPage";
 
+	private static Object[] getList() {
+		Object[] result = new Object[1];
+		result[0] = ResourcesPlugin.getWorkspace().getRoot().findMember("a");
+		return result;
+	}
+
 	public NewRulesContextFileWizardPage() {
-		super(PAGE_NAME, new StructuredSelection(Collections.emptyList()));
+		// super(PAGE_NAME, new StructuredSelection(Collections.emptyList()));
+		// FIXME change
+		super(PAGE_NAME, new StructuredSelection(getList()));
 		setTitle("Rules context file creation");
 		setDescription("Creates a new rules context tu run");
 		setFileExtension("xml");
-		setFileName("a");// FIXME remove
-
+		setFileName("a.xml");// FIXME remove
 	}
 
 	@Override

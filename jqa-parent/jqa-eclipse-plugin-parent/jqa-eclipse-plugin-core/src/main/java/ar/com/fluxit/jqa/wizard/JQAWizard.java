@@ -61,11 +61,11 @@ public class JQAWizard extends Wizard {
 
 	@Override
 	public void addPages() {
-		addPage(new ApisDefinitionWizardPage());
 		addPage(new RulesContextSelectionWizardPage());
 		addPage(new TargetProjectsSelectionWizardPage());
 		addPage(new NewRulesContextFileWizardPage());
 		addPage(new LayersDefinitionWizardPage());
+		addPage(new ApisDefinitionWizardPage());
 	}
 
 	@Override

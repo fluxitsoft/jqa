@@ -57,7 +57,7 @@ public class Layer {
 	public Layer(String name) {
 		this.name = name;
 		this.packages = new HashSet<IJavaElement>();
-		this.hasApi = false;
+		this.hasApi = true;
 	}
 
 	@Override
