@@ -34,11 +34,11 @@ public class NewLayerAction extends Action {
 
 	private String getNewLayerName(List<Layer> layers2) {
 		String result = "New Layer";
-		if (getLayers().contains(new Layer(result))) {
+		if (getLayers().contains(new Layer(result, true, ""))) {
 			int i = 0;
 			do {
 				result = "New Layer " + ++i;
-			} while (getLayers().contains(new Layer(result)));
+			} while (getLayers().contains(new Layer(result, true, "")));
 		}
 		return result;
 	}
@@ -46,7 +46,7 @@ public class NewLayerAction extends Action {
 	@Override
 	public void run() {
 		final String layerName = getNewLayerName(getLayers());
-		final Layer newLayer = new Layer(layerName);
+		final Layer newLayer = new Layer(layerName, true, "");
 		getLayers().add(newLayer);
 		getLayersTable().refresh(false);
 		((LayerCellModifier) getLayersTable().getCellModifier()).doModifiable();

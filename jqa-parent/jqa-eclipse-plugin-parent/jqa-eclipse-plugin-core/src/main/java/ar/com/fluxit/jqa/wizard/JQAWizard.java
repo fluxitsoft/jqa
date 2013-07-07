@@ -37,9 +37,11 @@ import ar.com.fluxit.jqa.JQAEclipseRunner;
 import ar.com.fluxit.jqa.entities.Layer;
 import ar.com.fluxit.jqa.wizard.page.ApisDefinitionWizardPage;
 import ar.com.fluxit.jqa.wizard.page.LayersDefinitionWizardPage;
+import ar.com.fluxit.jqa.wizard.page.NamingDefinitionWizardPage;
 import ar.com.fluxit.jqa.wizard.page.NewRulesContextFileWizardPage;
 import ar.com.fluxit.jqa.wizard.page.RulesContextSelectionWizardPage;
 import ar.com.fluxit.jqa.wizard.page.TargetProjectsSelectionWizardPage;
+import ar.com.fluxit.jqa.wizard.page.TypingDefinitionWizardPage;
 
 /**
  * TODO javadoc
@@ -52,11 +54,15 @@ public class JQAWizard extends Wizard {
 	private IResource rulesContextFile;
 	private IProject[] targetProjects;
 	private List<Layer> layers;
+	private String implPackageText;
+	private String classPackageText;
 
 	public JQAWizard() {
 		setForcePreviousAndNextButtons(true);
 		restoreState();
 		this.layers = Layer.buildStandardLayers();
+		this.implPackageText = "impl";
+		this.classPackageText = "Impl";
 	}
 
 	@Override
@@ -66,6 +72,8 @@ public class JQAWizard extends Wizard {
 		addPage(new NewRulesContextFileWizardPage());
 		addPage(new LayersDefinitionWizardPage());
 		addPage(new ApisDefinitionWizardPage());
+		addPage(new NamingDefinitionWizardPage());
+		addPage(new TypingDefinitionWizardPage());
 	}
 
 	@Override
@@ -84,6 +92,14 @@ public class JQAWizard extends Wizard {
 	public void dispose() {
 		saveState();
 		super.dispose();
+	}
+
+	public String getClassPackageText() {
+		return classPackageText;
+	}
+
+	public String getImplPackageText() {
+		return implPackageText;
 	}
 
 	public List<Layer> getLayers() {
@@ -168,6 +184,14 @@ public class JQAWizard extends Wizard {
 		}
 		settings.put("targetProjectNames", targetProjectNames);
 		settings.put("newRulesContext", isNewRulesContext());
+	}
+
+	public void setClassPackageText(String classPackageText) {
+		this.classPackageText = classPackageText;
+	}
+
+	public void setImplPackageText(String text) {
+		this.implPackageText = text;
 	}
 
 	public void setLayers(List<Layer> layers) {

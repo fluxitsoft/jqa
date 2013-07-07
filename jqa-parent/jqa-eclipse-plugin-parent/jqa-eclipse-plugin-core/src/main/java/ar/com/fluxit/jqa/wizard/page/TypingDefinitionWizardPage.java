@@ -21,11 +21,10 @@ package ar.com.fluxit.jqa.wizard.page;
 import org.eclipse.jface.dialogs.IPageChangedListener;
 import org.eclipse.jface.dialogs.PageChangedEvent;
 import org.eclipse.jface.viewers.ArrayContentProvider;
-import org.eclipse.jface.viewers.CheckStateChangedEvent;
-import org.eclipse.jface.viewers.CheckboxTableViewer;
+import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
-import org.eclipse.jface.viewers.ICheckStateListener;
-import org.eclipse.jface.viewers.ICheckStateProvider;
+import org.eclipse.jface.viewers.EditingSupport;
+import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.SWT;
@@ -34,22 +33,23 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 
 import ar.com.fluxit.jqa.entities.Layer;
+import ar.com.fluxit.jqa.viewer.TypeCellEditor;
 
 /**
  * TODO javadoc
  * 
  * @author Juan Ignacio Barisich
  */
-public class ApisDefinitionWizardPage extends AbstractWizardPage implements
+public class TypingDefinitionWizardPage extends AbstractWizardPage implements
 		IPageChangedListener {
 
-	public static final String PAGE_NAME = "ApisDefinitionWizardPage";
-	private CheckboxTableViewer layersTable;
+	public static final String PAGE_NAME = "TypingDefinitionWizardPage";
+	private TableViewer layersTable;
 
-	public ApisDefinitionWizardPage() {
+	public TypingDefinitionWizardPage() {
 		super(PAGE_NAME);
-		setTitle("APIs definition");
-		setDescription("Define which layers must be accessed via API (interfaces)");
+		setTitle("Typing definition");
+		setDescription("Define the typing of your layers");
 	}
 
 	@Override
@@ -59,44 +59,12 @@ public class ApisDefinitionWizardPage extends AbstractWizardPage implements
 		layout.numColumns = 1;
 		container.setLayout(layout);
 
-		layersTable = CheckboxTableViewer.newCheckList(container, SWT.SINGLE
-				| SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL);
+		layersTable = new TableViewer(container, SWT.SINGLE | SWT.BORDER
+				| SWT.V_SCROLL | SWT.H_SCROLL);
 		layersTable.getTable().setLayoutData(new GridData(GridData.FILL_BOTH));
 		layersTable.setContentProvider(ArrayContentProvider.getInstance());
 		layersTable.getTable().setHeaderVisible(true);
 		layersTable.getTable().setLinesVisible(true);
-
-		TableViewerColumn selectionColumn = new TableViewerColumn(layersTable,
-				SWT.NONE);
-		selectionColumn.getColumn().setWidth(23);
-		selectionColumn.getColumn().setText("Has API");
-		selectionColumn.setLabelProvider(new ColumnLabelProvider() {
-
-			@Override
-			public String getText(Object element) {
-				return "";
-			}
-
-		});
-		layersTable.setCheckStateProvider(new ICheckStateProvider() {
-
-			@Override
-			public boolean isChecked(Object element) {
-				return ((Layer) element).isHasApi();
-			}
-
-			@Override
-			public boolean isGrayed(Object element) {
-				return false;
-			}
-		});
-		layersTable.addCheckStateListener(new ICheckStateListener() {
-
-			@Override
-			public void checkStateChanged(CheckStateChangedEvent event) {
-				((Layer) event.getElement()).setHasApi(event.getChecked());
-			}
-		});
 
 		TableViewerColumn layerColumn = new TableViewerColumn(layersTable,
 				SWT.NONE);
@@ -109,8 +77,45 @@ public class ApisDefinitionWizardPage extends AbstractWizardPage implements
 				return layer.getName();
 			}
 		});
+
+		TableViewerColumn namePatternColumn = new TableViewerColumn(
+				layersTable, SWT.NONE);
+		namePatternColumn.getColumn().setWidth(300);
+		namePatternColumn.getColumn().setText("Super type");
+		namePatternColumn.setLabelProvider(new ColumnLabelProvider() {
+
+			@Override
+			public String getText(Object element) {
+				Layer layer = (Layer) element;
+				return layer.getSuperType();
+			}
+
+		});
+		namePatternColumn.setEditingSupport(new EditingSupport(layersTable) {
+
+			@Override
+			protected boolean canEdit(Object element) {
+				return true;
+			}
+
+			@Override
+			protected CellEditor getCellEditor(Object element) {
+				return new TypeCellEditor(layersTable.getTable(),
+						TypingDefinitionWizardPage.this.getContainer());
+			}
+
+			@Override
+			protected Object getValue(Object element) {
+				return ((Layer) element).getSuperType();
+			}
+
+			@Override
+			protected void setValue(Object element, Object value) {
+				((Layer) element).setSuperType((String) value);
+				layersTable.refresh(element, true);
+			}
+		});
 		layersTable.setInput(getWizard().getLayers());
-		layersTable.getTable().setColumnOrder(new int[] { 1, 0 });
 		setControl(container);
 		((WizardDialog) getContainer()).addPageChangedListener(this);
 	}

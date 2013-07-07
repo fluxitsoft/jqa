@@ -32,15 +32,15 @@ import org.eclipse.jdt.core.IJavaElement;
  */
 public class Layer {
 
-	private static final Layer EMPTY = new Layer("");
+	private static final Layer EMPTY = new Layer("", true, "");
 
 	public static List<Layer> buildStandardLayers() {
 		List<Layer> result = new ArrayList<Layer>();
-		result.add(new Layer("Entity"));
-		result.add(new Layer("Business Object"));
-		result.add(new Layer("Data Access Object"));
-		result.add(new Layer("Service"));
-		result.add(new Layer("View"));
+		result.add(new Layer("Entity", false, ""));
+		result.add(new Layer("Business Object", true, "*BO"));
+		result.add(new Layer("Data Access Object", true, "*DAO"));
+		result.add(new Layer("Service", true, "*Service"));
+		result.add(new Layer("View", false, ""));
 		return result;
 	}
 
@@ -49,15 +49,17 @@ public class Layer {
 	}
 
 	private String name;
-
 	private final Set<IJavaElement> packages;
-
 	private boolean hasApi;
+	private String namingPattern;
+	private String superType;
 
-	public Layer(String name) {
+	public Layer(String name, boolean hasApi, String namingPattern) {
 		this.name = name;
 		this.packages = new HashSet<IJavaElement>();
-		this.hasApi = true;
+		this.hasApi = hasApi;
+		this.namingPattern = namingPattern;
+		this.superType = "java.lang.Object";
 	}
 
 	@Override
@@ -77,8 +79,16 @@ public class Layer {
 		return name;
 	}
 
+	public String getNamingPattern() {
+		return namingPattern;
+	}
+
 	public Set<IJavaElement> getPackages() {
 		return packages;
+	}
+
+	public String getSuperType() {
+		return superType;
 	}
 
 	@Override
@@ -96,6 +106,14 @@ public class Layer {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public void setNamingPattern(String namingPattern) {
+		this.namingPattern = namingPattern;
+	}
+
+	public void setSuperType(String superType) {
+		this.superType = superType;
 	}
 
 	@Override
