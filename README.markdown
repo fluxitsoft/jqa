@@ -1,3 +1,5 @@
+<img src="http://www.fluxit.com.ar/logo.jpg"/>
+
 # Java Quality Assurance (JQA) [![](https://secure.travis-ci.org/jbaris/jqa.png?branch=master)](http://travis-ci.org/jbaris/jqa) [![](https://jbaris.ci.cloudbees.com/job/jqa/badge/icon)](https://jbaris.ci.cloudbees.com/job/jqa/)
 JQA is an open source tool for QA of Java applications. It is considered a supplement to tools like PMD (http://pmd.sourceforge.net/) or Checkstyle (http://checkstyle.sourceforge.net/) because it allows to write rules that exploit the bytecode engine capabilities for high-level architecture validations.
 
@@ -46,11 +48,13 @@ Then, run one of the JQA plugins.
     mvn sonar:sonar -Dsonar.profile="JQA way"
     xdg-open http://localhost:9000/drilldown/violations/ar.com.fluxit.jqa:jqa-test-parent
 ### Guides
-If you want to use JQA, see the [User's guide](http://github.com/jbaris/jqa/wiki/User-guide).     
-If you want to contribute to JQA, see the [Developer's guide](http://github.com/jbaris/jqa/wiki/Developer-guide).
+If you want to use JQA, see the [User's guide](http://github.com/fluxitsoft/jqa/wiki/User-guide).     
+If you want to contribute to JQA, see the [Developer's guide](http://github.com/fluxitsoft/jqa/wiki/Developer-guide).
 
 ## Contribute
-JQA is under development, and contributors are welcome. If you have a feature request, suggestion, or bug report, please [open a new issue](http://github.com/jbaris/jqa/issues). To submit patches, please send a pull request. Once your changes get merged back in, you’ll automatically be added to the [Contributors List](http://github.com/jbaris/jqa/graphs/contributors).
+JQA is under development, and contributors are welcome. If you have a feature request, suggestion, or bug report, please [open a new issue](http://github.com/fluxitsoft/jqa/issues). 
+To submit patches, please send a pull request. 
+Once your changes get merged back in, you’ll automatically be added to the [Contributors List](http://github.com/fluxitsoft/jqa/graphs/contributors).
 
 ## License
 This project is under GNU Lesser General Public License version 3 or later (http://www.gnu.org/licenses/).
