@@ -2,7 +2,7 @@
 <!--
   Copyright (c) 2011 Juan Ignacio Barisich.
   
-  This file is part of JQA (http://github.com/jbaris/jqa).
+  This file is part of JQA (http://github.com/fluxitsoft/jqa).
   
   JQA is free software: you can redistribute it and/or modify it 
   under the terms of the GNU Lesser General Public License as 
@@ -20,7 +20,7 @@
 <jqa_ctx:RulesContext name=""
 	xmlns:jqa="http://www.fluxit.com.ar/jqa/schema/ruleset" xmlns:jqa_ctx="http://www.fluxit.com.ar/jqa/schema/rulescontext"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.fluxit.com.ar/jqa/schema/rulescontext https://raw.github.com/jbaris/jqa/master/jqa-parent/jqa-ctx-factory-xmlbeans/src/main/resources/schema/rulescontext.xsd ">
+	xsi:schemaLocation="http://www.fluxit.com.ar/jqa/schema/rulescontext http://raw.github.com/fluxitsoft/jqa/master/jqa-parent/jqa-ctx-factory-xmlbeans/src/main/resources/schema/rulescontext.xsd ">
 
 	<!-- Service exception -->
 	<globalPredicate name="Service exceptions" xsi:type="jqa:TypingPredicate">
