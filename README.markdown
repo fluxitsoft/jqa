@@ -1,6 +1,6 @@
 <img src="http://www.fluxit.com.ar/logo.jpg"/>
 
-# Java Quality Assurance (JQA) [![](https://secure.travis-ci.org/jbaris/jqa.png?branch=master)](http://travis-ci.org/jbaris/jqa) [![](https://jbaris.ci.cloudbees.com/job/jqa/badge/icon)](https://jbaris.ci.cloudbees.com/job/jqa/)
+# Java Quality Assurance (JQA) [![](https://secure.travis-ci.org/fluxitsoft/jqa.png?branch=master)](http://travis-ci.org/jbaris/jqa) [![](https://jbaris.ci.cloudbees.com/job/jqa/badge/icon)](https://jbaris.ci.cloudbees.com/job/jqa/)
 JQA is an open source tool for QA of Java applications. It is considered a supplement to tools like PMD (http://pmd.sourceforge.net/) or Checkstyle (http://checkstyle.sourceforge.net/) because it allows to write rules that exploit the bytecode engine capabilities for high-level architecture validations.
 
 ## Features
@@ -18,7 +18,7 @@ JQA allows you to check your application classes regarding:
 * __Abstraction:__ _e.g., "all my types (files) in the com.mycompany.myapp.service package must be interfaces (contracts)"_
 
 ## Screenshots
-[Here](http://github.com/jbaris/jqa/wiki/Screenshots) are few screenshots of JQA in action.
+[Here](http://github.com/fluxitsoft/jqa/wiki/Screenshots) are few screenshots of JQA in action.
 
 ## Requirements
 * Java 5 or later
@@ -28,7 +28,7 @@ JQA allows you to check your application classes regarding:
 ### Quick start
 First, download and install JQA:
 
-    git clone http://github.com/jbaris/jqa
+    git clone http://github.com/fluxitsoft/jqa
     cd jqa/jqa-parent/
     mvn clean install
     
