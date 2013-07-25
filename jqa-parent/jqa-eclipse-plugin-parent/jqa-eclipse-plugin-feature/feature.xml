@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  Copyright (c) 2011 Juan Ignacio Barisich.
+  Copyright (c) 2013 Flux IT.
   
   This file is part of JQA (http://github.com/fluxitsoft/jqa).
   
@@ -28,7 +28,7 @@
    </description>
 
    <copyright url="http://www.example.com/copyright">
-      Copyright (c) 2011 Juan Ignacio Barisich
+      Copyright (c) 2013 Flux IT
    </copyright>
 
    <license url="http://www.example.com/license">

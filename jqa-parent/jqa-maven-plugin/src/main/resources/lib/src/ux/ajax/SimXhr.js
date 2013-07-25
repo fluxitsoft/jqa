@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------
-# Copyright (c) 2011 Juan Ignacio Barisich.
+# Copyright (c) 2013 Flux IT.
 # 
 # This file is part of JQA (http://github.com/fluxitsoft/jqa).
 # 
