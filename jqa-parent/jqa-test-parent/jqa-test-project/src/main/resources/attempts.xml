@@ -57,8 +57,8 @@
 		</predicate>
 	</globalPredicate>
 
-	<!-- Classes that try to be a Service contract -->
-	<globalPredicate name="Service contract attempt" xsi:type="jqa:AndPredicate">
+	<!-- Classes that try to be a Service API -->
+	<globalPredicate name="Service API attempt" xsi:type="jqa:AndPredicate">
 		<predicate xsi:type="jqa:AbstractionPredicate" abstractionType="INTERFACE" />
 		<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="Service attempt" />
 	</globalPredicate>
@@ -88,8 +88,8 @@
 		</predicate>
 	</globalPredicate>
 
-	<!-- Classes that try to be a BusinessObject contract -->
-	<globalPredicate name="BO contract attempt" xsi:type="jqa:AndPredicate">
+	<!-- Classes that try to be a BusinessObject API -->
+	<globalPredicate name="BO API attempt" xsi:type="jqa:AndPredicate">
 		<predicate xsi:type="jqa:AbstractionPredicate" abstractionType="INTERFACE" />
 		<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="BO attempt" />
 	</globalPredicate>
@@ -120,8 +120,8 @@
 		</predicate>
 	</globalPredicate>
 
-	<!-- Classes that try to be a DataAccessObject contract -->
-	<globalPredicate name="DAO contract attempt" xsi:type="jqa:AndPredicate">
+	<!-- Classes that try to be a DataAccessObject API -->
+	<globalPredicate name="DAO API attempt" xsi:type="jqa:AndPredicate">
 		<predicate xsi:type="jqa:AbstractionPredicate" abstractionType="INTERFACE" />
 		<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="DAO attempt" />
 	</globalPredicate>

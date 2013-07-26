@@ -25,8 +25,8 @@
 	<!-- RuleSet that checks class allocations -->
 	<ruleSet name="Allocation ruleset">
 
-		<!-- Contracts abstraction -->
-		<rule name="Contract abstraction" message="The type '${type.name}' must be an interface"
+		<!-- API abstraction -->
+		<rule name="API abstraction" message="The type '${type.name}' must be an interface"
 			priority="3">
 			<filterPredicate xsi:type="jqa:OrPredicate">
 				<predicate xsi:type="jqa:NamingPredicate" namePattern="${serviceContract.packagePattern}" />
