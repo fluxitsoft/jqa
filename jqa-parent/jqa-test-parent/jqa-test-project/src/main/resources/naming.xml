@@ -54,7 +54,7 @@
 		<!-- BusinessObject API naming -->
 		<rule name="BO API naming" message="The BO API '${type.name}' must be named like '${boContract.namePattern}'"
 			priority="4">
-			<filterPredicate xsi:type="jqa:ContextProvidedPredicate" predicateName="BO contract attempt" />
+			<filterPredicate xsi:type="jqa:ContextProvidedPredicate" predicateName="BO API attempt" />
 			<checkPredicate xsi:type="jqa:NamingPredicate" namePattern="${boContract.namePattern}" />
 		</rule>
 
@@ -69,7 +69,7 @@
 		<!-- DataAccessObject API naming -->
 		<rule name="DAO API naming" message="The DAO API '${type.name}' must be named like '${daoContract.namePattern}'"
 			priority="4">
-			<filterPredicate xsi:type="jqa:ContextProvidedPredicate" predicateName="DAO contract attempt" />
+			<filterPredicate xsi:type="jqa:ContextProvidedPredicate" predicateName="DAO API attempt" />
 			<checkPredicate xsi:type="jqa:NamingPredicate" namePattern="${daoContract.namePattern}" />
 		</rule>
 

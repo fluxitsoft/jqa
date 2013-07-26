@@ -53,7 +53,7 @@
 			priority="3">
 			<filterPredicate xsi:type="jqa:ContextProvidedPredicate" predicateName="Service implementation attempt" />
 			<checkPredicate xsi:type="jqa:TypingPredicate">
-				<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="Service contract attempt" />
+				<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="Service API attempt" />
 			</checkPredicate>
 		</rule>
 
