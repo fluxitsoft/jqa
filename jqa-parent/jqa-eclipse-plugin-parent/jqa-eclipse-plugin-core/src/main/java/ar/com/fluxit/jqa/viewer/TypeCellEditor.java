@@ -30,9 +30,10 @@ import org.eclipse.swt.widgets.Control;
 
 /**
  * TODO javadoc
- * 
+ * TODO see restrictions
  * @author Juan Ignacio Barisich
  */
+@SuppressWarnings("restriction")
 public class TypeCellEditor extends DialogCellEditor {
 
 	private final IRunnableContext context;

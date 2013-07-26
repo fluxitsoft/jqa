@@ -2,9 +2,9 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: JQA Eclipse Plugin
 Bundle-SymbolicName: jqa-eclipse-plugin-core;singleton:=true
-Bundle-Version: 1.0
+Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: ar.com.fluxit.jqa.JQAEclipsePlugin
-Bundle-Vendor: FluxIT
+Bundle-Vendor: Flux IT
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.core.resources,
@@ -39,6 +39,4 @@ Bundle-ClassPath: .,
  lib/xml-apis-1.3.02.jar,
  lib/xmlbeans-2.4.0.jar,
  lib/xmlParserAPIs-2.6.2.jar,
- lib/xom-1.0.jar,
- target/classes/
-
+ lib/xom-1.0.jar
