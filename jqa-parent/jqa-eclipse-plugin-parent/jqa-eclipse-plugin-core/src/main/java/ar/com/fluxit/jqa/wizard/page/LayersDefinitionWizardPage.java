@@ -68,9 +68,11 @@ import ar.com.fluxit.jqa.viewer.TargetPackagesDragListener;
 
 /**
  * TODO javadoc
+ * TODO see restrictions
  * 
  * @author Juan Ignacio Barisich
  */
+@SuppressWarnings("restriction")
 public class LayersDefinitionWizardPage extends AbstractWizardPage {
 
 	public static final String PAGE_NAME = "LayersDefinitionWizardPage";

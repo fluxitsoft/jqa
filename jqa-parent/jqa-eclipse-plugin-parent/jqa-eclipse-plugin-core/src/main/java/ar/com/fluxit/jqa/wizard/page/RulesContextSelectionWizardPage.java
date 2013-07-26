@@ -44,9 +44,11 @@ import ar.com.fluxit.jqa.JQAEclipsePlugin;
 
 /**
  * TODO javadoc
+ * TODO see restrictions
  * 
- * @author Juan Ignacio Barisich
+ *  @author Juan Ignacio Barisich
  */
+@SuppressWarnings("restriction")
 public class RulesContextSelectionWizardPage extends AbstractWizardPage {
 
 	public static final String PAGE_NAME = "RulesContextSelectionWizardPage";
