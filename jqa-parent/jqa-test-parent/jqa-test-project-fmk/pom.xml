@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <!--
-  Copyright (c) 2011 Juan Ignacio Barisich.
+  Copyright (c) 2013 Flux IT.
   
-  This file is part of JQA (http://github.com/jbaris/jqa).
+  This file is part of JQA (http://github.com/fluxitsoft/jqa).
   
   JQA is free software: you can redistribute it and/or modify it 
   under the terms of the GNU Lesser General Public License as 
@@ -28,6 +28,6 @@
 	<artifactId>jqa-test-project-fmk</artifactId>
 	<packaging>jar</packaging>
 	<name>JQA test project framework</name>
-	<url>http://github.com/jbaris/jqa</url>
+	<url>http://github.com/fluxitsoft/jqa</url>
 
 </project>
