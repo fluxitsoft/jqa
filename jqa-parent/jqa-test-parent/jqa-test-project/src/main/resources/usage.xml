@@ -29,11 +29,11 @@
 	<!-- RuleSet that checks the classes usage -->
 	<ruleSet name="Usage ruleset">
 
-		<!-- Service contract usages -->
-		<rule name="Service contract usages"
-			message="The Service contract '${type.name}' has an invalid usage. A Service contract must only use a common-type, an Entity, a Service exception or the Service super-interface"
+		<!-- Service API usages -->
+		<rule name="Service API usages"
+			message="The Service API '${type.name}' has an invalid usage. A Service API must only use a common-type, an Entity, a Service exception or the Service super-interface"
 			priority="2">
-			<filterPredicate xsi:type="jqa:ContextProvidedPredicate" predicateName="Service contract attempt" />
+			<filterPredicate xsi:type="jqa:ContextProvidedPredicate" predicateName="Service API attempt" />
 			<checkPredicate xsi:type="jqa:UsagePredicate">
 				<predicate xsi:type="jqa:OrPredicate">
 					<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="Common type" />
@@ -46,7 +46,7 @@
 
 		<!-- Service implementation usages -->
 		<rule name="Service implementation usages"
-			message="The Service implementation '${type.name}' has an invalid usage. A Service implementation must only use a common-type, an Entity, a Service or BO exception, a Service or BO contract"
+			message="The Service implementation '${type.name}' has an invalid usage. A Service implementation must only use a common-type, an Entity, a Service or BO exception, a Service or BO API"
 			priority="2">
 			<filterPredicate xsi:type="jqa:ContextProvidedPredicate" predicateName="Service implementation attempt" />
 			<checkPredicate xsi:type="jqa:UsagePredicate">
@@ -55,17 +55,17 @@
 					<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="Entity attempt" />
 					<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="Service exceptions" />
 					<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="BO exceptions" />
-					<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="Service contract attempt" />
-					<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="BO contract attempt" />
+					<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="Service API attempt" />
+					<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="BO API attempt" />
 				</predicate>
 			</checkPredicate>
 		</rule>
 
-		<!-- BusinessObject contract usages -->
-		<rule name="BO contract usages"
-			message="The BO contract '${type.name}' has an invalid usage. A BO contract must only use a common-type, an Entity, a BO exception or the BO super-interface"
+		<!-- BusinessObject API usages -->
+		<rule name="BO API usages"
+			message="The BO API '${type.name}' has an invalid usage. A BO API must only use a common-type, an Entity, a BO exception or the BO super-interface"
 			priority="2">
-			<filterPredicate xsi:type="jqa:ContextProvidedPredicate" predicateName="BO contract attempt" />
+			<filterPredicate xsi:type="jqa:ContextProvidedPredicate" predicateName="BO API attempt" />
 			<checkPredicate xsi:type="jqa:UsagePredicate">
 				<predicate xsi:type="jqa:OrPredicate">
 					<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="Common type" />
@@ -78,7 +78,7 @@
 
 		<!-- BusinessObject implementation usages -->
 		<rule name="BO implementation usages"
-			message="The BO implementation '${type.name}' has an invalid usage. A BO implementation must only use a common-type, an Entity, a BO or DAO exception, a BO or DAO contract"
+			message="The BO implementation '${type.name}' has an invalid usage. A BO implementation must only use a common-type, an Entity, a BO or DAO exception, a BO or DAO API"
 			priority="2">
 			<filterPredicate xsi:type="jqa:ContextProvidedPredicate" predicateName="BO implementation attempt" />
 			<checkPredicate xsi:type="jqa:UsagePredicate">
@@ -87,17 +87,17 @@
 					<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="Entity attempt" />
 					<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="BO exceptions" />
 					<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="DAO exceptions" />
-					<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="BO contract attempt" />
-					<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="DAO contract attempt" />
+					<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="BO API attempt" />
+					<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="DAO API attempt" />
 				</predicate>
 			</checkPredicate>
 		</rule>
 
-		<!-- DataAccessObject contract usages -->
-		<rule name="DAO contract usages"
-			message="The DAO contract '${type.name}' has an invalid usage. A DAO contract must only use a common-type, an Entity, a DAO exception or the DAO super-interface"
+		<!-- DataAccessObject API usages -->
+		<rule name="DAO API usages"
+			message="The DAO API '${type.name}' has an invalid usage. A DAO API must only use a common-type, an Entity, a DAO exception or the DAO super-interface"
 			priority="2">
-			<filterPredicate xsi:type="jqa:ContextProvidedPredicate" predicateName="DAO contract attempt" />
+			<filterPredicate xsi:type="jqa:ContextProvidedPredicate" predicateName="DAO API attempt" />
 			<checkPredicate xsi:type="jqa:UsagePredicate">
 				<predicate xsi:type="jqa:OrPredicate">
 					<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="Common type" />
@@ -110,7 +110,7 @@
 
 		<!-- DataAccessObject implementation usages -->
 		<rule name="DAO implementation usages"
-			message="The DAO implementation '${type.name}' has an invalid usage. A DAO implementation must only use a common-type, an Entity, a DAO exception, a DAO contract or the JDBC API"
+			message="The DAO implementation '${type.name}' has an invalid usage. A DAO implementation must only use a common-type, an Entity, a DAO exception, a DAO API or the JDBC API"
 			priority="2">
 			<filterPredicate xsi:type="jqa:ContextProvidedPredicate" predicateName="DAO implementation attempt" />
 			<checkPredicate xsi:type="jqa:UsagePredicate">
@@ -119,7 +119,7 @@
 					<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="Entity attempt" />
 					<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="BO exceptions" />
 					<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="DAO exceptions" />
-					<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="DAO contract attempt" />
+					<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="DAO API attempt" />
 					<predicate xsi:type="jqa:TypingPredicate">
 						<predicate xsi:type="jqa:NamingPredicate" namePattern="javax.sql.**" />
 					</predicate>
@@ -129,7 +129,7 @@
 
 		<!-- View usages -->
 		<rule name="View usages"
-			message="The View '${type.name}' has an invalid usage. A View must only use a common-type, an Entity, a View or BO exception, a BO contract or the View super-interface"
+			message="The View '${type.name}' has an invalid usage. A View must only use a common-type, an Entity, a View or BO exception, a BO API or the View super-interface"
 			priority="2">
 			<filterPredicate xsi:type="jqa:ContextProvidedPredicate" predicateName="View attempt" />
 			<checkPredicate xsi:type="jqa:UsagePredicate">
@@ -138,7 +138,7 @@
 					<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="Entity attempt" />
 					<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="View exceptions" />
 					<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="BO exceptions" />
-					<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="BO contract attempt" />
+					<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="BO API attempt" />
 					<predicate xsi:type="jqa:NamingPredicate" namePattern="${view.superType}" />
 				</predicate>
 			</checkPredicate>

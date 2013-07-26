@@ -28,12 +28,12 @@
 	<globalVariable name="boContract.namePattern" value="**.bo.+BO" />
 	<globalVariable name="daoContract.namePattern" value="**.dao.+DAO" />
 
-	<!-- How contracts should be called -->
+	<!-- How API should be called -->
 	<globalVariable name="serviceImpl.namePattern" value="**.service.impl.+ServiceImpl" />
 	<globalVariable name="boImpl.namePattern" value="**.bo.impl.+BOImpl" />
 	<globalVariable name="daoImpl.namePattern" value="**.dao.impl.+DAOImpl" />
 
-	<!-- Where the contracts should be located -->
+	<!-- Where the API should be located -->
 	<globalVariable name="serviceContract.packagePattern" value="**.service.+" />
 	<globalVariable name="boContract.packagePattern" value="**.bo.+" />
 	<globalVariable name="daoContract.packagePattern" value="**.dao.+" />
