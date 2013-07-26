@@ -1,25 +1,42 @@
 <?xml version="1.0"?>
-<!-- Copyright (c) 2013 Flux IT. This file is part of JQA (http://github.com/fluxitsoft/jqa). 
-	JQA is free software: you can redistribute it and/or modify it under the 
-	terms of the GNU Lesser General Public License as published by the Free Software 
-	Foundation, either version 3 of the License, or (at your option) any later 
-	version. JQA is distributed in the hope that it will be useful, but WITHOUT 
-	ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS 
-	FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more 
-	details. You should have received a copy of the GNU Lesser General Public 
-	License along with JQA. If not, see <http://www.gnu.org/licenses/>. -->
-<project
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
-	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<!--
+  Copyright (c) 2013 Flux IT.
+  
+  This file is part of JQA (http://github.com/fluxitsoft/jqa).
+  
+  JQA is free software: you can redistribute it and/or modify it 
+  under the terms of the GNU Lesser General Public License as 
+  published by the Free Software Foundation, either version 3 of 
+  the License, or (at your option) any later version.
+  
+  JQA is distributed in the hope that it will be useful, but WITHOUT 
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY 
+  or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General 
+  Public License for more details.
+  
+  You should have received a copy of the GNU Lesser General Public 
+  License along with JQA. If not, see <http://www.gnu.org/licenses/>.
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+
 	<parent>
 		<artifactId>jqa-eclipse-plugin-parent</artifactId>
 		<groupId>ar.com.fluxit.jqa</groupId>
 		<version>1.0</version>
 	</parent>
+
 	<artifactId>jqa-eclipse-plugin-core</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
 	<name>JQA Eclipse Plugin</name>
+	<packaging>eclipse-plugin</packaging>
 	<url>http://github.com/fluxitsoft/jqa</url>
+
+	<properties>
+		<tycho-version>0.17.0</tycho-version>
+		<eclipse-repo.url>http://download.eclipse.org/releases/kepler</eclipse-repo.url>
+	</properties>
 
 	<dependencies>
 		<dependency>
@@ -37,103 +54,23 @@
 			<artifactId>jqa-ctx-factory-xmlbeans</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
-		<!-- Start dependencies only for compilation -->
-		<dependency>
-			<artifactId>jface</artifactId>
-			<groupId>jface</groupId>
-			<version>1.0</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib-compile/org.eclipse.jface_3.6.1.M20100825-0800.jar</systemPath>
-		</dependency>
-		<dependency>
-			<artifactId>osgi</artifactId>
-			<groupId>osgi</groupId>
-			<version>1.0</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib-compile/org.eclipse.osgi_3.6.1.R36x_v20100806.jar</systemPath>
-		</dependency>
-		<dependency>
-			<artifactId>workbench</artifactId>
-			<groupId>workbench</groupId>
-			<version>1.0</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib-compile/org.eclipse.ui.workbench_3.7.0.I20110519-0100.jar</systemPath>
-		</dependency>
-		<dependency>
-			<artifactId>runtime</artifactId>
-			<groupId>runtime</groupId>
-			<version>1.0</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib-compile/org.eclipse.core.runtime_3.6.0.v20100505.jar</systemPath>
-		</dependency>
-		<dependency>
-			<artifactId>swt</artifactId>
-			<groupId>swt</groupId>
-			<version>1.0</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib-compile/org.eclipse.swt.gtk.linux.x86_3.6.1.v3655c.jar</systemPath>
-		</dependency>
-		<dependency>
-			<artifactId>commands</artifactId>
-			<groupId>commands</groupId>
-			<version>1.0</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib-compile/org.eclipse.core.commands_3.6.2.v20130123-162658.jar</systemPath>
-		</dependency>
-		<dependency>
-			<artifactId>equinox</artifactId>
-			<groupId>equinox</groupId>
-			<version>1.0</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib-compile/org.eclipse.equinox.common_3.6.0.v20100503.jar</systemPath>
-		</dependency>
-		<dependency>
-			<artifactId>resources</artifactId>
-			<groupId>resources</groupId>
-			<version>1.0</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib-compile/org.eclipse.core.resources_3.8.1.v20121114-124432.jar</systemPath>
-		</dependency>
-		<dependency>
-			<artifactId>ide</artifactId>
-			<groupId>ide</groupId>
-			<version>1.0</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib-compile/org.eclipse.ui.ide_3.8.2.v20121106-165923.jar</systemPath>
-		</dependency>
-		<dependency>
-			<artifactId>jobs</artifactId>
-			<groupId>jobs</groupId>
-			<version>1.0</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib-compile/org.eclipse.core.jobs_3.5.300.v20120912-155018.jar</systemPath>
-		</dependency>
-		<dependency>
-			<artifactId>jdt</artifactId>
-			<groupId>jdt</groupId>
-			<version>1.0</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib-compile/org.eclipse.jdt.core_3.8.3.v20130121-145325.jar</systemPath>
-		</dependency>
-		<dependency>
-			<artifactId>jdt-ui</artifactId>
-			<groupId>jdt-ui</groupId>
-			<version>1.0</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib-compile/org.eclipse.jdt.ui_3.8.2.v20130107-165834.jar</systemPath>
-		</dependency>
-		<!-- End dependencies only for compilation -->
 	</dependencies>
+
 	<build>
+		<sourceDirectory>src/main/java</sourceDirectory>
 		<plugins>
 			<plugin>
-				<artifactId>maven-eclipse-plugin</artifactId>
-				<version>2.9</version>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-maven-plugin</artifactId>
+				<version>${tycho-version}</version>
+				<extensions>true</extensions>
+			</plugin>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>target-platform-configuration</artifactId>
+				<version>${tycho-version}</version>
 				<configuration>
-					<useProjectReferences>false</useProjectReferences>
-					<additionalProjectnatures>
-						<projectnature>org.eclipse.pde.PluginNature</projectnature>
-					</additionalProjectnatures>
+					<pomDependencies>consider</pomDependencies>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -143,16 +80,13 @@
 				<executions>
 					<execution>
 						<id>copy-dependencies</id>
-						<phase>package</phase>
+						<phase>process-sources</phase>
 						<goals>
 							<goal>copy-dependencies</goal>
 						</goals>
 						<configuration>
 							<outputDirectory>${basedir}/lib</outputDirectory>
-							<overWriteReleases>false</overWriteReleases>
-							<overWriteSnapshots>false</overWriteSnapshots>
 							<overWriteIfNewer>true</overWriteIfNewer>
-							<excludeScope>system</excludeScope>
 						</configuration>
 					</execution>
 				</executions>
@@ -174,5 +108,13 @@
 			</plugin>
 		</plugins>
 	</build>
+
+	<repositories>
+		<repository>
+			<id>eclipse</id>
+			<layout>p2</layout>
+			<url>${eclipse-repo.url}</url>
+		</repository>
+	</repositories>
 
 </project>
