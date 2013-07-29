@@ -51,7 +51,7 @@ public class JQAEclipseMarker {
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(JQAEclipseMarker.class);
 	private static final Map<Integer, Integer> SEVERITY_MAP;
-	public static final String MARKER_ID = "ar.com.fluxit.jqa.JQAMarker";
+	public static final String MARKER_ID = JQAEclipsePlugin.PLUGIN_ID + ".jqaProblem";
 
 	static {
 		SEVERITY_MAP = new HashMap<Integer, Integer>();
@@ -103,6 +103,7 @@ public class JQAEclipseMarker {
 				marker.setAttribute(IMarker.SEVERITY,
 						getSeverity(ruleCheckFailed.getRulePriority()));
 				marker.setAttribute(IMarker.LINE_NUMBER, lineId);
+				LOGGER.debug("JQA Marker created on " + file.getName());
 			} catch (CoreException e) {
 				Status status = new Status(IStatus.ERROR,
 						JQAEclipsePlugin.PLUGIN_ID, e.getLocalizedMessage(), e);

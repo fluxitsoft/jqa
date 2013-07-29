@@ -34,7 +34,7 @@ import org.osgi.framework.BundleContext;
  */
 public class JQAEclipsePlugin extends AbstractUIPlugin {
 
-	public static final String PLUGIN_ID = "jqa-eclipse-plugin";
+	public static final String PLUGIN_ID = "ar.com.fluxit.jqa";
 	public static final String IMG_CHECK = "jqa.image.check";
 	public static final String IMG_UNCHECK = "jqa.image.uncheck";
 	private static JQAEclipsePlugin plugin;

@@ -63,6 +63,7 @@ public class JQAWizard extends Wizard {
 		this.layers = Layer.buildStandardLayers();
 		this.implPackageText = "impl";
 		this.classPackageText = "Impl";
+		this.targetProjects = new IProject[0];
 	}
 
 	@Override
