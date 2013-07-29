@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="copyDependencies" default="copyDependencies" basedir=".">
+  <target name ="copyDependencies" description="Copy project dependencies">
+    <copy file="${M2_REPO}/commons-io/commons-io/2.0.1/commons-io-2.0.1.jar" todir="lib"/>
+    <copy file="${M2_REPO}/org/slf4j/slf4j-api/1.6.1/slf4j-api-1.6.1.jar" todir="lib"/>
+    <copy file="${M2_REPO}/org/slf4j/slf4j-simple/1.6.1/slf4j-simple-1.6.1.jar" todir="lib"/>
+  	<copy file="${M2_REPO}/ant/ant/1.6/ant-1.6.jar" todir="lib"/>
+  	<copy file="${M2_REPO}/asm/asm/3.1/asm-3.1.jar" todir="lib"/>
+  	<copy file="${M2_REPO}/org/apache/bcel/bcel/5.2/bcel-5.2.jar" todir="lib"/>
+  	<copy file="${M2_REPO}/dom4j/dom4j/1.6.1/dom4j-1.6.1.jar" todir="lib"/>
+  	<copy file="${M2_REPO}/net/sf/ehcache/ehcache-core/2.5.2/ehcache-core-2.5.2.jar" todir="lib"/>
+  	<copy file="${M2_REPO}/com/ibm/icu/icu4j/2.6.1/icu4j-2.6.1.jar" todir="lib"/>
+  	<copy file="${M2_REPO}/jakarta-regexp/jakarta-regexp/1.4/jakarta-regexp-1.4.jar" todir="lib"/>
+  	<copy file="${M2_REPO}/jaxen/jaxen/1.1.1/jaxen-1.1.1.jar" todir="lib"/>
+  	<copy file="${M2_REPO}/jdom/jdom/1.0/jdom-1.0.jar" todir="lib"/>
+  	<copy file="../../jqa-bce-api/target/jqa-bce-api-1.0.jar" todir="lib"/>
+    <copy file="../../jqa-bce-bcel/target/jqa-bce-bcel-1.0.jar" todir="lib"/>
+    <copy file="../../jqa-core/target/jqa-core-1.0.jar" todir="lib"/>
+    <copy file="../../jqa-ctx-factory-api/target/jqa-ctx-factory-api-1.0.jar" todir="lib"/>
+    <copy file="../../jqa-ctx-factory-xmlbeans/target/jqa-ctx-factory-xmlbeans-1.0.jar" todir="lib"/>
+  	<copy file="${M2_REPO}/pmd/pmd/4.2.5/pmd-4.2.5.jar" todir="lib"/>
+  	<copy file="${M2_REPO}/stax/stax-api/1.0.1/stax-api-1.0.1.jar" todir="lib"/>
+  	<copy file="${M2_REPO}/xerces/xercesImpl/2.6.2/xercesImpl-2.6.2.jar" todir="lib"/>
+  	<copy file="${M2_REPO}/xml-apis/xml-apis/1.3.02/xml-apis-1.3.02.jar" todir="lib"/>
+  	<copy file="${M2_REPO}/org/apache/xmlbeans/xmlbeans/2.4.0/xmlbeans-2.4.0.jar" todir="lib"/>
+	<copy file="${M2_REPO}/xerces/xmlParserAPIs/2.6.2/xmlParserAPIs-2.6.2.jar" todir="lib"/>
+  	<copy file="${M2_REPO}/xom/xom/1.0/xom-1.0.jar" todir="lib"/>
+  </target>
+</project>

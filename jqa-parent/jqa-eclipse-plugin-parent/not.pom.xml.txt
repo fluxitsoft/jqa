@@ -1,0 +1,4 @@
+Tycho plugin (http://eclipse.org/tycho/) does not integrates whit Eclipse Maven Plugin (http://maven.apache.org/eclipse-plugin.html).
+So, a call to mvn eclipse:eclipse is a chaos. Also, Tycho requires that Bundle-id called equals to maven artifact. Because de artifact
+name (jqa-eclipse-plugin) has "-", this cause problems in Eclipse PDT (eg the markers added to resources are not shown). So, this module 
+is not under Maven control.
