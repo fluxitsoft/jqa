@@ -1,5 +1,8 @@
 <img src="http://www.fluxit.com.ar/logo.jpg"/>
 
+[![githalytics.com alpha](https://cruel-carlota.pagodabox.com/3e55a8f746ec0a54a1a586e67f0bc632 "githalytics.com")](http://githalytics.com/fluxitsoft/jqa)
+
+
 # Java Quality Assurance (JQA) [![](https://secure.travis-ci.org/fluxitsoft/jqa.png?branch=master)](http://travis-ci.org/fluxitsoft/jqa) 
 JQA is an open source tool for QA of Java applications. It is considered a supplement to tools like PMD (http://pmd.sourceforge.net/) or Checkstyle (http://checkstyle.sourceforge.net/) because it allows to write rules that exploit the bytecode engine capabilities for high-level architecture validations.
 
