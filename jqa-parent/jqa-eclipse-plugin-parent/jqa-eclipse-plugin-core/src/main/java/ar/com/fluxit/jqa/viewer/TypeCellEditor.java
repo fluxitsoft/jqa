@@ -22,6 +22,7 @@ import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.search.IJavaSearchConstants;
 import org.eclipse.jdt.internal.core.search.JavaWorkspaceScope;
 import org.eclipse.jdt.internal.ui.dialogs.FilteredTypesSelectionDialog;
+import org.eclipse.jdt.ui.dialogs.TypeSelectionExtension;
 import org.eclipse.jface.operation.IRunnableContext;
 import org.eclipse.jface.viewers.DialogCellEditor;
 import org.eclipse.jface.window.Window;
@@ -37,10 +38,23 @@ import org.eclipse.swt.widgets.Control;
 public class TypeCellEditor extends DialogCellEditor {
 
 	private final IRunnableContext context;
+	private final int elementKinds;
+	private final String initialPattern;
+	private final TypeSelectionExtension extension;
 
 	public TypeCellEditor(Composite parent, IRunnableContext context) {
+		this(parent, context, IJavaSearchConstants.CLASS_AND_INTERFACE, "",
+				null);
+	}
+
+	public TypeCellEditor(Composite parent, IRunnableContext context,
+			int elementKinds, String initialPattern,
+			TypeSelectionExtension extension) {
 		super(parent);
 		this.context = context;
+		this.elementKinds = elementKinds;
+		this.initialPattern = initialPattern;
+		this.extension = extension;
 	}
 
 	private IRunnableContext getContext() {
@@ -49,11 +63,18 @@ public class TypeCellEditor extends DialogCellEditor {
 
 	@Override
 	protected Object openDialogBox(Control cellEditorWindow) {
-		final FilteredTypesSelectionDialog dialog = new FilteredTypesSelectionDialog(
-				cellEditorWindow.getShell(), false, getContext(),
-				new JavaWorkspaceScope(),
-				IJavaSearchConstants.CLASS_AND_INTERFACE);
+		final FilteredTypesSelectionDialog dialog;
+		if (this.extension == null) {
+			dialog = new FilteredTypesSelectionDialog(
+					cellEditorWindow.getShell(), false, getContext(),
+					new JavaWorkspaceScope(), elementKinds);
+		} else {
+			dialog = new FilteredTypesSelectionDialog(
+					cellEditorWindow.getShell(), false, getContext(),
+					new JavaWorkspaceScope(), this.elementKinds, this.extension);
+		}
 		dialog.setBlockOnOpen(true);
+		dialog.setInitialPattern(this.initialPattern);
 		final int returnCode = dialog.open();
 		if (returnCode == Window.OK) {
 			// TODO improve

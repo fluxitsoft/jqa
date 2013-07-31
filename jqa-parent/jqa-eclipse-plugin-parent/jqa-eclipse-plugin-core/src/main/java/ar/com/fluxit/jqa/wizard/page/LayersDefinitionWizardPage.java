@@ -35,6 +35,8 @@ import org.eclipse.jdt.internal.corext.refactoring.reorg.JavaElementTransfer;
 import org.eclipse.jdt.ui.JavaElementComparator;
 import org.eclipse.jdt.ui.JavaElementLabelProvider;
 import org.eclipse.jface.action.ToolBarManager;
+import org.eclipse.jface.dialogs.IPageChangedListener;
+import org.eclipse.jface.dialogs.PageChangedEvent;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
@@ -46,6 +48,7 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.custom.ViewForm;
@@ -67,13 +70,13 @@ import ar.com.fluxit.jqa.viewer.LayersListTableDropListener;
 import ar.com.fluxit.jqa.viewer.TargetPackagesDragListener;
 
 /**
- * TODO javadoc
- * TODO see restrictions
+ * TODO javadoc TODO see restrictions
  * 
  * @author Juan Ignacio Barisich
  */
 @SuppressWarnings("restriction")
-public class LayersDefinitionWizardPage extends AbstractWizardPage {
+public class LayersDefinitionWizardPage extends AbstractWizardPage implements
+		IPageChangedListener {
 
 	public static final String PAGE_NAME = "LayersDefinitionWizardPage";
 	private TableViewer layerPackagesTable;
@@ -91,7 +94,8 @@ public class LayersDefinitionWizardPage extends AbstractWizardPage {
 		viewerHolder = new Holder<Viewer>();
 	}
 
-	private List<IJavaElement> collectNonEmptyPackages() {
+	private List<IJavaElement> collectNonEmptyUnassignedPackages() {
+		// TODO improve with viewer filters
 		try {
 			List<IJavaElement> result = new ArrayList<IJavaElement>();
 			for (IProject project : getWizard().getTargetProjects()) {
@@ -99,7 +103,8 @@ public class LayersDefinitionWizardPage extends AbstractWizardPage {
 				for (IPackageFragment packageFragment : javaProject
 						.getPackageFragments()) {
 					if (packageFragment.containsJavaResources()
-							&& packageFragment.getKind() == IPackageFragmentRoot.K_SOURCE) {
+							&& packageFragment.getKind() == IPackageFragmentRoot.K_SOURCE 
+							&& !isAssigned(getWizard().getLayers(), packageFragment)) {
 						result.add(packageFragment);
 					}
 				}
@@ -124,6 +129,7 @@ public class LayersDefinitionWizardPage extends AbstractWizardPage {
 		createTargetPackagesGroup(sash);
 		createLayersGroup(sash);
 		createLayerPackagesGroup(sash);
+		((WizardDialog) getContainer()).addPageChangedListener(this);
 	}
 
 	private void createLayerPackagesGroup(SashForm sash) {
@@ -220,17 +226,23 @@ public class LayersDefinitionWizardPage extends AbstractWizardPage {
 		targetPackagesTable.setContentProvider(ArrayContentProvider
 				.getInstance());
 		targetPackagesTable.setComparator(new JavaElementComparator());
-		List<IJavaElement> targetPackages = collectNonEmptyPackages();
-		targetPackagesTable.setInput(targetPackages);
 		targetPackagesTable.getTable().setLayoutData(
 				new GridData(GridData.FILL_BOTH));
 		targetPackagesTable.addDragSupport(DND.DROP_MOVE, getTransferTypes(),
 				new TargetPackagesDragListener(targetPackagesTable,
 						getDragViewerHolder(), getDragInputHolder()));
-		// FIXME delete
-		targetPackagesTable
-				.setSelection(new StructuredSelection(targetPackages));
 		return targetPackagesGroup;
+	}
+
+	private boolean isAssigned(List<Layer> layers, IJavaElement element) {
+		for(Layer layer: layers) {
+			for(IJavaElement pkg : layer.getPackages()) {
+				if(pkg.equals(element)) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	private Holder<Collection<IJavaElement>> getDragInputHolder() {
@@ -267,6 +279,18 @@ public class LayersDefinitionWizardPage extends AbstractWizardPage {
 					.getFirstElement()).getPackages();
 		}
 		layerPackagesTable.setInput(input);
+	}
+
+	@Override
+	public void pageChanged(PageChangedEvent event) {
+		if (event.getSelectedPage() == this) {
+			List<IJavaElement> targetPackages = collectNonEmptyUnassignedPackages();
+			targetPackagesTable.setInput(targetPackages);
+			// FIXME delete
+			targetPackagesTable.setSelection(new StructuredSelection(
+					targetPackages));
+			getContainer().updateButtons();
+		}
 	}
 
 }

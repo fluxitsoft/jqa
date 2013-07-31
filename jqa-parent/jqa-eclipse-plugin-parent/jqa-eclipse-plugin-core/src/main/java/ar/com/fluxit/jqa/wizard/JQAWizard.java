@@ -35,13 +35,17 @@ import org.eclipse.jface.wizard.Wizard;
 import ar.com.fluxit.jqa.JQAEclipsePlugin;
 import ar.com.fluxit.jqa.JQAEclipseRunner;
 import ar.com.fluxit.jqa.entities.Layer;
+import ar.com.fluxit.jqa.wizard.page.AllocationDefinitionWizardPage;
 import ar.com.fluxit.jqa.wizard.page.ApisDefinitionWizardPage;
+import ar.com.fluxit.jqa.wizard.page.CommonsTypesDefinitionWizardPage;
 import ar.com.fluxit.jqa.wizard.page.LayersDefinitionWizardPage;
 import ar.com.fluxit.jqa.wizard.page.NamingDefinitionWizardPage;
 import ar.com.fluxit.jqa.wizard.page.NewRulesContextFileWizardPage;
 import ar.com.fluxit.jqa.wizard.page.RulesContextSelectionWizardPage;
 import ar.com.fluxit.jqa.wizard.page.TargetProjectsSelectionWizardPage;
+import ar.com.fluxit.jqa.wizard.page.ThrowingDefinitionWizardPage;
 import ar.com.fluxit.jqa.wizard.page.TypingDefinitionWizardPage;
+import ar.com.fluxit.jqa.wizard.page.UsageDefinitionWizardPage;
 
 /**
  * TODO javadoc
@@ -75,6 +79,10 @@ public class JQAWizard extends Wizard {
 		addPage(new ApisDefinitionWizardPage());
 		addPage(new NamingDefinitionWizardPage());
 		addPage(new TypingDefinitionWizardPage());
+		addPage(new ThrowingDefinitionWizardPage());
+		addPage(new UsageDefinitionWizardPage());
+		addPage(new AllocationDefinitionWizardPage());
+		addPage(new CommonsTypesDefinitionWizardPage());
 	}
 
 	@Override

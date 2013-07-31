@@ -52,6 +52,10 @@ public class RemoveLayerAction extends Action {
 		Layer currentLayer = (Layer) ((StructuredSelection) getLayersTable()
 				.getSelection()).getFirstElement();
 		getLayers().remove(currentLayer);
+		// Remove de conections
+		for(Layer layer: getLayers()) {
+			layer.removeUsage(currentLayer);
+		}
 		getLayersTable().refresh(false);
 		((Collection<IJavaElement>) getTargetLayersTable().getInput())
 				.addAll(currentLayer.getPackages());

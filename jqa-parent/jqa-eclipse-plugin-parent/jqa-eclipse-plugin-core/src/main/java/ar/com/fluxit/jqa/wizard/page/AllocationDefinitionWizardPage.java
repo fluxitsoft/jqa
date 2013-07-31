@@ -29,36 +29,39 @@ import ar.com.fluxit.jqa.entities.Layer;
  * 
  * @author Juan Ignacio Barisich
  */
-public class ApisDefinitionWizardPage extends AbstractLayerCheckWizardPage {
+public class AllocationDefinitionWizardPage extends
+		AbstractLayerCheckWizardPage {
 
-	public static final String PAGE_NAME = "ApisDefinitionWizardPage";
-	
-	public ApisDefinitionWizardPage() {
-		super(PAGE_NAME, "APIs definition",
-				"Define which layers must be accessed via API (interfaces)");
+	public static final String PAGE_NAME = "AllocationDefinitionWizardPage";
+
+	public AllocationDefinitionWizardPage() {
+		super(PAGE_NAME, "Allocation definition",
+				"Define wich layers has allocable (instantiable) classes");
 	}
 
-	ICheckStateProvider getCheckStateProvider() {
-		return new ICheckStateProvider() {
-
-			@Override
-			public boolean isChecked(Object element) {
-				return ((Layer) element).isHasApi();
-			}
-
-			@Override
-			public boolean isGrayed(Object element) {
-				return false;
-			}
-		};
-	}
-	
+	@Override
 	ICheckStateListener getCheckStateListener() {
 		return new ICheckStateListener() {
 
 			@Override
 			public void checkStateChanged(CheckStateChangedEvent event) {
-				((Layer) event.getElement()).setHasApi(event.getChecked());
+				((Layer) event.getElement()).setAllocable(event.getChecked());
+			}
+		};
+	}
+
+	@Override
+	ICheckStateProvider getCheckStateProvider() {
+		return new ICheckStateProvider() {
+
+			@Override
+			public boolean isChecked(Object element) {
+				return ((Layer) element).isAllocable();
+			}
+
+			@Override
+			public boolean isGrayed(Object element) {
+				return false;
 			}
 		};
 	}

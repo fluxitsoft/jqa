@@ -103,7 +103,6 @@ public class JQAEclipseMarker {
 				marker.setAttribute(IMarker.SEVERITY,
 						getSeverity(ruleCheckFailed.getRulePriority()));
 				marker.setAttribute(IMarker.LINE_NUMBER, lineId);
-				LOGGER.debug("JQA Marker created on " + file.getName());
 			} catch (CoreException e) {
 				Status status = new Status(IStatus.ERROR,
 						JQAEclipsePlugin.PLUGIN_ID, e.getLocalizedMessage(), e);

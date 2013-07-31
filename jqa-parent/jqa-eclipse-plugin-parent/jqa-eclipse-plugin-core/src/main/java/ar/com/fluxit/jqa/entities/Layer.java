@@ -19,6 +19,7 @@
 package ar.com.fluxit.jqa.entities;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -32,15 +33,15 @@ import org.eclipse.jdt.core.IJavaElement;
  */
 public class Layer {
 
-	private static final Layer EMPTY = new Layer("", true, "");
+	private static final Layer EMPTY = new Layer("", true, "", true);
 
 	public static List<Layer> buildStandardLayers() {
 		List<Layer> result = new ArrayList<Layer>();
-		result.add(new Layer("Entity", false, ""));
-		result.add(new Layer("Business Object", true, "*BO"));
-		result.add(new Layer("Data Access Object", true, "*DAO"));
-		result.add(new Layer("Service", true, "*Service"));
-		result.add(new Layer("View", false, ""));
+		result.add(new Layer("Entity", false, "", true));
+		result.add(new Layer("Business Object", true, "*BO", false));
+		result.add(new Layer("Data Access Object", true, "*DAO", false));
+		result.add(new Layer("Service", true, "*Service", false));
+		result.add(new Layer("View", false, "", false));
 		return result;
 	}
 
@@ -53,13 +54,29 @@ public class Layer {
 	private boolean hasApi;
 	private String namingPattern;
 	private String superType;
+	private String exceptionSuperType;
+	private final Set<Layer> usages;
+	private boolean allocable;
 
-	public Layer(String name, boolean hasApi, String namingPattern) {
+	public Layer(String name, boolean hasApi, String namingPattern,
+			boolean allocable) {
 		this.name = name;
 		this.packages = new HashSet<IJavaElement>();
 		this.hasApi = hasApi;
 		this.namingPattern = namingPattern;
 		this.superType = "java.lang.Object";
+		this.exceptionSuperType = "java.lang.Exception";
+		this.usages = new HashSet<Layer>();
+		this.allocable = allocable;
+	}
+
+	public void addUsage(Layer destinationLayer) {
+		destinationLayer.removeUsage(this);
+		usages.add(destinationLayer);
+	}
+
+	public void clearUsages() {
+		usages.clear();
 	}
 
 	@Override
@@ -73,6 +90,10 @@ public class Layer {
 				return false;
 			}
 		}
+	}
+
+	public String getExceptionSuperType() {
+		return exceptionSuperType;
 	}
 
 	public String getName() {
@@ -91,13 +112,33 @@ public class Layer {
 		return superType;
 	}
 
+	public Set<Layer> getUsages() {
+		return Collections.unmodifiableSet(usages);
+	}
+
 	@Override
 	public int hashCode() {
 		return getName().hashCode();
 	}
 
+	public boolean isAllocable() {
+		return allocable;
+	}
+
 	public boolean isHasApi() {
 		return hasApi;
+	}
+
+	public void removeUsage(Layer dest) {
+		usages.remove(dest);
+	}
+
+	public void setAllocable(boolean allocable) {
+		this.allocable = allocable;
+	}
+
+	public void setExceptionSuperType(String exceptionSuperType) {
+		this.exceptionSuperType = exceptionSuperType;
 	}
 
 	public void setHasApi(boolean hasApi) {

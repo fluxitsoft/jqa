@@ -21,7 +21,6 @@ public class NewLayerAction extends Action {
 				.getImageDescriptor(ISharedImages.IMG_OBJ_ADD));
 		this.layers = layers;
 		this.layersTable = layersTable;
-
 	}
 
 	private List<Layer> getLayers() {
@@ -34,11 +33,11 @@ public class NewLayerAction extends Action {
 
 	private String getNewLayerName(List<Layer> layers2) {
 		String result = "New Layer";
-		if (getLayers().contains(new Layer(result, true, ""))) {
+		if (getLayers().contains(new Layer(result, true, "", true))) {
 			int i = 0;
 			do {
 				result = "New Layer " + ++i;
-			} while (getLayers().contains(new Layer(result, true, "")));
+			} while (getLayers().contains(new Layer(result, true, "", true)));
 		}
 		return result;
 	}
@@ -46,7 +45,7 @@ public class NewLayerAction extends Action {
 	@Override
 	public void run() {
 		final String layerName = getNewLayerName(getLayers());
-		final Layer newLayer = new Layer(layerName, true, "");
+		final Layer newLayer = new Layer(layerName, true, "", true);
 		getLayers().add(newLayer);
 		getLayersTable().refresh(false);
 		((LayerCellModifier) getLayersTable().getCellModifier()).doModifiable();
