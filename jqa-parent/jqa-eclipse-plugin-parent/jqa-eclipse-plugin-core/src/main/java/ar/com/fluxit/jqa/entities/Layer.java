@@ -57,6 +57,7 @@ public class Layer {
 	private String exceptionSuperType;
 	private final Set<Layer> usages;
 	private boolean allocable;
+	private List<CommonType> commonTypes;
 
 	public Layer(String name, boolean hasApi, String namingPattern,
 			boolean allocable) {
@@ -68,6 +69,10 @@ public class Layer {
 		this.exceptionSuperType = "java.lang.Exception";
 		this.usages = new HashSet<Layer>();
 		this.allocable = allocable;
+		this.commonTypes = new ArrayList<CommonType>();
+		// FIXME borrar
+		this.commonTypes.add(new CommonType("hola", true, this));
+		this.commonTypes.add(new CommonType("chau", false, this));
 	}
 
 	public void addUsage(Layer destinationLayer) {
@@ -90,6 +95,10 @@ public class Layer {
 				return false;
 			}
 		}
+	}
+
+	public List<CommonType> getCommonTypes() {
+		return commonTypes;
 	}
 
 	public String getExceptionSuperType() {
@@ -135,6 +144,10 @@ public class Layer {
 
 	public void setAllocable(boolean allocable) {
 		this.allocable = allocable;
+	}
+
+	public void setCommonTypes(List<CommonType> commonTypes) {
+		this.commonTypes = commonTypes;
 	}
 
 	public void setExceptionSuperType(String exceptionSuperType) {

@@ -20,10 +20,21 @@ package ar.com.fluxit.jqa.wizard.page;
 
 import org.eclipse.jface.dialogs.IPageChangedListener;
 import org.eclipse.jface.dialogs.PageChangedEvent;
+import org.eclipse.jface.viewers.CellEditor;
+import org.eclipse.jface.viewers.CheckboxCellEditor;
+import org.eclipse.jface.viewers.EditingSupport;
+import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.jface.viewers.TreeViewerColumn;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Tree;
+
+import ar.com.fluxit.jqa.entities.CommonType;
+import ar.com.fluxit.jqa.viewer.CommonTypesContentProvider;
+import ar.com.fluxit.jqa.viewer.CommonTypesLabelProvider;
 
 /**
  * TODO javadoc
@@ -34,6 +45,7 @@ public class CommonsTypesDefinitionWizardPage extends AbstractWizardPage
 		implements IPageChangedListener {
 
 	public static final String PAGE_NAME = "CommonsTypesDefinitionWizardPage";
+	private TreeViewer commonTypesTreeViewer;
 
 	public CommonsTypesDefinitionWizardPage() {
 		super(PAGE_NAME);
@@ -48,6 +60,56 @@ public class CommonsTypesDefinitionWizardPage extends AbstractWizardPage
 		layout.numColumns = 1;
 		container.setLayout(layout);
 
+		Tree commonTypesTree = new Tree(container, SWT.BORDER | SWT.H_SCROLL
+				| SWT.V_SCROLL);
+		commonTypesTree.setHeaderVisible(true);
+		commonTypesTree.setLinesVisible(true);
+		commonTypesTree.setLayoutData(new GridData(GridData.FILL_BOTH));
+
+		commonTypesTreeViewer = new TreeViewer(commonTypesTree);
+
+		TreeViewerColumn layerColumn = new TreeViewerColumn(
+				commonTypesTreeViewer, SWT.LEFT);
+		layerColumn.getColumn().setText("Layer/Types");
+		layerColumn.getColumn().setWidth(200);
+
+		final CellEditor checkboxCellEditor = new CheckboxCellEditor();
+		TreeViewerColumn commonTypeColumn = new TreeViewerColumn(
+				commonTypesTreeViewer, SWT.LEFT);
+		commonTypeColumn.getColumn().setText("Is common?");
+		commonTypeColumn.getColumn().setWidth(50);
+		commonTypeColumn.setEditingSupport(new EditingSupport(
+				commonTypesTreeViewer) {
+
+			@Override
+			protected boolean canEdit(Object arg0) {
+				return true;
+			}
+
+			@Override
+			protected CellEditor getCellEditor(Object arg0) {
+				return checkboxCellEditor;
+			}
+
+			@Override
+			protected Object getValue(Object arg0) {
+				return ((CommonType) arg0).isCommon();
+			}
+
+			@Override
+			protected void setValue(Object arg0, Object arg1) {
+				((CommonType) arg0).setCommon((Boolean) arg1);
+				commonTypesTreeViewer.update(arg0, null);
+			}
+		});
+
+		commonTypesTreeViewer
+				.setContentProvider(new CommonTypesContentProvider());
+		commonTypesTreeViewer.setLabelProvider(new CommonTypesLabelProvider());
+
+		commonTypesTreeViewer.setInput(getWizard().getLayers());
+		commonTypesTreeViewer.expandAll();
+
 		setControl(container);
 		((WizardDialog) getContainer()).addPageChangedListener(this);
 	}
@@ -55,7 +117,7 @@ public class CommonsTypesDefinitionWizardPage extends AbstractWizardPage
 	@Override
 	public void pageChanged(PageChangedEvent event) {
 		if (event.getSelectedPage() == this) {
-			// TODO
+			commonTypesTreeViewer.refresh();
 		}
 	}
 
