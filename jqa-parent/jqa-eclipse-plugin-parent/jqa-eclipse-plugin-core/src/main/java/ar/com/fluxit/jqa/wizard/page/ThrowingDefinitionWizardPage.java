@@ -59,7 +59,7 @@ public class ThrowingDefinitionWizardPage extends AbstractWizardPage implements
 	public ThrowingDefinitionWizardPage() {
 		super(PAGE_NAME);
 		setTitle("Throwing definition");
-		setDescription("Define the type of the exceptions of your layers");
+		setDescription("Define the type of the exceptions of each layer");
 	}
 
 	@Override

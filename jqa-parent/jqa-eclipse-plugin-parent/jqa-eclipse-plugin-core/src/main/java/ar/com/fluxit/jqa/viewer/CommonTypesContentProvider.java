@@ -18,13 +18,19 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.viewer;
 
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
+import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
 import ar.com.fluxit.jqa.entities.CommonType;
 import ar.com.fluxit.jqa.entities.Layer;
+import ar.com.fluxit.jqa.utils.JdtUtils;
 
 /**
  * TODO javadoc
@@ -32,6 +38,13 @@ import ar.com.fluxit.jqa.entities.Layer;
  * @author Juan Ignacio Barisich
  */
 public class CommonTypesContentProvider implements ITreeContentProvider {
+
+	private final Map<String, Set<CommonType>> commonTypes;
+
+	public CommonTypesContentProvider(Map<String, Set<CommonType>> commonTypes) {
+		super();
+		this.commonTypes = commonTypes;
+	}
 
 	@Override
 	public void dispose() {
@@ -41,11 +54,21 @@ public class CommonTypesContentProvider implements ITreeContentProvider {
 	@Override
 	public Object[] getChildren(Object element) {
 		if (element instanceof Layer) {
-			return ((Layer) element).getCommonTypes().toArray();
+			return getCommonTypes((Layer) element).toArray();
 		} else {
 			throw new IllegalArgumentException("Unsupported type "
 					+ element.getClass().getName());
 		}
+	}
+
+	private Collection<CommonType> getCommonTypes(Layer layer) {
+		// TODO this can retrieve different elements on distinct
+		// calls. Improve
+		Set<CommonType> result = new HashSet<CommonType>();
+		for (IJavaElement pkg : layer.getPackages()) {
+			result.addAll(commonTypes.get(pkg.getElementName()));
+		}
+		return result;
 	}
 
 	@SuppressWarnings("rawtypes")
@@ -62,20 +85,13 @@ public class CommonTypesContentProvider implements ITreeContentProvider {
 
 	@Override
 	public Object getParent(Object element) {
-		if (element instanceof Layer) {
-			return null;
-		} else if (element instanceof CommonType) {
-			return ((CommonType) element).getLayer();
-		} else {
-			throw new IllegalArgumentException("Unsupported type "
-					+ element.getClass().getName());
-		}
+		return null;
 	}
 
 	@Override
 	public boolean hasChildren(Object element) {
 		if (element instanceof Layer) {
-			return !((Layer) element).getCommonTypes().isEmpty();
+			return JdtUtils.hasCommonTypes((Layer) element, commonTypes);
 		} else if (element instanceof CommonType) {
 			return false;
 		} else {

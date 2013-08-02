@@ -25,6 +25,8 @@ import org.eclipse.jface.viewers.CheckboxCellEditor;
 import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.TreeViewerColumn;
+import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -33,6 +35,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Tree;
 
 import ar.com.fluxit.jqa.entities.CommonType;
+import ar.com.fluxit.jqa.entities.Layer;
+import ar.com.fluxit.jqa.utils.JdtUtils;
 import ar.com.fluxit.jqa.viewer.CommonTypesContentProvider;
 import ar.com.fluxit.jqa.viewer.CommonTypesLabelProvider;
 
@@ -50,7 +54,7 @@ public class CommonsTypesDefinitionWizardPage extends AbstractWizardPage
 	public CommonsTypesDefinitionWizardPage() {
 		super(PAGE_NAME);
 		setTitle("Common types definition");
-		setDescription("Define the common types of each layer");
+		setDescription("Define the allowed common types of those layer");
 	}
 
 	@Override
@@ -65,13 +69,12 @@ public class CommonsTypesDefinitionWizardPage extends AbstractWizardPage
 		commonTypesTree.setHeaderVisible(true);
 		commonTypesTree.setLinesVisible(true);
 		commonTypesTree.setLayoutData(new GridData(GridData.FILL_BOTH));
-
 		commonTypesTreeViewer = new TreeViewer(commonTypesTree);
 
 		TreeViewerColumn layerColumn = new TreeViewerColumn(
 				commonTypesTreeViewer, SWT.LEFT);
 		layerColumn.getColumn().setText("Layer/Types");
-		layerColumn.getColumn().setWidth(200);
+		layerColumn.getColumn().setWidth(400);
 
 		final CellEditor checkboxCellEditor = new CheckboxCellEditor();
 		TreeViewerColumn commonTypeColumn = new TreeViewerColumn(
@@ -104,11 +107,23 @@ public class CommonsTypesDefinitionWizardPage extends AbstractWizardPage
 		});
 
 		commonTypesTreeViewer
-				.setContentProvider(new CommonTypesContentProvider());
+				.setContentProvider(new CommonTypesContentProvider(getWizard()
+						.getCommonTypes()));
 		commonTypesTreeViewer.setLabelProvider(new CommonTypesLabelProvider());
-
 		commonTypesTreeViewer.setInput(getWizard().getLayers());
 		commonTypesTreeViewer.expandAll();
+		commonTypesTreeViewer.addFilter(new ViewerFilter() {
+
+			@Override
+			public boolean select(Viewer arg0, Object arg1, Object arg2) {
+				if (arg2 instanceof Layer) {
+					return JdtUtils.hasCommonTypes((Layer) arg2, getWizard()
+							.getCommonTypes());
+				} else {
+					return true;
+				}
+			}
+		});
 
 		setControl(container);
 		((WizardDialog) getContainer()).addPageChangedListener(this);
@@ -118,7 +133,7 @@ public class CommonsTypesDefinitionWizardPage extends AbstractWizardPage
 	public void pageChanged(PageChangedEvent event) {
 		if (event.getSelectedPage() == this) {
 			commonTypesTreeViewer.refresh();
+			commonTypesTreeViewer.expandAll();
 		}
 	}
-
 }

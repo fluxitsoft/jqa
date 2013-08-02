@@ -21,14 +21,18 @@ package ar.com.fluxit.jqa.viewer;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.internal.ide.IDEInternalWorkbenchImages;
 
 import ar.com.fluxit.jqa.entities.CommonType;
+import ar.com.fluxit.jqa.entities.Layer;
 
 /**
  * TODO javadoc
  * 
  * @author Juan Ignacio Barisich
  */
+@SuppressWarnings("restriction")
 public class CommonTypesLabelProvider implements ITableLabelProvider {
 
 	@Override
@@ -42,8 +46,31 @@ public class CommonTypesLabelProvider implements ITableLabelProvider {
 	}
 
 	@Override
-	public Image getColumnImage(Object arg0, int arg1) {
-		return null;
+	public Image getColumnImage(Object element, int columnIndex) {
+		switch (columnIndex) {
+		case 0:
+			return null;
+		case 1:
+			if (element instanceof CommonType) {
+				String imgName;
+				if (((CommonType) element).isCommon()) {
+					imgName = IDEInternalWorkbenchImages.IMG_OBJS_COMPLETE_TSK;
+				} else {
+					imgName = IDEInternalWorkbenchImages.IMG_OBJS_INCOMPLETE_TSK;
+				}
+				return PlatformUI.getWorkbench().getSharedImages()
+						.getImage(imgName);
+			} else if (element instanceof Layer) {
+				return null;
+			} else {
+				throw new IllegalArgumentException(
+						"Unsupported type un column 1: "
+								+ element.getClass().getName());
+			}
+		default:
+			throw new IllegalArgumentException("Unsupported column: "
+					+ columnIndex);
+		}
 	}
 
 	@Override
@@ -52,11 +79,7 @@ public class CommonTypesLabelProvider implements ITableLabelProvider {
 		case 0:
 			return element.toString();
 		case 1:
-			if (element instanceof CommonType) {
-				return String.valueOf(((CommonType) element).isCommon());
-			} else {
-				return "";
-			}
+			return "";
 		default:
 			throw new IllegalArgumentException("Unsupported column: "
 					+ columnIndex);

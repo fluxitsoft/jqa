@@ -27,21 +27,34 @@ public class CommonType {
 
 	private String typeName;
 	private boolean common;
-	private Layer layer;
 
-	public CommonType(String typeName, boolean common, Layer layer) {
+	public CommonType(String typeName, boolean common) {
 		super();
 		this.typeName = typeName;
 		this.common = common;
-		this.layer = layer;
 	}
 
-	public Layer getLayer() {
-		return layer;
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == this) {
+			return true;
+		} else {
+			if (obj instanceof CommonType) {
+				return ((CommonType) obj).getTypeName().equals(
+						this.getTypeName());
+			} else {
+				return false;
+			}
+		}
 	}
 
 	public String getTypeName() {
 		return typeName;
+	}
+
+	@Override
+	public int hashCode() {
+		return getTypeName().hashCode();
 	}
 
 	public boolean isCommon() {
@@ -50,10 +63,6 @@ public class CommonType {
 
 	public void setCommon(boolean common) {
 		this.common = common;
-	}
-
-	public void setLayer(Layer layer) {
-		this.layer = layer;
 	}
 
 	public void setTypeName(String typeName) {

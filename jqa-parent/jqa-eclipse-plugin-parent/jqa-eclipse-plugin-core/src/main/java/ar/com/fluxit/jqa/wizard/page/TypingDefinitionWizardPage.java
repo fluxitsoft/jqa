@@ -49,7 +49,7 @@ public class TypingDefinitionWizardPage extends AbstractWizardPage implements
 	public TypingDefinitionWizardPage() {
 		super(PAGE_NAME);
 		setTitle("Typing definition");
-		setDescription("Define the typing of your layers");
+		setDescription("Define the typing of each layer");
 	}
 
 	@Override

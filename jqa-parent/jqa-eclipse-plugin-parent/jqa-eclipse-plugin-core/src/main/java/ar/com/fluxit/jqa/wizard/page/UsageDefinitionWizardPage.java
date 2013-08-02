@@ -61,7 +61,7 @@ public class UsageDefinitionWizardPage extends AbstractWizardPage implements
 	public UsageDefinitionWizardPage() {
 		super(PAGE_NAME);
 		setTitle("Usage definition");
-		setDescription("Define the allowed usages of your layers");
+		setDescription("Define the allowed usages of each layer");
 	}
 
 	@Override
