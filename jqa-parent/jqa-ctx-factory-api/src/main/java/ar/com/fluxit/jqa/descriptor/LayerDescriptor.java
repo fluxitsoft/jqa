@@ -16,61 +16,48 @@
  * You should have received a copy of the GNU Lesser General Public 
  * License along with JQA. If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package ar.com.fluxit.jqa.entities;
+package ar.com.fluxit.jqa.descriptor;
 
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-
-import org.eclipse.jdt.core.IJavaElement;
 
 /**
  * TODO javadoc
  * 
  * @author Juan Ignacio Barisich
  */
-public class Layer {
-
-	private static final Layer EMPTY = new Layer("", true, "", true);
-
-	public static List<Layer> buildStandardLayers() {
-		List<Layer> result = new ArrayList<Layer>();
-		result.add(new Layer("Entity", false, "", true));
-		result.add(new Layer("Business Object", true, "*BO", false));
-		result.add(new Layer("Data Access Object", true, "*DAO", false));
-		result.add(new Layer("Service", true, "*Service", false));
-		result.add(new Layer("View", false, "", false));
-		return result;
-	}
-
-	public static Layer emptyLayer() {
-		return EMPTY;
-	}
+public class LayerDescriptor {
 
 	private String name;
-	private final Set<IJavaElement> packages;
+	private final Set<String> packages;
 	private boolean hasApi;
 	private String namingPattern;
 	private String superType;
 	private String exceptionSuperType;
-	private final Set<Layer> usages;
+	private final Set<LayerDescriptor> usages;
 	private boolean allocable;
+	private Set<CommonDescriptor> commons;
 
-	public Layer(String name, boolean hasApi, String namingPattern,
+	public LayerDescriptor(String name, boolean hasApi, String namingPattern,
 			boolean allocable) {
 		this.name = name;
-		this.packages = new HashSet<IJavaElement>();
+		this.packages = new HashSet<String>();
 		this.hasApi = hasApi;
 		this.namingPattern = namingPattern;
 		this.superType = "java.lang.Object";
 		this.exceptionSuperType = "java.lang.Exception";
-		this.usages = new HashSet<Layer>();
+		this.usages = new HashSet<LayerDescriptor>();
 		this.allocable = allocable;
+		this.commons = new HashSet<CommonDescriptor>();
 	}
 
-	public void addUsage(Layer destinationLayer) {
+	public void addPackages(Collection<String> packages) {
+		this.packages.addAll(packages);
+	}
+
+	public void addUsage(LayerDescriptor destinationLayer) {
 		destinationLayer.removeUsage(this);
 		usages.add(destinationLayer);
 	}
@@ -84,12 +71,16 @@ public class Layer {
 		if (obj == this) {
 			return true;
 		} else {
-			if (obj instanceof Layer) {
-				return ((Layer) obj).getName().equals(this.getName());
+			if (obj instanceof LayerDescriptor) {
+				return ((LayerDescriptor) obj).getName().equals(this.getName());
 			} else {
 				return false;
 			}
 		}
+	}
+
+	public Set<CommonDescriptor> getCommons() {
+		return commons;
 	}
 
 	public String getExceptionSuperType() {
@@ -104,15 +95,15 @@ public class Layer {
 		return namingPattern;
 	}
 
-	public Set<IJavaElement> getPackages() {
-		return packages;
+	public Set<String> getPackages() {
+		return Collections.unmodifiableSet(packages);
 	}
 
 	public String getSuperType() {
 		return superType;
 	}
 
-	public Set<Layer> getUsages() {
+	public Set<LayerDescriptor> getUsages() {
 		return Collections.unmodifiableSet(usages);
 	}
 
@@ -129,12 +120,20 @@ public class Layer {
 		return hasApi;
 	}
 
-	public void removeUsage(Layer dest) {
+	public void removePackages(Collection<String> packages) {
+		this.packages.removeAll(packages);
+	}
+
+	public void removeUsage(LayerDescriptor dest) {
 		usages.remove(dest);
 	}
 
 	public void setAllocable(boolean allocable) {
 		this.allocable = allocable;
+	}
+
+	public void setCommons(Set<CommonDescriptor> commonTypes) {
+		this.commons = commonTypes;
 	}
 
 	public void setExceptionSuperType(String exceptionSuperType) {

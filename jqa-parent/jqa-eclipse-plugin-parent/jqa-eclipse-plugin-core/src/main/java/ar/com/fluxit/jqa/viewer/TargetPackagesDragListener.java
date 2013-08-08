@@ -18,34 +18,33 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.viewer;
 
-import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
-import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.dnd.DragSourceAdapter;
 import org.eclipse.swt.dnd.DragSourceEvent;
+
+import ar.com.fluxit.jqa.descriptor.LayerDescriptor;
 
 /**
  * TODO javadoc
  * 
  * @author Juan Ignacio Barisich
  */
-public class TargetPackagesDragListener extends DragSourceAdapter {
+public abstract class TargetPackagesDragListener extends DragSourceAdapter {
 
 	private final TableViewer tableViewer;
-	private final Holder<Viewer> viewerHolder;
-	private final Holder<Collection<IJavaElement>> inputHolder;
+	private final DropStrategy dropStrategy;
+	private final Holder<DropStrategy> dropStrategyHolder;
 	private IJavaElement[] currentSelection;
 
 	public TargetPackagesDragListener(TableViewer tableViewer,
-			Holder<Viewer> viewerHolder,
-			Holder<Collection<IJavaElement>> inputHolder) {
-		this.inputHolder = inputHolder;
-		this.viewerHolder = viewerHolder;
+			Holder<DropStrategy> dropStrategyHolder, DropStrategy dropStrategy) {
 		this.tableViewer = tableViewer;
+		this.dropStrategy = dropStrategy;
+		this.dropStrategyHolder = dropStrategyHolder;
 	}
 
 	@Override
@@ -64,18 +63,19 @@ public class TargetPackagesDragListener extends DragSourceAdapter {
 		currentSelection = ((List<IJavaElement>) selection.toList())
 				.toArray(new IJavaElement[selection.size()]);
 		// Sets the target of drag
-		getDragViewerHolder().setValue(getTableViewer());
-		getDragInputHolder().setValue(
-				(Collection<IJavaElement>) getTableViewer().getInput());
+		getDropStrategy().setSourceLayer(getSourceLayer());
+		getDropStrategyHolder().setValue(getDropStrategy());
 	}
 
-	private Holder<Collection<IJavaElement>> getDragInputHolder() {
-		return inputHolder;
+	public DropStrategy getDropStrategy() {
+		return dropStrategy;
 	}
 
-	private Holder<Viewer> getDragViewerHolder() {
-		return viewerHolder;
+	public Holder<DropStrategy> getDropStrategyHolder() {
+		return dropStrategyHolder;
 	}
+
+	public abstract LayerDescriptor getSourceLayer();
 
 	private TableViewer getTableViewer() {
 		return tableViewer;

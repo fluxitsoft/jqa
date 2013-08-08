@@ -8,22 +8,22 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
 
-import ar.com.fluxit.jqa.entities.Layer;
+import ar.com.fluxit.jqa.descriptor.LayerDescriptor;
 import ar.com.fluxit.jqa.viewer.LayerCellModifier;
 
 public class NewLayerAction extends Action {
 
-	private final List<Layer> layers;
+	private final List<LayerDescriptor> layers;
 	private final TableViewer layersTable;
 
-	public NewLayerAction(List<Layer> layers, TableViewer layersTable) {
+	public NewLayerAction(List<LayerDescriptor> layers, TableViewer layersTable) {
 		super("New layer", PlatformUI.getWorkbench().getSharedImages()
 				.getImageDescriptor(ISharedImages.IMG_OBJ_ADD));
 		this.layers = layers;
 		this.layersTable = layersTable;
 	}
 
-	private List<Layer> getLayers() {
+	private List<LayerDescriptor> getLayers() {
 		return layers;
 	}
 
@@ -31,13 +31,13 @@ public class NewLayerAction extends Action {
 		return layersTable;
 	}
 
-	private String getNewLayerName(List<Layer> layers2) {
+	private String getNewLayerName(List<LayerDescriptor> layers) {
 		String result = "New Layer";
-		if (getLayers().contains(new Layer(result, true, "", true))) {
+		if (getLayers().contains(new LayerDescriptor(result, true, "", true))) {
 			int i = 0;
 			do {
 				result = "New Layer " + ++i;
-			} while (getLayers().contains(new Layer(result, true, "", true)));
+			} while (getLayers().contains(new LayerDescriptor(result, true, "", true)));
 		}
 		return result;
 	}
@@ -45,7 +45,7 @@ public class NewLayerAction extends Action {
 	@Override
 	public void run() {
 		final String layerName = getNewLayerName(getLayers());
-		final Layer newLayer = new Layer(layerName, true, "", true);
+		final LayerDescriptor newLayer = new LayerDescriptor(layerName, true, "", true);
 		getLayers().add(newLayer);
 		getLayersTable().refresh(false);
 		((LayerCellModifier) getLayersTable().getCellModifier()).doModifiable();

@@ -16,31 +16,61 @@
  * You should have received a copy of the GNU Lesser General Public 
  * License along with JQA. If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package ar.com.fluxit.jqa.wizard.page;
-
-import org.eclipse.jface.wizard.WizardPage;
-
-import ar.com.fluxit.jqa.descriptor.ArchitectureDescriptor;
-import ar.com.fluxit.jqa.wizard.JQAWizard;
+package ar.com.fluxit.jqa.descriptor;
 
 /**
  * TODO javadoc
  * 
  * @author Juan Ignacio Barisich
  */
-public abstract class AbstractWizardPage extends WizardPage {
+public class CommonDescriptor {
 
-	protected AbstractWizardPage(String pageName) {
-		super(pageName);
-	}
+	private String typeName;
+	private boolean common;
 
-	protected ArchitectureDescriptor getArchitectureDescriptor() {
-		return getWizard().getArchitectureDescriptor();
+	public CommonDescriptor(String typeName, boolean common) {
+		super();
+		this.typeName = typeName;
+		this.common = common;
 	}
 
 	@Override
-	public JQAWizard getWizard() {
-		return (JQAWizard) super.getWizard();
+	public boolean equals(Object obj) {
+		if (obj == this) {
+			return true;
+		} else {
+			if (obj instanceof CommonDescriptor) {
+				return ((CommonDescriptor) obj).getTypeName().equals(
+						this.getTypeName());
+			} else {
+				return false;
+			}
+		}
 	}
 
+	public String getTypeName() {
+		return typeName;
+	}
+
+	@Override
+	public int hashCode() {
+		return getTypeName().hashCode();
+	}
+
+	public boolean isCommon() {
+		return common;
+	}
+
+	public void setCommon(boolean common) {
+		this.common = common;
+	}
+
+	public void setTypeName(String typeName) {
+		this.typeName = typeName;
+	}
+
+	@Override
+	public String toString() {
+		return typeName;
+	}
 }

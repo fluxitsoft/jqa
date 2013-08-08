@@ -21,24 +21,37 @@ package ar.com.fluxit.jqa.context.factory;
 import java.net.URL;
 
 import junit.framework.TestCase;
+import ar.com.fluxit.jqa.context.RulesContext;
 import ar.com.fluxit.jqa.context.factory.exception.RulesContextFactoryException;
+import ar.com.fluxit.jqa.predicate.lang.NamingPredicate;
 
 /**
  * TODO javadoc
  * 
  * @author Juan Ignacio Barisich
  */
-public class RulesContextImplTest3 extends TestCase {
+public class RulesContext2Test extends TestCase {
 
-	public void testInvalidRulesContextImportByName() {
+	private RulesContext rulesContext;
+
+	@Override
+	protected void setUp() throws Exception {
 		final RulesContextFactory rulesContextFactory = RulesContextFactoryLocator.getRulesContextFactory();
-		final URL resource = RulesContextImplTest3.class.getResource("/invalid_rulesContext_import.xml");
-		try {
-			rulesContextFactory.getRulesContext(resource.getPath());
-			fail("RulesContextFactoryException expected");
-		} catch (final RulesContextFactoryException e) {
-			// test ok
-		}
+		final URL resource = RulesContext2Test.class.getResource("/sample_rulescontext2.xml");
+		rulesContext = rulesContextFactory.getRulesContext(resource.getPath());
 	}
 
+	@Override
+	protected void tearDown() throws Exception {
+		rulesContext = null;
+	}
+
+	public void testRulesContextImports() throws RulesContextFactoryException {
+		assertNotNull(rulesContext);
+		assertNotNull(rulesContext.getGlobalPredicates());
+		assertEquals(1, rulesContext.getGlobalPredicates().size());
+		// RulesContext import by file
+		assertNotNull(rulesContext.getGlobalPredicate("GlobalPredicateImportedByRulesContextFileName"));
+		assertTrue(rulesContext.getGlobalPredicate("GlobalPredicateImportedByRulesContextFileName") instanceof NamingPredicate);
+	}
 }

@@ -31,13 +31,15 @@ import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.FocusAdapter;
 import org.eclipse.swt.events.FocusEvent;
+import org.eclipse.swt.events.KeyAdapter;
+import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
-import ar.com.fluxit.jqa.entities.Layer;
+import ar.com.fluxit.jqa.descriptor.LayerDescriptor;
 
 /**
  * TODO javadoc
@@ -47,10 +49,12 @@ import ar.com.fluxit.jqa.entities.Layer;
 public class NamingDefinitionWizardPage extends AbstractWizardPage implements
 		IPageChangedListener {
 
+	private static final String EXAMPLE_CLASS_PATTERN = "e.g: com.acme.myapp.dao.%s.BookDAO%s";
 	public static final String PAGE_NAME = "NamingDefinitionWizardPage";
 	private TableViewer layersTable;
 	private Text implPackageText;
-	private Text classPackageText;
+	private Text implClassText;
+	private Label implExampleLabel;
 
 	public NamingDefinitionWizardPage() {
 		super(PAGE_NAME);
@@ -62,32 +66,52 @@ public class NamingDefinitionWizardPage extends AbstractWizardPage implements
 	public void createControl(Composite parent) {
 		Composite container = new Composite(parent, SWT.NULL);
 		GridLayout layout = new GridLayout();
-		layout.numColumns = 2;
+		layout.numColumns = 3;
 		container.setLayout(layout);
 
 		Label implPackageLabel = new Label(container, SWT.NONE);
 		implPackageLabel.setText("Implementations package naming suffix");
-
 		implPackageText = new Text(container, SWT.BORDER);
 		implPackageText.addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusLost(FocusEvent e) {
-				getWizard().setImplPackageText(implPackageText.getText());
+				getArchitectureDescriptor().setPackageImplSuffix(
+						implPackageText.getText());
+			}
+		});
+		implPackageText.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				updateExampleLabel();
 			}
 		});
 		implPackageText.setLayoutData(new GridData(50, SWT.DEFAULT));
+		implExampleLabel = new Label(container, SWT.NONE);
+		GridData implPackageExampleLabelGridData = new GridData(
+				GridData.FILL_HORIZONTAL);
+		implPackageExampleLabelGridData.verticalSpan = 2;
+		implExampleLabel.setLayoutData(implPackageExampleLabelGridData);
+		implExampleLabel.setText(String.format(EXAMPLE_CLASS_PATTERN,
+				getArchitectureDescriptor().getPackageImplSuffix(),
+				getArchitectureDescriptor().getClassImplSuffix()));
 
 		Label implClassLabel = new Label(container, SWT.NONE);
 		implClassLabel.setText("Implementations classess name suffix");
-
-		classPackageText = new Text(container, SWT.BORDER);
-		classPackageText.addFocusListener(new FocusAdapter() {
+		implClassText = new Text(container, SWT.BORDER);
+		implClassText.addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusLost(FocusEvent e) {
-				getWizard().setClassPackageText(classPackageText.getText());
+				getArchitectureDescriptor()
+						.setClassImplSuffix(implClassText.getText());
 			}
 		});
-		classPackageText.setLayoutData(new GridData(50, SWT.DEFAULT));
+		implClassText.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				updateExampleLabel();
+			}
+		});
+		implClassText.setLayoutData(new GridData(50, SWT.DEFAULT));
 
 		Label layersLabel = new Label(container, SWT.NONE);
 		layersLabel.setText("Layers naming pattern");
@@ -96,7 +120,9 @@ public class NamingDefinitionWizardPage extends AbstractWizardPage implements
 
 		layersTable = new TableViewer(container, SWT.SINGLE | SWT.BORDER
 				| SWT.V_SCROLL | SWT.H_SCROLL);
-		layersTable.getTable().setLayoutData(new GridData(GridData.FILL_BOTH));
+		GridData layersTableGridData = new GridData(GridData.FILL_BOTH);
+		layersTableGridData.horizontalSpan = 2;
+		layersTable.getTable().setLayoutData(layersTableGridData);
 		layersTable.setContentProvider(ArrayContentProvider.getInstance());
 		layersTable.getTable().setHeaderVisible(true);
 		layersTable.getTable().setLinesVisible(true);
@@ -108,7 +134,7 @@ public class NamingDefinitionWizardPage extends AbstractWizardPage implements
 		layerColumn.setLabelProvider(new ColumnLabelProvider() {
 			@Override
 			public String getText(Object element) {
-				Layer layer = (Layer) element;
+				LayerDescriptor layer = (LayerDescriptor) element;
 				return layer.getName();
 			}
 		});
@@ -121,7 +147,7 @@ public class NamingDefinitionWizardPage extends AbstractWizardPage implements
 
 			@Override
 			public String getText(Object element) {
-				Layer layer = (Layer) element;
+				LayerDescriptor layer = (LayerDescriptor) element;
 				return layer.getNamingPattern();
 			}
 
@@ -140,16 +166,16 @@ public class NamingDefinitionWizardPage extends AbstractWizardPage implements
 
 			@Override
 			protected Object getValue(Object element) {
-				return ((Layer) element).getNamingPattern();
+				return ((LayerDescriptor) element).getNamingPattern();
 			}
 
 			@Override
 			protected void setValue(Object element, Object value) {
-				((Layer) element).setNamingPattern(((String) value).trim());
+				((LayerDescriptor) element).setNamingPattern(((String) value).trim());
 				layersTable.refresh(element, true);
 			}
 		});
-		layersTable.setInput(getWizard().getLayers());
+		layersTable.setInput(getArchitectureDescriptor().getLayers());
 		setControl(container);
 		((WizardDialog) getContainer()).addPageChangedListener(this);
 	}
@@ -158,9 +184,15 @@ public class NamingDefinitionWizardPage extends AbstractWizardPage implements
 	public void pageChanged(PageChangedEvent event) {
 		if (event.getSelectedPage() == this) {
 			layersTable.refresh(true);
-			implPackageText.setText(getWizard().getImplPackageText());
-			classPackageText.setText(getWizard().getClassPackageText());
+			implPackageText
+					.setText(getArchitectureDescriptor().getPackageImplSuffix());
+			implClassText.setText(getArchitectureDescriptor().getClassImplSuffix());
 		}
+	}
+
+	protected void updateExampleLabel() {
+		implExampleLabel.setText(String.format(EXAMPLE_CLASS_PATTERN,
+				implPackageText.getText(), implClassText.getText()));
 	}
 
 }

@@ -18,10 +18,12 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.context.factory;
 
+import java.io.File;
 import java.io.InputStream;
 
 import ar.com.fluxit.jqa.context.RulesContext;
 import ar.com.fluxit.jqa.context.factory.exception.RulesContextFactoryException;
+import ar.com.fluxit.jqa.descriptor.ArchitectureDescriptor;
 
 /**
  * TODO javadoc
@@ -30,8 +32,14 @@ import ar.com.fluxit.jqa.context.factory.exception.RulesContextFactoryException;
  */
 public interface RulesContextFactory {
 
-	RulesContext getRulesContext(InputStream inputStream, String packageBase) throws RulesContextFactoryException;
+	void buildRulesContextFile(File targetFile,
+			ArchitectureDescriptor archDescriptor)
+			throws RulesContextFactoryException;
 
-	RulesContext getRulesContext(String resource) throws RulesContextFactoryException;
+	RulesContext getRulesContext(InputStream inputStream, String packageBase)
+			throws RulesContextFactoryException;
+
+	RulesContext getRulesContext(String resource)
+			throws RulesContextFactoryException;
 
 }

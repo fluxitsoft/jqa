@@ -44,7 +44,7 @@ import ar.com.fluxit.jqa.context.factory.RulesContextFactory;
 import ar.com.fluxit.jqa.context.factory.RulesContextFactoryLocator;
 import ar.com.fluxit.jqa.context.factory.exception.RulesContextFactoryException;
 import ar.com.fluxit.jqa.result.CheckingResult;
-import ar.com.fluxit.jqa.utils.Utils;
+import ar.com.fluxit.jqa.utils.JdtUtils;
 
 /**
  * TODO javadoc
@@ -64,7 +64,8 @@ public class JQAEclipseRunner {
 	private Collection<File> getClassFiles(IJavaProject javaProject)
 			throws JavaModelException {
 		Collection<File> result = new ArrayList<File>();
-		File buildDir = Utils.getAbsolutePath(javaProject.getOutputLocation());
+		File buildDir = JdtUtils.getAbsolutePath(javaProject
+				.getOutputLocation());
 		result.addAll(FileUtils.listFiles(buildDir, new SuffixFileFilter(
 				RulesContextChecker.CLASS_SUFFIX), TrueFileFilter.INSTANCE));
 		return result;
@@ -78,8 +79,9 @@ public class JQAEclipseRunner {
 			if (classpathEntry.isExternal()) {
 				result.add(classpathEntry.getPath().toFile());
 			} else {
-				result.add(Utils.getAbsolutePath(((IJavaProject) classpathEntry
-						.getParent()).getOutputLocation()));
+				result.add(JdtUtils
+						.getAbsolutePath(((IJavaProject) classpathEntry
+								.getParent()).getOutputLocation()));
 			}
 
 		}
@@ -99,7 +101,7 @@ public class JQAEclipseRunner {
 			Collection<File> classFiles = getClassFiles(javaProject);
 			String sourceJavaVersion = javaProject.getOption(
 					JavaCore.COMPILER_SOURCE, true);
-			File[] sourceDir = Utils.getSourcesDirs(javaProject);
+			File[] sourceDir = JdtUtils.getSourcesDirs(javaProject);
 			final CheckingResult checkResult = RulesContextChecker.INSTANCE
 					.check(targetProject.getName(), classFiles, classPath,
 							rulesContext, sourceDir, sourceJavaVersion, LOGGER);

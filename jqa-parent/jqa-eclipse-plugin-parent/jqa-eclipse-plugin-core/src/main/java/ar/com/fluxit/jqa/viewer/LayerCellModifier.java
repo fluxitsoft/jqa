@@ -22,7 +22,7 @@ import org.eclipse.jface.viewers.ICellModifier;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.widgets.Item;
 
-import ar.com.fluxit.jqa.entities.Layer;
+import ar.com.fluxit.jqa.descriptor.LayerDescriptor;
 
 /**
  * TODO javadoc
@@ -61,7 +61,7 @@ public class LayerCellModifier implements ICellModifier {
 
 	@Override
 	public void modify(Object element, String paramString, Object paramObject2) {
-		Layer layer = (Layer) ((Item) element).getData();
+		LayerDescriptor layer = (LayerDescriptor) ((Item) element).getData();
 		layer.setName((String) paramObject2);
 		getLayersTable().refresh();
 	}

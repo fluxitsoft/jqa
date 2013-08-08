@@ -22,7 +22,7 @@ import org.eclipse.jface.viewers.CheckStateChangedEvent;
 import org.eclipse.jface.viewers.ICheckStateListener;
 import org.eclipse.jface.viewers.ICheckStateProvider;
 
-import ar.com.fluxit.jqa.entities.Layer;
+import ar.com.fluxit.jqa.descriptor.LayerDescriptor;
 
 /**
  * TODO javadoc
@@ -32,33 +32,35 @@ import ar.com.fluxit.jqa.entities.Layer;
 public class ApisDefinitionWizardPage extends AbstractLayerCheckWizardPage {
 
 	public static final String PAGE_NAME = "ApisDefinitionWizardPage";
-	
+
 	public ApisDefinitionWizardPage() {
 		super(PAGE_NAME, "APIs definition",
 				"Define which layers must be accessed via API (interfaces)");
 	}
 
-	ICheckStateProvider getCheckStateProvider() {
-		return new ICheckStateProvider() {
-
-			@Override
-			public boolean isChecked(Object element) {
-				return ((Layer) element).isHasApi();
-			}
-
-			@Override
-			public boolean isGrayed(Object element) {
-				return false;
-			}
-		};
-	}
-	
+	@Override
 	ICheckStateListener getCheckStateListener() {
 		return new ICheckStateListener() {
 
 			@Override
 			public void checkStateChanged(CheckStateChangedEvent event) {
-				((Layer) event.getElement()).setHasApi(event.getChecked());
+				((LayerDescriptor) event.getElement()).setHasApi(event.getChecked());
+			}
+		};
+	}
+
+	@Override
+	ICheckStateProvider getCheckStateProvider() {
+		return new ICheckStateProvider() {
+
+			@Override
+			public boolean isChecked(Object element) {
+				return ((LayerDescriptor) element).isHasApi();
+			}
+
+			@Override
+			public boolean isGrayed(Object element) {
+				return false;
 			}
 		};
 	}

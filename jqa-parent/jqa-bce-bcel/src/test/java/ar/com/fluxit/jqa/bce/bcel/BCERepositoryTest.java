@@ -88,11 +88,11 @@ import ar.com.fluxit.jqa.mock.sub.ClassWithMultipleThrows.Inner.InnerException;
  * 
  * @author Juan Ignacio Barisich
  */
-public class BCERepositoryImplTest {
+public class BCERepositoryTest {
 
 	private final BCERepository repository;
 
-	public BCERepositoryImplTest() {
+	public BCERepositoryTest() {
 		final File[] sourcesDir = new File[] { new File(
 				System.getProperty("user.dir") + File.separatorChar + "src"
 						+ File.separatorChar + "test" + File.separatorChar

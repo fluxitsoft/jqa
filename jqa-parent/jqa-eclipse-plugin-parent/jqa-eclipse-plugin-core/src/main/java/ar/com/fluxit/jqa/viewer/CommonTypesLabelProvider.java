@@ -24,8 +24,8 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.internal.ide.IDEInternalWorkbenchImages;
 
-import ar.com.fluxit.jqa.entities.CommonType;
-import ar.com.fluxit.jqa.entities.Layer;
+import ar.com.fluxit.jqa.descriptor.CommonDescriptor;
+import ar.com.fluxit.jqa.descriptor.LayerDescriptor;
 
 /**
  * TODO javadoc
@@ -51,16 +51,16 @@ public class CommonTypesLabelProvider implements ITableLabelProvider {
 		case 0:
 			return null;
 		case 1:
-			if (element instanceof CommonType) {
+			if (element instanceof CommonDescriptor) {
 				String imgName;
-				if (((CommonType) element).isCommon()) {
+				if (((CommonDescriptor) element).isCommon()) {
 					imgName = IDEInternalWorkbenchImages.IMG_OBJS_COMPLETE_TSK;
 				} else {
 					imgName = IDEInternalWorkbenchImages.IMG_OBJS_INCOMPLETE_TSK;
 				}
 				return PlatformUI.getWorkbench().getSharedImages()
 						.getImage(imgName);
-			} else if (element instanceof Layer) {
+			} else if (element instanceof LayerDescriptor) {
 				return null;
 			} else {
 				throw new IllegalArgumentException(

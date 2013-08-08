@@ -34,9 +34,8 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Tree;
 
-import ar.com.fluxit.jqa.entities.CommonType;
-import ar.com.fluxit.jqa.entities.Layer;
-import ar.com.fluxit.jqa.utils.JdtUtils;
+import ar.com.fluxit.jqa.descriptor.CommonDescriptor;
+import ar.com.fluxit.jqa.descriptor.LayerDescriptor;
 import ar.com.fluxit.jqa.viewer.CommonTypesContentProvider;
 import ar.com.fluxit.jqa.viewer.CommonTypesLabelProvider;
 
@@ -96,29 +95,27 @@ public class CommonsTypesDefinitionWizardPage extends AbstractWizardPage
 
 			@Override
 			protected Object getValue(Object arg0) {
-				return ((CommonType) arg0).isCommon();
+				return ((CommonDescriptor) arg0).isCommon();
 			}
 
 			@Override
 			protected void setValue(Object arg0, Object arg1) {
-				((CommonType) arg0).setCommon((Boolean) arg1);
+				((CommonDescriptor) arg0).setCommon((Boolean) arg1);
 				commonTypesTreeViewer.update(arg0, null);
 			}
 		});
 
 		commonTypesTreeViewer
-				.setContentProvider(new CommonTypesContentProvider(getWizard()
-						.getCommonTypes()));
+				.setContentProvider(new CommonTypesContentProvider());
 		commonTypesTreeViewer.setLabelProvider(new CommonTypesLabelProvider());
-		commonTypesTreeViewer.setInput(getWizard().getLayers());
+		commonTypesTreeViewer.setInput(getArchitectureDescriptor().getLayers());
 		commonTypesTreeViewer.expandAll();
 		commonTypesTreeViewer.addFilter(new ViewerFilter() {
 
 			@Override
 			public boolean select(Viewer arg0, Object arg1, Object arg2) {
-				if (arg2 instanceof Layer) {
-					return JdtUtils.hasCommonTypes((Layer) arg2, getWizard()
-							.getCommonTypes());
+				if (arg2 instanceof LayerDescriptor) {
+					return !((LayerDescriptor) arg2).getCommons().isEmpty();
 				} else {
 					return true;
 				}

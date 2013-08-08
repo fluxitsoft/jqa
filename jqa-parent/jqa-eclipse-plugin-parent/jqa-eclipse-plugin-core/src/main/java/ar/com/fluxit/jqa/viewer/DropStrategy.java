@@ -16,62 +16,30 @@
  * You should have received a copy of the GNU Lesser General Public 
  * License along with JQA. If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package ar.com.fluxit.jqa.entities;
+
+package ar.com.fluxit.jqa.viewer;
+
+import java.util.Collection;
+
+import ar.com.fluxit.jqa.descriptor.LayerDescriptor;
 
 /**
  * TODO javadoc
  * 
  * @author Juan Ignacio Barisich
  */
-public class CommonType {
+public abstract class DropStrategy {
 
-	private String typeName;
-	private boolean common;
+	private LayerDescriptor sourceLayer;
 
-	public CommonType(String typeName, boolean common) {
-		super();
-		this.typeName = typeName;
-		this.common = common;
+	public abstract void drop(Collection<String> droppedPackages);
+
+	public LayerDescriptor getSourceLayer() {
+		return sourceLayer;
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (obj == this) {
-			return true;
-		} else {
-			if (obj instanceof CommonType) {
-				return ((CommonType) obj).getTypeName().equals(
-						this.getTypeName());
-			} else {
-				return false;
-			}
-		}
-	}
-
-	public String getTypeName() {
-		return typeName;
-	}
-
-	@Override
-	public int hashCode() {
-		return getTypeName().hashCode();
-	}
-
-	public boolean isCommon() {
-		return common;
-	}
-
-	public void setCommon(boolean common) {
-		this.common = common;
-	}
-
-	public void setTypeName(String typeName) {
-		this.typeName = typeName;
-	}
-
-	@Override
-	public String toString() {
-		return typeName;
+	public void setSourceLayer(LayerDescriptor sourceLayer) {
+		this.sourceLayer = sourceLayer;
 	}
 
 }

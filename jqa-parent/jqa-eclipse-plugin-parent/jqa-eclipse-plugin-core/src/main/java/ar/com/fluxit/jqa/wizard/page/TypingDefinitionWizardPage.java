@@ -24,15 +24,18 @@ import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.EditingSupport;
+import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
+import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 
-import ar.com.fluxit.jqa.entities.Layer;
+import ar.com.fluxit.jqa.descriptor.ArchitectureDescriptor;
+import ar.com.fluxit.jqa.descriptor.LayerDescriptor;
 import ar.com.fluxit.jqa.viewer.TypeCellEditor;
 
 /**
@@ -73,7 +76,7 @@ public class TypingDefinitionWizardPage extends AbstractWizardPage implements
 		layerColumn.setLabelProvider(new ColumnLabelProvider() {
 			@Override
 			public String getText(Object element) {
-				Layer layer = (Layer) element;
+				LayerDescriptor layer = (LayerDescriptor) element;
 				return layer.getName();
 			}
 		});
@@ -86,7 +89,7 @@ public class TypingDefinitionWizardPage extends AbstractWizardPage implements
 
 			@Override
 			public String getText(Object element) {
-				Layer layer = (Layer) element;
+				LayerDescriptor layer = (LayerDescriptor) element;
 				return layer.getSuperType();
 			}
 
@@ -106,16 +109,41 @@ public class TypingDefinitionWizardPage extends AbstractWizardPage implements
 
 			@Override
 			protected Object getValue(Object element) {
-				return ((Layer) element).getSuperType();
+				return ((LayerDescriptor) element).getSuperType();
 			}
 
 			@Override
 			protected void setValue(Object element, Object value) {
-				((Layer) element).setSuperType((String) value);
+				((LayerDescriptor) element).setSuperType((String) value);
 				layersTable.refresh(element, true);
 			}
 		});
-		layersTable.setInput(getWizard().getLayers());
+		layersTable.setContentProvider(new IStructuredContentProvider() {
+
+			@Override
+			public void dispose() {
+
+			}
+
+			@Override
+			public Object[] getElements(Object inputElement) {
+				if (inputElement instanceof ArchitectureDescriptor) {
+					return ((ArchitectureDescriptor) inputElement).getLayers()
+							.toArray();
+				} else {
+					throw new IllegalArgumentException("Unsupported input: "
+							+ inputElement.getClass());
+				}
+			}
+
+			@Override
+			public void inputChanged(Viewer viewer, Object oldInput,
+					Object newInput) {
+
+			}
+
+		});
+		layersTable.setInput(getArchitectureDescriptor());
 		setControl(container);
 		((WizardDialog) getContainer()).addPageChangedListener(this);
 	}

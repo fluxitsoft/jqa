@@ -27,65 +27,25 @@ import org.eclipse.zest.core.viewers.EntityConnectionData;
 import org.eclipse.zest.core.viewers.IConnectionStyleProvider;
 import org.eclipse.zest.core.viewers.IEntityStyleProvider;
 
-import ar.com.fluxit.jqa.entities.Layer;
+import ar.com.fluxit.jqa.descriptor.LayerDescriptor;
 
 /**
  * TODO javadoc
  * 
  * @author Juan Ignacio Barisich
  */
-public class LayersGraphLabelProvider extends LabelProvider implements IConnectionStyleProvider, IEntityStyleProvider {
-	
+public class LayersGraphLabelProvider extends LabelProvider implements
+		IConnectionStyleProvider, IEntityStyleProvider {
+
 	private static final String USES = "uses";
 
 	@Override
-	public String getText(Object element) {
-		if (element instanceof Layer) {
-			Layer layer = (Layer) element;
-			return layer.getName();
-		} else if (element instanceof EntityConnectionData) {
-			return USES;
-		}
-		throw new IllegalArgumentException("Type not supported: "
-				+ element.getClass().getName());
+	public boolean fisheyeNode(Object entity) {
+		return false;
 	}
 
 	@Override
-	public int getConnectionStyle(Object rel) {
-		return SWT.NONE;
-	}
-
-	@Override
-	public Color getColor(Object rel) {
-		return null;
-	}
-
-	@Override
-	public Color getHighlightColor(Object rel) {
-		return null;
-	}
-
-	@Override
-	public int getLineWidth(Object rel) {
-		return 0;
-	}
-
-	@Override
-	public IFigure getTooltip(Object element) {
-		String msg;
-		if (element instanceof Layer) {
-			msg = "Press Ctrl+Click to draw connections";
-		} else if (element instanceof EntityConnectionData) {
-			msg = "Click this connection to delete it";
-		} else {
-			throw new IllegalArgumentException("Type not supported: "
-					+ element.getClass().getName());
-		}
-		return new Label(msg);
-	}
-
-	@Override
-	public Color getNodeHighlightColor(Object entity) {
+	public Color getBackgroundColour(Object entity) {
 		return null;
 	}
 
@@ -105,8 +65,13 @@ public class LayersGraphLabelProvider extends LabelProvider implements IConnecti
 	}
 
 	@Override
-	public Color getBackgroundColour(Object entity) {
+	public Color getColor(Object rel) {
 		return null;
+	}
+
+	@Override
+	public int getConnectionStyle(Object rel) {
+		return SWT.NONE;
 	}
 
 	@Override
@@ -115,8 +80,44 @@ public class LayersGraphLabelProvider extends LabelProvider implements IConnecti
 	}
 
 	@Override
-	public boolean fisheyeNode(Object entity) {
-		return false;
+	public Color getHighlightColor(Object rel) {
+		return null;
 	}
-	
+
+	@Override
+	public int getLineWidth(Object rel) {
+		return 0;
+	}
+
+	@Override
+	public Color getNodeHighlightColor(Object entity) {
+		return null;
+	}
+
+	@Override
+	public String getText(Object element) {
+		if (element instanceof LayerDescriptor) {
+			LayerDescriptor layer = (LayerDescriptor) element;
+			return layer.getName();
+		} else if (element instanceof EntityConnectionData) {
+			return USES;
+		}
+		throw new IllegalArgumentException("Type not supported: "
+				+ element.getClass().getName());
+	}
+
+	@Override
+	public IFigure getTooltip(Object element) {
+		String msg;
+		if (element instanceof LayerDescriptor) {
+			msg = "Press Ctrl+Click to draw connections";
+		} else if (element instanceof EntityConnectionData) {
+			msg = "Click this connection to delete it";
+		} else {
+			throw new IllegalArgumentException("Type not supported: "
+					+ element.getClass().getName());
+		}
+		return new Label(msg);
+	}
+
 }

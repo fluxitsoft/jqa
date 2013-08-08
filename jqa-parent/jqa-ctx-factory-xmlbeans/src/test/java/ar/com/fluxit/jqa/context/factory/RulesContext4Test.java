@@ -18,40 +18,48 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.context.factory;
 
-import java.net.URL;
+import java.io.File;
 
 import junit.framework.TestCase;
-import ar.com.fluxit.jqa.context.RulesContext;
+
+import org.apache.commons.io.FileUtils;
+
 import ar.com.fluxit.jqa.context.factory.exception.RulesContextFactoryException;
-import ar.com.fluxit.jqa.predicate.lang.NamingPredicate;
+import ar.com.fluxit.jqa.descriptor.ArchitectureDescriptor;
 
 /**
  * TODO javadoc
  * 
  * @author Juan Ignacio Barisich
  */
-public class RulesContextImplTest2 extends TestCase {
+public class RulesContext4Test extends TestCase {
 
-	private RulesContext rulesContext;
+	private File targetDir;
 
 	@Override
 	protected void setUp() throws Exception {
-		final RulesContextFactory rulesContextFactory = RulesContextFactoryLocator.getRulesContextFactory();
-		final URL resource = RulesContextImplTest2.class.getResource("/sample_rulescontext2.xml");
-		rulesContext = rulesContextFactory.getRulesContext(resource.getPath());
+		File tempDir = new File(System.getProperty("user.dir"));
+		targetDir = new File(tempDir, "testBuildRulesContextFile");
+		FileUtils.deleteDirectory(targetDir);
+		targetDir.mkdir();
 	}
 
 	@Override
 	protected void tearDown() throws Exception {
-		rulesContext = null;
+		FileUtils.deleteDirectory(targetDir);
 	}
 
-	public void testRulesContextImports() throws RulesContextFactoryException {
-		assertNotNull(rulesContext);
-		assertNotNull(rulesContext.getGlobalPredicates());
-		assertEquals(1, rulesContext.getGlobalPredicates().size());
-		// RulesContext import by file
-		assertNotNull(rulesContext.getGlobalPredicate("GlobalPredicateImportedByRulesContextFileName"));
-		assertTrue(rulesContext.getGlobalPredicate("GlobalPredicateImportedByRulesContextFileName") instanceof NamingPredicate);
+	public void testBuildRulesContextFile() throws RulesContextFactoryException {
+		final RulesContextFactory rulesContextFactory = RulesContextFactoryLocator
+				.getRulesContextFactory();
+		File targetFile = new File(targetDir, "rulesContext.xml");
+		ArchitectureDescriptor archDescriptor = new ArchitectureDescriptor();
+		rulesContextFactory.buildRulesContextFile(targetFile, archDescriptor);
+
+		// TODO
+		// RulesContext rulesContext = rulesContextFactory
+		// .getRulesContext(targetFile.getPath());
+		// assertNotNull(rulesContext);
 	}
+
 }

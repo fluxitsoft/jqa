@@ -32,20 +32,21 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 
-import ar.com.fluxit.jqa.entities.Layer;
+import ar.com.fluxit.jqa.descriptor.LayerDescriptor;
 
 /**
  * TODO javadoc
  * 
  * @author Juan Ignacio Barisich
  */
-public abstract class AbstractLayerCheckWizardPage extends AbstractWizardPage implements
-		IPageChangedListener {
+public abstract class AbstractLayerCheckWizardPage extends AbstractWizardPage
+		implements IPageChangedListener {
 
 	public static final String PAGE_NAME = "ApisDefinitionWizardPage";
 	private CheckboxTableViewer layersTable;
 
-	public AbstractLayerCheckWizardPage(String pageName, String title, String description) {
+	public AbstractLayerCheckWizardPage(String pageName, String title,
+			String description) {
 		super(pageName);
 		setTitle(title);
 		setDescription(description);
@@ -85,25 +86,25 @@ public abstract class AbstractLayerCheckWizardPage extends AbstractWizardPage im
 		layerColumn.getColumn().setText("Layer");
 		layerColumn.getColumn().setWidth(300);
 		layerColumn.setLabelProvider(getLabelProvider());
-		layersTable.setInput(getWizard().getLayers());
+		layersTable.setInput(getArchitectureDescriptor().getLayers());
 		layersTable.getTable().setColumnOrder(new int[] { 1, 0 });
 		setControl(container);
 		((WizardDialog) getContainer()).addPageChangedListener(this);
 	}
 
+	abstract ICheckStateListener getCheckStateListener();
+
+	abstract ICheckStateProvider getCheckStateProvider();
+
 	private ColumnLabelProvider getLabelProvider() {
 		return new ColumnLabelProvider() {
 			@Override
 			public String getText(Object element) {
-				Layer layer = (Layer) element;
+				LayerDescriptor layer = (LayerDescriptor) element;
 				return layer.getName();
 			}
 		};
 	}
-
-	abstract ICheckStateListener getCheckStateListener();
-
-	abstract ICheckStateProvider getCheckStateProvider();
 
 	@Override
 	public final void pageChanged(PageChangedEvent event) {

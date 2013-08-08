@@ -39,7 +39,7 @@ import org.slf4j.LoggerFactory;
 import ar.com.fluxit.jqa.bce.BCERepositoryLocator;
 import ar.com.fluxit.jqa.result.CheckingResult;
 import ar.com.fluxit.jqa.result.RuleCheckFailed;
-import ar.com.fluxit.jqa.utils.Utils;
+import ar.com.fluxit.jqa.utils.JdtUtils;
 
 /**
  * TODO javadoc
@@ -51,7 +51,8 @@ public class JQAEclipseMarker {
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(JQAEclipseMarker.class);
 	private static final Map<Integer, Integer> SEVERITY_MAP;
-	public static final String MARKER_ID = JQAEclipsePlugin.PLUGIN_ID + ".jqaProblem";
+	public static final String MARKER_ID = JQAEclipsePlugin.PLUGIN_ID
+			+ ".jqaProblem";
 
 	static {
 		SEVERITY_MAP = new HashMap<Integer, Integer>();
@@ -134,7 +135,7 @@ public class JQAEclipseMarker {
 		try {
 			File violatedPath = BCERepositoryLocator.getRepository()
 					.getSourceFile(ruleCheckFailed.getTargetClassName(),
-							Utils.getSourcesDirs(targetProject));
+							JdtUtils.getSourcesDirs(targetProject));
 			for (Integer lineId : ruleCheckFailed.getLineIds()) {
 				mark(violatedPath, lineId, ruleCheckFailed);
 			}

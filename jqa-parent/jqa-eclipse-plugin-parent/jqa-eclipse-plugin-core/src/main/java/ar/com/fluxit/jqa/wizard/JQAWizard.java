@@ -18,36 +18,24 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.wizard;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.core.runtime.jobs.Job;
-import org.eclipse.jdt.core.IJavaProject;
-import org.eclipse.jdt.core.IPackageFragment;
-import org.eclipse.jdt.core.IPackageFragmentRoot;
-import org.eclipse.jdt.core.JavaCore;
-import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.dialogs.IDialogSettings;
 import org.eclipse.jface.wizard.Wizard;
+import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
 
 import ar.com.fluxit.jqa.JQAEclipsePlugin;
 import ar.com.fluxit.jqa.JQAEclipseRunner;
-import ar.com.fluxit.jqa.entities.CommonType;
-import ar.com.fluxit.jqa.entities.Layer;
-import ar.com.fluxit.jqa.utils.JdtUtils;
+import ar.com.fluxit.jqa.descriptor.ArchitectureDescriptor;
+import ar.com.fluxit.jqa.context.factory.RulesContextFactoryLocator;
+import ar.com.fluxit.jqa.context.factory.exception.RulesContextFactoryException;
 import ar.com.fluxit.jqa.wizard.page.AllocationDefinitionWizardPage;
 import ar.com.fluxit.jqa.wizard.page.ApisDefinitionWizardPage;
 import ar.com.fluxit.jqa.wizard.page.CommonsTypesDefinitionWizardPage;
@@ -70,19 +58,13 @@ public class JQAWizard extends Wizard {
 	private boolean newRulesContext;
 	private IResource rulesContextFile;
 	private IProject[] targetProjects;
-	private List<Layer> layers;
-	private String implPackageText;
-	private String classPackageText;
-	private final Map<String, Set<CommonType>> commonTypes;
+	private final ArchitectureDescriptor architectureDescriptor;
 
 	public JQAWizard() {
 		setForcePreviousAndNextButtons(true);
 		restoreState();
-		this.layers = Layer.buildStandardLayers();
-		this.implPackageText = "impl";
-		this.classPackageText = "Impl";
+		this.architectureDescriptor = new ArchitectureDescriptor();
 		this.targetProjects = new IProject[0];
-		this.commonTypes = new HashMap<String, Set<CommonType>>();
 	}
 
 	@Override
@@ -100,11 +82,32 @@ public class JQAWizard extends Wizard {
 		addPage(new CommonsTypesDefinitionWizardPage());
 	}
 
+	private boolean buildContextFile() {
+		try {
+			WizardNewFileCreationPage newFilePage = (WizardNewFileCreationPage) getPage(NewRulesContextFileWizardPage.PAGE_NAME);
+			setRulesContextFile(newFilePage.createNewFile());
+			RulesContextFactoryLocator.getRulesContextFactory()
+					.buildRulesContextFile(
+							getRulesContextFile().getRawLocation().toFile(),
+							getArchitectureDescriptor());
+			return true;
+		} catch (RulesContextFactoryException e) {
+			JQAEclipsePlugin
+					.getDefault()
+					.getLog()
+					.log(new Status(IStatus.ERROR, JQAEclipsePlugin.PLUGIN_ID,
+							IStatus.OK, "Error while building rules context", e));
+			return false;
+		}
+	}
+
 	@Override
 	public boolean canFinish() {
 		if (isNewRulesContext()) {
-			// TODO
-			return false;
+			// return true;
+			// FIXME uncomment
+			return CommonsTypesDefinitionWizardPage.PAGE_NAME
+					.equals(getContainer().getCurrentPage().getName());
 		} else {
 			return TargetProjectsSelectionWizardPage.PAGE_NAME
 					.equals(getContainer().getCurrentPage().getName())
@@ -118,38 +121,8 @@ public class JQAWizard extends Wizard {
 		super.dispose();
 	}
 
-	protected void doUpdateCommonTypes(IProject[] targetProjects) {
-		try {
-			for (IProject project : targetProjects) {
-				final IJavaProject javaProject = JavaCore.create(project);
-				for (IPackageFragment packageFragment : javaProject
-						.getPackageFragments()) {
-					if (packageFragment.containsJavaResources()
-							&& packageFragment.getKind() == IPackageFragmentRoot.K_SOURCE) {
-						updateCommonTypes(packageFragment);
-					}
-				}
-			}
-		} catch (JavaModelException e) {
-			throw new IllegalStateException(
-					"Error while collecting common types", e);
-		}
-	}
-
-	public String getClassPackageText() {
-		return classPackageText;
-	}
-
-	public Map<String, Set<CommonType>> getCommonTypes() {
-		return commonTypes;
-	}
-
-	public String getImplPackageText() {
-		return implPackageText;
-	}
-
-	public List<Layer> getLayers() {
-		return layers;
+	public ArchitectureDescriptor getArchitectureDescriptor() {
+		return architectureDescriptor;
 	}
 
 	public IResource getRulesContextFile() {
@@ -166,21 +139,10 @@ public class JQAWizard extends Wizard {
 
 	@Override
 	public boolean performFinish() {
-		try {
-			JQAEclipseRunner.INSTANCE.run(getRulesContextFile(),
-					getTargetProjects());
-			return true;
-		} catch (Exception e) {
-			Status status = new Status(IStatus.ERROR,
-					JQAEclipsePlugin.PLUGIN_ID, e.getLocalizedMessage(), e);
-			JQAEclipsePlugin.getDefault().getLog().log(status);
-			ErrorDialog
-					.openError(
-							getShell(),
-							null,
-							"An error has occurred while trying to execute JQA",
-							status);
-			return false;
+		if (isNewRulesContext()) {
+			return buildContextFile();
+		} else {
+			return runContextFile();
 		}
 	}
 
@@ -218,6 +180,25 @@ public class JQAWizard extends Wizard {
 		}
 	}
 
+	private boolean runContextFile() {
+		try {
+			JQAEclipseRunner.INSTANCE.run(getRulesContextFile(),
+					getTargetProjects());
+			return true;
+		} catch (Exception e) {
+			Status status = new Status(IStatus.ERROR,
+					JQAEclipsePlugin.PLUGIN_ID, e.getLocalizedMessage(), e);
+			JQAEclipsePlugin.getDefault().getLog().log(status);
+			ErrorDialog
+					.openError(
+							getShell(),
+							null,
+							"An error has occurred while trying to execute JQA",
+							status);
+			return false;
+		}
+	}
+
 	private void saveState() {
 		final IDialogSettings settings = JQAEclipsePlugin.getDefault()
 				.getDialogSettings();
@@ -232,18 +213,6 @@ public class JQAWizard extends Wizard {
 		settings.put("newRulesContext", isNewRulesContext());
 	}
 
-	public void setClassPackageText(String classPackageText) {
-		this.classPackageText = classPackageText;
-	}
-
-	public void setImplPackageText(String text) {
-		this.implPackageText = text;
-	}
-
-	public void setLayers(List<Layer> layers) {
-		this.layers = layers;
-	}
-
 	public void setNewRulesContext(boolean newRulesContext) {
 		this.newRulesContext = newRulesContext;
 	}
@@ -254,27 +223,6 @@ public class JQAWizard extends Wizard {
 
 	public void setTargetProjects(IProject[] targetProjects) {
 		this.targetProjects = targetProjects;
-		updateCommonTypes(targetProjects);
 	}
 
-	private void updateCommonTypes(IPackageFragment packageFragment) {
-		String packageName = packageFragment.getElementName();
-		Set<CommonType> types = commonTypes.get(packageName);
-		if (types == null) {
-			types = new HashSet<CommonType>();
-			types.addAll(JdtUtils.collectCommonTypes(packageFragment));
-			commonTypes.put(packageName, types);
-		}
-	}
-
-	private void updateCommonTypes(final IProject[] targetProjects) {
-		Job job = new Job("Common types updater") {
-			@Override
-			protected IStatus run(IProgressMonitor monitor) {
-				doUpdateCommonTypes(targetProjects);
-				return Status.OK_STATUS;
-			}
-		};
-		job.schedule();
-	}
 }

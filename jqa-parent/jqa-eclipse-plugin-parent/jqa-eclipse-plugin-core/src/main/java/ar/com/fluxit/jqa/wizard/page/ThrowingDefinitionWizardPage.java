@@ -42,7 +42,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.dialogs.ISelectionStatusValidator;
 
 import ar.com.fluxit.jqa.JQAEclipsePlugin;
-import ar.com.fluxit.jqa.entities.Layer;
+import ar.com.fluxit.jqa.descriptor.LayerDescriptor;
 import ar.com.fluxit.jqa.viewer.TypeCellEditor;
 
 /**
@@ -83,7 +83,7 @@ public class ThrowingDefinitionWizardPage extends AbstractWizardPage implements
 		layerColumn.setLabelProvider(new ColumnLabelProvider() {
 			@Override
 			public String getText(Object element) {
-				Layer layer = (Layer) element;
+				LayerDescriptor layer = (LayerDescriptor) element;
 				return layer.getName();
 			}
 		});
@@ -96,7 +96,7 @@ public class ThrowingDefinitionWizardPage extends AbstractWizardPage implements
 
 			@Override
 			public String getText(Object element) {
-				Layer layer = (Layer) element;
+				LayerDescriptor layer = (LayerDescriptor) element;
 				return layer.getExceptionSuperType();
 			}
 
@@ -157,16 +157,16 @@ public class ThrowingDefinitionWizardPage extends AbstractWizardPage implements
 
 			@Override
 			protected Object getValue(Object element) {
-				return ((Layer) element).getExceptionSuperType();
+				return ((LayerDescriptor) element).getExceptionSuperType();
 			}
 
 			@Override
 			protected void setValue(Object element, Object value) {
-				((Layer) element).setExceptionSuperType((String) value);
+				((LayerDescriptor) element).setExceptionSuperType((String) value);
 				layersTable.refresh(element, true);
 			}
 		});
-		layersTable.setInput(getWizard().getLayers());
+		layersTable.setInput(getArchitectureDescriptor().getLayers());
 		setControl(container);
 		((WizardDialog) getContainer()).addPageChangedListener(this);
 	}

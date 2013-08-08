@@ -22,7 +22,7 @@ import org.eclipse.jface.viewers.CheckStateChangedEvent;
 import org.eclipse.jface.viewers.ICheckStateListener;
 import org.eclipse.jface.viewers.ICheckStateProvider;
 
-import ar.com.fluxit.jqa.entities.Layer;
+import ar.com.fluxit.jqa.descriptor.LayerDescriptor;
 
 /**
  * TODO javadoc
@@ -45,7 +45,8 @@ public class AllocationDefinitionWizardPage extends
 
 			@Override
 			public void checkStateChanged(CheckStateChangedEvent event) {
-				((Layer) event.getElement()).setAllocable(event.getChecked());
+				((LayerDescriptor) event.getElement())
+						.setAllocable(event.getChecked());
 			}
 		};
 	}
@@ -56,7 +57,7 @@ public class AllocationDefinitionWizardPage extends
 
 			@Override
 			public boolean isChecked(Object element) {
-				return ((Layer) element).isAllocable();
+				return ((LayerDescriptor) element).isAllocable();
 			}
 
 			@Override

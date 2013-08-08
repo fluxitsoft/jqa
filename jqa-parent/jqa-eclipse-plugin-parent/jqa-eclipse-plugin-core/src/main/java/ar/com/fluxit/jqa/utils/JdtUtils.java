@@ -18,19 +18,24 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.utils;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IImportDeclaration;
 import org.eclipse.jdt.core.IJavaElement;
+import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragment;
+import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaModelException;
 
-import ar.com.fluxit.jqa.entities.CommonType;
-import ar.com.fluxit.jqa.entities.Layer;
+import ar.com.fluxit.jqa.descriptor.CommonDescriptor;
+import ar.com.fluxit.jqa.descriptor.LayerDescriptor;
 
 /**
  * TODO javadoc
@@ -41,7 +46,7 @@ public abstract class JdtUtils {
 
 	private static final int COMMON_TYPE_PACKAGE_DEEP = 3;
 
-	private static boolean check(CommonType commonType, String pkgName) {
+	private static boolean check(CommonDescriptor commonType, String pkgName) {
 		if ("java".equals(commonType.getTypeName())) {
 			// java is outside the discussion
 			return false;
@@ -60,14 +65,14 @@ public abstract class JdtUtils {
 		}
 	}
 
-	private static Collection<CommonType> collectCommonTypes(
+	private static Collection<CommonDescriptor> collectCommonTypes(
 			ICompilationUnit compilationUnit) {
 		try {
-			Collection<CommonType> result = new ArrayList<CommonType>();
+			Collection<CommonDescriptor> result = new ArrayList<CommonDescriptor>();
 			for (IImportDeclaration importDeclaration : compilationUnit
 					.getImports()) {
-				result.add(new CommonType(getCommonTypeName(importDeclaration),
-						true));
+				result.add(new CommonDescriptor(
+						getCommonTypeName(importDeclaration), true));
 			}
 			return result;
 		} catch (JavaModelException e) {
@@ -76,14 +81,14 @@ public abstract class JdtUtils {
 		}
 	}
 
-	public static Collection<CommonType> collectCommonTypes(
+	public static Collection<CommonDescriptor> collectCommonTypes(
 			IPackageFragment packageFragment) {
 		try {
-			Collection<CommonType> result = new ArrayList<CommonType>();
+			Collection<CommonDescriptor> result = new ArrayList<CommonDescriptor>();
 			ICompilationUnit[] compilationUnits = packageFragment
 					.getCompilationUnits();
 			for (ICompilationUnit compilationUnit : compilationUnits) {
-				for (CommonType commonType : JdtUtils
+				for (CommonDescriptor commonType : JdtUtils
 						.collectCommonTypes(compilationUnit)) {
 					if (check(commonType, packageFragment.getElementName())) {
 						result.add(commonType);
@@ -95,6 +100,11 @@ public abstract class JdtUtils {
 			throw new IllegalStateException(
 					"Error while processing common types", e);
 		}
+	}
+
+	public static File getAbsolutePath(IPath path) throws JavaModelException {
+		return ResourcesPlugin.getWorkspace().getRoot().findMember(path)
+				.getLocation().toFile();
 	}
 
 	private static String getCommonTypeName(IImportDeclaration importDeclaration) {
@@ -113,11 +123,24 @@ public abstract class JdtUtils {
 		}
 	}
 
-	public static boolean hasCommonTypes(Layer element,
-			Map<String, Set<CommonType>> commonTypes) {
-		for (IJavaElement pkg : element.getPackages()) {
-			Collection<CommonType> collection = commonTypes.get(pkg
-					.getElementName());
+	public static File[] getSourcesDirs(IJavaProject javaProject)
+			throws JavaModelException {
+		Collection<File> result = new ArrayList<File>();
+		IPackageFragmentRoot[] packageFragmentRoot = javaProject
+				.getAllPackageFragmentRoots();
+		for (int i = 0; i < packageFragmentRoot.length; i++) {
+			if (packageFragmentRoot[i].getElementType() == IJavaElement.PACKAGE_FRAGMENT_ROOT
+					&& !packageFragmentRoot[i].isArchive()) {
+				result.add(getAbsolutePath(packageFragmentRoot[i].getPath()));
+			}
+		}
+		return result.toArray(new File[result.size()]);
+	}
+
+	public static boolean hasCommonTypes(LayerDescriptor element,
+			Map<String, Set<CommonDescriptor>> commonTypes) {
+		for (String pkg : element.getPackages()) {
+			Collection<CommonDescriptor> collection = commonTypes.get(pkg);
 			if (collection != null && !collection.isEmpty()) {
 				return true;
 			}
@@ -125,4 +148,13 @@ public abstract class JdtUtils {
 		return false;
 	}
 
+	public static boolean isSourcePackage(IPackageFragment packageFragment) {
+		try {
+			return packageFragment.containsJavaResources()
+					&& packageFragment.getKind() == IPackageFragmentRoot.K_SOURCE;
+		} catch (JavaModelException e) {
+			throw new IllegalStateException(
+					"An error has occurred while collection Java packages", e);
+		}
+	}
 }

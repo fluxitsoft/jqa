@@ -1,7 +1,7 @@
 /*******************************************************************************
- * Copyright (c) 2011 Flux IT.
+ * Copyright (c) 2013 Flux IT.
  * 
- * This file is part of JQA (http://github.com/jbaris/jqa).
+ * This file is part of JQA (http://github.com/fluxitsoft/jqa).
  * 
  * JQA is free software: you can redistribute it and/or modify it 
  * under the terms of the GNU Lesser General Public License as 
@@ -16,29 +16,29 @@
  * You should have received a copy of the GNU Lesser General Public 
  * License along with JQA. If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package ar.com.fluxit.jqa.viewer;
+package ar.com.fluxit.jqa.context.factory;
 
-import org.eclipse.jface.viewers.ArrayContentProvider;
-import org.eclipse.zest.core.viewers.IGraphEntityContentProvider;
+import java.net.URL;
 
-import ar.com.fluxit.jqa.descriptor.LayerDescriptor;
+import junit.framework.TestCase;
+import ar.com.fluxit.jqa.context.factory.exception.RulesContextFactoryException;
 
 /**
  * TODO javadoc
  * 
  * @author Juan Ignacio Barisich
  */
-public class LayersGraphContentProvider extends ArrayContentProvider implements
-		IGraphEntityContentProvider {
+public class RulesContext3Test extends TestCase {
 
-	@Override
-	public Object[] getConnectedTo(Object entity) {
-		if (entity instanceof LayerDescriptor) {
-			LayerDescriptor layer = (LayerDescriptor) entity;
-			return layer.getUsages().toArray();
+	public void testInvalidRulesContextImportByName() {
+		final RulesContextFactory rulesContextFactory = RulesContextFactoryLocator.getRulesContextFactory();
+		final URL resource = RulesContext3Test.class.getResource("/invalid_rulesContext_import.xml");
+		try {
+			rulesContextFactory.getRulesContext(resource.getPath());
+			fail("RulesContextFactoryException expected");
+		} catch (final RulesContextFactoryException e) {
+			// test ok
 		}
-		throw new IllegalArgumentException("Type not supported: "
-				+ entity.getClass().getName());
 	}
 
 }

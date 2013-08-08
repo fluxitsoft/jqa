@@ -47,7 +47,7 @@ import ar.com.fluxit.jqa.rule.RuleSet;
  * 
  * @author Juan Ignacio Barisich
  */
-public class RulesContextImplTest extends TestCase {
+public class RulesContext1Test extends TestCase {
 
 	private RulesContext rulesContext;
 
@@ -65,7 +65,7 @@ public class RulesContextImplTest extends TestCase {
 	@Override
 	protected void setUp() throws Exception {
 		final RulesContextFactory rulesContextFactory = RulesContextFactoryLocator.getRulesContextFactory();
-		final URL resource = RulesContextImplTest.class.getResource("/sample_rulescontext.xml");
+		final URL resource = RulesContext1Test.class.getResource("/sample_rulescontext.xml");
 		this.rulesContext = rulesContextFactory.getRulesContext(resource.getPath());
 	}
 
@@ -142,7 +142,7 @@ public class RulesContextImplTest extends TestCase {
 
 	public void testInvalidRulesContextFile() throws RulesContextFactoryException {
 		final RulesContextFactory rulesContextFactory = RulesContextFactoryLocator.getRulesContextFactory();
-		final URL resource = RulesContextImplTest.class.getResource("/invalid_rulescontext.xml");
+		final URL resource = RulesContext1Test.class.getResource("/invalid_rulescontext.xml");
 		try {
 			rulesContextFactory.getRulesContext(resource.getPath());
 			fail("Must throw an RulesContextFactoryException");

@@ -18,66 +18,72 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.viewer;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.eclipse.jdt.core.IJavaElement;
+import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jface.viewers.StructuredSelection;
-import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerDropAdapter;
 import org.eclipse.jface.wizard.IWizardContainer;
 import org.eclipse.swt.dnd.DropTargetEvent;
 import org.eclipse.swt.dnd.TransferData;
 
-import ar.com.fluxit.jqa.entities.Layer;
+import ar.com.fluxit.jqa.descriptor.CommonDescriptor;
+import ar.com.fluxit.jqa.descriptor.LayerDescriptor;
+import ar.com.fluxit.jqa.utils.JdtUtils;
 
 /**
  * TODO javadoc
  * 
  * @author Juan Ignacio Barisich
  */
-public class LayersListTableDropListener extends ViewerDropAdapter {
+public class LayersTableDropListener extends ViewerDropAdapter {
 
-	private final TableViewer targetPackagesTable;
-	private final Holder<Collection<IJavaElement>> inputHolder;
-	private final Holder<Viewer> viewerHolder;
+	// target drag
+	private final Holder<DropStrategy> dropStrategyHolder;
+	// target wizard
 	private final IWizardContainer wizardContainer;
 
-	public LayersListTableDropListener(Viewer viewer,
-			TableViewer targetPackagesTable, Holder<Viewer> viewerHolder,
-			Holder<Collection<IJavaElement>> inputHolder,
+	public LayersTableDropListener(Viewer viewer,
+			Holder<DropStrategy> dropStrategyHolder,
 			IWizardContainer wizardContainer) {
 		super(viewer);
-		this.targetPackagesTable = targetPackagesTable;
-		this.viewerHolder = viewerHolder;
-		this.inputHolder = inputHolder;
+		this.dropStrategyHolder = dropStrategyHolder;
 		this.wizardContainer = wizardContainer;
 	}
 
 	@Override
-	public void drop(DropTargetEvent event) {
-		Layer targetLayer = (Layer) event.item.getData();
-		final IJavaElement[] droppedPackages = (IJavaElement[]) event.data;
-		targetLayer.getPackages().addAll(Arrays.asList(droppedPackages));
-		getDragInputHolder().getValue().removeAll(
-				Arrays.asList(droppedPackages));
-		getDragViewerHolder().getValue().refresh();
+	public void drop(final DropTargetEvent event) {
+		// TODO run in background because this blocks the screen
+		final LayerDescriptor targetLayer = (LayerDescriptor) event.item
+				.getData();
+		final IJavaElement[] packages = (IJavaElement[]) event.data;
+		final Collection<String> droppedPackages = new ArrayList<String>(
+				packages.length);
+		Set<CommonDescriptor> commonTypes = new HashSet<CommonDescriptor>(
+				targetLayer.getCommons().size());
+		for (IJavaElement pkg : packages) {
+			droppedPackages.add(((IPackageFragment) pkg).getElementName());
+			commonTypes.addAll(JdtUtils
+					.collectCommonTypes((IPackageFragment) pkg));
+		}
+		targetLayer.addPackages(droppedPackages);
+		if (!targetLayer.getCommons().equals(commonTypes)) {
+			// Avoid lose the common types assignments
+			targetLayer.setCommons(commonTypes);
+		}
 		getViewer().setSelection(new StructuredSelection(targetLayer));
+		getDropStrategyHolder().getValue().drop(droppedPackages);
 		getViewer().refresh();
 		getWizardContainer().updateButtons();
 	}
 
-	private Holder<Collection<IJavaElement>> getDragInputHolder() {
-		return inputHolder;
-	}
-
-	private Holder<Viewer> getDragViewerHolder() {
-		return viewerHolder;
-	}
-
-	public TableViewer getTargetPackagesTable() {
-		return targetPackagesTable;
+	public Holder<DropStrategy> getDropStrategyHolder() {
+		return dropStrategyHolder;
 	}
 
 	private IWizardContainer getWizardContainer() {
@@ -93,10 +99,12 @@ public class LayersListTableDropListener extends ViewerDropAdapter {
 	public boolean validateDrop(Object target, int operation, TransferData data) {
 		final boolean result = determineLocation(getCurrentEvent()) == ViewerDropAdapter.LOCATION_ON;
 		if (result) {
-			Layer targetLayer = (Layer) determineTarget(getCurrentEvent());
+			// shows the current layer content
+			LayerDescriptor targetLayer = (LayerDescriptor) determineTarget(getCurrentEvent());
 			getViewer().setSelection(new StructuredSelection(targetLayer));
 			getViewer().refresh();
 		}
 		return result;
 	}
+
 }

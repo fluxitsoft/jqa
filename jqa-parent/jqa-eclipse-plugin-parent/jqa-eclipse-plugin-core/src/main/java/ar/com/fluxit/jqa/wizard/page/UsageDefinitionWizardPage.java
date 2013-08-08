@@ -43,7 +43,7 @@ import org.eclipse.zest.layouts.LayoutAlgorithm;
 import org.eclipse.zest.layouts.LayoutStyles;
 import org.eclipse.zest.layouts.algorithms.TreeLayoutAlgorithm;
 
-import ar.com.fluxit.jqa.entities.Layer;
+import ar.com.fluxit.jqa.descriptor.LayerDescriptor;
 import ar.com.fluxit.jqa.viewer.LayersGraphContentProvider;
 import ar.com.fluxit.jqa.viewer.LayersGraphLabelProvider;
 
@@ -93,23 +93,35 @@ public class UsageDefinitionWizardPage extends AbstractWizardPage implements
 					EntityConnectionData connection = findConnection(selectedObjects);
 					if (connection == null) {
 						if (selectedObjects.size() > 1) {
-							Layer sourceLayer = (Layer) selectedObjects.get(0);
-							Layer destinationLayer = (Layer) selectedObjects
+							LayerDescriptor sourceLayer = (LayerDescriptor) selectedObjects
+									.get(0);
+							LayerDescriptor destinationLayer = (LayerDescriptor) selectedObjects
 									.get(1);
 							sourceLayer.addUsage(destinationLayer);
 							viewer.refresh();
 							viewer.setSelection(StructuredSelection.EMPTY);
 						}
 					} else {
-						((Layer) connection.source)
-								.removeUsage((Layer) connection.dest);
+						((LayerDescriptor) connection.source)
+								.removeUsage((LayerDescriptor) connection.dest);
 						viewer.refresh();
 						viewer.setSelection(StructuredSelection.EMPTY);
 					}
 				}
 			}
 		});
+
 		final Menu menu = new Menu(viewer.getGraphControl());
+
+		MenuItem layoutMenuItem = new MenuItem(menu, SWT.PUSH);
+		layoutMenuItem.setText("Layout");
+		layoutMenuItem.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				viewer.applyLayout();
+			}
+		});
+
 		MenuItem resetMenuItem = new MenuItem(menu, SWT.PUSH);
 		resetMenuItem.setText("Reset");
 		resetMenuItem.addSelectionListener(new SelectionAdapter() {
@@ -118,19 +130,12 @@ public class UsageDefinitionWizardPage extends AbstractWizardPage implements
 				boolean openConfirm = MessageDialog.openConfirm(
 						menu.getShell(), "Confirm reset", "Are you sure?");
 				if (openConfirm) {
-					for (Layer layer : getWizard().getLayers()) {
+					for (LayerDescriptor layer : getArchitectureDescriptor()
+							.getLayers()) {
 						layer.clearUsages();
 						viewer.refresh();
 					}
 				}
-			}
-		});
-		MenuItem layoutMenuItem = new MenuItem(menu, SWT.PUSH);
-		layoutMenuItem.setText("Layout");
-		layoutMenuItem.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				viewer.applyLayout();
 			}
 		});
 
@@ -155,7 +160,7 @@ public class UsageDefinitionWizardPage extends AbstractWizardPage implements
 			// viewer. The empty list is for a BUG (NullPointerException) on
 			// org.eclipse.zest.core.viewers.internal.AbstractStylingModelFactory:325
 			viewer.setInput(Collections.emptyList());
-			viewer.setInput(getWizard().getLayers());
+			viewer.setInput(getArchitectureDescriptor().getLayers());
 		}
 	}
 

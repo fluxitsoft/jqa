@@ -36,6 +36,7 @@ import ar.com.fluxit.jqa.context.RulesContext;
 import ar.com.fluxit.jqa.context.RulesContextImpl;
 import ar.com.fluxit.jqa.context.factory.RulesContextFactory;
 import ar.com.fluxit.jqa.context.factory.exception.RulesContextFactoryException;
+import ar.com.fluxit.jqa.descriptor.ArchitectureDescriptor;
 import ar.com.fluxit.jqa.predicate.AbstractPredicate;
 import ar.com.fluxit.jqa.predicate.CheckPredicate;
 import ar.com.fluxit.jqa.predicate.Predicate;
@@ -70,48 +71,68 @@ import ar.com.fluxit.jqa.schema.ruleset.XORPredicate;
  */
 public class RulesContextFactoryImpl implements RulesContextFactory {
 
-	private static Logger LOGGER = LoggerFactory.getLogger(RulesContextFactoryImpl.class);
+	private static Logger LOGGER = LoggerFactory
+			.getLogger(RulesContextFactoryImpl.class);
+
+	@Override
+	public void buildRulesContextFile(File targetFile,
+			ArchitectureDescriptor archDescriptor)
+			throws RulesContextFactoryException {
+		RulesContextFileBuilder.INSTANCE.buildRulesContextFile(targetFile,
+				archDescriptor);
+	}
 
 	private String getAbsolutePath(String resource, String basePath) {
 		return basePath + File.separatorChar + resource;
 	}
 
 	@Override
-	public RulesContext getRulesContext(InputStream inputStream, String packageBase) throws RulesContextFactoryException {
+	public RulesContext getRulesContext(InputStream inputStream,
+			String packageBase) throws RulesContextFactoryException {
 		try {
-			final RulesContextDocument document = RulesContextDocument.Factory.parse(inputStream);
+			final RulesContextDocument document = RulesContextDocument.Factory
+					.parse(inputStream);
 			validate(document, inputStream.toString());
 			return parse(document.getRulesContext(), packageBase);
 		} catch (final RulesContextFactoryException e) {
 			throw e;
 		} catch (final XmlException e) {
-			throw new RulesContextFactoryException("Invalid rules context file: " + inputStream.toString(), e);
+			throw new RulesContextFactoryException(
+					"Invalid rules context file: " + inputStream.toString(), e);
 		} catch (final IOException e) {
-			throw new RulesContextFactoryException("Error reading rules context file: " + inputStream.toString(), e);
+			throw new RulesContextFactoryException(
+					"Error reading rules context file: "
+							+ inputStream.toString(), e);
 		} catch (final Exception e) {
 			throw new RulesContextFactoryException(e);
 		}
 	}
 
 	@Override
-	public RulesContext getRulesContext(String resource) throws RulesContextFactoryException {
+	public RulesContext getRulesContext(String resource)
+			throws RulesContextFactoryException {
 		try {
 			final File sourceFile = new File(resource);
-			final RulesContextDocument document = RulesContextDocument.Factory.parse(sourceFile);
+			final RulesContextDocument document = RulesContextDocument.Factory
+					.parse(sourceFile);
 			validate(document, sourceFile.toString());
 			return parse(document.getRulesContext(), sourceFile.getParent());
 		} catch (final RulesContextFactoryException e) {
 			throw e;
 		} catch (final XmlException e) {
-			throw new RulesContextFactoryException("Invalid rules context file: " + resource, e);
+			throw new RulesContextFactoryException(
+					"Invalid rules context file: " + resource, e);
 		} catch (final IOException e) {
-			throw new RulesContextFactoryException("Error reading rules context file: " + resource, e);
+			throw new RulesContextFactoryException(
+					"Error reading rules context file: " + resource, e);
 		} catch (final Exception e) {
 			throw new RulesContextFactoryException(e);
 		}
 	}
 
-	private RulesContext importRulesContext(InputStream resourceURL, String basePath, String resource) throws RulesContextFactoryException {
+	private RulesContext importRulesContext(InputStream resourceURL,
+			String basePath, String resource)
+			throws RulesContextFactoryException {
 		RulesContextDocument document;
 		try {
 			document = RulesContextDocument.Factory.parse(resourceURL);
@@ -146,15 +167,20 @@ public class RulesContextFactoryImpl implements RulesContextFactory {
 		return result;
 	}
 
-	private RulesContext parse(ar.com.fluxit.jqa.schema.rulescontext.RulesContext rulesContext, String basePath) throws RulesContextFactoryException {
+	private RulesContext parse(
+			ar.com.fluxit.jqa.schema.rulescontext.RulesContext rulesContext,
+			String basePath) throws RulesContextFactoryException {
 		final RulesContextImpl result = new RulesContextImpl();
-		for (final ar.com.fluxit.jqa.schema.ruleset.Predicate globalPredicate : rulesContext.getGlobalPredicateList()) {
+		for (final ar.com.fluxit.jqa.schema.ruleset.Predicate globalPredicate : rulesContext
+				.getGlobalPredicateList()) {
 			result.add((Predicate) parse(globalPredicate));
 		}
-		for (final GlobalVariable globalVariable : rulesContext.getGlobalVariableList()) {
+		for (final GlobalVariable globalVariable : rulesContext
+				.getGlobalVariableList()) {
 			result.add(globalVariable.getName(), globalVariable.getValue());
 		}
-		for (final RulesContextImport rulesContextImport : rulesContext.getRulesContextImportList()) {
+		for (final RulesContextImport rulesContextImport : rulesContext
+				.getRulesContextImportList()) {
 			result.add(parse(rulesContextImport, basePath));
 		}
 		for (final Ruleset ruleSet : rulesContext.getRuleSetList()) {
@@ -163,11 +189,13 @@ public class RulesContextFactoryImpl implements RulesContextFactory {
 		return result;
 	}
 
-	AbstractionType parse(ar.com.fluxit.jqa.schema.ruleset.AbstractionType.Enum type) {
+	AbstractionType parse(
+			ar.com.fluxit.jqa.schema.ruleset.AbstractionType.Enum type) {
 		return AbstractionType.valueOf(type.toString());
 	}
 
-	private void parse(ar.com.fluxit.jqa.schema.ruleset.Predicate predicate, AbstractPredicate result) {
+	private void parse(ar.com.fluxit.jqa.schema.ruleset.Predicate predicate,
+			AbstractPredicate result) {
 		result.setName(predicate.getName());
 	}
 
@@ -175,17 +203,23 @@ public class RulesContextFactoryImpl implements RulesContextFactory {
 		final String name = rule.getName();
 		final String message = rule.getMessage();
 		final int priority = rule.getPriority();
-		final Predicate filterPredicate = (Predicate) parse(rule.getFilterPredicate());
-		final CheckPredicate checkPredicate = (CheckPredicate) parse(rule.getCheckPredicate());
-		final RuleImpl result = new RuleImpl(filterPredicate, checkPredicate, name, message);
+		final Predicate filterPredicate = (Predicate) parse(rule
+				.getFilterPredicate());
+		final CheckPredicate checkPredicate = (CheckPredicate) parse(rule
+				.getCheckPredicate());
+		final RuleImpl result = new RuleImpl(filterPredicate, checkPredicate,
+				name, message);
 		if (priority > 0) {
 			result.setPriority(priority);
 		}
 		return result;
 	}
 
-	private void parse(ar.com.fluxit.jqa.schema.ruleset.VarArgsLogicPredicate predicate, VarArgsLogicPredicate result) {
-		final Predicate[] predicates = new Predicate[predicate.getPredicateList().size()];
+	private void parse(
+			ar.com.fluxit.jqa.schema.ruleset.VarArgsLogicPredicate predicate,
+			VarArgsLogicPredicate result) {
+		final Predicate[] predicates = new Predicate[predicate
+				.getPredicateList().size()];
 		for (int i = 0; i < predicates.length; i++) {
 			predicates[i] = (Predicate) parse(predicate.getPredicateArray(i));
 		}
@@ -221,9 +255,12 @@ public class RulesContextFactoryImpl implements RulesContextFactory {
 
 	private Object parse(Object source) {
 		try {
-			return getClass().getDeclaredMethod("parse", new Class[] { source.getClass().getInterfaces()[0] }).invoke(this, new Object[] { source });
+			return getClass().getDeclaredMethod("parse",
+					new Class[] { source.getClass().getInterfaces()[0] })
+					.invoke(this, new Object[] { source });
 		} catch (final Exception e) {
-			throw new IllegalArgumentException("Cannot parse object: " + source, e);
+			throw new IllegalArgumentException(
+					"Cannot parse object: " + source, e);
 		}
 	}
 
@@ -233,25 +270,34 @@ public class RulesContextFactoryImpl implements RulesContextFactory {
 		return result;
 	}
 
-	private RulesContext parse(RulesContextImport rulesContextImport, String basePath) throws RulesContextFactoryException {
+	private RulesContext parse(RulesContextImport rulesContextImport,
+			String basePath) throws RulesContextFactoryException {
 		InputStream imported = null;
 		try {
 			RulesContext result;
-			LOGGER.info("Parsing rules resource = " + rulesContextImport.getResource());
+			LOGGER.info("Parsing rules resource = "
+					+ rulesContextImport.getResource());
 			imported = resolveImport(rulesContextImport.getResource(), basePath);
-			result = importRulesContext(imported, basePath, rulesContextImport.getResource());
+			result = importRulesContext(imported, basePath,
+					rulesContextImport.getResource());
 			if (result == null) {
-				throw new IllegalArgumentException("Invalid RulesContext import: " + rulesContextImport.getResource());
+				throw new IllegalArgumentException(
+						"Invalid RulesContext import: "
+								+ rulesContextImport.getResource());
 			}
 			return result;
 		} catch (final Exception e) {
-			throw new RulesContextFactoryException("An error has occured while parsing RulesContext: " + rulesContextImport.getResource(), e);
+			throw new RulesContextFactoryException(
+					"An error has occured while parsing RulesContext: "
+							+ rulesContextImport.getResource(), e);
 		} finally {
 			if (imported != null) {
 				try {
 					imported.close();
 				} catch (final IOException e) {
-					LOGGER.error("An error has occured while closing resource: " + rulesContextImport.getResource(), e);
+					LOGGER.error(
+							"An error has occured while closing resource: "
+									+ rulesContextImport.getResource(), e);
 				}
 			}
 		}
@@ -260,8 +306,10 @@ public class RulesContextFactoryImpl implements RulesContextFactory {
 	private RuleSet parse(Ruleset rulesetDocument) {
 		final RuleSetImpl result = new RuleSetImpl();
 		result.setName(rulesetDocument.getName());
-		final List<Rule> rules = new ArrayList<Rule>(rulesetDocument.getRuleList().size());
-		for (final ar.com.fluxit.jqa.schema.ruleset.Rule rule : rulesetDocument.getRuleList()) {
+		final List<Rule> rules = new ArrayList<Rule>(rulesetDocument
+				.getRuleList().size());
+		for (final ar.com.fluxit.jqa.schema.ruleset.Rule rule : rulesetDocument
+				.getRuleList()) {
 			rules.add(parse(rule));
 		}
 		result.setRules(rules);
@@ -299,13 +347,16 @@ public class RulesContextFactoryImpl implements RulesContextFactory {
 		return result;
 	}
 
-	private InputStream resolveImport(String resource, String basePath) throws FileNotFoundException {
-		final String fileName = isAbsolute(resource) ? resource : getAbsolutePath(resource, basePath);
+	private InputStream resolveImport(String resource, String basePath)
+			throws FileNotFoundException {
+		final String fileName = isAbsolute(resource) ? resource
+				: getAbsolutePath(resource, basePath);
 		final File file = new File(fileName);
 		if (file.exists()) {
 			return new FileInputStream(file);
 		} else {
-			InputStream resourceAsStream = getClass().getResourceAsStream(resource);
+			InputStream resourceAsStream = getClass().getResourceAsStream(
+					resource);
 			if (resourceAsStream == null) {
 				resourceAsStream = getClass().getResourceAsStream(fileName);
 			}
@@ -313,7 +364,8 @@ public class RulesContextFactoryImpl implements RulesContextFactory {
 		}
 	}
 
-	private void validate(XmlObject document, String resource) throws RulesContextFactoryException {
+	private void validate(XmlObject document, String resource)
+			throws RulesContextFactoryException {
 		final List<Object> validationErrors = new ArrayList<Object>();
 		final XmlOptions voptions = new XmlOptions();
 		voptions.setErrorListener(validationErrors);
@@ -323,7 +375,8 @@ public class RulesContextFactoryImpl implements RulesContextFactory {
 				errors.append(error);
 				errors.append("\n");
 			}
-			throw new RulesContextFactoryException("Invalid file :" + resource + "\n" + errors);
+			throw new RulesContextFactoryException("Invalid file :" + resource
+					+ "\n" + errors);
 		}
 	}
 }

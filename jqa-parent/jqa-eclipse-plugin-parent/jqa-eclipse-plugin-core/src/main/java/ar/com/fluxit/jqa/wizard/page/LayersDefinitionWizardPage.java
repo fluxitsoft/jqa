@@ -28,7 +28,6 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragment;
-import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.internal.corext.refactoring.reorg.JavaElementTransfer;
@@ -48,6 +47,7 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
@@ -63,10 +63,13 @@ import org.eclipse.swt.widgets.ToolBar;
 import ar.com.fluxit.jqa.actions.EditLayerAction;
 import ar.com.fluxit.jqa.actions.NewLayerAction;
 import ar.com.fluxit.jqa.actions.RemoveLayerAction;
-import ar.com.fluxit.jqa.entities.Layer;
+import ar.com.fluxit.jqa.descriptor.LayerDescriptor;
+import ar.com.fluxit.jqa.utils.JdtUtils;
+import ar.com.fluxit.jqa.viewer.DropStrategy;
 import ar.com.fluxit.jqa.viewer.Holder;
 import ar.com.fluxit.jqa.viewer.LayerCellModifier;
-import ar.com.fluxit.jqa.viewer.LayersListTableDropListener;
+import ar.com.fluxit.jqa.viewer.LayerPackagesContentProvider;
+import ar.com.fluxit.jqa.viewer.LayersTableDropListener;
 import ar.com.fluxit.jqa.viewer.TargetPackagesDragListener;
 
 /**
@@ -79,32 +82,30 @@ public class LayersDefinitionWizardPage extends AbstractWizardPage implements
 		IPageChangedListener {
 
 	public static final String PAGE_NAME = "LayersDefinitionWizardPage";
+
 	private TableViewer layerPackagesTable;
 	private TableViewer targetPackagesTable;
+	private TableViewer layersTable;
 	private final Transfer[] transferTypes;
-	private final Holder<Viewer> viewerHolder;
-	private final Holder<Collection<IJavaElement>> inputHolder;
+	private final Holder<DropStrategy> dropStrategyHolder;
 
 	public LayersDefinitionWizardPage() {
 		super(PAGE_NAME);
 		setTitle("Layers definition");
 		setDescription("Define the layers of the target application");
 		transferTypes = new Transfer[] { JavaElementTransfer.getInstance() };
-		inputHolder = new Holder<Collection<IJavaElement>>();
-		viewerHolder = new Holder<Viewer>();
+		dropStrategyHolder = new Holder<DropStrategy>();
 	}
 
 	private List<IJavaElement> collectNonEmptyUnassignedPackages() {
-		// TODO improve with viewer filters
 		try {
 			List<IJavaElement> result = new ArrayList<IJavaElement>();
 			for (IProject project : getWizard().getTargetProjects()) {
 				final IJavaProject javaProject = JavaCore.create(project);
 				for (IPackageFragment packageFragment : javaProject
 						.getPackageFragments()) {
-					if (packageFragment.containsJavaResources()
-							&& packageFragment.getKind() == IPackageFragmentRoot.K_SOURCE 
-							&& !isAssigned(getWizard().getLayers(), packageFragment)) {
+					if (JdtUtils.isSourcePackage(packageFragment)
+							&& !isAssigned(packageFragment)) {
 						result.add(packageFragment);
 					}
 				}
@@ -141,15 +142,33 @@ public class LayersDefinitionWizardPage extends AbstractWizardPage implements
 		layerPackagesTable = new TableViewer(layerPackagesGroup, SWT.BORDER
 				| SWT.V_SCROLL | SWT.H_SCROLL | SWT.MULTI);
 		layerPackagesTable.setLabelProvider(targetPackagesLabelProvider);
-		layerPackagesTable.setContentProvider(ArrayContentProvider
-				.getInstance());
+		layerPackagesTable.setContentProvider(new LayerPackagesContentProvider(
+				new Holder<IProject[]>() {
+					@Override
+					public IProject[] getValue() {
+						return getWizard().getTargetProjects();
+					}
+				}));
 		layerPackagesTable.setComparator(new JavaElementComparator());
 		layerPackagesTable.setInput(Collections.emptySet());
 		layerPackagesTable.getTable().setLayoutData(
 				new GridData(GridData.FILL_BOTH));
+		DropStrategy dropStrategy = new DropStrategy() {
+
+			@Override
+			public void drop(Collection<String> droppedPackages) {
+				getSourceLayer().removePackages(droppedPackages);
+			}
+		};
 		layerPackagesTable.addDragSupport(DND.DROP_MOVE, getTransferTypes(),
 				new TargetPackagesDragListener(layerPackagesTable,
-						getDragViewerHolder(), getDragInputHolder()));
+						getDropStrategyHolder(), dropStrategy) {
+					@Override
+					public LayerDescriptor getSourceLayer() {
+						return (LayerDescriptor) ((StructuredSelection) layersTable
+								.getSelection()).getFirstElement();
+					}
+				});
 	}
 
 	private void createLayersGroup(SashForm sash) {
@@ -166,16 +185,16 @@ public class LayersDefinitionWizardPage extends AbstractWizardPage implements
 		viewForm.setTopLeft(toolBar);
 		viewForm.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
-		TableViewer layersTable = new TableViewer(layersGroup, SWT.SINGLE
-				| SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL);
+		layersTable = new TableViewer(layersGroup, SWT.SINGLE | SWT.BORDER
+				| SWT.V_SCROLL | SWT.H_SCROLL);
 		layersTable.getTable().setLayoutData(new GridData(GridData.FILL_BOTH));
 		layersTable.setContentProvider(ArrayContentProvider.getInstance());
-		layersTable.setInput(getWizard().getLayers());
+		layersTable.setInput(getArchitectureDescriptor().getLayers());
 		layersTable.setLabelProvider(new ColumnLabelProvider() {
 
 			@Override
 			public String getText(Object element) {
-				Layer layer = (Layer) element;
+				LayerDescriptor layer = (LayerDescriptor) element;
 				String result = layer.getName();
 				if (!layer.getPackages().isEmpty()) {
 					result += " (" + layer.getPackages().size() + ")";
@@ -187,14 +206,14 @@ public class LayersDefinitionWizardPage extends AbstractWizardPage implements
 				layersTable.getTable()) });
 		layersTable.setCellModifier(new LayerCellModifier(layersTable));
 		layersTable.setColumnProperties(new String[] { "layer" });
-		toolBarManager.add(new NewLayerAction(getWizard().getLayers(),
+		toolBarManager.add(new NewLayerAction(getArchitectureDescriptor().getLayers(),
 				layersTable));
 		final EditLayerAction editLayerAction = new EditLayerAction(layersTable);
 		editLayerAction.setEnabled(false);
 		toolBarManager.add(editLayerAction);
 		final RemoveLayerAction removeLayerAction = new RemoveLayerAction(
-				getWizard().getLayers(), layersTable, targetPackagesTable,
-				getContainer());
+				getArchitectureDescriptor().getLayers(), layersTable,
+				targetPackagesTable, getContainer());
 		removeLayerAction.setEnabled(false);
 		toolBarManager.add(removeLayerAction);
 		toolBarManager.update(true);
@@ -209,9 +228,8 @@ public class LayersDefinitionWizardPage extends AbstractWizardPage implements
 					}
 				});
 		layersTable.addDropSupport(DND.DROP_MOVE, getTransferTypes(),
-				new LayersListTableDropListener(layersTable,
-						targetPackagesTable, getDragViewerHolder(),
-						getDragInputHolder(), getContainer()));
+				new LayersTableDropListener(layersTable,
+						getDropStrategyHolder(), getContainer()));
 	}
 
 	private Group createTargetPackagesGroup(SashForm sash) {
@@ -228,33 +246,49 @@ public class LayersDefinitionWizardPage extends AbstractWizardPage implements
 		targetPackagesTable.setComparator(new JavaElementComparator());
 		targetPackagesTable.getTable().setLayoutData(
 				new GridData(GridData.FILL_BOTH));
+		DropStrategy dropStrategy = new DropStrategy() {
+
+			@Override
+			public void drop(Collection<String> droppedPackages) {
+				targetPackagesTable.refresh(false);
+			}
+		};
 		targetPackagesTable.addDragSupport(DND.DROP_MOVE, getTransferTypes(),
 				new TargetPackagesDragListener(targetPackagesTable,
-						getDragViewerHolder(), getDragInputHolder()));
+						getDropStrategyHolder(), dropStrategy) {
+					@Override
+					public LayerDescriptor getSourceLayer() {
+						// no source layer
+						return null;
+					}
+				});
+		targetPackagesTable.addFilter(new ViewerFilter() {
+
+			@Override
+			public boolean select(Viewer arg0, Object arg1, Object arg2) {
+				return !isAssigned((IJavaElement) arg2);
+			}
+		});
 		return targetPackagesGroup;
 	}
 
-	private boolean isAssigned(List<Layer> layers, IJavaElement element) {
-		for(Layer layer: layers) {
-			for(IJavaElement pkg : layer.getPackages()) {
-				if(pkg.equals(element)) {
+	public Holder<DropStrategy> getDropStrategyHolder() {
+		return dropStrategyHolder;
+	}
+
+	public Transfer[] getTransferTypes() {
+		return transferTypes;
+	}
+
+	private boolean isAssigned(IJavaElement element) {
+		for (LayerDescriptor layer : getArchitectureDescriptor().getLayers()) {
+			for (String pkg : layer.getPackages()) {
+				if (pkg.equals(element.getElementName())) {
 					return true;
 				}
 			}
 		}
 		return false;
-	}
-
-	private Holder<Collection<IJavaElement>> getDragInputHolder() {
-		return inputHolder;
-	}
-
-	private Holder<Viewer> getDragViewerHolder() {
-		return viewerHolder;
-	}
-
-	public Transfer[] getTransferTypes() {
-		return transferTypes;
 	}
 
 	@Override
@@ -270,17 +304,6 @@ public class LayersDefinitionWizardPage extends AbstractWizardPage implements
 		updateLayerPackagesGroup(selection);
 	}
 
-	private void updateLayerPackagesGroup(ISelection selection) {
-		Set<IJavaElement> input;
-		if (selection.isEmpty()) {
-			input = Collections.emptySet();
-		} else {
-			input = ((Layer) ((StructuredSelection) selection)
-					.getFirstElement()).getPackages();
-		}
-		layerPackagesTable.setInput(input);
-	}
-
 	@Override
 	public void pageChanged(PageChangedEvent event) {
 		if (event.getSelectedPage() == this) {
@@ -291,6 +314,17 @@ public class LayersDefinitionWizardPage extends AbstractWizardPage implements
 					targetPackages));
 			getContainer().updateButtons();
 		}
+	}
+
+	private void updateLayerPackagesGroup(ISelection selection) {
+		Set<String> input;
+		if (selection.isEmpty()) {
+			input = Collections.emptySet();
+		} else {
+			input = ((LayerDescriptor) ((StructuredSelection) selection)
+					.getFirstElement()).getPackages();
+		}
+		layerPackagesTable.setInput(input);
 	}
 
 }

@@ -33,9 +33,11 @@ public class RuleImpl implements Rule {
 	private CheckPredicate checkPredicate;
 	private String name;
 	private String message;
+	// TODO change to enum
 	private int priority;
 
-	public RuleImpl(Predicate filterPredicate, CheckPredicate checkPredicate, String name, String message) {
+	public RuleImpl(Predicate filterPredicate, CheckPredicate checkPredicate,
+			String name, String message) {
 		super();
 		this.filterPredicate = filterPredicate;
 		this.checkPredicate = checkPredicate;
@@ -87,7 +89,8 @@ public class RuleImpl implements Rule {
 
 	public void setPriority(int priority) {
 		if (priority < 1 || priority > 5) {
-			throw new IllegalArgumentException("Priority must be a numerical value between 1 and 5");
+			throw new IllegalArgumentException(
+					"Priority must be a numerical value between 1 and 5");
 		}
 		this.priority = priority;
 	}

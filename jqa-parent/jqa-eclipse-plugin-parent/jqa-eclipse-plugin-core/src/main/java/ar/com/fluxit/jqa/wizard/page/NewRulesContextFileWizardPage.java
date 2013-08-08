@@ -43,7 +43,7 @@ public class NewRulesContextFileWizardPage extends WizardNewFileCreationPage {
 		// FIXME change
 		super(PAGE_NAME, new StructuredSelection(getList()));
 		setTitle("Rules context file creation");
-		setDescription("Creates a new rules context tu run");
+		setDescription("Creates a new rules context to run");
 		setFileExtension("xml");
 		setFileName("a.xml");// FIXME remove
 	}
