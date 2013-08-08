@@ -37,7 +37,7 @@ import ar.com.fluxit.jqa.util.RegEx;
 public class NamingPredicate extends AbstractPredicate implements
 		CheckPredicate {
 
-	private String classNamePattern;
+	private String namePattern;
 	// transient for XML serialization
 	private transient RegEx regEx;
 
@@ -47,7 +47,26 @@ public class NamingPredicate extends AbstractPredicate implements
 
 	public NamingPredicate(String classNamePattern) {
 		super();
-		this.classNamePattern = classNamePattern;
+		this.namePattern = classNamePattern;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (!(obj instanceof NamingPredicate)) {
+			return false;
+		}
+		NamingPredicate other = (NamingPredicate) obj;
+		if (namePattern == null) {
+			if (other.namePattern != null) {
+				return false;
+			}
+		} else if (!namePattern.equals(other.namePattern)) {
+			return false;
+		}
+		return true;
 	}
 
 	@Override
@@ -68,13 +87,13 @@ public class NamingPredicate extends AbstractPredicate implements
 		}
 	}
 
-	public String getClassNamePattern() {
-		return this.classNamePattern;
+	public String getNamePattern() {
+		return this.namePattern;
 	}
 
 	private RegEx getRegEx(RulesContext context) throws RegExSyntaxException {
 		if (this.regEx == null) {
-			this.regEx = new RegEx(parse(getClassNamePattern(), context));
+			this.regEx = new RegEx(parse(getNamePattern(), context));
 		}
 		return this.regEx;
 	}
@@ -83,6 +102,15 @@ public class NamingPredicate extends AbstractPredicate implements
 	public Collection<Integer> getViolationLineIds(Type type,
 			File[] sourcesDir, RulesContext context) {
 		return getDeclarationLineNumber(type, sourcesDir);
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((namePattern == null) ? 0 : namePattern.hashCode());
+		return result;
 	}
 
 	private String parse(String classNamePattern, RulesContext context) {
@@ -94,18 +122,19 @@ public class NamingPredicate extends AbstractPredicate implements
 			}
 		}
 		if (classNamePattern.contains("$")) {
-			throw new IllegalArgumentException("Variable in classNamePattern '"
+			throw new IllegalArgumentException("Variable in namePattern '"
 					+ classNamePattern + "' can not be resolved");
 		}
 		return classNamePattern;
 	}
 
-	public void setClassNamePattern(String pattern) {
-		this.classNamePattern = pattern;
+	public void setNamePattern(String pattern) {
+		this.namePattern = pattern;
 	}
 
 	@Override
 	public String toString() {
-		return "NamingPredicate: " + this.classNamePattern;
+		return "NamingPredicate: " + this.namePattern;
 	}
+
 }

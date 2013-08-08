@@ -25,13 +25,13 @@ package ar.com.fluxit.jqa.descriptor;
  */
 public class CommonDescriptor {
 
+	private static final boolean DEFAULT_COMMON = true;
 	private String typeName;
 	private boolean common;
 
-	public CommonDescriptor(String typeName, boolean common) {
-		super();
+	public CommonDescriptor(String typeName) {
 		this.typeName = typeName;
-		this.common = common;
+		this.common = DEFAULT_COMMON;
 	}
 
 	@Override

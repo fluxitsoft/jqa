@@ -77,6 +77,7 @@ public class UsageDefinitionWizardPage extends AbstractWizardPage implements
 		viewer.setConnectionStyle(ZestStyles.CONNECTIONS_DIRECTED);
 		LayoutAlgorithm graphLayout = new TreeLayoutAlgorithm(
 				LayoutStyles.NO_LAYOUT_NODE_RESIZING);
+		graphLayout.setEntityAspectRatio(0.95);
 		viewer.setLayoutAlgorithm(graphLayout, true);
 		viewer.applyLayout();
 		viewer.getGraphControl()

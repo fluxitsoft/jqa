@@ -18,6 +18,7 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.predicate.lang;
 
+import java.util.Arrays;
 import java.util.List;
 
 import junit.framework.TestCase;
@@ -102,73 +103,121 @@ public class UsagePredicateTest extends TestCase {
 		testMatches(ClassB.class.getName(), ClassWithClassB.class, true);
 		testMatches(ClassB.class.getName(), ClassThatExtendsClassA.class, false);
 		testMatches(ClassB.class.getName(), ClassWithFieldClassA.class, false);
-		testMatches(ClassB.class.getName(), ClassWithFieldArrayClassA.class, false);
-		testMatches(ClassB.class.getName(), ClassWithParameterClassA.class, false);
-		testMatches(ClassB.class.getName(), ClassWithParameterArrayClassA.class, false);
+		testMatches(ClassB.class.getName(), ClassWithFieldArrayClassA.class,
+				false);
+		testMatches(ClassB.class.getName(), ClassWithParameterClassA.class,
+				false);
+		testMatches(ClassB.class.getName(),
+				ClassWithParameterArrayClassA.class, false);
 		testMatches(ClassB.class.getName(), ClassThatReturnsClassA.class, false);
-		testMatches(ClassB.class.getName(), ClassThatReturnsArrayClassA.class, false);
+		testMatches(ClassB.class.getName(), ClassThatReturnsArrayClassA.class,
+				false);
 		testMatches(ClassB.class.getName(), ClassThatInvokesClassA.class, false);
-		testMatches(ClassB.class.getName(), ClassThatInvokesArrayClassA.class, false);
-		testMatches(ClassB.class.getName(), ClassThatInvokesClassThatInvokesClassA.class, false);
-		testMatches(ClassB.class.getName(), ClassThatInvokesClassThatInvokesArrayClassA.class, false);
-		testMatches(ClassB.class.getName(), ClassThatDeclaresExceptionA.class, false);
-		testMatches(ClassB.class.getName(), ClassThatThrowsExceptionA.class, false);
+		testMatches(ClassB.class.getName(), ClassThatInvokesArrayClassA.class,
+				false);
+		testMatches(ClassB.class.getName(),
+				ClassThatInvokesClassThatInvokesClassA.class, false);
+		testMatches(ClassB.class.getName(),
+				ClassThatInvokesClassThatInvokesArrayClassA.class, false);
+		testMatches(ClassB.class.getName(), ClassThatDeclaresExceptionA.class,
+				false);
+		testMatches(ClassB.class.getName(), ClassThatThrowsExceptionA.class,
+				false);
 		testMatches(ClassB.class.getName(), ClassWithGenericClassA.class, false);
 		testMatches(ClassB.class.getName(), ClassThatExtendsList.class, true);
 		testMatches(ClassB.class.getName(), GenericClassA.class, true);
 		testMatches(ClassB.class.getName(), GenericClassB.class, true);
 		testMatches(ClassB.class.getName(), GenericClassC.class, false);
-		testMatches(ClassB.class.getName(), ClassThatExtendsListOfClassA.class, false);
+		testMatches(ClassB.class.getName(), ClassThatExtendsListOfClassA.class,
+				false);
 		// Inner class
-		testMatches(ClassB.class.getName(), InnerClassThatExtendsClassA.B.class, false);
-		testMatches(ClassB.class.getName(), InnerClassWithFieldClassA.B.class, false);
-		testMatches(ClassB.class.getName(), InnerClassWithFieldArrayClassA.B.class, false);
-		testMatches(ClassB.class.getName(), InnerClassWithParameterClassA.B.class, false);
-		testMatches(ClassB.class.getName(), InnerClassWithParameterArrayClassA.B.class, false);
-		testMatches(ClassB.class.getName(), InnerClassThatReturnsClassA.B.class, false);
-		testMatches(ClassB.class.getName(), InnerClassThatReturnsArrayClassA.B.class, false);
-		testMatches(ClassB.class.getName(), InnerClassThatInvokesClassA.B.class, false);
-		testMatches(ClassB.class.getName(), InnerClassThatInvokesClassThatInvokesClassA.B.class, false);
+		testMatches(ClassB.class.getName(),
+				InnerClassThatExtendsClassA.B.class, false);
+		testMatches(ClassB.class.getName(), InnerClassWithFieldClassA.B.class,
+				false);
+		testMatches(ClassB.class.getName(),
+				InnerClassWithFieldArrayClassA.B.class, false);
+		testMatches(ClassB.class.getName(),
+				InnerClassWithParameterClassA.B.class, false);
+		testMatches(ClassB.class.getName(),
+				InnerClassWithParameterArrayClassA.B.class, false);
+		testMatches(ClassB.class.getName(),
+				InnerClassThatReturnsClassA.B.class, false);
+		testMatches(ClassB.class.getName(),
+				InnerClassThatReturnsArrayClassA.B.class, false);
+		testMatches(ClassB.class.getName(),
+				InnerClassThatInvokesClassA.B.class, false);
+		testMatches(ClassB.class.getName(),
+				InnerClassThatInvokesClassThatInvokesClassA.B.class, false);
 		// Inner static class
-		testMatches(ClassB.class.getName(), StaticInnerClassThatExtendsClassA.B.class, false);
-		testMatches(ClassB.class.getName(), StaticInnerClassWithFieldClassA.B.class, false);
-		testMatches(ClassB.class.getName(), StaticInnerClassWithFieldArrayClassA.B.class, false);
-		testMatches(ClassB.class.getName(), StaticInnerClassWithParameterClassA.B.class, false);
-		testMatches(ClassB.class.getName(), StaticInnerClassWithParameterArrayClassA.B.class, false);
-		testMatches(ClassB.class.getName(), StaticInnerClassThatReturnsClassA.B.class, false);
-		testMatches(ClassB.class.getName(), StaticInnerClassThatReturnsArrayClassA.B.class, false);
-		testMatches(ClassB.class.getName(), StaticInnerClassThatInvokesClassA.B.class, false);
-		testMatches(ClassB.class.getName(), StaticInnerClassThatInvokesClassThatInvokesClassA.B.class, false);
+		testMatches(ClassB.class.getName(),
+				StaticInnerClassThatExtendsClassA.B.class, false);
+		testMatches(ClassB.class.getName(),
+				StaticInnerClassWithFieldClassA.B.class, false);
+		testMatches(ClassB.class.getName(),
+				StaticInnerClassWithFieldArrayClassA.B.class, false);
+		testMatches(ClassB.class.getName(),
+				StaticInnerClassWithParameterClassA.B.class, false);
+		testMatches(ClassB.class.getName(),
+				StaticInnerClassWithParameterArrayClassA.B.class, false);
+		testMatches(ClassB.class.getName(),
+				StaticInnerClassThatReturnsClassA.B.class, false);
+		testMatches(ClassB.class.getName(),
+				StaticInnerClassThatReturnsArrayClassA.B.class, false);
+		testMatches(ClassB.class.getName(),
+				StaticInnerClassThatInvokesClassA.B.class, false);
+		testMatches(ClassB.class.getName(),
+				StaticInnerClassThatInvokesClassThatInvokesClassA.B.class,
+				false);
 		// Static methods
-		testMatches(ClassB.class.getName(), ClassWithStaticFieldClassA.class, false);
-		testMatches(ClassB.class.getName(), ClassWithStaticFieldArrayClassA.class, false);
-		testMatches(ClassB.class.getName(), ClassWithStaticParameterClassA.class, false);
-		testMatches(ClassB.class.getName(), ClassWithStaticParameterArrayClassA.class, false);
-		testMatches(ClassB.class.getName(), ClassThatStaticReturnsClassA.class, false);
-		testMatches(ClassB.class.getName(), ClassThatStaticReturnsArrayClassA.class, false);
-		testMatches(ClassB.class.getName(), ClassThatStaticInvokesClassA.class, false);
-		testMatches(ClassB.class.getName(), ClassThatStaticInvokesClassThatInvokesClassA.class, false);
+		testMatches(ClassB.class.getName(), ClassWithStaticFieldClassA.class,
+				false);
+		testMatches(ClassB.class.getName(),
+				ClassWithStaticFieldArrayClassA.class, false);
+		testMatches(ClassB.class.getName(),
+				ClassWithStaticParameterClassA.class, false);
+		testMatches(ClassB.class.getName(),
+				ClassWithStaticParameterArrayClassA.class, false);
+		testMatches(ClassB.class.getName(), ClassThatStaticReturnsClassA.class,
+				false);
+		testMatches(ClassB.class.getName(),
+				ClassThatStaticReturnsArrayClassA.class, false);
+		testMatches(ClassB.class.getName(), ClassThatStaticInvokesClassA.class,
+				false);
+		testMatches(ClassB.class.getName(),
+				ClassThatStaticInvokesClassThatInvokesClassA.class, false);
 		// Primitive fields
 		testMatches(ClassB.class.getName(), ClassWithPrimitiveTypes.class, true);
 		// Interface usage
-		testMatches(ClassB.class.getName(), ClassWithFieldInterfaceA.class, false);
-		testMatches(InterfaceA.class.getName(), ClassWithFieldInterfaceA.class, true);
+		testMatches(ClassB.class.getName(), ClassWithFieldInterfaceA.class,
+				false);
+		testMatches(InterfaceA.class.getName(), ClassWithFieldInterfaceA.class,
+				true);
 		testMatches(List.class.getName(), ClassWithFieldList.class, true);
-		testMatches(ClassB.class.getName(), InterfaceThatDeclaresExceptionA.class, false);
-		testMatches(ClassB.class.getName(), ClassThatImplementsInterfaceA.class, false);
+		testMatches(ClassB.class.getName(),
+				InterfaceThatDeclaresExceptionA.class, false);
+		testMatches(ClassB.class.getName(),
+				ClassThatImplementsInterfaceA.class, false);
 	}
 
-	private void testMatches(String filterPredicateParentClass, Class<?> usagePredicateClass, boolean matches) throws ClassNotFoundException {
+	private void testMatches(String filterPredicateParentClass,
+			Class<?> usagePredicateClass, boolean matches)
+			throws ClassNotFoundException {
 
 		final TypingPredicate filterPredicate2 = new TypingPredicate();
-		filterPredicate2.setFilterPredicate(new NamingPredicate(filterPredicateParentClass));
+		filterPredicate2.setFilterPredicate(new NamingPredicate(
+				filterPredicateParentClass));
 
 		final OrPredicate filterPredicate = new OrPredicate();
-		filterPredicate.setPredicates(new Predicate[] { filterPredicate2, new NamingPredicate("java.**"), new NamingPredicate("long"),
-				new NamingPredicate("short"), new NamingPredicate("byte"), new NamingPredicate("char"), new NamingPredicate("int"),
-				new NamingPredicate("boolean"), new NamingPredicate("double"), new NamingPredicate("float") });
+		filterPredicate.setPredicates(Arrays.asList(new Predicate[] {
+				filterPredicate2, new NamingPredicate("java.**"),
+				new NamingPredicate("long"), new NamingPredicate("short"),
+				new NamingPredicate("byte"), new NamingPredicate("char"),
+				new NamingPredicate("int"), new NamingPredicate("boolean"),
+				new NamingPredicate("double"), new NamingPredicate("float") }));
 
-		final Type type = BCERepositoryLocator.getRepository().lookupType(usagePredicateClass);
+		final Type type = BCERepositoryLocator.getRepository().lookupType(
+				usagePredicateClass);
 
 		final UsagePredicate usagePredicate = new UsagePredicate();
 		usagePredicate.setFilterPredicate(filterPredicate);

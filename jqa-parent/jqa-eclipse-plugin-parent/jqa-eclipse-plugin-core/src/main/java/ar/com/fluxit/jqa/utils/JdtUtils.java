@@ -21,9 +21,11 @@ package ar.com.fluxit.jqa.utils;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.ICompilationUnit;
@@ -32,6 +34,7 @@ import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
+import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 
 import ar.com.fluxit.jqa.descriptor.CommonDescriptor;
@@ -65,6 +68,15 @@ public abstract class JdtUtils {
 		}
 	}
 
+	private static Set<CommonDescriptor> collectCommonTypes(
+			Collection<String> packages, IProject[] targetProjects) {
+		Set<CommonDescriptor> commonTypes = new HashSet<CommonDescriptor>();
+		for (IPackageFragment pkg : getPackageFragments(packages, targetProjects)) {
+			commonTypes.addAll(JdtUtils.collectCommonTypes(pkg));
+		}
+		return commonTypes;
+	}
+
 	private static Collection<CommonDescriptor> collectCommonTypes(
 			ICompilationUnit compilationUnit) {
 		try {
@@ -72,7 +84,7 @@ public abstract class JdtUtils {
 			for (IImportDeclaration importDeclaration : compilationUnit
 					.getImports()) {
 				result.add(new CommonDescriptor(
-						getCommonTypeName(importDeclaration), true));
+						getCommonTypeName(importDeclaration)));
 			}
 			return result;
 		} catch (JavaModelException e) {
@@ -81,7 +93,7 @@ public abstract class JdtUtils {
 		}
 	}
 
-	public static Collection<CommonDescriptor> collectCommonTypes(
+	private static Collection<CommonDescriptor> collectCommonTypes(
 			IPackageFragment packageFragment) {
 		try {
 			Collection<CommonDescriptor> result = new ArrayList<CommonDescriptor>();
@@ -102,6 +114,11 @@ public abstract class JdtUtils {
 		}
 	}
 
+	public static Set<CommonDescriptor> collectCommonTypes(
+			LayerDescriptor targetLayer, IProject[] targetProjects) {
+		return collectCommonTypes(targetLayer.getPackages(), targetProjects);
+	}
+
 	public static File getAbsolutePath(IPath path) throws JavaModelException {
 		return ResourcesPlugin.getWorkspace().getRoot().findMember(path)
 				.getLocation().toFile();
@@ -120,6 +137,36 @@ public abstract class JdtUtils {
 				elementName += splitImport[i] + ".";
 			}
 			return elementName.substring(0, elementName.length() - 1);
+		}
+	}
+
+	public static Collection<IPackageFragment> getPackageFragments(
+			Collection<String> packages, IProject[] targetProjects) {
+		Collection<IPackageFragment> result = new ArrayList<IPackageFragment>();
+		for (String pkg : packages) {
+			result.addAll(getPackages(pkg, targetProjects));
+		}
+		return result;
+	}
+
+	private static Collection<IPackageFragment> getPackages(String pkg,
+			IProject[] targetProjects) {
+		try {
+			Collection<IPackageFragment> result = new ArrayList<IPackageFragment>();
+			for (IProject project : targetProjects) {
+				IJavaProject javaProject = JavaCore.create(project);
+				for (IPackageFragment packageFragment : javaProject
+						.getPackageFragments()) {
+					if (packageFragment.getElementName().equals(pkg)
+							&& JdtUtils.isSourcePackage(packageFragment)) {
+						result.add(packageFragment);
+					}
+				}
+			}
+			return result;
+		} catch (JavaModelException e) {
+			throw new IllegalStateException(
+					"An error occured while collecting packages", e);
 		}
 	}
 

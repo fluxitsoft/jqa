@@ -63,6 +63,7 @@ import org.eclipse.swt.widgets.ToolBar;
 import ar.com.fluxit.jqa.actions.EditLayerAction;
 import ar.com.fluxit.jqa.actions.NewLayerAction;
 import ar.com.fluxit.jqa.actions.RemoveLayerAction;
+import ar.com.fluxit.jqa.descriptor.CommonDescriptor;
 import ar.com.fluxit.jqa.descriptor.LayerDescriptor;
 import ar.com.fluxit.jqa.utils.JdtUtils;
 import ar.com.fluxit.jqa.viewer.DropStrategy;
@@ -158,6 +159,12 @@ public class LayersDefinitionWizardPage extends AbstractWizardPage implements
 			@Override
 			public void drop(Collection<String> droppedPackages) {
 				getSourceLayer().removePackages(droppedPackages);
+				Set<CommonDescriptor> commons = JdtUtils.collectCommonTypes(
+						getSourceLayer(), getWizard().getTargetProjects());
+				if (!getSourceLayer().getCommons().equals(commons)) {
+					// Avoid lose the common types assignments
+					getSourceLayer().setCommons(commons);
+				}
 			}
 		};
 		layerPackagesTable.addDragSupport(DND.DROP_MOVE, getTransferTypes(),
@@ -206,8 +213,8 @@ public class LayersDefinitionWizardPage extends AbstractWizardPage implements
 				layersTable.getTable()) });
 		layersTable.setCellModifier(new LayerCellModifier(layersTable));
 		layersTable.setColumnProperties(new String[] { "layer" });
-		toolBarManager.add(new NewLayerAction(getArchitectureDescriptor().getLayers(),
-				layersTable));
+		toolBarManager.add(new NewLayerAction(getArchitectureDescriptor()
+				.getLayers(), layersTable));
 		final EditLayerAction editLayerAction = new EditLayerAction(layersTable);
 		editLayerAction.setEnabled(false);
 		toolBarManager.add(editLayerAction);
@@ -229,7 +236,7 @@ public class LayersDefinitionWizardPage extends AbstractWizardPage implements
 				});
 		layersTable.addDropSupport(DND.DROP_MOVE, getTransferTypes(),
 				new LayersTableDropListener(layersTable,
-						getDropStrategyHolder(), getContainer()));
+						getDropStrategyHolder(), getWizard()));
 	}
 
 	private Group createTargetPackagesGroup(SashForm sash) {

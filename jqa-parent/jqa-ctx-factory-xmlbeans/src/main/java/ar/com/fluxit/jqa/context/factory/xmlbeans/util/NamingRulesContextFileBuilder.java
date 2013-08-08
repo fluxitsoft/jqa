@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU Lesser General Public 
  * License along with JQA. If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package ar.com.fluxit.jqa.context.factory.xmlbeans;
+package ar.com.fluxit.jqa.context.factory.xmlbeans.util;
 
 import java.io.File;
 import java.io.IOException;
@@ -35,12 +35,12 @@ import ar.com.fluxit.jqa.schema.ruleset.Ruleset;
  * 
  * @author Juan Ignacio Barisich
  */
-public class RulesContextFileBuilder {
+class NamingRulesContextFileBuilder implements RulesContextFileBuilder {
 
 	private static final int DEFAULT_NAMING_PRIORITY = 4;
-	public static RulesContextFileBuilder INSTANCE = new RulesContextFileBuilder();
+	public static RulesContextFileBuilder INSTANCE = new NamingRulesContextFileBuilder();
 
-	private RulesContextFileBuilder() {
+	private NamingRulesContextFileBuilder() {
 		// hides the constructor
 	}
 
@@ -62,45 +62,25 @@ public class RulesContextFileBuilder {
 		}
 	}
 
-	private void buildNamingRulesContextFile(File targetFile,
-			ArchitectureDescriptor ArchitectureDescriptor) throws IOException {
-		RulesContextDocument rulesContextDoc = RulesContextDocument.Factory
-				.newInstance();
-		ar.com.fluxit.jqa.schema.rulescontext.RulesContext rulesContext = rulesContextDoc
-				.addNewRulesContext();
-		rulesContext.setName("Naming rules context");
-		Ruleset ruleSet = rulesContext.addNewRuleSet();
-		ruleSet.setName("Naming ruleset");
-		for (LayerDescriptor layer : ArchitectureDescriptor.getLayers()) {
-			buildNamingRule(ruleSet, layer,
-					ArchitectureDescriptor.getPackageImplSuffix(),
-					ArchitectureDescriptor.getClassImplSuffix());
-		}
-		rulesContextDoc
-				.save(new File(targetFile.getParentFile(), "naming.xml"));
-	}
-
+	@Override
 	public void buildRulesContextFile(File targetFile,
 			ArchitectureDescriptor archDescriptor)
 			throws RulesContextFactoryException {
 		try {
-			// Builds the main rules context file
 			RulesContextDocument rulesContextDoc = RulesContextDocument.Factory
 					.newInstance();
 			ar.com.fluxit.jqa.schema.rulescontext.RulesContext rulesContext = rulesContextDoc
 					.addNewRulesContext();
-			rulesContext.setName("JQA Eclipse Plugin generated rules context");
-			rulesContext.addNewRulesContextImport().setResource("naming.xml");
-			// rulesContext.addNewRulesContextImport().setResource("typing.xml");
-			// rulesContext.addNewRulesContextImport().setResource("usage.xml");
-			// rulesContext.addNewRulesContextImport().setResource("throwing.xml");
-			// rulesContext.addNewRulesContextImport().setResource(
-			// "allocation.xml");
-			// rulesContext.addNewRulesContextImport().setResource(
-			// "abstraction.xml");
-			rulesContextDoc.save(targetFile);
-			// Builds the aspect rules context files
-			buildNamingRulesContextFile(targetFile, archDescriptor);
+			rulesContext.setName("Naming rules context");
+			Ruleset ruleSet = rulesContext.addNewRuleSet();
+			ruleSet.setName("Naming ruleset");
+			for (LayerDescriptor layer : archDescriptor.getLayers()) {
+				buildNamingRule(ruleSet, layer,
+						archDescriptor.getPackageImplSuffix(),
+						archDescriptor.getClassImplSuffix());
+			}
+			rulesContextDoc.save(new File(targetFile.getParentFile(),
+					"naming.xml"));
 		} catch (IOException e) {
 			throw new RulesContextFactoryException(
 					"Error while saving rules context file", e);
@@ -119,5 +99,4 @@ public class RulesContextFileBuilder {
 		rule.setCheckPredicate(checkPredicate);
 		rule.setFilterPredicate(filterPredicate);
 	}
-
 }

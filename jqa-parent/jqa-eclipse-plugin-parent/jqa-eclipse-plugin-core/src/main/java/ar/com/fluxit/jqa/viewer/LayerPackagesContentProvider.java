@@ -18,15 +18,9 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.viewer;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 import org.eclipse.core.resources.IProject;
-import org.eclipse.jdt.core.IJavaElement;
-import org.eclipse.jdt.core.IJavaProject;
-import org.eclipse.jdt.core.IPackageFragment;
-import org.eclipse.jdt.core.JavaCore;
-import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
@@ -52,36 +46,16 @@ public final class LayerPackagesContentProvider implements
 
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public Object[] getElements(Object inputElement) {
-		try {
-			if (inputElement instanceof Collection) {
-				@SuppressWarnings("unchecked")
-				Collection<String> packages = (Collection<String>) inputElement;
-				Collection<IJavaElement> result = new ArrayList<IJavaElement>(
-						packages.size());
-				for (String pkg : packages) {
-					for (IProject project : getTargetProjectsHolder()
-							.getValue()) {
-						IJavaProject javaProject = JavaCore.create(project);
-						for (IPackageFragment packageFragment : javaProject
-								.getPackageFragments()) {
-							if (packageFragment.getElementName().equals(pkg)
-									&& JdtUtils
-											.isSourcePackage(packageFragment)) {
-								result.add(packageFragment);
-							}
-						}
-					}
-				}
-				return result.toArray();
-			} else {
-				throw new IllegalArgumentException("Not supported input: "
-						+ inputElement.getClass().getName());
-			}
-		} catch (JavaModelException e) {
-			throw new IllegalStateException(
-					"An error has occurred while collection Java packages", e);
+		if (inputElement instanceof Collection) {
+			return JdtUtils.getPackageFragments(
+					(Collection<String>) inputElement,
+					getTargetProjectsHolder().getValue()).toArray();
+		} else {
+			throw new IllegalArgumentException("Not supported input: "
+					+ inputElement.getClass().getName());
 		}
 	}
 

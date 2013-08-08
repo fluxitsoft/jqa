@@ -18,6 +18,8 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.predicate.logic;
 
+import java.util.Collection;
+
 import ar.com.fluxit.jqa.predicate.AbstractPredicate;
 import ar.com.fluxit.jqa.predicate.Predicate;
 
@@ -28,22 +30,22 @@ import ar.com.fluxit.jqa.predicate.Predicate;
  */
 public abstract class VarArgsLogicPredicate extends AbstractPredicate {
 
-	private Predicate predicates[];
+	private Collection<Predicate> predicates;
 
 	public VarArgsLogicPredicate() {
 		super();
 	}
 
-	public VarArgsLogicPredicate(Predicate[] predicates) {
+	public VarArgsLogicPredicate(Collection<Predicate> predicates) {
 		super();
 		this.predicates = predicates;
 	}
 
-	public Predicate[] getPredicates() {
+	public Collection<Predicate> getPredicates() {
 		return predicates;
 	}
 
-	public void setPredicates(Predicate[] predicates) {
+	public void setPredicates(Collection<Predicate> predicates) {
 		this.predicates = predicates;
 	}
 

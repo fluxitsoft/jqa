@@ -31,7 +31,7 @@ public class NamingPredicateTest extends TestCase {
 
 	private NamingPredicate createNamingPredicate(String string) {
 		final NamingPredicate result = new NamingPredicate();
-		result.setClassNamePattern(string);
+		result.setNamePattern(string);
 		return result;
 	}
 

@@ -24,6 +24,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.apache.xmlbeans.XmlException;
@@ -36,6 +37,7 @@ import ar.com.fluxit.jqa.context.RulesContext;
 import ar.com.fluxit.jqa.context.RulesContextImpl;
 import ar.com.fluxit.jqa.context.factory.RulesContextFactory;
 import ar.com.fluxit.jqa.context.factory.exception.RulesContextFactoryException;
+import ar.com.fluxit.jqa.context.factory.xmlbeans.util.MainRulesContextFileBuilder;
 import ar.com.fluxit.jqa.descriptor.ArchitectureDescriptor;
 import ar.com.fluxit.jqa.predicate.AbstractPredicate;
 import ar.com.fluxit.jqa.predicate.CheckPredicate;
@@ -78,7 +80,7 @@ public class RulesContextFactoryImpl implements RulesContextFactory {
 	public void buildRulesContextFile(File targetFile,
 			ArchitectureDescriptor archDescriptor)
 			throws RulesContextFactoryException {
-		RulesContextFileBuilder.INSTANCE.buildRulesContextFile(targetFile,
+		MainRulesContextFileBuilder.INSTANCE.buildRulesContextFile(targetFile,
 				archDescriptor);
 	}
 
@@ -218,10 +220,12 @@ public class RulesContextFactoryImpl implements RulesContextFactory {
 	private void parse(
 			ar.com.fluxit.jqa.schema.ruleset.VarArgsLogicPredicate predicate,
 			VarArgsLogicPredicate result) {
-		final Predicate[] predicates = new Predicate[predicate
-				.getPredicateList().size()];
-		for (int i = 0; i < predicates.length; i++) {
-			predicates[i] = (Predicate) parse(predicate.getPredicateArray(i));
+		List<ar.com.fluxit.jqa.schema.ruleset.Predicate> predicateList = predicate
+				.getPredicateList();
+		final Collection<Predicate> predicates = new ArrayList<Predicate>(
+				predicateList.size());
+		for (ar.com.fluxit.jqa.schema.ruleset.Predicate pred : predicateList) {
+			predicates.add((Predicate) parse(pred));
 		}
 		result.setPredicates(predicates);
 		parse(predicate, (AbstractPredicate) result);
@@ -242,7 +246,7 @@ public class RulesContextFactoryImpl implements RulesContextFactory {
 		final ar.com.fluxit.jqa.predicate.lang.NamingPredicate result = new ar.com.fluxit.jqa.predicate.lang.NamingPredicate();
 		parse(predicate, result);
 		String namePattern = predicate.getNamePattern();
-		result.setClassNamePattern(namePattern);
+		result.setNamePattern(namePattern);
 		return result;
 	}
 

@@ -18,6 +18,8 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.predicate.logic;
 
+import java.util.Collection;
+
 import ar.com.fluxit.jqa.bce.Type;
 import ar.com.fluxit.jqa.context.RulesContext;
 import ar.com.fluxit.jqa.predicate.Predicate;
@@ -33,7 +35,7 @@ public class XorPredicate extends VarArgsLogicPredicate {
 		super();
 	}
 
-	public XorPredicate(Predicate[] predicates) {
+	public XorPredicate(Collection<Predicate> predicates) {
 		super(predicates);
 	}
 

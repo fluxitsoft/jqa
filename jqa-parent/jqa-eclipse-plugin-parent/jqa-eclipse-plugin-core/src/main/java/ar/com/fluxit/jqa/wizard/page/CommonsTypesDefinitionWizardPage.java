@@ -108,7 +108,7 @@ public class CommonsTypesDefinitionWizardPage extends AbstractWizardPage
 		commonTypesTreeViewer
 				.setContentProvider(new CommonTypesContentProvider());
 		commonTypesTreeViewer.setLabelProvider(new CommonTypesLabelProvider());
-		commonTypesTreeViewer.setInput(getArchitectureDescriptor().getLayers());
+		commonTypesTreeViewer.setInput(getArchitectureDescriptor());
 		commonTypesTreeViewer.expandAll();
 		commonTypesTreeViewer.addFilter(new ViewerFilter() {
 

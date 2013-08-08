@@ -18,6 +18,9 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.predicate.logic;
 
+import java.util.Arrays;
+import java.util.Collection;
+
 import junit.framework.TestCase;
 import ar.com.fluxit.jqa.predicate.Predicate;
 
@@ -28,20 +31,29 @@ import ar.com.fluxit.jqa.predicate.Predicate;
  */
 public abstract class LogicPredicateTest extends TestCase {
 
-	protected Predicate[] getFalseFalse() {
-		return new Predicate[] { FalsePredicate.INSTANCE, FalsePredicate.INSTANCE };
+	protected Collection<Predicate> getFalseFalse() {
+		return getPredicateCollection(FalsePredicate.INSTANCE,
+				FalsePredicate.INSTANCE);
 	}
 
-	protected Predicate[] getFalseTrue() {
-		return new Predicate[] { FalsePredicate.INSTANCE, TruePredicate.INSTANCE };
+	protected Collection<Predicate> getFalseTrue() {
+		return getPredicateCollection(FalsePredicate.INSTANCE,
+				TruePredicate.INSTANCE);
 	}
 
-	protected Predicate[] getTrueFalse() {
-		return new Predicate[] { TruePredicate.INSTANCE, FalsePredicate.INSTANCE };
+	private Collection<Predicate> getPredicateCollection(
+			Predicate... predicates) {
+		return Arrays.asList(predicates);
 	}
 
-	protected Predicate[] getTrueTrue() {
-		return new Predicate[] { TruePredicate.INSTANCE, TruePredicate.INSTANCE };
+	protected Collection<Predicate> getTrueFalse() {
+		return getPredicateCollection(TruePredicate.INSTANCE,
+				FalsePredicate.INSTANCE);
+	}
+
+	protected Collection<Predicate> getTrueTrue() {
+		return getPredicateCollection(TruePredicate.INSTANCE,
+				TruePredicate.INSTANCE);
 	}
 
 }

@@ -28,7 +28,7 @@
 	</globalPredicate>
 	<globalPredicate name="AndPredicateTest" xsi:type="jqa:AndPredicate">
 		<predicate xsi:type="jqa:TruePredicate" />
-		<predicate xsi:type="jqa:TruePredicate" />
+		<predicate xsi:type="jqa:FalsePredicate" />
 	</globalPredicate>
 	<globalPredicate name="ContextProvidedPredicateTest" xsi:type="jqa:ContextProvidedPredicate"
 		predicateName="test" />
@@ -40,7 +40,7 @@
 	</globalPredicate>
 	<globalPredicate name="OrPredicateTest" xsi:type="jqa:OrPredicate">
 		<predicate xsi:type="jqa:TruePredicate" />
-		<predicate xsi:type="jqa:TruePredicate" />
+		<predicate xsi:type="jqa:FalsePredicate" />
 	</globalPredicate>
 	<globalPredicate name="ThrowingPredicateTest" xsi:type="jqa:ThrowingPredicate">
 		<predicate xsi:type="jqa:TruePredicate" />
@@ -54,7 +54,7 @@
 	</globalPredicate>
 	<globalPredicate name="XORPredicateTest" xsi:type="jqa:XORPredicate">
 		<predicate xsi:type="jqa:TruePredicate" />
-		<predicate xsi:type="jqa:TruePredicate" />
+		<predicate xsi:type="jqa:FalsePredicate" />
 	</globalPredicate>
 	<globalPredicate name="VariablePredicate" xsi:type="jqa:NamingPredicate"
 		namePattern="${StringClass}" />

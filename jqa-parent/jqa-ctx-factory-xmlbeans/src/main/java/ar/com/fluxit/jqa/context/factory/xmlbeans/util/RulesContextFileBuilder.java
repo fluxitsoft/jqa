@@ -16,13 +16,9 @@
  * You should have received a copy of the GNU Lesser General Public 
  * License along with JQA. If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package ar.com.fluxit.jqa.context.factory;
+package ar.com.fluxit.jqa.context.factory.xmlbeans.util;
 
 import java.io.File;
-
-import junit.framework.TestCase;
-
-import org.apache.commons.io.FileUtils;
 
 import ar.com.fluxit.jqa.context.factory.exception.RulesContextFactoryException;
 import ar.com.fluxit.jqa.descriptor.ArchitectureDescriptor;
@@ -32,34 +28,9 @@ import ar.com.fluxit.jqa.descriptor.ArchitectureDescriptor;
  * 
  * @author Juan Ignacio Barisich
  */
-public class RulesContext4Test extends TestCase {
+public interface RulesContextFileBuilder {
 
-	private File targetDir;
-
-	@Override
-	protected void setUp() throws Exception {
-		File tempDir = new File(System.getProperty("user.dir"));
-		targetDir = new File(tempDir, "testBuildRulesContextFile");
-		FileUtils.deleteDirectory(targetDir);
-		targetDir.mkdir();
-	}
-
-	@Override
-	protected void tearDown() throws Exception {
-		FileUtils.deleteDirectory(targetDir);
-	}
-
-	public void testBuildRulesContextFile() throws RulesContextFactoryException {
-		final RulesContextFactory rulesContextFactory = RulesContextFactoryLocator
-				.getRulesContextFactory();
-		File targetFile = new File(targetDir, "rulesContext.xml");
-		ArchitectureDescriptor archDescriptor = new ArchitectureDescriptor();
-		rulesContextFactory.buildRulesContextFile(targetFile, archDescriptor);
-
-		// TODO
-		// RulesContext rulesContext = rulesContextFactory
-		// .getRulesContext(targetFile.getPath());
-		// assertNotNull(rulesContext);
-	}
-
+	void buildRulesContextFile(File targetFile,
+			ArchitectureDescriptor archDescriptor)
+			throws RulesContextFactoryException;
 }

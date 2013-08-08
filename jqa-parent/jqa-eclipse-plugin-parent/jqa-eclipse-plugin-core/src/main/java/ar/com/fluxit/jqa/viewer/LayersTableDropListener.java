@@ -20,7 +20,6 @@ package ar.com.fluxit.jqa.viewer;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Set;
 
 import org.eclipse.jdt.core.IJavaElement;
@@ -28,13 +27,13 @@ import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerDropAdapter;
-import org.eclipse.jface.wizard.IWizardContainer;
 import org.eclipse.swt.dnd.DropTargetEvent;
 import org.eclipse.swt.dnd.TransferData;
 
 import ar.com.fluxit.jqa.descriptor.CommonDescriptor;
 import ar.com.fluxit.jqa.descriptor.LayerDescriptor;
 import ar.com.fluxit.jqa.utils.JdtUtils;
+import ar.com.fluxit.jqa.wizard.JQAWizard;
 
 /**
  * TODO javadoc
@@ -46,14 +45,13 @@ public class LayersTableDropListener extends ViewerDropAdapter {
 	// target drag
 	private final Holder<DropStrategy> dropStrategyHolder;
 	// target wizard
-	private final IWizardContainer wizardContainer;
+	private final JQAWizard wizardContainer;
 
 	public LayersTableDropListener(Viewer viewer,
-			Holder<DropStrategy> dropStrategyHolder,
-			IWizardContainer wizardContainer) {
+			Holder<DropStrategy> dropStrategyHolder, JQAWizard wizard) {
 		super(viewer);
 		this.dropStrategyHolder = dropStrategyHolder;
-		this.wizardContainer = wizardContainer;
+		this.wizardContainer = wizard;
 	}
 
 	@Override
@@ -64,14 +62,12 @@ public class LayersTableDropListener extends ViewerDropAdapter {
 		final IJavaElement[] packages = (IJavaElement[]) event.data;
 		final Collection<String> droppedPackages = new ArrayList<String>(
 				packages.length);
-		Set<CommonDescriptor> commonTypes = new HashSet<CommonDescriptor>(
-				targetLayer.getCommons().size());
 		for (IJavaElement pkg : packages) {
 			droppedPackages.add(((IPackageFragment) pkg).getElementName());
-			commonTypes.addAll(JdtUtils
-					.collectCommonTypes((IPackageFragment) pkg));
 		}
 		targetLayer.addPackages(droppedPackages);
+		Set<CommonDescriptor> commonTypes = JdtUtils.collectCommonTypes(
+				targetLayer, getWizard().getTargetProjects());
 		if (!targetLayer.getCommons().equals(commonTypes)) {
 			// Avoid lose the common types assignments
 			targetLayer.setCommons(commonTypes);
@@ -79,14 +75,14 @@ public class LayersTableDropListener extends ViewerDropAdapter {
 		getViewer().setSelection(new StructuredSelection(targetLayer));
 		getDropStrategyHolder().getValue().drop(droppedPackages);
 		getViewer().refresh();
-		getWizardContainer().updateButtons();
+		getWizard().getContainer().updateButtons();
 	}
 
 	public Holder<DropStrategy> getDropStrategyHolder() {
 		return dropStrategyHolder;
 	}
 
-	private IWizardContainer getWizardContainer() {
+	private JQAWizard getWizard() {
 		return wizardContainer;
 	}
 

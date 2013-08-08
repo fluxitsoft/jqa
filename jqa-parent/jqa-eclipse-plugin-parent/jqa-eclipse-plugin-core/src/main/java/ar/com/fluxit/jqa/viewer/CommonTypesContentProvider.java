@@ -18,11 +18,10 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.viewer;
 
-import java.util.List;
-
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
+import ar.com.fluxit.jqa.descriptor.ArchitectureDescriptor;
 import ar.com.fluxit.jqa.descriptor.CommonDescriptor;
 import ar.com.fluxit.jqa.descriptor.LayerDescriptor;
 
@@ -52,11 +51,10 @@ public class CommonTypesContentProvider implements ITreeContentProvider {
 		}
 	}
 
-	@SuppressWarnings("rawtypes")
 	@Override
 	public Object[] getElements(Object input) {
-		if (input instanceof List) {
-			return ((List) input).toArray();
+		if (input instanceof ArchitectureDescriptor) {
+			return ((ArchitectureDescriptor) input).getLayers().toArray();
 		} else {
 			throw new IllegalArgumentException("Unsupported type "
 					+ input.getClass().getName());
