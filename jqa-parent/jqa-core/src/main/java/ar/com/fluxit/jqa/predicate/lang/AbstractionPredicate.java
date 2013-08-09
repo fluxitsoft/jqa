@@ -21,6 +21,9 @@ package ar.com.fluxit.jqa.predicate.lang;
 import java.io.File;
 import java.util.Collection;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+
 import ar.com.fluxit.jqa.bce.Type;
 import ar.com.fluxit.jqa.context.RulesContext;
 import ar.com.fluxit.jqa.predicate.CheckPredicate;
@@ -65,6 +68,29 @@ public class AbstractionPredicate extends IgnoringContextPredicate implements
 
 	private AbstractionType abstractionType;
 
+	public AbstractionPredicate() {
+
+	}
+
+	public AbstractionPredicate(AbstractionType abstractionType) {
+		this.abstractionType = abstractionType;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == this) {
+			return true;
+		}
+		if (obj instanceof AbstractionPredicate) {
+			AbstractionPredicate other = (AbstractionPredicate) obj;
+			return new EqualsBuilder().append(getName(), other.getName())
+					.append(getAbstractionType(), other.getAbstractionType())
+					.isEquals();
+		} else {
+			return false;
+		}
+	}
+
 	@Override
 	public boolean evaluate(Type type) {
 		return getAbstractionType().evaluate(type);
@@ -80,8 +106,20 @@ public class AbstractionPredicate extends IgnoringContextPredicate implements
 		return getDeclarationLineNumber(type, sourcesDir);
 	}
 
+	@Override
+	public int hashCode() {
+		return new HashCodeBuilder().append(getName())
+				.append(getAbstractionType()).hashCode();
+	}
+
 	public void setAbstractionType(AbstractionType abstractionType) {
 		this.abstractionType = abstractionType;
+	}
+
+	@Override
+	public String toString() {
+		return "AbstractionPredicate [abstractionType=" + abstractionType
+				+ ", name=" + getName() + "]";
 	}
 
 }

@@ -31,9 +31,15 @@ import ar.com.fluxit.jqa.context.factory.exception.RulesContextFactoryException;
 import ar.com.fluxit.jqa.context.factory.xmlbeans.util.MainRulesContextFileBuilder;
 import ar.com.fluxit.jqa.descriptor.ArchitectureDescriptor;
 import ar.com.fluxit.jqa.descriptor.LayerDescriptor;
+import ar.com.fluxit.jqa.predicate.ContextProvidedPredicate;
 import ar.com.fluxit.jqa.predicate.Predicate;
+import ar.com.fluxit.jqa.predicate.lang.AbstractionPredicate;
+import ar.com.fluxit.jqa.predicate.lang.AbstractionPredicate.AbstractionType;
 import ar.com.fluxit.jqa.predicate.lang.NamingPredicate;
+import ar.com.fluxit.jqa.predicate.logic.AndPredicate;
 import ar.com.fluxit.jqa.predicate.logic.OrPredicate;
+import ar.com.fluxit.jqa.rule.RuleImpl;
+import ar.com.fluxit.jqa.rule.RuleSetImpl;
 
 /**
  * TODO javadoc
@@ -63,18 +69,24 @@ public class MainRulesContextFileBuilderTest extends TestCase {
 
 	public void testBuildRulesContextFile() throws RulesContextFactoryException {
 		File targetFile = new File(targetDir, "rulesContext.xml");
-		// Builds an archdescriptor
+		// Builds an ArchitectureDescriptor
 		ArchitectureDescriptor archDescriptor = new ArchitectureDescriptor();
 		archDescriptor.getLayers().clear();
 		LayerDescriptor entityLayer = new LayerDescriptor("Entity", false,
 				null, true);
+		entityLayer.setSuperType("com.acme.foo.entity.Entity");
 		entityLayer.addPackages(buildPackages("com.acme.foo.entity"));
 		archDescriptor.getLayers().add(entityLayer);
 		LayerDescriptor daoLayer = new LayerDescriptor("DAO", true, "*DAO",
 				false);
+		daoLayer.setSuperType("com.acme.foo.dao.DataAccessObject");
 		daoLayer.addPackages(buildPackages("com.acme.foo.dao",
 				"com.acme.foo.dao.impl"));
 		archDescriptor.getLayers().add(daoLayer);
+		LayerDescriptor utilLayer = new LayerDescriptor("Util", false, "*Util",
+				false);
+		utilLayer.addPackages(buildPackages("com.acme.foo.util"));
+		archDescriptor.getLayers().add(utilLayer);
 		// Run
 		MainRulesContextFileBuilder.INSTANCE.buildRulesContextFile(targetFile,
 				archDescriptor);
@@ -82,6 +94,8 @@ public class MainRulesContextFileBuilderTest extends TestCase {
 		RulesContext rulesContext = RulesContextFactoryLocator
 				.getRulesContextFactory().getRulesContext(targetFile.getPath());
 		assertNotNull(rulesContext);
+		assertEquals(1, rulesContext.getRuleSets().size());
+		// Layer definitions
 		Predicate entityGlobalPredicate = rulesContext
 				.getGlobalPredicate("entity-layer");
 		assertEquals(1, ((OrPredicate) entityGlobalPredicate).getPredicates()
@@ -96,6 +110,41 @@ public class MainRulesContextFileBuilderTest extends TestCase {
 				new NamingPredicate("com.acme.foo.dao.impl.**")));
 		assertTrue(((OrPredicate) daoGlobalPredicate).getPredicates().contains(
 				new NamingPredicate("com.acme.foo.dao.**")));
+		// Naming definitions
+		RuleSetImpl namingRuleSet = new RuleSetImpl();
+		namingRuleSet.setName("Naming ruleset");
+		namingRuleSet.addRule(new RuleImpl(new AndPredicate(
+				new ContextProvidedPredicate("dao-layer"),
+				new AbstractionPredicate(AbstractionType.INTERFACE)),
+				new NamingPredicate("**.*DAO"), "DAO API naming",
+				"The DAO API '${type.name}' must be named like '**.*DAO'", 4));
+		namingRuleSet
+				.addRule(new RuleImpl(
+						new AndPredicate(new ContextProvidedPredicate(
+								"dao-layer"), new AbstractionPredicate(
+								AbstractionType.CONCRETE)),
+						new NamingPredicate("**.impl.*DAOImpl"),
+						"DAO implementation naming",
+						"The DAO implementation '${type.name}' must be named like '**.impl.*DAOImpl'",
+						4));
+		namingRuleSet
+				.addRule(new RuleImpl(
+						new AndPredicate(new ContextProvidedPredicate(
+								"dao-layer"), new AbstractionPredicate(
+								AbstractionType.ABSTRACT)),
+						new NamingPredicate("**.Abstract*DAO"),
+						"Abstract DAO naming",
+						"The abstract DAO '${type.name}' must be named like '**.Abstract*DAO'",
+						4));
+		namingRuleSet.addRule(new RuleImpl(new ContextProvidedPredicate(
+				"util-layer"), new NamingPredicate("**.*Util"), "Util naming",
+				"The Util '${type.name}' must be named like '**.*Util'", 4));
+		assertTrue(rulesContext.getRuleSets().contains(namingRuleSet));
+		// Typing definitions
+		// RuleSetImpl typingRuleSet = new RuleSetImpl();
+		// typingRuleSet.setName("Typing ruleset");
+
+		// assertTrue(rulesContext.getRuleSets().contains(typingRuleSet));
 	}
 
 }

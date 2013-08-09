@@ -22,6 +22,9 @@ import java.io.File;
 import java.util.Collection;
 import java.util.Map;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+
 import ar.com.fluxit.jqa.bce.Type;
 import ar.com.fluxit.jqa.context.RulesContext;
 import ar.com.fluxit.jqa.exception.RegExSyntaxException;
@@ -55,18 +58,13 @@ public class NamingPredicate extends AbstractPredicate implements
 		if (this == obj) {
 			return true;
 		}
-		if (!(obj instanceof NamingPredicate)) {
+		if (obj instanceof NamingPredicate) {
+			NamingPredicate other = (NamingPredicate) obj;
+			return new EqualsBuilder().append(this.getName(), other.getName())
+					.append(namePattern, other.getNamePattern()).isEquals();
+		} else {
 			return false;
 		}
-		NamingPredicate other = (NamingPredicate) obj;
-		if (namePattern == null) {
-			if (other.namePattern != null) {
-				return false;
-			}
-		} else if (!namePattern.equals(other.namePattern)) {
-			return false;
-		}
-		return true;
 	}
 
 	@Override
@@ -106,11 +104,8 @@ public class NamingPredicate extends AbstractPredicate implements
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result
-				+ ((namePattern == null) ? 0 : namePattern.hashCode());
-		return result;
+		return new HashCodeBuilder().append(getName()).append(namePattern)
+				.hashCode();
 	}
 
 	private String parse(String classNamePattern, RulesContext context) {

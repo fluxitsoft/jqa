@@ -18,6 +18,8 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.rule;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+
 import ar.com.fluxit.jqa.predicate.CheckPredicate;
 import ar.com.fluxit.jqa.predicate.Predicate;
 
@@ -38,12 +40,34 @@ public class RuleImpl implements Rule {
 
 	public RuleImpl(Predicate filterPredicate, CheckPredicate checkPredicate,
 			String name, String message) {
+		this(filterPredicate, checkPredicate, name, message, DEFAULT_PRIORITY);
+	}
+
+	public RuleImpl(Predicate filterPredicate, CheckPredicate checkPredicate,
+			String name, String message, int priority) {
 		super();
 		this.filterPredicate = filterPredicate;
 		this.checkPredicate = checkPredicate;
 		this.name = name;
 		this.message = message;
-		this.priority = DEFAULT_PRIORITY;
+		this.priority = priority;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == this) {
+			return true;
+		}
+		if (obj instanceof RuleImpl) {
+			RuleImpl other = (RuleImpl) obj;
+			return new EqualsBuilder()
+					.append(filterPredicate, other.filterPredicate)
+					.append(checkPredicate, other.checkPredicate)
+					.append(name, other.name).append(message, other.message)
+					.append(priority, other.priority).isEquals();
+		} else {
+			return false;
+		}
 	}
 
 	@Override

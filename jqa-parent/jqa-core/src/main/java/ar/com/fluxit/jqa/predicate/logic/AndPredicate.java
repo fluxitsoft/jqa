@@ -18,7 +18,11 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.predicate.logic;
 
+import java.util.Arrays;
 import java.util.Collection;
+
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
 
 import ar.com.fluxit.jqa.bce.Type;
 import ar.com.fluxit.jqa.context.RulesContext;
@@ -39,6 +43,25 @@ public class AndPredicate extends VarArgsLogicPredicate {
 		super(predicates);
 	}
 
+	public AndPredicate(Predicate... predicates) {
+		super(Arrays.asList(predicates));
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj instanceof AndPredicate) {
+			AndPredicate other = (AndPredicate) obj;
+			return new EqualsBuilder().append(this.getName(), other.getName())
+					.append(this.getPredicates(), other.getPredicates())
+					.isEquals();
+		} else {
+			return false;
+		}
+	}
+
 	@Override
 	public boolean evaluate(Type type, RulesContext context) {
 		for (final Predicate predicate : getPredicates()) {
@@ -47,6 +70,12 @@ public class AndPredicate extends VarArgsLogicPredicate {
 			}
 		}
 		return true;
+	}
+
+	@Override
+	public int hashCode() {
+		return new HashCodeBuilder().append(getName()).append(getPredicates())
+				.hashCode();
 	}
 
 }

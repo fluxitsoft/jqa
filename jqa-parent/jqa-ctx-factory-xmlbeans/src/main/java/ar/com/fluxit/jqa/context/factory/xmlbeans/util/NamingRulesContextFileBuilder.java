@@ -25,7 +25,6 @@ import ar.com.fluxit.jqa.context.factory.exception.RulesContextFactoryException;
 import ar.com.fluxit.jqa.descriptor.ArchitectureDescriptor;
 import ar.com.fluxit.jqa.descriptor.LayerDescriptor;
 import ar.com.fluxit.jqa.schema.rulescontext.RulesContextDocument;
-import ar.com.fluxit.jqa.schema.ruleset.CheckPredicate;
 import ar.com.fluxit.jqa.schema.ruleset.Predicate;
 import ar.com.fluxit.jqa.schema.ruleset.Rule;
 import ar.com.fluxit.jqa.schema.ruleset.Ruleset;
@@ -35,7 +34,7 @@ import ar.com.fluxit.jqa.schema.ruleset.Ruleset;
  * 
  * @author Juan Ignacio Barisich
  */
-class NamingRulesContextFileBuilder implements RulesContextFileBuilder {
+class NamingRulesContextFileBuilder extends AbstractRulesContextFileBuilder {
 
 	private static final int DEFAULT_NAMING_PRIORITY = 4;
 	public static RulesContextFileBuilder INSTANCE = new NamingRulesContextFileBuilder();
@@ -44,20 +43,66 @@ class NamingRulesContextFileBuilder implements RulesContextFileBuilder {
 		// hides the constructor
 	}
 
-	private void buildAPINamingRule(Ruleset ruleSet, LayerDescriptor layer,
-			String packageImplSuffix, String classImplSuffix) {
+	private void buildAbstractNamingRule(Ruleset ruleSet, LayerDescriptor layer) {
 		Rule rule = ruleSet.addNewRule();
+		rule.setName("Abstract " + layer.getName() + " naming");
+		String pattern = String.format("**.Abstract%s",
+				layer.getNamingPattern());
+		rule.setMessage("The abstract " + layer.getName()
+				+ " '${type.name}' must be named like '" + pattern + "'");
+		rule.setPriority(DEFAULT_NAMING_PRIORITY);
+		Predicate filterPredicate = getAndPredicate(
+				getLayerFilterPredicate(layer),
+				getAbstractAbstractionPredicate());
+		rule.setFilterPredicate(filterPredicate);
+		rule.setCheckPredicate(getNamingPredicate(pattern));
+	}
 
+	private void buildApiNamingRule(Ruleset ruleSet, LayerDescriptor layer) {
+		Rule rule = ruleSet.addNewRule();
+		rule.setName(layer.getName() + " API naming");
+		String pattern = "**." + layer.getNamingPattern();
+		rule.setMessage("The " + layer.getName()
+				+ " API '${type.name}' must be named like '" + pattern + "'");
+		rule.setPriority(DEFAULT_NAMING_PRIORITY);
+		rule.setFilterPredicate(getAndPredicate(getLayerFilterPredicate(layer),
+				getInterfaceAbstractionPredicate()));
+		rule.setCheckPredicate(getNamingPredicate(pattern));
+	}
+
+	private void buildApiNamingRules(Ruleset ruleSet, LayerDescriptor layer,
+			String packageImplSuffix, String classImplSuffix) {
+		buildApiNamingRule(ruleSet, layer);
+		buildImplNamingRule(ruleSet, layer, packageImplSuffix, classImplSuffix);
+		buildAbstractNamingRule(ruleSet, layer);
+	}
+
+	private void buildImplNamingRule(Ruleset ruleSet, LayerDescriptor layer,
+			String packageImplSuffix, String classImplSuffix) {
+		// Implementation
+		Rule rule = ruleSet.addNewRule();
+		rule.setName(layer.getName() + " implementation naming");
+		String pattern = String.format("**.%s.%s%s", packageImplSuffix,
+				layer.getNamingPattern(), classImplSuffix);
+		rule.setMessage("The " + layer.getName()
+				+ " implementation '${type.name}' must be named like '"
+				+ pattern + "'");
+		rule.setPriority(DEFAULT_NAMING_PRIORITY);
+		Predicate filterPredicate = getAndPredicate(
+				getLayerFilterPredicate(layer),
+				getConcreteAbstractionPredicate());
+		rule.setFilterPredicate(filterPredicate);
+		rule.setCheckPredicate(getNamingPredicate(pattern));
 	}
 
 	private void buildNamingRule(Ruleset ruleSet, LayerDescriptor layer,
 			String packageImplSuffix, String classImplSuffix) {
 		if (layer.getNamingPattern() != null) {
 			if (layer.isHasApi()) {
-				buildSimpleNamingRule(ruleSet, layer);
-			} else {
-				buildAPINamingRule(ruleSet, layer, packageImplSuffix,
+				buildApiNamingRules(ruleSet, layer, packageImplSuffix,
 						classImplSuffix);
+			} else {
+				buildSimpleNamingRule(ruleSet, layer);
 			}
 		}
 	}
@@ -90,13 +135,11 @@ class NamingRulesContextFileBuilder implements RulesContextFileBuilder {
 	private void buildSimpleNamingRule(Ruleset ruleSet, LayerDescriptor layer) {
 		Rule rule = ruleSet.addNewRule();
 		rule.setName(layer.getName() + " naming");
+		String pattern = "**." + layer.getNamingPattern();
 		rule.setMessage("The " + layer.getName()
-				+ " '${type.name}' must be named like '"
-				+ layer.getNamingPattern() + "'");
+				+ " '${type.name}' must be named like '" + pattern + "'");
 		rule.setPriority(DEFAULT_NAMING_PRIORITY);
-		CheckPredicate checkPredicate = null;
-		Predicate filterPredicate = null;
-		rule.setCheckPredicate(checkPredicate);
-		rule.setFilterPredicate(filterPredicate);
+		rule.setFilterPredicate(getLayerFilterPredicate(layer));
+		rule.setCheckPredicate(getNamingPredicate(pattern));
 	}
 }

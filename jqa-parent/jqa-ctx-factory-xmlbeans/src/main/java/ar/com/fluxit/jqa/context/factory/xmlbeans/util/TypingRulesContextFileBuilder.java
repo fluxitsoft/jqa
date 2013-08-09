@@ -23,19 +23,21 @@ import java.io.IOException;
 
 import ar.com.fluxit.jqa.context.factory.exception.RulesContextFactoryException;
 import ar.com.fluxit.jqa.descriptor.ArchitectureDescriptor;
+import ar.com.fluxit.jqa.descriptor.LayerDescriptor;
 import ar.com.fluxit.jqa.schema.rulescontext.RulesContextDocument;
+import ar.com.fluxit.jqa.schema.ruleset.Ruleset;
 
 /**
  * TODO javadoc
  * 
  * @author Juan Ignacio Barisich
  */
-public class MainRulesContextFileBuilder extends
-		AbstractRulesContextFileBuilder {
+class TypingRulesContextFileBuilder extends AbstractRulesContextFileBuilder {
 
-	public static RulesContextFileBuilder INSTANCE = new MainRulesContextFileBuilder();
+	private static final int DEFAULT_TYPING_PRIORITY = 3;
+	public static RulesContextFileBuilder INSTANCE = new TypingRulesContextFileBuilder();
 
-	private MainRulesContextFileBuilder() {
+	private TypingRulesContextFileBuilder() {
 		// hides the constructor
 	}
 
@@ -44,33 +46,25 @@ public class MainRulesContextFileBuilder extends
 			ArchitectureDescriptor archDescriptor)
 			throws RulesContextFactoryException {
 		try {
-			// Builds the main rules context file
 			RulesContextDocument rulesContextDoc = RulesContextDocument.Factory
 					.newInstance();
 			ar.com.fluxit.jqa.schema.rulescontext.RulesContext rulesContext = rulesContextDoc
 					.addNewRulesContext();
-			rulesContext.setName("JQA Eclipse Plugin generated rules context");
-			rulesContext.addNewRulesContextImport().setResource("layers.xml");
-			rulesContext.addNewRulesContextImport().setResource("naming.xml");
-			// rulesContext.addNewRulesContextImport().setResource("typing.xml");
-			// rulesContext.addNewRulesContextImport().setResource("usage.xml");
-			// rulesContext.addNewRulesContextImport().setResource("throwing.xml");
-			// rulesContext.addNewRulesContextImport().setResource(
-			// "allocation.xml");
-			// rulesContext.addNewRulesContextImport().setResource(
-			// "abstraction.xml");
-			rulesContextDoc.save(targetFile);
-			// Builds the aspect rules context files
-			LayersRulesContextFileBuilder.INSTANCE.buildRulesContextFile(
-					targetFile, archDescriptor);
-			NamingRulesContextFileBuilder.INSTANCE.buildRulesContextFile(
-					targetFile, archDescriptor);
-			TypingRulesContextFileBuilder.INSTANCE.buildRulesContextFile(
-					targetFile, archDescriptor);
+			rulesContext.setName("Typing rules context");
+			Ruleset ruleSet = rulesContext.addNewRuleSet();
+			ruleSet.setName("Typing ruleset");
+			for (LayerDescriptor layer : archDescriptor.getLayers()) {
+				buildTypingRule(ruleSet, layer);
+			}
+			rulesContextDoc.save(new File(targetFile.getParentFile(),
+					"typing.xml"));
 		} catch (IOException e) {
 			throw new RulesContextFactoryException(
 					"Error while saving rules context file", e);
 		}
 	}
 
+	private void buildTypingRule(Ruleset ruleSet, LayerDescriptor layer) {
+		// TODO Auto-generated method stub
+	}
 }

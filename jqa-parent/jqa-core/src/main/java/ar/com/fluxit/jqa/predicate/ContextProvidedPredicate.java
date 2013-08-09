@@ -18,6 +18,9 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.predicate;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+
 import ar.com.fluxit.jqa.bce.Type;
 import ar.com.fluxit.jqa.context.RulesContext;
 
@@ -40,10 +43,29 @@ public class ContextProvidedPredicate extends AbstractPredicate {
 	}
 
 	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj instanceof ContextProvidedPredicate) {
+			ContextProvidedPredicate other = (ContextProvidedPredicate) obj;
+			return new EqualsBuilder()
+					.append(this.getProvidedPredicateName(),
+							other.getProvidedPredicateName())
+					.append(this.getName(), other.getName()).isEquals();
+		} else {
+			return false;
+		}
+	}
+
+	@Override
 	public final boolean evaluate(Type type, RulesContext context) {
-		final Predicate providedPredicate = context.getGlobalPredicate(getProvidedPredicateName());
+		final Predicate providedPredicate = context
+				.getGlobalPredicate(getProvidedPredicateName());
 		if (providedPredicate == null) {
-			throw new IllegalStateException("Inexistent global predicate with name: " + getProvidedPredicateName());
+			throw new IllegalStateException(
+					"Inexistent global predicate with name: "
+							+ getProvidedPredicateName());
 		}
 		return providedPredicate.evaluate(type, context);
 	}
@@ -52,7 +74,14 @@ public class ContextProvidedPredicate extends AbstractPredicate {
 		return providedPredicateName;
 	}
 
+	@Override
+	public int hashCode() {
+		return new HashCodeBuilder().append(getName())
+				.append(getProvidedPredicateName()).hashCode();
+	}
+
 	public void setProvidedPredicateName(String providedPredicateName) {
 		this.providedPredicateName = providedPredicateName;
 	}
+
 }

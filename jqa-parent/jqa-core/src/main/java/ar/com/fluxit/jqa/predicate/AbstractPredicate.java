@@ -54,4 +54,5 @@ public abstract class AbstractPredicate implements Predicate {
 	public void setName(String name) {
 		this.name = name;
 	}
+
 }

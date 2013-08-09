@@ -21,6 +21,9 @@ package ar.com.fluxit.jqa.rule;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+
 /**
  * TODO javadoc
  * 
@@ -40,6 +43,20 @@ public class RuleSetImpl implements RuleSet {
 	}
 
 	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj instanceof RuleSetImpl) {
+			RuleSetImpl other = (RuleSetImpl) obj;
+			return new EqualsBuilder().append(name, other.name)
+					.append(rules, other.rules).isEquals();
+		} else {
+			return false;
+		}
+	}
+
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -47,6 +64,11 @@ public class RuleSetImpl implements RuleSet {
 	@Override
 	public List<Rule> getRules() {
 		return rules;
+	}
+
+	@Override
+	public int hashCode() {
+		return new HashCodeBuilder().append(name).append(rules).hashCode();
 	}
 
 	public void setName(String name) {

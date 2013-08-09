@@ -33,7 +33,7 @@ import ar.com.fluxit.jqa.schema.ruleset.OrPredicate;
  * 
  * @author Juan Ignacio Barisich
  */
-class LayersRulesContextFileBuilder implements RulesContextFileBuilder {
+class LayersRulesContextFileBuilder extends AbstractRulesContextFileBuilder {
 
 	public static RulesContextFileBuilder INSTANCE = new LayersRulesContextFileBuilder();
 
@@ -56,8 +56,7 @@ class LayersRulesContextFileBuilder implements RulesContextFileBuilder {
 			rulesContext.setName("Layers definition");
 			for (LayerDescriptor layer : archDescriptor.getLayers()) {
 				OrPredicate orPredicate = OrPredicate.Factory.newInstance();
-				orPredicate.setName(layer.getName().toLowerCase().trim()
-						+ "-layer");
+				orPredicate.setName(getLayerPredicateName(layer));
 				if (layer.getPackages().isEmpty()) {
 					throw new IllegalArgumentException(String.format(
 							"The layer [%s] has no packages", layer.getName()));

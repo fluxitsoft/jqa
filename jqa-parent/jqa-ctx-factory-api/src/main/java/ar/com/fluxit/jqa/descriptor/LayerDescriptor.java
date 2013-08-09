@@ -38,6 +38,7 @@ public class LayerDescriptor {
 	private String exceptionSuperType;
 	private final Set<LayerDescriptor> usages;
 	private boolean allocable;
+
 	private Set<CommonDescriptor> commons;
 
 	public LayerDescriptor(String name, boolean hasApi, String namingPattern,
@@ -45,7 +46,7 @@ public class LayerDescriptor {
 		this.name = name;
 		this.packages = new HashSet<String>();
 		this.hasApi = hasApi;
-		this.namingPattern = namingPattern;
+		setNamingPattern(namingPattern);
 		this.superType = "java.lang.Object";
 		this.exceptionSuperType = "java.lang.Exception";
 		this.usages = new HashSet<LayerDescriptor>();
@@ -149,6 +150,16 @@ public class LayerDescriptor {
 	}
 
 	public void setNamingPattern(String namingPattern) {
+		if (namingPattern != null) {
+			if (namingPattern.contains("**")) {
+				throw new IllegalArgumentException(
+						"The naming pattern can not contains '**'");
+			}
+			if (namingPattern.contains(".")) {
+				throw new IllegalArgumentException(
+						"The naming pattern can not contains '.'");
+			}
+		}
 		this.namingPattern = namingPattern;
 	}
 
@@ -160,5 +171,4 @@ public class LayerDescriptor {
 	public String toString() {
 		return name;
 	}
-
 }
