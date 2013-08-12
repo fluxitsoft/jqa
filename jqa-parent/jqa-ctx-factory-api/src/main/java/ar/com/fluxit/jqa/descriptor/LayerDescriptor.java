@@ -18,6 +18,7 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.descriptor;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -131,6 +132,10 @@ public class LayerDescriptor {
 
 	public void setAllocable(boolean allocable) {
 		this.allocable = allocable;
+	}
+
+	public void setCommons(CommonDescriptor... commonTypes) {
+		setCommons(new HashSet<CommonDescriptor>(Arrays.asList(commonTypes)));
 	}
 
 	public void setCommons(Set<CommonDescriptor> commonTypes) {

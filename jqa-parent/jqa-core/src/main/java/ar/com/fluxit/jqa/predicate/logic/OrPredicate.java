@@ -18,6 +18,7 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.predicate.logic;
 
+import java.util.Arrays;
 import java.util.Collection;
 
 import ar.com.fluxit.jqa.bce.Type;
@@ -37,6 +38,10 @@ public class OrPredicate extends VarArgsLogicPredicate {
 
 	public OrPredicate(Collection<Predicate> predicates) {
 		super(predicates);
+	}
+
+	public OrPredicate(Predicate... predicates) {
+		super(Arrays.asList(predicates));
 	}
 
 	@Override

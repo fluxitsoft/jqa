@@ -34,6 +34,11 @@ public class CommonDescriptor {
 		this.common = DEFAULT_COMMON;
 	}
 
+	public CommonDescriptor(String typeName, boolean common) {
+		this.typeName = typeName;
+		this.common = common;
+	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (obj == this) {

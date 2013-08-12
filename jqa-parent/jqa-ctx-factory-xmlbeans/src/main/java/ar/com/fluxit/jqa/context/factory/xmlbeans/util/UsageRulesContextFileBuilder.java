@@ -20,26 +20,33 @@ package ar.com.fluxit.jqa.context.factory.xmlbeans.util;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 import ar.com.fluxit.jqa.context.factory.exception.RulesContextFactoryException;
 import ar.com.fluxit.jqa.descriptor.ArchitectureDescriptor;
+import ar.com.fluxit.jqa.descriptor.CommonDescriptor;
 import ar.com.fluxit.jqa.descriptor.LayerDescriptor;
 import ar.com.fluxit.jqa.schema.rulescontext.RulesContextDocument;
+import ar.com.fluxit.jqa.schema.ruleset.OrPredicate;
+import ar.com.fluxit.jqa.schema.ruleset.Predicate;
 import ar.com.fluxit.jqa.schema.ruleset.Rule;
 import ar.com.fluxit.jqa.schema.ruleset.Ruleset;
-import ar.com.fluxit.jqa.schema.ruleset.TypingPredicate;
+import ar.com.fluxit.jqa.schema.ruleset.UsagePredicate;
 
 /**
  * TODO javadoc
  * 
  * @author Juan Ignacio Barisich
  */
-class TypingRulesContextFileBuilder extends AbstractRulesContextFileBuilder {
+class UsageRulesContextFileBuilder extends AbstractRulesContextFileBuilder {
 
-	private static final int DEFAULT_TYPING_PRIORITY = 3;
-	public static RulesContextFileBuilder INSTANCE = new TypingRulesContextFileBuilder();
+	private static final int DEFAULT_USAGE_PRIORITY = 2;
+	public static RulesContextFileBuilder INSTANCE = new UsageRulesContextFileBuilder();
 
-	private TypingRulesContextFileBuilder() {
+	private UsageRulesContextFileBuilder() {
 		// hides the constructor
 	}
 
@@ -52,14 +59,14 @@ class TypingRulesContextFileBuilder extends AbstractRulesContextFileBuilder {
 					.newInstance();
 			ar.com.fluxit.jqa.schema.rulescontext.RulesContext rulesContext = rulesContextDoc
 					.addNewRulesContext();
-			rulesContext.setName("Typing rules context");
+			rulesContext.setName("Usage rules context");
 			Ruleset ruleSet = rulesContext.addNewRuleSet();
-			ruleSet.setName("Typing ruleset");
+			ruleSet.setName("Usage ruleset");
 			for (LayerDescriptor layer : archDescriptor.getLayers()) {
 				buildTypingRule(ruleSet, layer);
 			}
 			rulesContextDoc.save(new File(targetFile.getParentFile(),
-					"typing.xml"));
+					"usage.xml"));
 		} catch (IOException e) {
 			throw new RulesContextFactoryException(
 					"Error while saving rules context file", e);
@@ -67,21 +74,51 @@ class TypingRulesContextFileBuilder extends AbstractRulesContextFileBuilder {
 	}
 
 	private void buildTypingRule(Ruleset ruleSet, LayerDescriptor layer) {
-		if (layer.getSuperType() != null
-				&& !layer.getSuperType().equals(Object.class.getName())) {
+		Set<CommonDescriptor> commons = filterCommons(layer.getCommons());
+		if (!(layer.getUsages().isEmpty() && commons.isEmpty())) {
 			Rule rule = ruleSet.addNewRule();
-			rule.setName(layer.getName() + " typing");
+			rule.setName(layer.getName() + " usage");
 			rule.setMessage("The " + layer.getName()
-					+ " '${type.name}' must be subtype of '"
-					+ layer.getSuperType() + "'");
-			rule.setPriority(DEFAULT_TYPING_PRIORITY);
+					+ " '${type.name}' has an invalid usage.");
+			rule.setPriority(DEFAULT_USAGE_PRIORITY);
 			rule.setFilterPredicate(getLayerFilterPredicate(layer));
-			TypingPredicate typingPredicate = TypingPredicate.Factory
+			UsagePredicate usagePredicate = UsagePredicate.Factory
 					.newInstance();
-			typingPredicate.setPredicate(getNamingPredicate(layer
-					.getSuperType()));
-			rule.setCheckPredicate(typingPredicate);
+			OrPredicate orPredicate = OrPredicate.Factory.newInstance();
+			orPredicate.setPredicateArray(getUsages(layer));
+			usagePredicate.setPredicate(orPredicate);
+			rule.setCheckPredicate(usagePredicate);
 		}
 	}
 
+	private Set<CommonDescriptor> filterCommons(Set<CommonDescriptor> commons) {
+		Set<CommonDescriptor> result = new HashSet<CommonDescriptor>(
+				commons.size());
+		for (CommonDescriptor commonDescriptor : commons) {
+			if (commonDescriptor.isCommon()) {
+				result.add(commonDescriptor);
+			}
+		}
+		return result;
+	}
+
+	private Predicate[] getUsages(LayerDescriptor layer) {
+		Collection<Predicate> result = new ArrayList<Predicate>();
+		// Common types
+		for (CommonDescriptor common : layer.getCommons()) {
+			if (common.isCommon()) {
+				result.add(getNamingPredicate(common.getTypeName() + ".**"));
+			}
+		}
+		// Layer usages
+		for (LayerDescriptor layerUsage : layer.getUsages()) {
+			if (layerUsage.isHasApi()) {
+				result.add(getAndPredicate(getLayerFilterPredicate(layerUsage),
+						getInterfaceAbstractionPredicate()));
+			} else {
+				result.add(getLayerFilterPredicate(layerUsage));
+			}
+		}
+		return result.toArray(new Predicate[result.size()]);
+	}
 }

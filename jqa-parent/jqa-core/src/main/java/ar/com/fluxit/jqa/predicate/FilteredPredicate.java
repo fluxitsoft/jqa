@@ -31,6 +31,11 @@ public abstract class FilteredPredicate extends AbstractPredicate {
 		super();
 	}
 
+	public FilteredPredicate(Predicate filterPredicate) {
+		super();
+		this.filterPredicate = filterPredicate;
+	}
+
 	public Predicate getFilterPredicate() {
 		return filterPredicate;
 	}

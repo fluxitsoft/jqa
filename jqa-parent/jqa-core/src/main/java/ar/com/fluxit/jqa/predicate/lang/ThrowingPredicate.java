@@ -29,6 +29,7 @@ import ar.com.fluxit.jqa.bce.Type;
 import ar.com.fluxit.jqa.context.RulesContext;
 import ar.com.fluxit.jqa.predicate.CheckPredicate;
 import ar.com.fluxit.jqa.predicate.FilteredPredicate;
+import ar.com.fluxit.jqa.predicate.Predicate;
 
 /**
  * TODO javadoc
@@ -40,6 +41,10 @@ public class ThrowingPredicate extends FilteredPredicate implements
 
 	public ThrowingPredicate() {
 		super();
+	}
+
+	public ThrowingPredicate(Predicate filterPredicate) {
+		super(filterPredicate);
 	}
 
 	@Override

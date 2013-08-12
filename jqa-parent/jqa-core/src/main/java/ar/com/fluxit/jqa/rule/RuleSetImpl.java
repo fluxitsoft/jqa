@@ -78,4 +78,9 @@ public class RuleSetImpl implements RuleSet {
 	public void setRules(List<Rule> rules) {
 		this.rules = rules;
 	}
+
+	@Override
+	public String toString() {
+		return "RuleSetImpl [name=" + name + "]";
+	}
 }

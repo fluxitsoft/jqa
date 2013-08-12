@@ -21,11 +21,15 @@ package ar.com.fluxit.jqa.predicate.lang;
 import java.io.File;
 import java.util.Collection;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+
 import ar.com.fluxit.jqa.bce.BCERepositoryLocator;
 import ar.com.fluxit.jqa.bce.Type;
 import ar.com.fluxit.jqa.context.RulesContext;
 import ar.com.fluxit.jqa.predicate.CheckPredicate;
 import ar.com.fluxit.jqa.predicate.FilteredPredicate;
+import ar.com.fluxit.jqa.predicate.Predicate;
 
 /**
  * TODO javadoc
@@ -37,6 +41,24 @@ public class TypingPredicate extends FilteredPredicate implements
 
 	public TypingPredicate() {
 		super();
+	}
+
+	public TypingPredicate(Predicate filterPredicate) {
+		super(filterPredicate);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj instanceof TypingPredicate) {
+			TypingPredicate other = (TypingPredicate) obj;
+			return new EqualsBuilder().append(getFilterPredicate(),
+					other.getFilterPredicate()).isEquals();
+		} else {
+			return false;
+		}
 	}
 
 	@Override
@@ -68,8 +90,12 @@ public class TypingPredicate extends FilteredPredicate implements
 	}
 
 	@Override
+	public int hashCode() {
+		return new HashCodeBuilder().append(getFilterPredicate()).hashCode();
+	}
+
+	@Override
 	public String toString() {
 		return "TypingPredicate: [" + getFilterPredicate().toString() + "]";
 	}
-
 }

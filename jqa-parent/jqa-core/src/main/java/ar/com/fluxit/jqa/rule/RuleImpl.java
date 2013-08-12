@@ -118,4 +118,9 @@ public class RuleImpl implements Rule {
 		}
 		this.priority = priority;
 	}
+
+	@Override
+	public String toString() {
+		return "RuleImpl [name=" + name + "]";
+	}
 }

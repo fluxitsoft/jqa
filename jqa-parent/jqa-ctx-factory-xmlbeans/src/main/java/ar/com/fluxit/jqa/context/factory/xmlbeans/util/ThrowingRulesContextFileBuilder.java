@@ -27,19 +27,19 @@ import ar.com.fluxit.jqa.descriptor.LayerDescriptor;
 import ar.com.fluxit.jqa.schema.rulescontext.RulesContextDocument;
 import ar.com.fluxit.jqa.schema.ruleset.Rule;
 import ar.com.fluxit.jqa.schema.ruleset.Ruleset;
-import ar.com.fluxit.jqa.schema.ruleset.TypingPredicate;
+import ar.com.fluxit.jqa.schema.ruleset.ThrowingPredicate;
 
 /**
  * TODO javadoc
  * 
  * @author Juan Ignacio Barisich
  */
-class TypingRulesContextFileBuilder extends AbstractRulesContextFileBuilder {
+class ThrowingRulesContextFileBuilder extends AbstractRulesContextFileBuilder {
 
-	private static final int DEFAULT_TYPING_PRIORITY = 3;
-	public static RulesContextFileBuilder INSTANCE = new TypingRulesContextFileBuilder();
+	private static final int DEFAULT_THROWING_PRIORITY = 3;
+	public static RulesContextFileBuilder INSTANCE = new ThrowingRulesContextFileBuilder();
 
-	private TypingRulesContextFileBuilder() {
+	private ThrowingRulesContextFileBuilder() {
 		// hides the constructor
 	}
 
@@ -52,35 +52,38 @@ class TypingRulesContextFileBuilder extends AbstractRulesContextFileBuilder {
 					.newInstance();
 			ar.com.fluxit.jqa.schema.rulescontext.RulesContext rulesContext = rulesContextDoc
 					.addNewRulesContext();
-			rulesContext.setName("Typing rules context");
+			rulesContext.setName("Throwing rules context");
 			Ruleset ruleSet = rulesContext.addNewRuleSet();
-			ruleSet.setName("Typing ruleset");
+			ruleSet.setName("Throwing ruleset");
 			for (LayerDescriptor layer : archDescriptor.getLayers()) {
-				buildTypingRule(ruleSet, layer);
+				buildThrowingRule(ruleSet, layer);
 			}
 			rulesContextDoc.save(new File(targetFile.getParentFile(),
-					"typing.xml"));
+					"throwing.xml"));
 		} catch (IOException e) {
 			throw new RulesContextFactoryException(
 					"Error while saving rules context file", e);
 		}
 	}
 
-	private void buildTypingRule(Ruleset ruleSet, LayerDescriptor layer) {
-		if (layer.getSuperType() != null
-				&& !layer.getSuperType().equals(Object.class.getName())) {
+	private void buildThrowingRule(Ruleset ruleSet, LayerDescriptor layer) {
+		if (layer.getExceptionSuperType() != null
+				&& !layer.getExceptionSuperType().equals(
+						Exception.class.getName())) {
 			Rule rule = ruleSet.addNewRule();
-			rule.setName(layer.getName() + " typing");
+			rule.setName(layer.getName() + " throwing");
 			rule.setMessage("The " + layer.getName()
-					+ " '${type.name}' must be subtype of '"
-					+ layer.getSuperType() + "'");
-			rule.setPriority(DEFAULT_TYPING_PRIORITY);
+					+ " '${type.name}' has an invalid throwing. A "
+					+ layer.getName()
+					+ " must throws only exceptions that extend to '"
+					+ layer.getExceptionSuperType() + "'");
+			rule.setPriority(DEFAULT_THROWING_PRIORITY);
 			rule.setFilterPredicate(getLayerFilterPredicate(layer));
-			TypingPredicate typingPredicate = TypingPredicate.Factory
+			ThrowingPredicate throwingPredicate = ThrowingPredicate.Factory
 					.newInstance();
-			typingPredicate.setPredicate(getNamingPredicate(layer
-					.getSuperType()));
-			rule.setCheckPredicate(typingPredicate);
+			throwingPredicate.setPredicate(getNamingPredicate(layer
+					.getExceptionSuperType()));
+			rule.setCheckPredicate(throwingPredicate);
 		}
 	}
 

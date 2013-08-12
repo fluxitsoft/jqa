@@ -46,7 +46,8 @@ public class RulesContextImpl implements RulesContext {
 
 	public void add(Predicate predicate) {
 		if (predicate.getName() == null) {
-			throw new IllegalArgumentException("Global predicate must has a name");
+			throw new IllegalArgumentException(
+					"Global predicate must has a name");
 		}
 		this.globalPredicates.put(predicate.getName(), predicate);
 	}
@@ -56,7 +57,8 @@ public class RulesContextImpl implements RulesContext {
 		for (final Predicate predicate : context.getGlobalPredicates()) {
 			add(predicate);
 		}
-		for (final Entry<String, String> variable : context.getGlobalVariables().entrySet()) {
+		for (final Entry<String, String> variable : context
+				.getGlobalVariables().entrySet()) {
 			add(variable.getKey(), variable.getValue());
 		}
 	}
@@ -91,6 +93,19 @@ public class RulesContextImpl implements RulesContext {
 	@Override
 	public Map<String, String> getGlobalVariables() {
 		return this.variables;
+	}
+
+	@Override
+	public RuleSet getRuleSet(String ruleSetName) {
+		if (ruleSetName == null) {
+			throw new IllegalArgumentException("RuleSet name can not be null");
+		}
+		for (RuleSet ruleSet : getRuleSets()) {
+			if (ruleSetName.equals(ruleSet.getName())) {
+				return ruleSet;
+			}
+		}
+		return null;
 	}
 
 	@Override

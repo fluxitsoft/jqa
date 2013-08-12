@@ -39,6 +39,8 @@ public interface RulesContext {
 
 	Map<String, String> getGlobalVariables();
 
+	RuleSet getRuleSet(String string);
+
 	Collection<RuleSet> getRuleSets();
 
 }

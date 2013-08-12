@@ -30,12 +30,16 @@ import ar.com.fluxit.jqa.context.RulesContext;
 import ar.com.fluxit.jqa.context.factory.exception.RulesContextFactoryException;
 import ar.com.fluxit.jqa.context.factory.xmlbeans.util.MainRulesContextFileBuilder;
 import ar.com.fluxit.jqa.descriptor.ArchitectureDescriptor;
+import ar.com.fluxit.jqa.descriptor.CommonDescriptor;
 import ar.com.fluxit.jqa.descriptor.LayerDescriptor;
 import ar.com.fluxit.jqa.predicate.ContextProvidedPredicate;
 import ar.com.fluxit.jqa.predicate.Predicate;
 import ar.com.fluxit.jqa.predicate.lang.AbstractionPredicate;
 import ar.com.fluxit.jqa.predicate.lang.AbstractionPredicate.AbstractionType;
 import ar.com.fluxit.jqa.predicate.lang.NamingPredicate;
+import ar.com.fluxit.jqa.predicate.lang.ThrowingPredicate;
+import ar.com.fluxit.jqa.predicate.lang.TypingPredicate;
+import ar.com.fluxit.jqa.predicate.lang.UsagePredicate;
 import ar.com.fluxit.jqa.predicate.logic.AndPredicate;
 import ar.com.fluxit.jqa.predicate.logic.OrPredicate;
 import ar.com.fluxit.jqa.rule.RuleImpl;
@@ -80,12 +84,21 @@ public class MainRulesContextFileBuilderTest extends TestCase {
 		LayerDescriptor daoLayer = new LayerDescriptor("DAO", true, "*DAO",
 				false);
 		daoLayer.setSuperType("com.acme.foo.dao.DataAccessObject");
+		daoLayer.setExceptionSuperType("com.acme.foo.dao.DataAccessObjectException");
 		daoLayer.addPackages(buildPackages("com.acme.foo.dao",
 				"com.acme.foo.dao.impl"));
+		daoLayer.setCommons(new CommonDescriptor("org.hibernate", true),
+				new CommonDescriptor("org.spring", true));
+		daoLayer.addUsage(entityLayer);
 		archDescriptor.getLayers().add(daoLayer);
 		LayerDescriptor utilLayer = new LayerDescriptor("Util", false, "*Util",
 				false);
 		utilLayer.addPackages(buildPackages("com.acme.foo.util"));
+		utilLayer.setSuperType("java.lang.Object");
+		utilLayer.setExceptionSuperType("java.lang.Exception");
+		utilLayer.setCommons(new CommonDescriptor("org.apache", true),
+				new CommonDescriptor("com.spring", false));
+		utilLayer.addUsage(daoLayer);
 		archDescriptor.getLayers().add(utilLayer);
 		// Run
 		MainRulesContextFileBuilder.INSTANCE.buildRulesContextFile(targetFile,
@@ -94,7 +107,7 @@ public class MainRulesContextFileBuilderTest extends TestCase {
 		RulesContext rulesContext = RulesContextFactoryLocator
 				.getRulesContextFactory().getRulesContext(targetFile.getPath());
 		assertNotNull(rulesContext);
-		assertEquals(1, rulesContext.getRuleSets().size());
+		assertEquals(4, rulesContext.getRuleSets().size());
 		// Layer definitions
 		Predicate entityGlobalPredicate = rulesContext
 				.getGlobalPredicate("entity-layer");
@@ -140,11 +153,60 @@ public class MainRulesContextFileBuilderTest extends TestCase {
 				"util-layer"), new NamingPredicate("**.*Util"), "Util naming",
 				"The Util '${type.name}' must be named like '**.*Util'", 4));
 		assertTrue(rulesContext.getRuleSets().contains(namingRuleSet));
+		assertEquals(4, rulesContext.getRuleSet("Naming ruleset").getRules()
+				.size());
 		// Typing definitions
-		// RuleSetImpl typingRuleSet = new RuleSetImpl();
-		// typingRuleSet.setName("Typing ruleset");
-
-		// assertTrue(rulesContext.getRuleSets().contains(typingRuleSet));
+		RuleSetImpl typingRuleSet = new RuleSetImpl();
+		typingRuleSet.setName("Typing ruleset");
+		typingRuleSet
+				.addRule(new RuleImpl(
+						new ContextProvidedPredicate("entity-layer"),
+						new TypingPredicate(new NamingPredicate(
+								"com.acme.foo.entity.Entity")),
+						"Entity typing",
+						"The Entity '${type.name}' must be subtype of 'com.acme.foo.entity.Entity'",
+						3));
+		typingRuleSet
+				.addRule(new RuleImpl(
+						new ContextProvidedPredicate("dao-layer"),
+						new TypingPredicate(new NamingPredicate(
+								"com.acme.foo.dao.DataAccessObject")),
+						"DAO typing",
+						"The DAO '${type.name}' must be subtype of 'com.acme.foo.dao.DataAccessObject'",
+						3));
+		assertTrue(rulesContext.getRuleSets().contains(typingRuleSet));
+		assertEquals(2, rulesContext.getRuleSet("Typing ruleset").getRules()
+				.size());
+		// Throwing definitions
+		RuleSetImpl throwingRuleSet = new RuleSetImpl();
+		throwingRuleSet.setName("Throwing ruleset");
+		throwingRuleSet
+				.addRule(new RuleImpl(
+						new ContextProvidedPredicate("dao-layer"),
+						new ThrowingPredicate(new NamingPredicate(
+								"com.acme.foo.dao.DataAccessObjectException")),
+						"DAO throwing",
+						"The DAO '${type.name}' has an invalid throwing. A DAO must throws only exceptions that extend to 'com.acme.foo.dao.DataAccessObjectException'",
+						3));
+		assertEquals(1, rulesContext.getRuleSet("Throwing ruleset").getRules()
+				.size());
+		// Usage definitions
+		RuleSetImpl usageRuleSet = new RuleSetImpl();
+		usageRuleSet.setName("Usage ruleset");
+		usageRuleSet.addRule(new RuleImpl(new ContextProvidedPredicate(
+				"dao-layer"), new UsagePredicate(new OrPredicate(
+				new NamingPredicate("org.hibernate.**"),
+				new ContextProvidedPredicate("entity-layer"))), "DAO usage",
+				"The DAO '${type.name}' has an invalid usage.", 2));
+		usageRuleSet.addRule(new RuleImpl(new ContextProvidedPredicate(
+				"utility-layer"), new UsagePredicate(new OrPredicate(
+				new NamingPredicate("org.apache.**"), new AndPredicate(
+						new ContextProvidedPredicate("dao-layer"),
+						new AbstractionPredicate(AbstractionType.INTERFACE)))),
+				"Utility usage",
+				"The Utility '${type.name}' has an invalid usage.", 2));
+		assertEquals(2, rulesContext.getRuleSet("Usage ruleset").getRules()
+				.size());
 	}
 
 }
