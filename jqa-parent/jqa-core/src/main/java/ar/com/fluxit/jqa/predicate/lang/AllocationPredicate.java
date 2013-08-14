@@ -29,6 +29,7 @@ import ar.com.fluxit.jqa.bce.Type;
 import ar.com.fluxit.jqa.context.RulesContext;
 import ar.com.fluxit.jqa.predicate.CheckPredicate;
 import ar.com.fluxit.jqa.predicate.FilteredPredicate;
+import ar.com.fluxit.jqa.predicate.Predicate;
 
 /**
  * TODO javadoc
@@ -42,12 +43,16 @@ public class AllocationPredicate extends FilteredPredicate implements
 		super();
 	}
 
+	public AllocationPredicate(Predicate filterPredicate) {
+		super(filterPredicate);
+	}
+
 	@Override
 	public boolean evaluate(Type type, RulesContext context) {
-		final Collection<Type> filteredClasses = BCERepositoryLocator
+		final Collection<Type> allocatedTypes = BCERepositoryLocator
 				.getRepository().getAllocations(type).keySet();
-		for (final Type usedClass : filteredClasses) {
-			if (!getFilterPredicate().evaluate(usedClass, context)) {
+		for (final Type allocatedClass : allocatedTypes) {
+			if (!getFilterPredicate().evaluate(allocatedClass, context)) {
 				return false;
 			}
 		}

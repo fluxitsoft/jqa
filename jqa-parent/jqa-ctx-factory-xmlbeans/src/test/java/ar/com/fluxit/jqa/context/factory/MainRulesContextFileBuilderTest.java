@@ -36,12 +36,15 @@ import ar.com.fluxit.jqa.predicate.ContextProvidedPredicate;
 import ar.com.fluxit.jqa.predicate.Predicate;
 import ar.com.fluxit.jqa.predicate.lang.AbstractionPredicate;
 import ar.com.fluxit.jqa.predicate.lang.AbstractionPredicate.AbstractionType;
+import ar.com.fluxit.jqa.predicate.lang.AllocationPredicate;
 import ar.com.fluxit.jqa.predicate.lang.NamingPredicate;
 import ar.com.fluxit.jqa.predicate.lang.ThrowingPredicate;
 import ar.com.fluxit.jqa.predicate.lang.TypingPredicate;
 import ar.com.fluxit.jqa.predicate.lang.UsagePredicate;
 import ar.com.fluxit.jqa.predicate.logic.AndPredicate;
+import ar.com.fluxit.jqa.predicate.logic.NotPredicate;
 import ar.com.fluxit.jqa.predicate.logic.OrPredicate;
+import ar.com.fluxit.jqa.predicate.logic.TruePredicate;
 import ar.com.fluxit.jqa.rule.RuleImpl;
 import ar.com.fluxit.jqa.rule.RuleSetImpl;
 
@@ -107,7 +110,7 @@ public class MainRulesContextFileBuilderTest extends TestCase {
 		RulesContext rulesContext = RulesContextFactoryLocator
 				.getRulesContextFactory().getRulesContext(targetFile.getPath());
 		assertNotNull(rulesContext);
-		assertEquals(4, rulesContext.getRuleSets().size());
+		assertEquals(5, rulesContext.getRuleSets().size());
 		// Layer definitions
 		Predicate entityGlobalPredicate = rulesContext
 				.getGlobalPredicate("entity-layer");
@@ -207,6 +210,21 @@ public class MainRulesContextFileBuilderTest extends TestCase {
 				"The Utility '${type.name}' has an invalid usage.", 2));
 		assertEquals(2, rulesContext.getRuleSet("Usage ruleset").getRules()
 				.size());
+		// Allocation definitions
+		RuleSetImpl allocationRuleSet = new RuleSetImpl();
+		allocationRuleSet.setName("Allocation rulset");
+		allocationRuleSet.addRule(new RuleImpl(TruePredicate.INSTANCE,
+				new AllocationPredicate(new NotPredicate(
+						new ContextProvidedPredicate("dao-layer"))),
+				"DAO allocation",
+				"The DAO '${type.name}' can not be allocated'", 2));
+		allocationRuleSet.addRule(new RuleImpl(TruePredicate.INSTANCE,
+				new AllocationPredicate(new NotPredicate(
+						new ContextProvidedPredicate("utility-layer"))),
+				"Utility allocation",
+				"The Utility '${type.name}' can not be allocated'", 2));
+		assertEquals(2, rulesContext.getRuleSet("Allocation ruleset")
+				.getRules().size());
 	}
 
 }

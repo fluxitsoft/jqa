@@ -55,8 +55,8 @@ public class MainRulesContextFileBuilder extends
 			rulesContext.addNewRulesContextImport().setResource("typing.xml");
 			rulesContext.addNewRulesContextImport().setResource("throwing.xml");
 			rulesContext.addNewRulesContextImport().setResource("usage.xml");
-			// rulesContext.addNewRulesContextImport().setResource(
-			// "allocation.xml");
+			rulesContext.addNewRulesContextImport().setResource(
+					"allocation.xml");
 			// rulesContext.addNewRulesContextImport().setResource(
 			// "abstraction.xml");
 			rulesContextDoc.save(targetFile);
@@ -70,6 +70,8 @@ public class MainRulesContextFileBuilder extends
 			ThrowingRulesContextFileBuilder.INSTANCE.buildRulesContextFile(
 					targetFile, archDescriptor);
 			UsageRulesContextFileBuilder.INSTANCE.buildRulesContextFile(
+					targetFile, archDescriptor);
+			AllocationRulesContextFileBuilder.INSTANCE.buildRulesContextFile(
 					targetFile, archDescriptor);
 
 		} catch (IOException e) {
