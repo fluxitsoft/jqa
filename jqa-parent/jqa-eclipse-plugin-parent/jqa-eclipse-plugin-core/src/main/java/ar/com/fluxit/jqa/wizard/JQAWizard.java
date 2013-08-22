@@ -33,9 +33,9 @@ import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
 
 import ar.com.fluxit.jqa.JQAEclipsePlugin;
 import ar.com.fluxit.jqa.JQAEclipseRunner;
-import ar.com.fluxit.jqa.descriptor.ArchitectureDescriptor;
 import ar.com.fluxit.jqa.context.factory.RulesContextFactoryLocator;
 import ar.com.fluxit.jqa.context.factory.exception.RulesContextFactoryException;
+import ar.com.fluxit.jqa.descriptor.ArchitectureDescriptor;
 import ar.com.fluxit.jqa.wizard.page.AllocationDefinitionWizardPage;
 import ar.com.fluxit.jqa.wizard.page.ApisDefinitionWizardPage;
 import ar.com.fluxit.jqa.wizard.page.CommonsTypesDefinitionWizardPage;
@@ -82,7 +82,7 @@ public class JQAWizard extends Wizard {
 		addPage(new CommonsTypesDefinitionWizardPage());
 	}
 
-	private boolean buildContextFile() {
+	private boolean buildContextFileAndRun() {
 		try {
 			WizardNewFileCreationPage newFilePage = (WizardNewFileCreationPage) getPage(NewRulesContextFileWizardPage.PAGE_NAME);
 			setRulesContextFile(newFilePage.createNewFile());
@@ -90,6 +90,7 @@ public class JQAWizard extends Wizard {
 					.buildRulesContextFile(
 							getRulesContextFile().getRawLocation().toFile(),
 							getArchitectureDescriptor());
+			runContextFile();
 			return true;
 		} catch (RulesContextFactoryException e) {
 			JQAEclipsePlugin
@@ -140,7 +141,7 @@ public class JQAWizard extends Wizard {
 	@Override
 	public boolean performFinish() {
 		if (isNewRulesContext()) {
-			return buildContextFile();
+			return buildContextFileAndRun();
 		} else {
 			return runContextFile();
 		}

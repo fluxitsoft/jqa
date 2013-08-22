@@ -18,6 +18,9 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.predicate;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+
 /**
  * TODO javadoc
  * 
@@ -36,8 +39,31 @@ public abstract class FilteredPredicate extends AbstractPredicate {
 		this.filterPredicate = filterPredicate;
 	}
 
+	@Override
+	public final boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (!obj.getClass().equals(this.getClass())) {
+			return false;
+		}
+		FilteredPredicate other = (FilteredPredicate) obj;
+		return new EqualsBuilder().append(getName(), other.getName())
+				.append(getFilterPredicate(), other.getFilterPredicate())
+				.isEquals();
+	}
+
 	public Predicate getFilterPredicate() {
 		return filterPredicate;
+	}
+
+	@Override
+	public final int hashCode() {
+		return new HashCodeBuilder().append(getName())
+				.append(getFilterPredicate()).hashCode();
 	}
 
 	public void setFilterPredicate(Predicate filterPredicate) {

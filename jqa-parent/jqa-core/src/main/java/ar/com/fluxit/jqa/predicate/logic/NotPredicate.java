@@ -18,6 +18,9 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.predicate.logic;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+
 import ar.com.fluxit.jqa.bce.Type;
 import ar.com.fluxit.jqa.context.RulesContext;
 import ar.com.fluxit.jqa.predicate.AbstractPredicate;
@@ -41,12 +44,32 @@ public class NotPredicate extends AbstractPredicate {
 	}
 
 	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj instanceof NotPredicate) {
+			NotPredicate other = (NotPredicate) obj;
+			return new EqualsBuilder().append(getName(), other.getName())
+					.append(getPredicate(), other.getPredicate()).isEquals();
+		} else {
+			return false;
+		}
+	}
+
+	@Override
 	public boolean evaluate(Type type, RulesContext context) {
 		return !getPredicate().evaluate(type, context);
 	}
 
 	public Predicate getPredicate() {
 		return predicate;
+	}
+
+	@Override
+	public int hashCode() {
+		return new HashCodeBuilder().append(getName()).append(getPredicate())
+				.hashCode();
 	}
 
 	public void setPredicate(Predicate predicate) {

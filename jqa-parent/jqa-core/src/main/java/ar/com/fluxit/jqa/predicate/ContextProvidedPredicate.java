@@ -84,4 +84,10 @@ public class ContextProvidedPredicate extends AbstractPredicate {
 		this.providedPredicateName = providedPredicateName;
 	}
 
+	@Override
+	public String toString() {
+		return "ContextProvidedPredicate [providedPredicateName="
+				+ providedPredicateName + ", name=" + getName() + "]";
+	}
+
 }

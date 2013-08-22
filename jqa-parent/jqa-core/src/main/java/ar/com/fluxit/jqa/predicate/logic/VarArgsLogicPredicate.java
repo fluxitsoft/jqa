@@ -20,6 +20,9 @@ package ar.com.fluxit.jqa.predicate.logic;
 
 import java.util.Collection;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+
 import ar.com.fluxit.jqa.predicate.AbstractPredicate;
 import ar.com.fluxit.jqa.predicate.Predicate;
 
@@ -41,8 +44,30 @@ public abstract class VarArgsLogicPredicate extends AbstractPredicate {
 		this.predicates = predicates;
 	}
 
+	@Override
+	public final boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (!getClass().equals(obj.getClass())) {
+			return false;
+		}
+		VarArgsLogicPredicate other = (VarArgsLogicPredicate) obj;
+		return new EqualsBuilder().append(this.getName(), other.getName())
+				.append(getPredicates(), other.getPredicates()).isEquals();
+	}
+
 	public Collection<Predicate> getPredicates() {
 		return predicates;
+	}
+
+	@Override
+	public final int hashCode() {
+		return new HashCodeBuilder().append(getName()).append(getPredicates())
+				.hashCode();
 	}
 
 	public void setPredicates(Collection<Predicate> predicates) {

@@ -100,7 +100,7 @@ public class MainRulesContextFileBuilderTest extends TestCase {
 		utilLayer.setSuperType("java.lang.Object");
 		utilLayer.setExceptionSuperType("java.lang.Exception");
 		utilLayer.setCommons(new CommonDescriptor("org.apache", true),
-				new CommonDescriptor("com.spring", false));
+				new CommonDescriptor("org.spring", false));
 		utilLayer.addUsage(daoLayer);
 		archDescriptor.getLayers().add(utilLayer);
 		// Run
@@ -126,6 +126,12 @@ public class MainRulesContextFileBuilderTest extends TestCase {
 				new NamingPredicate("com.acme.foo.dao.impl.**")));
 		assertTrue(((OrPredicate) daoGlobalPredicate).getPredicates().contains(
 				new NamingPredicate("com.acme.foo.dao.**")));
+		Predicate utilGlobalPredicate = rulesContext
+				.getGlobalPredicate("util-layer");
+		assertEquals(1, ((OrPredicate) utilGlobalPredicate).getPredicates()
+				.size());
+		assertTrue(((OrPredicate) utilGlobalPredicate).getPredicates()
+				.contains(new NamingPredicate("com.acme.foo.util.**")));
 		// Naming definitions
 		RuleSetImpl namingRuleSet = new RuleSetImpl();
 		namingRuleSet.setName("Naming ruleset");
@@ -191,28 +197,53 @@ public class MainRulesContextFileBuilderTest extends TestCase {
 						"DAO throwing",
 						"The DAO '${type.name}' has an invalid throwing. A DAO must throws only exceptions that extend to 'com.acme.foo.dao.DataAccessObjectException'",
 						3));
+		assertTrue(rulesContext.getRuleSets().contains(throwingRuleSet));
 		assertEquals(1, rulesContext.getRuleSet("Throwing ruleset").getRules()
 				.size());
 		// Usage definitions
 		RuleSetImpl usageRuleSet = new RuleSetImpl();
 		usageRuleSet.setName("Usage ruleset");
 		usageRuleSet.addRule(new RuleImpl(new ContextProvidedPredicate(
-				"dao-layer"), new UsagePredicate(new OrPredicate(
-				new NamingPredicate("org.hibernate.**"),
-				new ContextProvidedPredicate("entity-layer"))), "DAO usage",
-				"The DAO '${type.name}' has an invalid usage.", 2));
-		usageRuleSet.addRule(new RuleImpl(new ContextProvidedPredicate(
-				"utility-layer"), new UsagePredicate(new OrPredicate(
-				new NamingPredicate("org.apache.**"), new AndPredicate(
+				"entity-layer"), new UsagePredicate(new OrPredicate(
+				new NamingPredicate("java.**"), new ContextProvidedPredicate(
+						"entity-layer"), new NamingPredicate(
+						"com.acme.foo.entity.Entity"))), "Entity usage",
+				"The Entity '${type.name}' has an invalid usage.", 2));
+		usageRuleSet
+				.addRule(new RuleImpl(
 						new ContextProvidedPredicate("dao-layer"),
-						new AbstractionPredicate(AbstractionType.INTERFACE)))),
-				"Utility usage",
-				"The Utility '${type.name}' has an invalid usage.", 2));
-		assertEquals(2, rulesContext.getRuleSet("Usage ruleset").getRules()
+						new UsagePredicate(
+								new OrPredicate(
+										new NamingPredicate("java.**"),
+										new ContextProvidedPredicate(
+												"dao-layer"),
+										new NamingPredicate("org.hibernate.**"),
+										new NamingPredicate("org.spring.**"),
+										new ContextProvidedPredicate(
+												"entity-layer"),
+										new NamingPredicate(
+												"com.acme.foo.dao.DataAccessObject"),
+										new NamingPredicate(
+												"com.acme.foo.dao.DataAccessObjectException"))),
+						"DAO usage",
+						"The DAO '${type.name}' has an invalid usage.", 2));
+		usageRuleSet.addRule(new RuleImpl(new ContextProvidedPredicate(
+				"util-layer"), new UsagePredicate(new OrPredicate(
+				new NamingPredicate("java.**"), new ContextProvidedPredicate(
+						"util-layer"), new NamingPredicate("org.apache.**"),
+				new AndPredicate(new ContextProvidedPredicate("dao-layer"),
+						new AbstractionPredicate(AbstractionType.INTERFACE)),
+				new TypingPredicate(new NamingPredicate(
+						"com.acme.foo.dao.DataAccessObjectException")))),
+				"Util usage", "The Util '${type.name}' has an invalid usage.",
+				2));
+		assertTrue(rulesContext.getRuleSets().contains(usageRuleSet));
+		assertEquals(3, rulesContext.getRuleSet("Usage ruleset").getRules()
 				.size());
+
 		// Allocation definitions
 		RuleSetImpl allocationRuleSet = new RuleSetImpl();
-		allocationRuleSet.setName("Allocation rulset");
+		allocationRuleSet.setName("Allocation ruleset");
 		allocationRuleSet.addRule(new RuleImpl(TruePredicate.INSTANCE,
 				new AllocationPredicate(new NotPredicate(
 						new ContextProvidedPredicate("dao-layer"))),
@@ -220,9 +251,10 @@ public class MainRulesContextFileBuilderTest extends TestCase {
 				"The DAO '${type.name}' can not be allocated'", 2));
 		allocationRuleSet.addRule(new RuleImpl(TruePredicate.INSTANCE,
 				new AllocationPredicate(new NotPredicate(
-						new ContextProvidedPredicate("utility-layer"))),
-				"Utility allocation",
-				"The Utility '${type.name}' can not be allocated'", 2));
+						new ContextProvidedPredicate("util-layer"))),
+				"Util allocation",
+				"The Util '${type.name}' can not be allocated'", 2));
+		assertTrue(rulesContext.getRuleSets().contains(allocationRuleSet));
 		assertEquals(2, rulesContext.getRuleSet("Allocation ruleset")
 				.getRules().size());
 	}

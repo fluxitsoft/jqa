@@ -120,9 +120,12 @@ class NamingRulesContextFileBuilder extends AbstractRulesContextFileBuilder {
 			Ruleset ruleSet = rulesContext.addNewRuleSet();
 			ruleSet.setName("Naming ruleset");
 			for (LayerDescriptor layer : archDescriptor.getLayers()) {
-				buildNamingRule(ruleSet, layer,
-						archDescriptor.getPackageImplSuffix(),
-						archDescriptor.getClassImplSuffix());
+				if (layer.getNamingPattern() != null
+						&& !layer.getNamingPattern().isEmpty()) {
+					buildNamingRule(ruleSet, layer,
+							archDescriptor.getPackageImplSuffix(),
+							archDescriptor.getClassImplSuffix());
+				}
 			}
 			rulesContextDoc.save(new File(targetFile.getParentFile(),
 					"naming.xml"));

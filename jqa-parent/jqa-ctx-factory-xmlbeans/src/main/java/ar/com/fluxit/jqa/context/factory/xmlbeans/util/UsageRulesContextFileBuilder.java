@@ -22,8 +22,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
 
 import ar.com.fluxit.jqa.context.factory.exception.RulesContextFactoryException;
 import ar.com.fluxit.jqa.descriptor.ArchitectureDescriptor;
@@ -34,6 +32,7 @@ import ar.com.fluxit.jqa.schema.ruleset.OrPredicate;
 import ar.com.fluxit.jqa.schema.ruleset.Predicate;
 import ar.com.fluxit.jqa.schema.ruleset.Rule;
 import ar.com.fluxit.jqa.schema.ruleset.Ruleset;
+import ar.com.fluxit.jqa.schema.ruleset.TypingPredicate;
 import ar.com.fluxit.jqa.schema.ruleset.UsagePredicate;
 
 /**
@@ -74,36 +73,25 @@ class UsageRulesContextFileBuilder extends AbstractRulesContextFileBuilder {
 	}
 
 	private void buildTypingRule(Ruleset ruleSet, LayerDescriptor layer) {
-		Set<CommonDescriptor> commons = filterCommons(layer.getCommons());
-		if (!(layer.getUsages().isEmpty() && commons.isEmpty())) {
-			Rule rule = ruleSet.addNewRule();
-			rule.setName(layer.getName() + " usage");
-			rule.setMessage("The " + layer.getName()
-					+ " '${type.name}' has an invalid usage.");
-			rule.setPriority(DEFAULT_USAGE_PRIORITY);
-			rule.setFilterPredicate(getLayerFilterPredicate(layer));
-			UsagePredicate usagePredicate = UsagePredicate.Factory
-					.newInstance();
-			OrPredicate orPredicate = OrPredicate.Factory.newInstance();
-			orPredicate.setPredicateArray(getUsages(layer));
-			usagePredicate.setPredicate(orPredicate);
-			rule.setCheckPredicate(usagePredicate);
-		}
-	}
-
-	private Set<CommonDescriptor> filterCommons(Set<CommonDescriptor> commons) {
-		Set<CommonDescriptor> result = new HashSet<CommonDescriptor>(
-				commons.size());
-		for (CommonDescriptor commonDescriptor : commons) {
-			if (commonDescriptor.isCommon()) {
-				result.add(commonDescriptor);
-			}
-		}
-		return result;
+		Rule rule = ruleSet.addNewRule();
+		rule.setName(layer.getName() + " usage");
+		rule.setMessage("The " + layer.getName()
+				+ " '${type.name}' has an invalid usage.");
+		rule.setPriority(DEFAULT_USAGE_PRIORITY);
+		rule.setFilterPredicate(getLayerFilterPredicate(layer));
+		UsagePredicate usagePredicate = UsagePredicate.Factory.newInstance();
+		OrPredicate orPredicate = OrPredicate.Factory.newInstance();
+		orPredicate.setPredicateArray(getUsages(layer));
+		usagePredicate.setPredicate(orPredicate);
+		rule.setCheckPredicate(usagePredicate);
 	}
 
 	private Predicate[] getUsages(LayerDescriptor layer) {
 		Collection<Predicate> result = new ArrayList<Predicate>();
+		// JRE types
+		result.add(getNamingPredicate("java.**"));
+		// Reflection
+		result.add(getLayerFilterPredicate(layer));
 		// Common types
 		for (CommonDescriptor common : layer.getCommons()) {
 			if (common.isCommon()) {
@@ -118,6 +106,26 @@ class UsageRulesContextFileBuilder extends AbstractRulesContextFileBuilder {
 			} else {
 				result.add(getLayerFilterPredicate(layerUsage));
 			}
+			if (layerUsage.getExceptionSuperType() != null
+					&& !"java.lang.Exception".equals(layerUsage
+							.getExceptionSuperType())) {
+				TypingPredicate typingPredicate = TypingPredicate.Factory
+						.newInstance();
+				typingPredicate.setPredicate(getNamingPredicate(layerUsage
+						.getExceptionSuperType()));
+				result.add(typingPredicate);
+			}
+		}
+		// Layer supertype
+		if (layer.getSuperType() != null
+				&& !layer.getSuperType().equals(Object.class.getName())) {
+			result.add(getNamingPredicate(layer.getSuperType()));
+		}
+		// Layer exception supertype
+		if (layer.getExceptionSuperType() != null
+				&& !layer.getExceptionSuperType().equals(
+						Exception.class.getName())) {
+			result.add(getNamingPredicate(layer.getExceptionSuperType()));
 		}
 		return result.toArray(new Predicate[result.size()]);
 	}

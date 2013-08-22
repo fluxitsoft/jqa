@@ -22,6 +22,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 /**
@@ -135,7 +136,8 @@ public class LayerDescriptor {
 	}
 
 	public void setCommons(CommonDescriptor... commonTypes) {
-		setCommons(new HashSet<CommonDescriptor>(Arrays.asList(commonTypes)));
+		setCommons(new LinkedHashSet<CommonDescriptor>(
+				Arrays.asList(commonTypes)));
 	}
 
 	public void setCommons(Set<CommonDescriptor> commonTypes) {
