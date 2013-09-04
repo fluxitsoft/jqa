@@ -63,7 +63,7 @@ public abstract class FilteredPredicate extends AbstractPredicate {
 	@Override
 	public final int hashCode() {
 		return new HashCodeBuilder().append(getName())
-				.append(getFilterPredicate()).hashCode();
+				.append(getFilterPredicate()).toHashCode();
 	}
 
 	public void setFilterPredicate(Predicate filterPredicate) {

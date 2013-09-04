@@ -27,6 +27,8 @@ import ar.com.fluxit.jqa.bce.Type;
 import ar.com.fluxit.jqa.mock.ClassA;
 import ar.com.fluxit.jqa.mock.ClassB;
 import ar.com.fluxit.jqa.mock.ClassC;
+import ar.com.fluxit.jqa.mock.ClassF;
+import ar.com.fluxit.jqa.mock.ClassH;
 import ar.com.fluxit.jqa.mock.InterfaceA;
 import ar.com.fluxit.jqa.mock.usage.ClassThatDeclaresExceptionA;
 import ar.com.fluxit.jqa.mock.usage.ClassThatExtendsClassA;
@@ -92,6 +94,30 @@ public class UsagePredicateTest extends TestCase {
 
 	public UsagePredicateTest() {
 		BCERepositoryLocator.init(null, "1.5", null);
+	}
+
+	public void testBugClassNotFound() throws ClassNotFoundException {
+		final Type type = BCERepositoryLocator.getRepository().lookupType(
+				ClassH.class);
+		final UsagePredicate usagePredicate = new UsagePredicate();
+		usagePredicate.setFilterPredicate(new OrPredicate(new NamingPredicate(
+				"java.util.HashMap"), new NamingPredicate("java.util.Map"),
+				new NamingPredicate("ar.com.fluxit.jqa.mock.ClassA"),
+				new NamingPredicate("ar.com.fluxit.jqa.mock.ClassB"),
+				new NamingPredicate("ar.com.fluxit.jqa.mock.InterfaceC"),
+				new NamingPredicate("long"), new NamingPredicate(
+						"java.lang.Object"), new NamingPredicate(
+						"java.lang.String")));
+		assertTrue(usagePredicate.evaluate(type, null));
+	}
+
+	public void testBugMethodNotFound() throws ClassNotFoundException {
+		final Type type = BCERepositoryLocator.getRepository().lookupType(
+				ClassF.class);
+		final UsagePredicate usagePredicate = new UsagePredicate();
+		usagePredicate.setFilterPredicate(new OrPredicate(new NamingPredicate(
+				"java.lang.Class"), new NamingPredicate("java.lang.Object")));
+		assertTrue(usagePredicate.evaluate(type, null));
 	}
 
 	public final void testCheck() throws ClassNotFoundException {

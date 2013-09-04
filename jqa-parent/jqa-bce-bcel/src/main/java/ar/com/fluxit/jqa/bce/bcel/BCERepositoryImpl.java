@@ -37,18 +37,18 @@ import java.util.Map.Entry;
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
-import net.sourceforge.pmd.ast.ASTAllocationExpression;
-import net.sourceforge.pmd.ast.ASTClassOrInterfaceBody;
-import net.sourceforge.pmd.ast.ASTClassOrInterfaceDeclaration;
-import net.sourceforge.pmd.ast.ASTCompilationUnit;
-import net.sourceforge.pmd.ast.ASTEnumDeclaration;
-import net.sourceforge.pmd.ast.ASTImportDeclaration;
-import net.sourceforge.pmd.ast.ASTName;
-import net.sourceforge.pmd.ast.ASTPackageDeclaration;
-import net.sourceforge.pmd.ast.CharStream;
-import net.sourceforge.pmd.ast.JavaCharStream;
-import net.sourceforge.pmd.ast.JavaParser;
-import net.sourceforge.pmd.ast.SimpleNode;
+import net.sourceforge.pmd.lang.ast.CharStream;
+import net.sourceforge.pmd.lang.ast.JavaCharStream;
+import net.sourceforge.pmd.lang.ast.Node;
+import net.sourceforge.pmd.lang.java.ast.ASTAllocationExpression;
+import net.sourceforge.pmd.lang.java.ast.ASTClassOrInterfaceBody;
+import net.sourceforge.pmd.lang.java.ast.ASTClassOrInterfaceDeclaration;
+import net.sourceforge.pmd.lang.java.ast.ASTCompilationUnit;
+import net.sourceforge.pmd.lang.java.ast.ASTEnumDeclaration;
+import net.sourceforge.pmd.lang.java.ast.ASTImportDeclaration;
+import net.sourceforge.pmd.lang.java.ast.ASTName;
+import net.sourceforge.pmd.lang.java.ast.ASTPackageDeclaration;
+import net.sourceforge.pmd.lang.java.ast.JavaParser;
 
 import org.apache.bcel.Constants;
 import org.apache.bcel.classfile.Attribute;
@@ -68,6 +68,7 @@ import org.apache.bcel.classfile.Method;
 import org.apache.bcel.classfile.Signature;
 import org.apache.bcel.classfile.Visitor;
 import org.apache.bcel.generic.ATHROW;
+import org.apache.bcel.generic.ArrayType;
 import org.apache.bcel.generic.CPInstruction;
 import org.apache.bcel.generic.ConstantPoolGen;
 import org.apache.bcel.generic.FieldOrMethod;
@@ -120,14 +121,14 @@ public class BCERepositoryImpl implements BCERepository {
 		result.put(type, collection);
 	}
 
-	private SimpleNode doGetTypeNode(SimpleNode node, String typeShortName) {
+	private Node doGetTypeNode(Node node, String typeShortName) {
 		if (typeShortName.contains("$")) {
 			// Is inner type
 			String currentTypeName = typeShortName.substring(0,
 					typeShortName.indexOf("$"));
 			String nextTypeName = typeShortName.substring(typeShortName
 					.indexOf("$") + 1);
-			SimpleNode declaration = findFirstLevelTypeDeclarationNode(node,
+			Node declaration = findFirstLevelTypeDeclarationNode(node,
 					currentTypeName);
 			return doGetTypeNode(declaration, nextTypeName);
 		} else {
@@ -135,16 +136,15 @@ public class BCERepositoryImpl implements BCERepository {
 		}
 	}
 
-	private List<SimpleNode> findChildNodesWithXPath(Type parentType,
+	private List<? extends Node> findChildNodesWithXPath(Type parentType,
 			String xpathString) {
-		SimpleNode typeNode = getTypeNode(parentType);
+		Node typeNode = getTypeNode(parentType);
 		try {
-			@SuppressWarnings("unchecked")
-			List<SimpleNode> result = typeNode
+			List<? extends Node> result = typeNode
 					.findChildNodesWithXPath(xpathString);
-			for (Iterator<SimpleNode> iterator = result.iterator(); iterator
+			for (Iterator<? extends Node> iterator = result.iterator(); iterator
 					.hasNext();) {
-				SimpleNode simpleNode = iterator.next();
+				Node simpleNode = iterator.next();
 				if (simpleNode
 						.getFirstParentOfType(ASTClassOrInterfaceDeclaration.class) != typeNode) {
 					iterator.remove();
@@ -158,22 +158,22 @@ public class BCERepositoryImpl implements BCERepository {
 		}
 	}
 
-	private SimpleNode findFirstLevelAnonymousTypeDeclarationNode(
-			SimpleNode parentNode, String namedTypeShortName) {
-		List<SimpleNode> declarations = findFirstLevelAnonymousTypeDeclarationNodes(
+	private Node findFirstLevelAnonymousTypeDeclarationNode(Node parentNode,
+			String namedTypeShortName) {
+		List<Node> declarations = findFirstLevelAnonymousTypeDeclarationNodes(
 				parentNode, namedTypeShortName);
 		return declarations.get(Integer.valueOf(namedTypeShortName) - 1);
 	}
 
-	private List<SimpleNode> findFirstLevelAnonymousTypeDeclarationNodes(
-			SimpleNode parentNode, String namedTypeShortName) {
-		List<SimpleNode> result = new ArrayList<SimpleNode>();
+	private List<Node> findFirstLevelAnonymousTypeDeclarationNodes(
+			Node parentNode, String namedTypeShortName) {
+		List<Node> result = new ArrayList<Node>();
 		for (int i = 0; i < parentNode.jjtGetNumChildren(); i++) {
-			SimpleNode children = (SimpleNode) parentNode.jjtGetChild(i);
+			Node children = parentNode.jjtGetChild(i);
 			if (!(children instanceof ASTClassOrInterfaceDeclaration || children instanceof ASTEnumDeclaration)) {
 				if (children instanceof ASTAllocationExpression
-						&& children
-								.containsChildOfType(ASTClassOrInterfaceBody.class)) {
+						&& !children.findChildrenOfType(
+								ASTClassOrInterfaceBody.class).isEmpty()) {
 					// Is an anonymous type
 					result.add(children);
 				}
@@ -184,9 +184,9 @@ public class BCERepositoryImpl implements BCERepository {
 		return result;
 	}
 
-	private SimpleNode findFirstLevelNamedTypeDeclarationNode(
-			SimpleNode parentNode, String namedTypeShortName) {
-		List<SimpleNode> declarations = findFirstLevelNamedTypeDeclarationNodes(
+	private Node findFirstLevelNamedTypeDeclarationNode(Node parentNode,
+			String namedTypeShortName) {
+		List<Node> declarations = findFirstLevelNamedTypeDeclarationNodes(
 				parentNode, namedTypeShortName);
 		if (declarations.isEmpty()) {
 			throw new IllegalArgumentException(
@@ -199,11 +199,11 @@ public class BCERepositoryImpl implements BCERepository {
 		return declarations.get(0);
 	}
 
-	private List<SimpleNode> findFirstLevelNamedTypeDeclarationNodes(
-			SimpleNode parentNode, String namedTypeShortName) {
-		List<SimpleNode> result = new ArrayList<SimpleNode>();
+	private List<Node> findFirstLevelNamedTypeDeclarationNodes(Node parentNode,
+			String namedTypeShortName) {
+		List<Node> result = new ArrayList<Node>();
 		for (int i = 0; i < parentNode.jjtGetNumChildren(); i++) {
-			SimpleNode children = (SimpleNode) parentNode.jjtGetChild(i);
+			Node children = parentNode.jjtGetChild(i);
 			if (children instanceof ASTClassOrInterfaceDeclaration
 					|| children instanceof ASTEnumDeclaration) {
 				if (children.getImage().equals(namedTypeShortName)) {
@@ -217,7 +217,7 @@ public class BCERepositoryImpl implements BCERepository {
 		return result;
 	}
 
-	private SimpleNode findFirstLevelTypeDeclarationNode(SimpleNode node,
+	private Node findFirstLevelTypeDeclarationNode(Node node,
 			String typeShortName) {
 		if (isAnonymous(typeShortName)) {
 			return findFirstLevelAnonymousTypeDeclarationNode(node,
@@ -292,10 +292,8 @@ public class BCERepositoryImpl implements BCERepository {
 				sourceFile = getSourceFile(type);
 				final CharStream stream = new JavaCharStream(sourceFile);
 				final JavaParser javaParser = new JavaParser(stream);
-				if ("1.5".equals(this.javaVersion)
-						|| "1.6".equals(this.javaVersion)) {
-					javaParser.setJDK15();
-				}
+				javaParser.setJdkVersion(Integer.valueOf(javaVersion
+						.substring(javaVersion.indexOf('.') + 1)));
 				final ASTCompilationUnit compilationUnit = javaParser
 						.CompilationUnit();
 				result = new Element(type.getName(), compilationUnit);
@@ -316,7 +314,7 @@ public class BCERepositoryImpl implements BCERepository {
 
 	@Override
 	public Integer getDeclarationLineNumber(Type type) {
-		SimpleNode typeNode = getTypeNode(type);
+		Node typeNode = getTypeNode(type);
 		return typeNode.getBeginLine();
 	}
 
@@ -329,22 +327,24 @@ public class BCERepositoryImpl implements BCERepository {
 		return BcelJavaType.create(typeName);
 	}
 
-	private Collection<Integer> getFieldSourceLines(Type parentType,
-			Type fieldType, String fieldName) {
-		List<Integer> result = new ArrayList<Integer>();
+	protected Integer getFieldSourceLine(String fieldName, Type parentType) {
+		String shortName = parentType.getShortName();
+		if (shortName.contains("$")) {
+			shortName = shortName.substring(shortName.lastIndexOf('$') + 1);
+		}
 		String xpathString = String
-				.format("//VariableDeclarator/../Type[.//ClassOrInterfaceType[@Image='%s' or @Image='%s'] or PrimitiveType[@Image='%s']]",
-						fieldType.getName(), fieldType.getShortName(),
-						fieldType.getShortName());
-		List<SimpleNode> fieldTypeNodes = findChildNodesWithXPath(parentType,
-				xpathString);
+				.format("//ClassOrInterfaceDeclaration[@Image='%s']/ClassOrInterfaceBody/ClassOrInterfaceBodyDeclaration/FieldDeclaration/VariableDeclarator/VariableDeclaratorId[@Image='%s']",
+						shortName, fieldName);
+		List<? extends Node> fieldTypeNodes = findChildNodesWithXPath(
+				parentType, xpathString);
 		if (fieldTypeNodes.isEmpty()) {
-			throw new IllegalArgumentException("Field not found: " + fieldName);
+			throw new IllegalArgumentException("Field not found: " + fieldName
+					+ " on type: " + parentType.getName());
+		} else if (fieldTypeNodes.size() > 1) {
+			throw new IllegalArgumentException("Multiple fields found for: "
+					+ fieldName + " on type: " + parentType.getName());
 		} else {
-			for (SimpleNode fieldTypeNode : fieldTypeNodes) {
-				result.add(fieldTypeNode.getBeginLine());
-			}
-			return result;
+			return fieldTypeNodes.get(0).getBeginLine();
 		}
 
 	}
@@ -388,17 +388,10 @@ public class BCERepositoryImpl implements BCERepository {
 			// Non constructors
 			String xpathString = "//MethodDeclarator[@Image='"
 					+ method.getName() + "']";
-			if (method.getArgumentTypes().length == 0) {
-				xpathString += "[not(.//FormalParameter)]";
-			} else {
-				for (org.apache.bcel.generic.Type argumentType : method
-						.getArgumentTypes()) {
-					Type argumentType2 = BcelJavaType.create(argumentType);
-					xpathString += "[.//FormalParameter//*[@Image='"
-							+ argumentType2.getShortName() + "']]";
-				}
-			}
-			List<SimpleNode> fieldTypeNodes = findChildNodesWithXPath(
+			xpathString += "[count(.//FormalParameter) = "
+					+ method.getArgumentTypes().length + "]";
+			xpathString += getParameterPaths(method);
+			List<? extends Node> fieldTypeNodes = findChildNodesWithXPath(
 					parentType, xpathString);
 			if (fieldTypeNodes.size() == 1) {
 				return fieldTypeNodes.get(0).getBeginLine();
@@ -407,14 +400,15 @@ public class BCERepositoryImpl implements BCERepository {
 						"More than one method found for: " + method.getName()
 								+ " at type: " + parentType.getName());
 			} else {
-				// fieldTypeNodes == 0
 				if (xpathString
 						.equals("//ConstructorDeclaration[count(FormalParameters/FormalParameter) = 0]")) {
 					// Implicit constructor
 					return getDeclarationLineNumber(parentType);
 				} else {
+					LOGGER.error("Method not found: " + method.getName() + " ("
+							+ method + ") for type: " + parentType.getName());
 					throw new IllegalArgumentException("Method not found: "
-							+ method.getName() + " for type: "
+							+ method.getName() + " (" + method + ") for type: "
 							+ parentType.getName());
 				}
 			}
@@ -425,6 +419,83 @@ public class BCERepositoryImpl implements BCERepository {
 		ASTPackageDeclaration packageDeclaration = compilationUnit
 				.getFirstChildOfType(ASTPackageDeclaration.class);
 		return packageDeclaration.getFirstChildOfType(ASTName.class).getImage();
+	}
+
+	protected String getParameterPath(int i, Type argumentType, boolean array) {
+		String result;
+		String arrayStr = array ? "[@Array='true']" : "[@Array='false']";
+		if (TypeNameTranslator.isPrimitive(argumentType)) {
+			result = String
+					.format("[.//FormalParameter[%d]%s/Type[.//PrimitiveType[@Image='%s']]]",
+							i, arrayStr, argumentType.getShortName());
+		} else {
+			result = String
+					.format("[.//FormalParameter[%d]/Type[./ReferenceType%s/*[@Image='%s' or @Image='%s']]]",
+							i, arrayStr, argumentType.getShortName(),
+							argumentType.getName());
+		}
+		return result;
+	}
+
+	private String getParameterPaths(Method method) {
+		String result = "";
+		Signature methodSignature = getSignature(method);
+		if (methodSignature == null) {
+			// Method without generics
+			int i = 1;
+			for (org.apache.bcel.generic.Type argumentType : method
+					.getArgumentTypes()) {
+				result += getParameterPath(i,
+						BcelJavaType.create(argumentType),
+						argumentType instanceof ArrayType);
+				i++;
+			}
+		} else {
+			// Method with generics
+			String paramsSignature = methodSignature.getSignature();
+			int beginIndex = paramsSignature.indexOf("(") + 1;
+			int endIndex = paramsSignature.indexOf(")");
+			paramsSignature = paramsSignature.substring(beginIndex, endIndex);
+			if (!paramsSignature.isEmpty()) {
+				paramsSignature = paramsSignature.replaceAll("<[^>]*>", "")
+				/* .replaceAll("\\[", "") */;
+				String[] paramsSignatureSplit = paramsSignature.split(";");
+				int i = 1;
+				for (String paramSignature : paramsSignatureSplit) {
+					boolean array;
+					if (paramSignature.startsWith("[")) {
+						array = true;
+						paramSignature = paramSignature.substring(1);
+					} else {
+						array = false;
+					}
+					if (paramSignature.startsWith("T")) {
+						result += String
+								.format("[.//FormalParameter[%d]/Type[./ReferenceType/*[@Image='%s']]]",
+										i, paramSignature.substring(1));
+					} else if (paramSignature.startsWith("L")) {
+						BcelJavaType argumentType = BcelJavaType
+								.create(paramSignature.substring(1));
+						result += getParameterPath(i, argumentType, array);
+					} else {
+						throw new IllegalStateException(
+								"Unssuported param signature " + paramSignature);
+					}
+					i++;
+				}
+			}
+		}
+		return result;
+	}
+
+	private Signature getSignature(
+			org.apache.bcel.classfile.FieldOrMethod fieldOrMethod) {
+		for (Attribute attribute : fieldOrMethod.getAttributes()) {
+			if (attribute instanceof Signature) {
+				return (Signature) attribute;
+			}
+		}
+		return null;
 	}
 
 	@Override
@@ -549,13 +620,18 @@ public class BCERepositoryImpl implements BCERepository {
 
 			@Override
 			public void visitMethod(Method obj) {
-				final ExceptionTable exceptionTable = obj.getExceptionTable();
-				if (exceptionTable != null) {
-					for (String exceptionName : exceptionTable
-							.getExceptionNames()) {
-						final int sourceLine = getMethodSourceLine(obj, type);
-						addToResult(sourceLine,
-								BcelJavaType.create(exceptionName), result);
+				// Skip generated fields
+				if ((obj.getAccessFlags() & Constants.ACC_SYNTHETIC) == 0) {
+					final ExceptionTable exceptionTable = obj
+							.getExceptionTable();
+					if (exceptionTable != null) {
+						for (String exceptionName : exceptionTable
+								.getExceptionNames()) {
+							final int sourceLine = getMethodSourceLine(obj,
+									type);
+							addToResult(sourceLine,
+									BcelJavaType.create(exceptionName), result);
+						}
 					}
 				}
 			}
@@ -565,7 +641,7 @@ public class BCERepositoryImpl implements BCERepository {
 		return result;
 	}
 
-	private SimpleNode getTypeNode(Type type) {
+	private Node getTypeNode(Type type) {
 		// TODO cache
 		final ASTCompilationUnit compilationUnit = getCompilationUnit(type);
 		return doGetTypeNode(compilationUnit, type.getShortName());
@@ -666,11 +742,9 @@ public class BCERepositoryImpl implements BCERepository {
 					final Type fieldType = BcelJavaType
 							.create(org.apache.bcel.generic.Type.getType(field
 									.getSignature()));
-					Collection<Integer> sourceLines = getFieldSourceLines(type,
-							fieldType, field.getName());
-					for (Integer sourceLine : sourceLines) {
-						addToResult(sourceLine, fieldType, result);
-					}
+					Integer sourceLine = getFieldSourceLine(field.getName(),
+							type);
+					addToResult(sourceLine, fieldType, result);
 				}
 			}
 

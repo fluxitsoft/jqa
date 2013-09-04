@@ -21,6 +21,7 @@ package ar.com.fluxit.jqa.handler;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
@@ -34,11 +35,32 @@ import ar.com.fluxit.jqa.wizard.JQAWizard;
  */
 public class JQAHandler extends AbstractHandler {
 
+	protected boolean confirm(Shell shell) {
+		return MessageDialog
+				.openConfirm(shell, "Confirm exit", "Are you sure?");
+	}
+
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow()
 				.getShell();
-		WizardDialog dialog = new WizardDialog(shell, new JQAWizard());
+		WizardDialog dialog = new WizardDialog(shell, new JQAWizard()) {
+
+			@Override
+			protected void cancelPressed() {
+				if (confirm(getShell())) {
+					super.cancelPressed();
+				}
+			}
+
+			@Override
+			protected void handleShellCloseEvent() {
+				if (confirm(getShell())) {
+					super.handleShellCloseEvent();
+				}
+			}
+
+		};
 		// TODO dialog title don't work
 		dialog.setTitle("Run JQA");
 		dialog.open();

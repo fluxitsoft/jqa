@@ -68,7 +68,7 @@ public class RuleSetImpl implements RuleSet {
 
 	@Override
 	public int hashCode() {
-		return new HashCodeBuilder().append(name).append(rules).hashCode();
+		return new HashCodeBuilder().append(name).append(rules).toHashCode();
 	}
 
 	public void setName(String name) {

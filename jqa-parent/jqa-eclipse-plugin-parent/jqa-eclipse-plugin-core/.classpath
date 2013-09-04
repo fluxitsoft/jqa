@@ -5,7 +5,7 @@
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry kind="lib" path="lib/commons-io-2.0.1.jar"/>
 	<classpathentry kind="lib" path="lib/jqa-bce-api-1.0.jar"/>
-	<classpathentry kind="lib" path="lib/jqa-bce-bcel-1.0.jar"/>
+	<classpathentry kind="lib" path="lib/jqa-bce-bcel-1.0.jar" sourcepath="/jqa-bce-bcel/src/main/java"/>
 	<classpathentry kind="lib" path="lib/jqa-core-1.0.jar"/>
 	<classpathentry kind="lib" path="lib/jqa-ctx-factory-api-1.0.jar"/>
 	<classpathentry kind="lib" path="lib/jqa-ctx-factory-xmlbeans-1.0.jar"/>

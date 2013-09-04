@@ -38,7 +38,7 @@ import java.util.Vector;
 
 import javax.xml.parsers.FactoryConfigurationError;
 
-import net.sourceforge.pmd.FileDataSource;
+import net.sourceforge.pmd.util.datasource.FileDataSource;
 import nu.xom.Attribute;
 import nu.xom.DocType;
 

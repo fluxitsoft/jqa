@@ -34,6 +34,8 @@ import org.apache.bcel.generic.ArrayType;
 import org.apache.bcel.generic.BasicType;
 import org.apache.bcel.generic.ObjectType;
 
+import ar.com.fluxit.jqa.bce.Type;
+
 /**
  * @author Paul Cantrell
  */
@@ -47,8 +49,10 @@ final class TypeNameTranslator {
 
 	static {
 		classSuffixRE = Pattern.compile("\\.class$");
-		arrayExtractorRE = Pattern.compile("^(\\[+([BSIJCFDZV])|\\[+L([^;]*);)$");
-		sigExtractorRE = Pattern.compile("^\\(?\\)?(\\[*([BSIJCFDZV])|\\[*L([^;]*);)");
+		arrayExtractorRE = Pattern
+				.compile("^(\\[+([BSIJCFDZV])|\\[+L([^;]*);)$");
+		sigExtractorRE = Pattern
+				.compile("^\\(?\\)?(\\[*([BSIJCFDZV])|\\[*L([^;]*);)");
 		final String javaIdent = "[\\p{Alpha}$_][\\p{Alnum}$_]*";
 		Pattern.compile("^(" + javaIdent + ")(\\.(" + javaIdent + "))*$");
 		primitiveTypeMap = new HashMap<String, String>();
@@ -63,14 +67,38 @@ final class TypeNameTranslator {
 		primitiveTypeMap.put("V", "void");
 		try {
 			primitiveClassMap = new HashMap<String, JavaClass>();
-			primitiveClassMap.put("byte", renameJavaClass(Repository.lookupClass(Byte.class), byte.class.getName()));
-			primitiveClassMap.put("short", renameJavaClass(Repository.lookupClass(Short.class), short.class.getName()));
-			primitiveClassMap.put("int", renameJavaClass(Repository.lookupClass(Integer.class), int.class.getName()));
-			primitiveClassMap.put("long", renameJavaClass(Repository.lookupClass(Long.class), long.class.getName()));
-			primitiveClassMap.put("char", renameJavaClass(Repository.lookupClass(Character.class), char.class.getName()));
-			primitiveClassMap.put("float", renameJavaClass(Repository.lookupClass(Float.class), float.class.getName()));
-			primitiveClassMap.put("double", renameJavaClass(Repository.lookupClass(Double.class), double.class.getName()));
-			primitiveClassMap.put("boolean", renameJavaClass(Repository.lookupClass(Boolean.class), boolean.class.getName()));
+			primitiveClassMap.put(
+					"byte",
+					renameJavaClass(Repository.lookupClass(Byte.class),
+							byte.class.getName()));
+			primitiveClassMap.put(
+					"short",
+					renameJavaClass(Repository.lookupClass(Short.class),
+							short.class.getName()));
+			primitiveClassMap.put(
+					"int",
+					renameJavaClass(Repository.lookupClass(Integer.class),
+							int.class.getName()));
+			primitiveClassMap.put(
+					"long",
+					renameJavaClass(Repository.lookupClass(Long.class),
+							long.class.getName()));
+			primitiveClassMap.put(
+					"char",
+					renameJavaClass(Repository.lookupClass(Character.class),
+							char.class.getName()));
+			primitiveClassMap.put(
+					"float",
+					renameJavaClass(Repository.lookupClass(Float.class),
+							float.class.getName()));
+			primitiveClassMap.put(
+					"double",
+					renameJavaClass(Repository.lookupClass(Double.class),
+							double.class.getName()));
+			primitiveClassMap.put(
+					"boolean",
+					renameJavaClass(Repository.lookupClass(Boolean.class),
+							boolean.class.getName()));
 		} catch (ClassNotFoundException e) {
 			throw new IllegalStateException(e);
 		}
@@ -95,10 +123,15 @@ final class TypeNameTranslator {
 		return primitiveClassMap.get(className);
 	}
 
+	public static boolean isPrimitive(Type argumentType) {
+		return primitiveClassMap.containsKey(argumentType.getName());
+	}
+
 	private static JavaClass renameJavaClass(JavaClass javaClass, String newName) {
 		JavaClass result = javaClass.copy();
 		try {
-			Field classNamefield = result.getClass().getDeclaredField("class_name");
+			Field classNamefield = result.getClass().getDeclaredField(
+					"class_name");
 			classNamefield.setAccessible(true);
 			classNamefield.set(result, newName);
 			return result;
@@ -108,7 +141,8 @@ final class TypeNameTranslator {
 	}
 
 	private static String resourceToClassName(final String className) {
-		return classSuffixRE.matcher(className).replaceAll("").replace('/', '.').intern();
+		return classSuffixRE.matcher(className).replaceAll("")
+				.replace('/', '.').intern();
 	}
 
 	static List<String> signatureToTypeNames(String signature) {
@@ -117,7 +151,8 @@ final class TypeNameTranslator {
 			final String remaining = signature.substring(pos);
 			final Matcher sigMatcher = sigExtractorRE.matcher(remaining);
 			if (!sigMatcher.find()) {
-				throw new IllegalArgumentException("Unable to extract type info from: " + remaining);
+				throw new IllegalArgumentException(
+						"Unable to extract type info from: " + remaining);
 			}
 			if (sigMatcher.group(2) != null) {
 				names.add(primitiveTypeMap.get(sigMatcher.group(2)));
@@ -132,22 +167,13 @@ final class TypeNameTranslator {
 
 	static List<String> signatureToTypeNames2(String signature) {
 		List<String> result = new ArrayList<String>();
-		Pattern pattern = Pattern.compile("<([^>]*)>");
-		Matcher matcher = pattern.matcher(signature.replace("*", ""));
-		if (matcher.find()) {
-			int size = matcher.groupCount();
-			for (int i = 1; i <= size; i++) {
-				String typeNames = matcher.group(i);
-				if (!typeNames.isEmpty()) {
-					if (typeNames.contains(":")) {
-						typeNames = typeNames.substring(typeNames.lastIndexOf(':') + 1);
-					}
-					for (String type : typeNames.split(";")) {
-						if (type.startsWith("L")) {
-							result.add(typeConstantToClassName(type).substring(1));
-						}
-					}
-				}
+		Pattern pattern = Pattern.compile("L[^:;<]*[;<]");
+		Matcher matcher = pattern.matcher(signature);
+		while (matcher.find()) {
+			String group = matcher.group().substring(1);
+			group = group.substring(0, group.length() - 1);
+			if (!group.isEmpty()) {
+				result.add(typeConstantToClassName(group));
 			}
 		}
 		return result;

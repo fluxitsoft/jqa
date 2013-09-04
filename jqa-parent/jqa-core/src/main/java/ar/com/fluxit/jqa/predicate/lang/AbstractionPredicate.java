@@ -109,7 +109,7 @@ public class AbstractionPredicate extends IgnoringContextPredicate implements
 	@Override
 	public int hashCode() {
 		return new HashCodeBuilder().append(getName())
-				.append(getAbstractionType()).hashCode();
+				.append(getAbstractionType()).toHashCode();
 	}
 
 	public void setAbstractionType(AbstractionType abstractionType) {

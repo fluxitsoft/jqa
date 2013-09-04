@@ -41,9 +41,9 @@
 			<version>5.2</version>
 		</dependency>
 		<dependency>
-			<groupId>pmd</groupId>
+			<groupId>net.sourceforge.pmd</groupId>
 			<artifactId>pmd</artifactId>
-			<version>4.2.5</version>
+			<version>5.0.5</version>
 			<exclusions>
 				<exclusion>
 					<groupId>xalan</groupId>
@@ -63,5 +63,4 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
-
 </project>

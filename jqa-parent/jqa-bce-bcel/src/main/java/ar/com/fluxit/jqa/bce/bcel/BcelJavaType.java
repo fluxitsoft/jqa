@@ -51,9 +51,14 @@ class BcelJavaType implements Type {
 			return new BcelJavaType(c);
 		} else {
 			try {
-				return new BcelJavaType(org.apache.bcel.Repository.lookupClass(className));
+				return new BcelJavaType(
+						org.apache.bcel.Repository.lookupClass(className));
 			} catch (ClassNotFoundException e) {
-				throw new IllegalArgumentException("Can not find class " + className, e);
+				throw new IllegalArgumentException("Can not find class "
+						+ className, e);
+			} catch (IllegalArgumentException e) {
+				throw new IllegalArgumentException("Can not find class "
+						+ className, e);
 			}
 		}
 	}

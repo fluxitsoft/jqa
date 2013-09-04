@@ -61,7 +61,7 @@ import javax.print.attribute.UnmodifiableSetException;
 import javax.xml.parsers.FactoryConfigurationError;
 import javax.xml.transform.TransformerException;
 
-import net.sourceforge.pmd.FileDataSource;
+import net.sourceforge.pmd.util.datasource.FileDataSource;
 import nu.xom.Attribute;
 import nu.xom.DocType;
 
