@@ -285,7 +285,7 @@ public class BCERepositoryImpl implements BCERepository {
 
 	private ASTCompilationUnit getCompilationUnit(Type type) {
 		final Cache cache = getCacheManager().getCache("COMPILATION_UNIT");
-		Element result = cache.get(type.getName());
+		Element result = cache.get(type.hashCode());
 		if (result == null) {
 			InputStream sourceFile = null;
 			try {
@@ -296,7 +296,7 @@ public class BCERepositoryImpl implements BCERepository {
 						.substring(javaVersion.indexOf('.') + 1)));
 				final ASTCompilationUnit compilationUnit = javaParser
 						.CompilationUnit();
-				result = new Element(type.getName(), compilationUnit);
+				result = new Element(type.hashCode(), compilationUnit);
 				cache.put(result);
 			} finally {
 				if (sourceFile != null) {

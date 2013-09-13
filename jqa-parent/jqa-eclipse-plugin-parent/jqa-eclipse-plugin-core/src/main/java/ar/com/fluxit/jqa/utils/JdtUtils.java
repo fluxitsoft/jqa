@@ -71,7 +71,8 @@ public abstract class JdtUtils {
 	private static Set<CommonDescriptor> collectCommonTypes(
 			Collection<String> packages, IProject[] targetProjects) {
 		Set<CommonDescriptor> commonTypes = new HashSet<CommonDescriptor>();
-		for (IPackageFragment pkg : getPackageFragments(packages, targetProjects)) {
+		for (IPackageFragment pkg : getPackageFragments(packages,
+				targetProjects)) {
 			commonTypes.addAll(JdtUtils.collectCommonTypes(pkg));
 		}
 		return commonTypes;
@@ -174,7 +175,7 @@ public abstract class JdtUtils {
 			throws JavaModelException {
 		Collection<File> result = new ArrayList<File>();
 		IPackageFragmentRoot[] packageFragmentRoot = javaProject
-				.getAllPackageFragmentRoots();
+				.getPackageFragmentRoots();
 		for (int i = 0; i < packageFragmentRoot.length; i++) {
 			if (packageFragmentRoot[i].getElementType() == IJavaElement.PACKAGE_FRAGMENT_ROOT
 					&& !packageFragmentRoot[i].isArchive()) {

@@ -19,6 +19,8 @@
 package ar.com.fluxit.jqa.bce.bcel;
 
 import org.apache.bcel.classfile.JavaClass;
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
 
 import ar.com.fluxit.jqa.bce.Type;
 
@@ -80,7 +82,11 @@ class BcelJavaType implements Type {
 		if (!(obj instanceof BcelJavaType)) {
 			return false;
 		}
-		return ((BcelJavaType) obj).getName().equals(getName());
+		BcelJavaType other = (BcelJavaType) obj;
+		// maybe two equals types in different projects, so
+		// includes their repositories on equals
+		return new EqualsBuilder().append(wrapped.getBytes(),
+				other.getWrapped().getBytes()).isEquals();
 	}
 
 	@Override
@@ -104,7 +110,7 @@ class BcelJavaType implements Type {
 
 	@Override
 	public int hashCode() {
-		return this.wrapped.getClassName().hashCode();
+		return new HashCodeBuilder().append(wrapped.getBytes()).toHashCode();
 	}
 
 	@Override
