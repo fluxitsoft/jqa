@@ -19,6 +19,7 @@
 package ar.com.fluxit.jqa.mock;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -59,6 +60,10 @@ public abstract class ClassH<I extends ClassA, D extends ClassB, S extends Map<I
 
 	public void foo(String[] param, String param2, Map<String, ClassA> param3,
 			Map<String, ClassB> param4) {
+
+	}
+
+	public void foo2(Map<String, List<I>> results) {
 
 	}
 

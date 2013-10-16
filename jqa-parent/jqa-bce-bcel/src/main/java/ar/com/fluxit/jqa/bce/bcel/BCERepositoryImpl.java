@@ -390,7 +390,7 @@ public class BCERepositoryImpl implements BCERepository {
 					+ method.getName() + "']";
 			xpathString += "[count(.//FormalParameter) = "
 					+ method.getArgumentTypes().length + "]";
-			xpathString += getParameterPaths(method);
+			xpathString += getParameterPaths(method, parentType);
 			List<? extends Node> fieldTypeNodes = findChildNodesWithXPath(
 					parentType, xpathString);
 			if (fieldTypeNodes.size() == 1) {
@@ -437,7 +437,7 @@ public class BCERepositoryImpl implements BCERepository {
 		return result;
 	}
 
-	private String getParameterPaths(Method method) {
+	private String getParameterPaths(Method method, Type parentType) {
 		String result = "";
 		Signature methodSignature = getSignature(method);
 		if (methodSignature == null) {
@@ -457,33 +457,45 @@ public class BCERepositoryImpl implements BCERepository {
 			int endIndex = paramsSignature.indexOf(")");
 			paramsSignature = paramsSignature.substring(beginIndex, endIndex);
 			if (!paramsSignature.isEmpty()) {
-				paramsSignature = paramsSignature.replaceAll("<[^>]*>", "")
-				/* .replaceAll("\\[", "") */;
-				String[] paramsSignatureSplit = paramsSignature.split(";");
-				int i = 1;
-				for (String paramSignature : paramsSignatureSplit) {
-					boolean array;
-					if (paramSignature.startsWith("[")) {
-						array = true;
-						paramSignature = paramSignature.substring(1);
-					} else {
-						array = false;
-					}
-					if (paramSignature.startsWith("T")) {
-						result += String
-								.format("[.//FormalParameter[%d]/Type[./ReferenceType/*[@Image='%s']]]",
-										i, paramSignature.substring(1));
-					} else if (paramSignature.startsWith("L")) {
-						BcelJavaType argumentType = BcelJavaType
-								.create(paramSignature.substring(1));
-						result += getParameterPath(i, argumentType, array);
-					} else {
-						throw new IllegalStateException(
-								"Unssuported param signature " + paramSignature);
-					}
-					i++;
-				}
+				result += getParameterPaths(method, parentType, paramsSignature);
 			}
+		}
+		return result;
+	}
+
+	protected String getParameterPaths(Method method, Type parentType,
+			String paramsSignature) {
+		String result = "";
+		// TODO improve
+		String temp;
+		while (paramsSignature != (temp = paramsSignature.replaceAll(
+				"<[^>|<]*>", ""))) {
+			paramsSignature = temp;
+		}
+		String[] paramsSignatureSplit = paramsSignature.split(";");
+		int i = 1;
+		for (String paramSignature : paramsSignatureSplit) {
+			boolean array;
+			if (paramSignature.startsWith("[")) {
+				array = true;
+				paramSignature = paramSignature.substring(1);
+			} else {
+				array = false;
+			}
+			if (paramSignature.startsWith("T")) {
+				result += String
+						.format("[.//FormalParameter[%d]/Type[./ReferenceType/*[@Image='%s']]]",
+								i, paramSignature.substring(1));
+			} else if (paramSignature.startsWith("L")) {
+				BcelJavaType argumentType = BcelJavaType.create(paramSignature
+						.substring(1));
+				result += getParameterPath(i, argumentType, array);
+			} else {
+				throw new IllegalStateException("Unssuported param signature "
+						+ paramSignature + " of method " + method + " on type"
+						+ parentType.getName());
+			}
+			i++;
 		}
 		return result;
 	}

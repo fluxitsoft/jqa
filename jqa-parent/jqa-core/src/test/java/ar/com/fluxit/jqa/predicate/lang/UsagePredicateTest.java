@@ -105,9 +105,9 @@ public class UsagePredicateTest extends TestCase {
 				new NamingPredicate("ar.com.fluxit.jqa.mock.ClassA"),
 				new NamingPredicate("ar.com.fluxit.jqa.mock.ClassB"),
 				new NamingPredicate("ar.com.fluxit.jqa.mock.InterfaceC"),
-				new NamingPredicate("long"), new NamingPredicate(
-						"java.lang.Object"), new NamingPredicate(
-						"java.lang.String")));
+				new NamingPredicate("java.util.List"), new NamingPredicate(
+						"long"), new NamingPredicate("java.lang.Object"),
+				new NamingPredicate("java.lang.String")));
 		assertTrue(usagePredicate.evaluate(type, null));
 	}
 
