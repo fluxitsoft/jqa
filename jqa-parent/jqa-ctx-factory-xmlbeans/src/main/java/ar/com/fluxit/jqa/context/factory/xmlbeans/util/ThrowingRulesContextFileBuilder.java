@@ -58,6 +58,10 @@ class ThrowingRulesContextFileBuilder extends AbstractRulesContextFileBuilder {
 			for (LayerDescriptor layer : archDescriptor.getLayers()) {
 				buildThrowingRule(ruleSet, layer);
 			}
+			if (ruleSet.getRuleList().isEmpty()) {
+				rulesContext
+						.removeRuleSet(rulesContext.getRuleSetList().size() - 1);
+			}
 			rulesContextDoc.save(new File(targetFile.getParentFile(),
 					"throwing.xml"));
 		} catch (IOException e) {

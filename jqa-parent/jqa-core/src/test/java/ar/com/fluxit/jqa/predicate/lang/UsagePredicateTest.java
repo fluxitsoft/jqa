@@ -29,6 +29,7 @@ import ar.com.fluxit.jqa.mock.ClassB;
 import ar.com.fluxit.jqa.mock.ClassC;
 import ar.com.fluxit.jqa.mock.ClassF;
 import ar.com.fluxit.jqa.mock.ClassH;
+import ar.com.fluxit.jqa.mock.EnumA;
 import ar.com.fluxit.jqa.mock.InterfaceA;
 import ar.com.fluxit.jqa.mock.usage.ClassThatDeclaresExceptionA;
 import ar.com.fluxit.jqa.mock.usage.ClassThatExtendsClassA;
@@ -117,6 +118,18 @@ public class UsagePredicateTest extends TestCase {
 		final UsagePredicate usagePredicate = new UsagePredicate();
 		usagePredicate.setFilterPredicate(new OrPredicate(new NamingPredicate(
 				"java.lang.Class"), new NamingPredicate("java.lang.Object")));
+		assertTrue(usagePredicate.evaluate(type, null));
+	}
+
+	public void testBugOnEnum() throws ClassNotFoundException {
+		final Type type = BCERepositoryLocator.getRepository().lookupType(
+				EnumA.class);
+		final UsagePredicate usagePredicate = new UsagePredicate();
+		usagePredicate.setFilterPredicate(new OrPredicate(new NamingPredicate(
+				"int"), new NamingPredicate("java.lang.Object"),
+				new NamingPredicate("ar.com.fluxit.jqa.mock.EnumA"),
+				new NamingPredicate("java.lang.System"), new NamingPredicate(
+						"java.lang.Enum")));
 		assertTrue(usagePredicate.evaluate(type, null));
 	}
 

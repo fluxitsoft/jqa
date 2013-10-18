@@ -75,4 +75,8 @@ public abstract class ClassH<I extends ClassA, D extends ClassB, S extends Map<I
 		this.field = field;
 	}
 
+	public void setField(String... field) {
+
+	}
+
 }

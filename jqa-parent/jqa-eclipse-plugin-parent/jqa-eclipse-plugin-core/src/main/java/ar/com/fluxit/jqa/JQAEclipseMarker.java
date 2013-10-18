@@ -20,8 +20,8 @@ package ar.com.fluxit.jqa;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.resources.IFile;
@@ -123,7 +123,7 @@ public class JQAEclipseMarker {
 
 	public void mark(IJavaProject javaProject, CheckingResult checkResult) {
 		deleteCurrentMarks(javaProject);
-		final List<RuleCheckFailed> ruleChecksFailed = checkResult
+		final Collection<RuleCheckFailed> ruleChecksFailed = checkResult
 				.getRuleChecksFailed();
 		for (RuleCheckFailed ruleCheckFailed : ruleChecksFailed) {
 			mark(javaProject, ruleCheckFailed);

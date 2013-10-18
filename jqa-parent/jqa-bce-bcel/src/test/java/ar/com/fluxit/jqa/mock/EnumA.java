@@ -24,5 +24,5 @@ package ar.com.fluxit.jqa.mock;
  * @author Juan Ignacio Barisich
  */
 public enum EnumA {
-
+	A, B, C
 }

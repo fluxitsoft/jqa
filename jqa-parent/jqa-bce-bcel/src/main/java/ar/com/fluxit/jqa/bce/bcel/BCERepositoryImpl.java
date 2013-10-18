@@ -145,8 +145,9 @@ public class BCERepositoryImpl implements BCERepository {
 			for (Iterator<? extends Node> iterator = result.iterator(); iterator
 					.hasNext();) {
 				Node simpleNode = iterator.next();
-				if (simpleNode
-						.getFirstParentOfType(ASTClassOrInterfaceDeclaration.class) != typeNode) {
+				ASTClassOrInterfaceDeclaration firstParentOfType = simpleNode
+						.getFirstParentOfType(ASTClassOrInterfaceDeclaration.class);
+				if (firstParentOfType != null && firstParentOfType != typeNode) {
 					iterator.remove();
 				}
 			}
@@ -333,8 +334,8 @@ public class BCERepositoryImpl implements BCERepository {
 			shortName = shortName.substring(shortName.lastIndexOf('$') + 1);
 		}
 		String xpathString = String
-				.format("//ClassOrInterfaceDeclaration[@Image='%s']/ClassOrInterfaceBody/ClassOrInterfaceBodyDeclaration/FieldDeclaration/VariableDeclarator/VariableDeclaratorId[@Image='%s']",
-						shortName, fieldName);
+				.format("//ClassOrInterfaceDeclaration[@Image='%s']/ClassOrInterfaceBody/ClassOrInterfaceBodyDeclaration/FieldDeclaration/VariableDeclarator/VariableDeclaratorId[@Image='%s'] | //EnumDeclaration[@Image='%s']/EnumBody/EnumConstant[@Image='%s']",
+						shortName, fieldName, shortName, fieldName);
 		List<? extends Node> fieldTypeNodes = findChildNodesWithXPath(
 				parentType, xpathString);
 		if (fieldTypeNodes.isEmpty()) {
@@ -405,11 +406,10 @@ public class BCERepositoryImpl implements BCERepository {
 					// Implicit constructor
 					return getDeclarationLineNumber(parentType);
 				} else {
-					LOGGER.error("Method not found: " + method.getName() + " ("
-							+ method + ") for type: " + parentType.getName());
-					throw new IllegalArgumentException("Method not found: "
-							+ method.getName() + " (" + method + ") for type: "
+					LOGGER.error("Source line not found for method: "
+							+ method.getName() + " (" + method + ") at type: "
 							+ parentType.getName());
+					return 1;
 				}
 			}
 		}
@@ -423,7 +423,8 @@ public class BCERepositoryImpl implements BCERepository {
 
 	protected String getParameterPath(int i, Type argumentType, boolean array) {
 		String result;
-		String arrayStr = array ? "[@Array='true']" : "[@Array='false']";
+		String arrayStr = array ? "[@Array='true' or ancestor::FormalParameter[1][@Varargs='true']]"
+				: "[@Array='false']";
 		if (TypeNameTranslator.isPrimitive(argumentType)) {
 			result = String
 					.format("[.//FormalParameter[%d]%s/Type[.//PrimitiveType[@Image='%s']]]",

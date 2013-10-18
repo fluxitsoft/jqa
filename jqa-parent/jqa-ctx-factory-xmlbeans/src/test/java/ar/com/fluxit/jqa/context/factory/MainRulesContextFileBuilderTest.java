@@ -111,6 +111,31 @@ public class MainRulesContextFileBuilderTest extends TestCase {
 				.getRulesContextFactory().getRulesContext(targetFile.getPath());
 		assertNotNull(rulesContext);
 		assertEquals(5, rulesContext.getRuleSets().size());
+		// JRE commons
+		Predicate globalPredicate = rulesContext
+				.getGlobalPredicate("jre-commons");
+		assertNotNull(globalPredicate);
+		assertEquals(10, ((OrPredicate) globalPredicate).getPredicates().size());
+		assertTrue(((OrPredicate) globalPredicate).getPredicates().contains(
+				new NamingPredicate("java.**")));
+		assertTrue(((OrPredicate) globalPredicate).getPredicates().contains(
+				new NamingPredicate("byte")));
+		assertTrue(((OrPredicate) globalPredicate).getPredicates().contains(
+				new NamingPredicate("short")));
+		assertTrue(((OrPredicate) globalPredicate).getPredicates().contains(
+				new NamingPredicate("int")));
+		assertTrue(((OrPredicate) globalPredicate).getPredicates().contains(
+				new NamingPredicate("long")));
+		assertTrue(((OrPredicate) globalPredicate).getPredicates().contains(
+				new NamingPredicate("char")));
+		assertTrue(((OrPredicate) globalPredicate).getPredicates().contains(
+				new NamingPredicate("float")));
+		assertTrue(((OrPredicate) globalPredicate).getPredicates().contains(
+				new NamingPredicate("double")));
+		assertTrue(((OrPredicate) globalPredicate).getPredicates().contains(
+				new NamingPredicate("boolean")));
+		assertTrue(((OrPredicate) globalPredicate).getPredicates().contains(
+				new NamingPredicate("void")));
 		// Layer definitions
 		Predicate entityGlobalPredicate = rulesContext
 				.getGlobalPredicate("entity-layer");
@@ -169,7 +194,9 @@ public class MainRulesContextFileBuilderTest extends TestCase {
 		typingRuleSet.setName("Typing ruleset");
 		typingRuleSet
 				.addRule(new RuleImpl(
-						new ContextProvidedPredicate("entity-layer"),
+						new AndPredicate(new AbstractionPredicate(
+								AbstractionType.CLASS),
+								new ContextProvidedPredicate("entity-layer")),
 						new TypingPredicate(new NamingPredicate(
 								"com.acme.foo.entity.Entity")),
 						"Entity typing",
@@ -177,7 +204,9 @@ public class MainRulesContextFileBuilderTest extends TestCase {
 						3));
 		typingRuleSet
 				.addRule(new RuleImpl(
-						new ContextProvidedPredicate("dao-layer"),
+						new AndPredicate(new AbstractionPredicate(
+								AbstractionType.CLASS),
+								new ContextProvidedPredicate("dao-layer")),
 						new TypingPredicate(new NamingPredicate(
 								"com.acme.foo.dao.DataAccessObject")),
 						"DAO typing",
@@ -205,16 +234,18 @@ public class MainRulesContextFileBuilderTest extends TestCase {
 		usageRuleSet.setName("Usage ruleset");
 		usageRuleSet.addRule(new RuleImpl(new ContextProvidedPredicate(
 				"entity-layer"), new UsagePredicate(new OrPredicate(
-				new NamingPredicate("java.**"), new ContextProvidedPredicate(
-						"entity-layer"), new NamingPredicate(
-						"com.acme.foo.entity.Entity"))), "Entity usage",
+				new ContextProvidedPredicate("jre-commons"),
+				new ContextProvidedPredicate("entity-layer"),
+				new NamingPredicate("com.acme.foo.entity.Entity"))),
+				"Entity usage",
 				"The Entity '${type.name}' has an invalid usage.", 2));
 		usageRuleSet
 				.addRule(new RuleImpl(
 						new ContextProvidedPredicate("dao-layer"),
 						new UsagePredicate(
 								new OrPredicate(
-										new NamingPredicate("java.**"),
+										new ContextProvidedPredicate(
+												"jre-commons"),
 										new ContextProvidedPredicate(
 												"dao-layer"),
 										new NamingPredicate("org.hibernate.**"),
@@ -229,9 +260,10 @@ public class MainRulesContextFileBuilderTest extends TestCase {
 						"The DAO '${type.name}' has an invalid usage.", 2));
 		usageRuleSet.addRule(new RuleImpl(new ContextProvidedPredicate(
 				"util-layer"), new UsagePredicate(new OrPredicate(
-				new NamingPredicate("java.**"), new ContextProvidedPredicate(
-						"util-layer"), new NamingPredicate("org.apache.**"),
-				new AndPredicate(new ContextProvidedPredicate("dao-layer"),
+				new ContextProvidedPredicate("jre-commons"),
+				new ContextProvidedPredicate("util-layer"),
+				new NamingPredicate("org.apache.**"), new AndPredicate(
+						new ContextProvidedPredicate("dao-layer"),
 						new AbstractionPredicate(AbstractionType.INTERFACE)),
 				new TypingPredicate(new NamingPredicate(
 						"com.acme.foo.dao.DataAccessObjectException")))),
@@ -240,7 +272,6 @@ public class MainRulesContextFileBuilderTest extends TestCase {
 		assertTrue(rulesContext.getRuleSets().contains(usageRuleSet));
 		assertEquals(3, rulesContext.getRuleSet("Usage ruleset").getRules()
 				.size());
-
 		// Allocation definitions
 		RuleSetImpl allocationRuleSet = new RuleSetImpl();
 		allocationRuleSet.setName("Allocation ruleset");

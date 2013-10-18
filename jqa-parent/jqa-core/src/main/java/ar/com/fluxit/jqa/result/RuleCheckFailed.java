@@ -20,6 +20,9 @@ package ar.com.fluxit.jqa.result;
 
 import java.util.Collection;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+
 /**
  * TODO javadoc
  * 
@@ -47,6 +50,21 @@ public class RuleCheckFailed {
 		this.rulePriority = rulePriority;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj instanceof RuleCheckFailed) {
+			RuleCheckFailed other = (RuleCheckFailed) obj;
+			return new EqualsBuilder().append(ruleName, other.ruleName)
+					.append(targetFileName, other.targetFileName)
+					.append(lineIds, other.lineIds).isEquals();
+		} else {
+			return false;
+		}
+	}
+
 	public Collection<Integer> getLineIds() {
 		return this.lineIds;
 	}
@@ -69,6 +87,12 @@ public class RuleCheckFailed {
 
 	public String getTargetFileName() {
 		return targetFileName;
+	}
+
+	@Override
+	public int hashCode() {
+		return new HashCodeBuilder().append(ruleName).append(targetFileName)
+				.append(lineIds).toHashCode();
 	}
 
 	public void setLineIds(Collection<Integer> lineIds) {

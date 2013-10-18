@@ -28,6 +28,7 @@ import ar.com.fluxit.jqa.descriptor.ArchitectureDescriptor;
 import ar.com.fluxit.jqa.descriptor.CommonDescriptor;
 import ar.com.fluxit.jqa.descriptor.LayerDescriptor;
 import ar.com.fluxit.jqa.schema.rulescontext.RulesContextDocument;
+import ar.com.fluxit.jqa.schema.ruleset.ContextProvidedPredicate;
 import ar.com.fluxit.jqa.schema.ruleset.OrPredicate;
 import ar.com.fluxit.jqa.schema.ruleset.Predicate;
 import ar.com.fluxit.jqa.schema.ruleset.Rule;
@@ -89,7 +90,10 @@ class UsageRulesContextFileBuilder extends AbstractRulesContextFileBuilder {
 	private Predicate[] getUsages(LayerDescriptor layer) {
 		Collection<Predicate> result = new ArrayList<Predicate>();
 		// JRE types
-		result.add(getNamingPredicate("java.**"));
+		ContextProvidedPredicate javaPredicate = ContextProvidedPredicate.Factory
+				.newInstance();
+		javaPredicate.setPredicateName("jre-commons");
+		result.add(javaPredicate);
 		// Reflection
 		result.add(getLayerFilterPredicate(layer));
 		// Common types

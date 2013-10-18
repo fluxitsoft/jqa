@@ -300,7 +300,8 @@ public class LayersDefinitionWizardPage extends AbstractWizardPage implements
 
 	@Override
 	public boolean isPageComplete() {
-		return targetPackagesTable.getTable().getItemCount() == 0;
+		return targetPackagesTable.getTable().getItemCount() == 0
+				&& validateLayers();
 	}
 
 	private void layerSelectionChanged(ISelection selection,
@@ -332,6 +333,17 @@ public class LayersDefinitionWizardPage extends AbstractWizardPage implements
 					.getFirstElement()).getPackages();
 		}
 		layerPackagesTable.setInput(input);
+	}
+
+	private boolean validateLayers() {
+		List<LayerDescriptor> layers = getWizard().getArchitectureDescriptor()
+				.getLayers();
+		for (LayerDescriptor layerDescriptor : layers) {
+			if (layerDescriptor.getPackages().isEmpty()) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 }

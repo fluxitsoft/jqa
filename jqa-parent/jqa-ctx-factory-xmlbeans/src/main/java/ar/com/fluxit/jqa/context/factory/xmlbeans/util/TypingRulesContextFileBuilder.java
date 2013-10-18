@@ -24,7 +24,11 @@ import java.io.IOException;
 import ar.com.fluxit.jqa.context.factory.exception.RulesContextFactoryException;
 import ar.com.fluxit.jqa.descriptor.ArchitectureDescriptor;
 import ar.com.fluxit.jqa.descriptor.LayerDescriptor;
+import ar.com.fluxit.jqa.predicate.lang.AbstractionPredicate.AbstractionType;
 import ar.com.fluxit.jqa.schema.rulescontext.RulesContextDocument;
+import ar.com.fluxit.jqa.schema.ruleset.AbstractionPredicate;
+import ar.com.fluxit.jqa.schema.ruleset.AndPredicate;
+import ar.com.fluxit.jqa.schema.ruleset.Predicate;
 import ar.com.fluxit.jqa.schema.ruleset.Rule;
 import ar.com.fluxit.jqa.schema.ruleset.Ruleset;
 import ar.com.fluxit.jqa.schema.ruleset.TypingPredicate;
@@ -58,6 +62,10 @@ class TypingRulesContextFileBuilder extends AbstractRulesContextFileBuilder {
 			for (LayerDescriptor layer : archDescriptor.getLayers()) {
 				buildTypingRule(ruleSet, layer);
 			}
+			if (ruleSet.getRuleList().isEmpty()) {
+				rulesContext
+						.removeRuleSet(rulesContext.getRuleSetList().size() - 1);
+			}
 			rulesContextDoc.save(new File(targetFile.getParentFile(),
 					"typing.xml"));
 		} catch (IOException e) {
@@ -75,7 +83,15 @@ class TypingRulesContextFileBuilder extends AbstractRulesContextFileBuilder {
 					+ " '${type.name}' must be subtype of '"
 					+ layer.getSuperType() + "'");
 			rule.setPriority(DEFAULT_TYPING_PRIORITY);
-			rule.setFilterPredicate(getLayerFilterPredicate(layer));
+			AndPredicate filterPredicate = AndPredicate.Factory.newInstance();
+			AbstractionPredicate abstractionPredicate = AbstractionPredicate.Factory
+					.newInstance();
+			abstractionPredicate
+					.setAbstractionType(ar.com.fluxit.jqa.schema.ruleset.AbstractionType.Enum
+							.forString(AbstractionType.CLASS.name()));
+			filterPredicate.setPredicateArray(new Predicate[] {
+					abstractionPredicate, getLayerFilterPredicate(layer) });
+			rule.setFilterPredicate(filterPredicate);
 			TypingPredicate typingPredicate = TypingPredicate.Factory
 					.newInstance();
 			typingPredicate.setPredicate(getNamingPredicate(layer

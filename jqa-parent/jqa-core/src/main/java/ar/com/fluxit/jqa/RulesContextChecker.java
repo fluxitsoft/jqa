@@ -74,10 +74,24 @@ public class RulesContextChecker {
 	private void check(Collection<File> classFiles, Predicate filterPredicate,
 			CheckPredicate checkPredicate, CheckingResult result,
 			RulesContext context, int rulePriority, String ruleMessage,
-			String ruleName, File[] sourceDir) throws TypeFormatException,
-			IOException {
+			String ruleName, File[] sourceDir, Logger log)
+			throws TypeFormatException, IOException {
 		// Iterate class files
 		for (final File classFile : classFiles) {
+			check(filterPredicate, checkPredicate, result, context,
+					rulePriority, ruleMessage, ruleName, sourceDir, log,
+					classFile);
+		}
+	}
+
+	protected void check(Predicate filterPredicate,
+			CheckPredicate checkPredicate, CheckingResult result,
+			RulesContext context, int rulePriority, String ruleMessage,
+			String ruleName, File[] sourceDir, Logger log, File classFile)
+			throws FileNotFoundException, TypeFormatException, IOException {
+		if (classFile.getName().equals("package-info.class")) {
+			log.info("Classfile skipped " + classFile.getName());
+		} else {
 			final FileInputStream fis = new FileInputStream(classFile);
 			final BCERepository repository = BCERepositoryLocator
 					.getRepository();
@@ -115,7 +129,7 @@ public class RulesContextChecker {
 				check(classFiles, rule.getFilterPredicate(),
 						rule.getCheckPredicate(), result, context,
 						rule.getPriority(), rule.getMessage(), rule.getName(),
-						sourcesDir);
+						sourcesDir, log);
 			}
 		}
 		return result;

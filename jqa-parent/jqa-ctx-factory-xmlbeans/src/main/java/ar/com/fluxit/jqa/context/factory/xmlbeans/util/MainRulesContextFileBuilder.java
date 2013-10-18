@@ -51,6 +51,7 @@ public class MainRulesContextFileBuilder extends
 					.addNewRulesContext();
 			rulesContext.setName("JQA Eclipse Plugin generated rules context");
 			rulesContext.addNewRulesContextImport().setResource("layers.xml");
+			rulesContext.addNewRulesContextImport().setResource("commons.xml");
 			rulesContext.addNewRulesContextImport().setResource("naming.xml");
 			rulesContext.addNewRulesContextImport().setResource("typing.xml");
 			rulesContext.addNewRulesContextImport().setResource("throwing.xml");
@@ -73,7 +74,8 @@ public class MainRulesContextFileBuilder extends
 					targetFile, archDescriptor);
 			AllocationRulesContextFileBuilder.INSTANCE.buildRulesContextFile(
 					targetFile, archDescriptor);
-
+			CommonsRulesContextFileBuilder.INSTANCE.buildRulesContextFile(
+					targetFile, archDescriptor);
 		} catch (IOException e) {
 			throw new RulesContextFactoryException(
 					"Error while saving rules context file", e);

@@ -47,7 +47,7 @@ import ar.com.fluxit.jqa.descriptor.LayerDescriptor;
  */
 public abstract class JdtUtils {
 
-	private static final int COMMON_TYPE_PACKAGE_DEEP = 3;
+	private static final int COMMON_TYPE_PACKAGE_DEEP = 4;
 
 	private static boolean check(CommonDescriptor commonType, String pkgName) {
 		if ("java".equals(commonType.getTypeName())) {
