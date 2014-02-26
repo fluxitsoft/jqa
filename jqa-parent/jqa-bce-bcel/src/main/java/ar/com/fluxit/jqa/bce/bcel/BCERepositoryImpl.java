@@ -392,27 +392,43 @@ public class BCERepositoryImpl implements BCERepository {
 			// Non constructors
 			String xpathString = "//MethodDeclarator[@Image='"
 					+ method.getName() + "']";
-			xpathString += "[count(.//FormalParameter) = "
-					+ method.getArgumentTypes().length + "]";
-			xpathString += getParameterPaths(method, parentType);
 			List<? extends Node> fieldTypeNodes = findChildNodesWithXPath(
 					parentType, xpathString);
 			if (fieldTypeNodes.size() == 1) {
 				return fieldTypeNodes.get(0).getBeginLine();
-			} else if (fieldTypeNodes.size() > 1) {
-				throw new IllegalArgumentException(
-						"More than one method found for: " + method.getName()
-								+ " at type: " + parentType.getName());
 			} else {
-				if (xpathString
-						.equals("//ConstructorDeclaration[count(FormalParameters/FormalParameter) = 0]")) {
-					// Implicit constructor
-					return getDeclarationLineNumber(parentType);
+				// There is more than one method with the same name
+				xpathString += "[count(.//FormalParameter) = "
+						+ method.getArgumentTypes().length + "]";
+				fieldTypeNodes = findChildNodesWithXPath(parentType,
+						xpathString);
+				if (fieldTypeNodes.size() == 1) {
+					return fieldTypeNodes.get(0).getBeginLine();
 				} else {
-					LOGGER.error("Source line not found for method: "
-							+ method.getName() + " (" + method + ") at type: "
-							+ parentType.getName());
-					return 1;
+					// There is more than one method with the same name and
+					// parameters size
+					xpathString += getParameterPaths(method, parentType);
+					fieldTypeNodes = findChildNodesWithXPath(parentType,
+							xpathString);
+					if (fieldTypeNodes.size() == 1) {
+						return fieldTypeNodes.get(0).getBeginLine();
+					} else if (fieldTypeNodes.size() > 1) {
+						throw new IllegalArgumentException(
+								"More than one method found for: "
+										+ method.getName() + " at type: "
+										+ parentType.getName());
+					} else {
+						if (xpathString
+								.equals("//ConstructorDeclaration[count(FormalParameters/FormalParameter) = 0]")) {
+							// Implicit constructor
+							return getDeclarationLineNumber(parentType);
+						} else {
+							LOGGER.error("Source line not found for method: "
+									+ method.getName() + " (" + method
+									+ ") at type: " + parentType.getName());
+							return 1;
+						}
+					}
 				}
 			}
 		}
@@ -493,6 +509,10 @@ public class BCERepositoryImpl implements BCERepository {
 			} else if (paramSignature.startsWith("L")) {
 				BcelJavaType argumentType = BcelJavaType.create(paramSignature
 						.substring(1));
+				result += getParameterPath(i, argumentType, array);
+			} else if (paramSignature.startsWith("ZL")) {
+				BcelJavaType argumentType = BcelJavaType.create(paramSignature
+						.substring(2));
 				result += getParameterPath(i, argumentType, array);
 			} else if (!(paramSignature.length() == 1 && StringUtils
 					.isAllUpperCase(paramSignature))) {

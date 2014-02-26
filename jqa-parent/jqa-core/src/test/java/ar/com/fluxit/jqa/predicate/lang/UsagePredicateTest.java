@@ -117,7 +117,14 @@ public class UsagePredicateTest extends TestCase {
 				ClassF.class);
 		final UsagePredicate usagePredicate = new UsagePredicate();
 		usagePredicate.setFilterPredicate(new OrPredicate(new NamingPredicate(
-				"java.lang.Class"), new NamingPredicate("java.lang.Object")));
+				"java.lang.Class"), new NamingPredicate("java.lang.Object"),
+				new NamingPredicate("ar.com.fluxit.jqa.mock.ExceptionB"),
+				new NamingPredicate("java.util.Map"), new NamingPredicate(
+						"java.lang.String"), new NamingPredicate("boolean"),
+				new NamingPredicate("java.util.Date"), new NamingPredicate(
+						"java.util.List"), new NamingPredicate(
+						"ar.com.fluxit.jqa.mock.ClassA"), new NamingPredicate(
+						"ar.com.fluxit.jqa.mock.ClassB")));
 		assertTrue(usagePredicate.evaluate(type, null));
 	}
 

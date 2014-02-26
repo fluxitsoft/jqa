@@ -18,6 +18,10 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.mock;
 
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
 /**
  * TODO javadoc
  * 
@@ -29,7 +33,17 @@ public class ClassF {
 		return null;
 	}
 
-	public <E, T> Class<T> foo(Class<E> result, Class<T> clazz) {
+	public <E, T> Class<T> foo2(Class<E> result, Class<T> clazz) {
+		return null;
+	}
+
+	List<ClassA> foo3(Map<String, Map<String, List<ClassA>>> a)
+			throws ExceptionB {
+		return null;
+	}
+
+	List<ClassA> foo4(String a, boolean b, Map<String, List<List<ClassA>>> c,
+			Date d, ClassB e, List<ClassA> f) throws ExceptionB {
 		return null;
 	}
 
