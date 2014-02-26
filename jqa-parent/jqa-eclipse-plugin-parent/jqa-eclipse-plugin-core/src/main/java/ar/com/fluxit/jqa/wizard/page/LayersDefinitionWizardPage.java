@@ -39,6 +39,7 @@ import org.eclipse.jface.dialogs.PageChangedEvent;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
+import org.eclipse.jface.viewers.ColumnViewerToolTipSupport;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -48,6 +49,7 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
+import org.eclipse.jface.window.ToolTip;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
@@ -68,6 +70,7 @@ import ar.com.fluxit.jqa.descriptor.LayerDescriptor;
 import ar.com.fluxit.jqa.utils.JdtUtils;
 import ar.com.fluxit.jqa.viewer.DropStrategy;
 import ar.com.fluxit.jqa.viewer.Holder;
+import ar.com.fluxit.jqa.viewer.JavaElementsColumnLabelProvider;
 import ar.com.fluxit.jqa.viewer.LayerCellModifier;
 import ar.com.fluxit.jqa.viewer.LayerPackagesContentProvider;
 import ar.com.fluxit.jqa.viewer.LayersTableDropListener;
@@ -138,8 +141,9 @@ public class LayersDefinitionWizardPage extends AbstractWizardPage implements
 		final Group layerPackagesGroup = new Group(sash, SWT.NONE);
 		layerPackagesGroup.setText("Layer packages");
 		layerPackagesGroup.setLayout(new GridLayout());
-		ILabelProvider targetPackagesLabelProvider = new JavaElementLabelProvider(
-				JavaElementLabelProvider.SHOW_DEFAULT);
+		ILabelProvider targetPackagesLabelProvider = new JavaElementsColumnLabelProvider(
+				new JavaElementLabelProvider(
+						JavaElementLabelProvider.SHOW_DEFAULT));
 		layerPackagesTable = new TableViewer(layerPackagesGroup, SWT.BORDER
 				| SWT.V_SCROLL | SWT.H_SCROLL | SWT.MULTI);
 		layerPackagesTable.setLabelProvider(targetPackagesLabelProvider);
@@ -176,6 +180,8 @@ public class LayersDefinitionWizardPage extends AbstractWizardPage implements
 								.getSelection()).getFirstElement();
 					}
 				});
+		ColumnViewerToolTipSupport.enableFor(layerPackagesTable,
+				ToolTip.NO_RECREATE);
 	}
 
 	private void createLayersGroup(SashForm sash) {
@@ -243,8 +249,9 @@ public class LayersDefinitionWizardPage extends AbstractWizardPage implements
 		final Group targetPackagesGroup = new Group(sash, SWT.NONE);
 		targetPackagesGroup.setLayout(new GridLayout());
 		targetPackagesGroup.setText("Target packages");
-		ILabelProvider targetPackagesLabelProvider = new JavaElementLabelProvider(
-				JavaElementLabelProvider.SHOW_DEFAULT);
+		ILabelProvider targetPackagesLabelProvider = new JavaElementsColumnLabelProvider(
+				new JavaElementLabelProvider(
+						JavaElementLabelProvider.SHOW_DEFAULT));
 		targetPackagesTable = new TableViewer(targetPackagesGroup, SWT.BORDER
 				| SWT.V_SCROLL | SWT.H_SCROLL | SWT.MULTI);
 		targetPackagesTable.setLabelProvider(targetPackagesLabelProvider);
@@ -276,6 +283,8 @@ public class LayersDefinitionWizardPage extends AbstractWizardPage implements
 				return !isAssigned((IJavaElement) arg2);
 			}
 		});
+		ColumnViewerToolTipSupport.enableFor(targetPackagesTable,
+				ToolTip.NO_RECREATE);
 		return targetPackagesGroup;
 	}
 

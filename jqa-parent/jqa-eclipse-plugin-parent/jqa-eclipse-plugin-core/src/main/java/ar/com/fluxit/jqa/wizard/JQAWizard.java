@@ -62,9 +62,9 @@ public class JQAWizard extends Wizard {
 
 	public JQAWizard() {
 		setForcePreviousAndNextButtons(true);
-		restoreState();
 		this.architectureDescriptor = new ArchitectureDescriptor();
 		this.targetProjects = new IProject[0];
+		restoreState();
 	}
 
 	@Override

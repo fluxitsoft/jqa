@@ -34,6 +34,7 @@ import ar.com.fluxit.jqa.mock.throwing.ClassThatThrowsExceptionB;
 import ar.com.fluxit.jqa.mock.throwing.ClassThatThrowsUncheckedExceptionOnConstructor;
 import ar.com.fluxit.jqa.mock.throwing.ClassThatThrowsUncheckedExceptionOnMethod;
 import ar.com.fluxit.jqa.mock.throwing.ClassThatThrowsUncheckedExceptionOnStaticMethod;
+import ar.com.fluxit.jqa.mock.throwing.ClassWhitGenericThatThrowsExceptionB;
 import ar.com.fluxit.jqa.mock.throwing.ClassWithFinallyBlock;
 import ar.com.fluxit.jqa.mock.throwing.InnerClassThatThrowsExceptionAOnConstructor;
 import ar.com.fluxit.jqa.mock.throwing.InnerClassThatThrowsExceptionAOnMethod;
@@ -122,6 +123,9 @@ public class ThrowingPredicateTest extends TestCase {
 		testMatches(filterPredicateParentClass,
 				InnerClassThatThrowsUncheckedExceptionOnStaticMethod.B.class,
 				false);
+		// Bug
+		testMatches(filterPredicateParentClass,
+				ClassWhitGenericThatThrowsExceptionB.class, true);
 	}
 
 	private void testMatches(String filterPredicateParentClass,

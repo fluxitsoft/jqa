@@ -52,6 +52,7 @@ import net.sourceforge.pmd.lang.java.ast.JavaParser;
 
 import org.apache.bcel.Constants;
 import org.apache.bcel.classfile.Attribute;
+import org.apache.bcel.classfile.ClassFormatException;
 import org.apache.bcel.classfile.ClassParser;
 import org.apache.bcel.classfile.Code;
 import org.apache.bcel.classfile.CodeException;
@@ -79,6 +80,7 @@ import org.apache.bcel.generic.InstructionHandle;
 import org.apache.bcel.generic.InstructionList;
 import org.apache.bcel.generic.InvokeInstruction;
 import org.apache.bcel.generic.LocalVariableInstruction;
+import org.apache.commons.lang.StringUtils;
 import org.jaxen.JaxenException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -334,8 +336,9 @@ public class BCERepositoryImpl implements BCERepository {
 			shortName = shortName.substring(shortName.lastIndexOf('$') + 1);
 		}
 		String xpathString = String
-				.format("//ClassOrInterfaceDeclaration[@Image='%s']/ClassOrInterfaceBody/ClassOrInterfaceBodyDeclaration/FieldDeclaration/VariableDeclarator/VariableDeclaratorId[@Image='%s'] | //EnumDeclaration[@Image='%s']/EnumBody/EnumConstant[@Image='%s']",
-						shortName, fieldName, shortName, fieldName);
+				.format("//ClassOrInterfaceDeclaration[@Image='%s']/ClassOrInterfaceBody/ClassOrInterfaceBodyDeclaration/FieldDeclaration/VariableDeclarator/VariableDeclaratorId[@Image='%s'] | //EnumDeclaration[@Image='%s']/EnumBody/EnumConstant[@Image='%s'] | //EnumDeclaration[@Image='%s']/EnumBody/ClassOrInterfaceBodyDeclaration/FieldDeclaration/VariableDeclarator/VariableDeclaratorId[@Image='%s']",
+						shortName, fieldName, shortName, fieldName, shortName,
+						fieldName);
 		List<? extends Node> fieldTypeNodes = findChildNodesWithXPath(
 				parentType, xpathString);
 		if (fieldTypeNodes.isEmpty()) {
@@ -491,7 +494,8 @@ public class BCERepositoryImpl implements BCERepository {
 				BcelJavaType argumentType = BcelJavaType.create(paramSignature
 						.substring(1));
 				result += getParameterPath(i, argumentType, array);
-			} else {
+			} else if (!(paramSignature.length() == 1 && StringUtils
+					.isAllUpperCase(paramSignature))) {
 				throw new IllegalStateException("Unssuported param signature "
 						+ paramSignature + " of method " + method + " on type"
 						+ parentType.getName());
@@ -728,15 +732,20 @@ public class BCERepositoryImpl implements BCERepository {
 						});
 				// Catchs blocks exceptions
 				for (CodeException codeException : code.getExceptionTable()) {
-					String typeName = constantPool.getConstantString(
-							codeException.getCatchType(),
-							Constants.CONSTANT_Class);
-					final LineNumberTable lineNumberTable = code
-							.getLineNumberTable();
-					final int sourceLine = lineNumberTable
-							.getSourceLine(codeException.getHandlerPC());
-					addToResult(sourceLine, BcelJavaType.create(typeName),
-							result);
+					try {
+						String typeName = constantPool.getConstantString(
+								codeException.getCatchType(),
+								Constants.CONSTANT_Class);
+						final LineNumberTable lineNumberTable = code
+								.getLineNumberTable();
+						final int sourceLine = lineNumberTable
+								.getSourceLine(codeException.getHandlerPC());
+						addToResult(sourceLine, BcelJavaType.create(typeName),
+								result);
+					} catch (ClassFormatException e) {
+						LOGGER.error("CodeException skipped " + codeException
+								+ ": " + e.getMessage());
+					}
 				}
 			}
 

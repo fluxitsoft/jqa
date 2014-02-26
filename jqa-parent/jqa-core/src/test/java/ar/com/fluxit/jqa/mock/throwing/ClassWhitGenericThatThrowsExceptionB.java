@@ -16,23 +16,22 @@
  * You should have received a copy of the GNU Lesser General Public 
  * License along with JQA. If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package ar.com.fluxit.jqa.mock;
+package ar.com.fluxit.jqa.mock.throwing;
+
+import ar.com.fluxit.jqa.mock.ClassA;
+import ar.com.fluxit.jqa.mock.ClassI;
+import ar.com.fluxit.jqa.mock.ExceptionB;
 
 /**
  * TODO javadoc
  * 
  * @author Juan Ignacio Barisich
  */
-public enum EnumA {
-	A, B, C;
+public class ClassWhitGenericThatThrowsExceptionB {
 
-	private int a;
-
-	public int getA() {
-		return a;
+	public ClassI<ClassA> getReglasDisponibilidadByAgendaId(long idAgenda)
+			throws ExceptionB {
+		return null;
 	}
 
-	public void setA(int a) {
-		this.a = a;
-	}
 }

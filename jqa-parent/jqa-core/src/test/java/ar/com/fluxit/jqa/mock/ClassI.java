@@ -18,21 +18,16 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.mock;
 
+
 /**
  * TODO javadoc
  * 
  * @author Juan Ignacio Barisich
  */
-public enum EnumA {
-	A, B, C;
+public class ClassI<T> {
 
-	private int a;
-
-	public int getA() {
-		return a;
+	public ClassI() {
+		super();
 	}
 
-	public void setA(int a) {
-		this.a = a;
-	}
 }
