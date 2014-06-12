@@ -53,6 +53,7 @@
       <module>jqa-core</module>
       <module>jqa-bce-api</module>
       <module>jqa-bce-bcel</module>
+      <module>jqa-maven-plugin</module>
       <module>jqa-sonar-plugin</module>
       <module>jqa-ctx-factory-api</module>
       <module>jqa-ctx-factory-xmlbeans</module>
