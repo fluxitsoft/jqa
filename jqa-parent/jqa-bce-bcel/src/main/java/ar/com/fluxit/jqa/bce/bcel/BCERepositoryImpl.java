@@ -539,8 +539,8 @@ public class BCERepositoryImpl implements BCERepository {
 	public File getSourceFile(String typeName, File[] sourceDirs)
 			throws FileNotFoundException {
 		for (File sourceDir : sourceDirs) {
-			String sourceFile = sourceDir.getPath() + "/"
-					+ typeName.replace(".", "/");
+			String sourceFile = sourceDir.getPath() + File.separatorChar
+					+ typeName.replace('.', File.separatorChar);
 			if (sourceFile.contains("$")) {
 				sourceFile = sourceFile.substring(0, sourceFile.indexOf('$'));
 			}
