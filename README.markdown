@@ -22,7 +22,7 @@ JQA allows you to check your application classes regarding:
 
 ## Requirements
 * Java 5 or later
-* Maven 2
+* Maven 2 or later
 
 ## Documentation
 ### Quick start
