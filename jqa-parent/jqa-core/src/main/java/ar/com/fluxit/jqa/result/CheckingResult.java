@@ -18,9 +18,9 @@
  ******************************************************************************/
 package ar.com.fluxit.jqa.result;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-import java.util.HashSet;
 
 /**
  * TODO javadoc
@@ -31,10 +31,14 @@ public class CheckingResult {
 
 	private Date date;
 	private Collection<RuleCheckFailed> ruleChecksFailed;
-	private final String project;
+	private String project;
 
+	public CheckingResult() {
+		// For XStream
+	}
+	
 	public CheckingResult(String project) {
-		this.ruleChecksFailed = new HashSet<RuleCheckFailed>();
+		this.ruleChecksFailed = new ArrayList<RuleCheckFailed>();
 		this.date = new Date();
 		this.project = project;
 	}

@@ -29,9 +29,9 @@
 		<rule name="API abstraction" message="The type '${type.name}' must be an interface"
 			priority="3">
 			<filterPredicate xsi:type="jqa:OrPredicate">
-				<predicate xsi:type="jqa:NamingPredicate" namePattern="${serviceContract.packagePattern}" />
-				<predicate xsi:type="jqa:NamingPredicate" namePattern="${boContract.packagePattern}" />
-				<predicate xsi:type="jqa:NamingPredicate" namePattern="${daoContract.packagePattern}" />
+				<predicate xsi:type="jqa:NamingPredicate" namePattern="${serviceApi.packagePattern}" />
+				<predicate xsi:type="jqa:NamingPredicate" namePattern="${boApi.packagePattern}" />
+				<predicate xsi:type="jqa:NamingPredicate" namePattern="${daoApi.packagePattern}" />
 			</filterPredicate>
 			<checkPredicate xsi:type="jqa:AbstractionPredicate" abstractionType="INTERFACE" />
 		</rule>

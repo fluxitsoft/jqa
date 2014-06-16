@@ -35,12 +35,12 @@
 			<checkPredicate xsi:type="jqa:NamingPredicate" namePattern="${entity.namePattern}" />
 		</rule>
 
-		<!-- Service contract naming -->
-		<rule name="Service contract naming"
-			message="The Service contract '${type.name}' must be named like '${serviceContract.namePattern}'"
+		<!-- Service API naming -->
+		<rule name="Service API naming"
+			message="The Service API '${type.name}' must be named like '${serviceApi.namePattern}'"
 			priority="4">
-			<filterPredicate xsi:type="jqa:ContextProvidedPredicate" predicateName="Service contract attempt" />
-			<checkPredicate xsi:type="jqa:NamingPredicate" namePattern="${serviceContract.namePattern}" />
+			<filterPredicate xsi:type="jqa:ContextProvidedPredicate" predicateName="Service API attempt" />
+			<checkPredicate xsi:type="jqa:NamingPredicate" namePattern="${serviceApi.namePattern}" />
 		</rule>
 
 		<!-- Service implementation naming -->
@@ -51,11 +51,11 @@
 			<checkPredicate xsi:type="jqa:NamingPredicate" namePattern="${serviceImpl.namePattern}" />
 		</rule>
 
-		<!-- BusinessObject contract naming -->
-		<rule name="BO contract naming" message="The BO contract '${type.name}' must be named like '${boContract.namePattern}'"
+		<!-- BusinessObject API naming -->
+		<rule name="BO API naming" message="The BO API '${type.name}' must be named like '${boApi.namePattern}'"
 			priority="4">
-			<filterPredicate xsi:type="jqa:ContextProvidedPredicate" predicateName="BO contract attempt" />
-			<checkPredicate xsi:type="jqa:NamingPredicate" namePattern="${boContract.namePattern}" />
+			<filterPredicate xsi:type="jqa:ContextProvidedPredicate" predicateName="BO API attempt" />
+			<checkPredicate xsi:type="jqa:NamingPredicate" namePattern="${boApi.namePattern}" />
 		</rule>
 
 		<!-- BusinessObject implementation naming -->
@@ -66,11 +66,11 @@
 			<checkPredicate xsi:type="jqa:NamingPredicate" namePattern="${boImpl.namePattern}" />
 		</rule>
 
-		<!-- DataAccessObject contract naming -->
-		<rule name="DAO contract naming" message="The DAO contract '${type.name}' must be named like '${daoContract.namePattern}'"
+		<!-- DataAccessObject API naming -->
+		<rule name="DAO API naming" message="The DAO API '${type.name}' must be named like '${daoApi.namePattern}'"
 			priority="4">
-			<filterPredicate xsi:type="jqa:ContextProvidedPredicate" predicateName="DAO contract attempt" />
-			<checkPredicate xsi:type="jqa:NamingPredicate" namePattern="${daoContract.namePattern}" />
+			<filterPredicate xsi:type="jqa:ContextProvidedPredicate" predicateName="DAO API attempt" />
+			<checkPredicate xsi:type="jqa:NamingPredicate" namePattern="${daoApi.namePattern}" />
 		</rule>
 
 		<!-- DataAccessObject implementation naming -->

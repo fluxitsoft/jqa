@@ -37,10 +37,10 @@
 
 		<!-- Service API naming -->
 		<rule name="Service API naming"
-			message="The Service API '${type.name}' must be named like '${serviceContract.namePattern}'"
+			message="The Service API '${type.name}' must be named like '${serviceApi.namePattern}'"
 			priority="4">
 			<filterPredicate xsi:type="jqa:ContextProvidedPredicate" predicateName="Service API attempt" />
-			<checkPredicate xsi:type="jqa:NamingPredicate" namePattern="${serviceContract.namePattern}" />
+			<checkPredicate xsi:type="jqa:NamingPredicate" namePattern="${serviceApi.namePattern}" />
 		</rule>
 
 		<!-- Service implementation naming -->
@@ -52,10 +52,10 @@
 		</rule>
 
 		<!-- BusinessObject API naming -->
-		<rule name="BO API naming" message="The BO API '${type.name}' must be named like '${boContract.namePattern}'"
+		<rule name="BO API naming" message="The BO API '${type.name}' must be named like '${boApi.namePattern}'"
 			priority="4">
 			<filterPredicate xsi:type="jqa:ContextProvidedPredicate" predicateName="BO API attempt" />
-			<checkPredicate xsi:type="jqa:NamingPredicate" namePattern="${boContract.namePattern}" />
+			<checkPredicate xsi:type="jqa:NamingPredicate" namePattern="${boApi.namePattern}" />
 		</rule>
 
 		<!-- BusinessObject implementation naming -->
@@ -67,10 +67,10 @@
 		</rule>
 
 		<!-- DataAccessObject API naming -->
-		<rule name="DAO API naming" message="The DAO API '${type.name}' must be named like '${daoContract.namePattern}'"
+		<rule name="DAO API naming" message="The DAO API '${type.name}' must be named like '${daoApi.namePattern}'"
 			priority="4">
 			<filterPredicate xsi:type="jqa:ContextProvidedPredicate" predicateName="DAO API attempt" />
-			<checkPredicate xsi:type="jqa:NamingPredicate" namePattern="${daoContract.namePattern}" />
+			<checkPredicate xsi:type="jqa:NamingPredicate" namePattern="${daoApi.namePattern}" />
 		</rule>
 
 		<!-- DataAccessObject implementation naming -->

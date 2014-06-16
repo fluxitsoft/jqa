@@ -24,9 +24,9 @@
 
 	<!-- How implementations should be called -->
 	<globalVariable name="entity.namePattern" value="**.entity.**" />
-	<globalVariable name="serviceContract.namePattern" value="**.service.+Service" />
-	<globalVariable name="boContract.namePattern" value="**.bo.+BO" />
-	<globalVariable name="daoContract.namePattern" value="**.dao.+DAO" />
+	<globalVariable name="serviceApi.namePattern" value="**.service.+Service" />
+	<globalVariable name="boApi.namePattern" value="**.bo.+BO" />
+	<globalVariable name="daoApi.namePattern" value="**.dao.+DAO" />
 
 	<!-- How API should be called -->
 	<globalVariable name="serviceImpl.namePattern" value="**.service.impl.+ServiceImpl" />
@@ -34,9 +34,9 @@
 	<globalVariable name="daoImpl.namePattern" value="**.dao.impl.+DAOImpl" />
 
 	<!-- Where the API should be located -->
-	<globalVariable name="serviceContract.packagePattern" value="**.service.+" />
-	<globalVariable name="boContract.packagePattern" value="**.bo.+" />
-	<globalVariable name="daoContract.packagePattern" value="**.dao.+" />
+	<globalVariable name="serviceApi.packagePattern" value="**.service.+" />
+	<globalVariable name="boApi.packagePattern" value="**.bo.+" />
+	<globalVariable name="daoApi.packagePattern" value="**.dao.+" />
 
 	<!-- Where the implementations should be located -->
 	<globalVariable name="serviceImpl.packagePattern" value="**.service.impl.+" />

@@ -37,11 +37,11 @@
 			</checkPredicate>
 		</rule>
 
-		<!-- Service contract typing -->
-		<rule name="Service contract typing"
-			message="The Service contract '${type.name}' must extend to '${service.superType}'"
+		<!-- Service API typing -->
+		<rule name="Service API typing"
+			message="The Service API '${type.name}' must extend to '${service.superType}'"
 			priority="3">
-			<filterPredicate xsi:type="jqa:ContextProvidedPredicate" predicateName="Service contract attempt" />
+			<filterPredicate xsi:type="jqa:ContextProvidedPredicate" predicateName="Service API attempt" />
 			<checkPredicate xsi:type="jqa:TypingPredicate">
 				<predicate xsi:type="jqa:NamingPredicate" namePattern="${service.superType}" />
 			</checkPredicate>
@@ -49,19 +49,19 @@
 
 		<!-- Service implementation typing -->
 		<rule name="Service implementation typing"
-			message="The Service implementation '${type.name}' must implement a valid Service contract"
+			message="The Service implementation '${type.name}' must implement a valid Service API"
 			priority="3">
 			<filterPredicate xsi:type="jqa:ContextProvidedPredicate" predicateName="Service implementation attempt" />
 			<checkPredicate xsi:type="jqa:TypingPredicate">
-				<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="Service contract attempt" />
+				<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="Service API attempt" />
 			</checkPredicate>
 		</rule>
 
-		<!-- BusinessObject contract typing -->
-		<rule name="BO contract typing"
-			message="The BO contract '${type.name}' must extend to '${bo.superType}'"
+		<!-- BusinessObject API typing -->
+		<rule name="BO API typing"
+			message="The BO API '${type.name}' must extend to '${bo.superType}'"
 			priority="3">
-			<filterPredicate xsi:type="jqa:ContextProvidedPredicate" predicateName="BO contract attempt" />
+			<filterPredicate xsi:type="jqa:ContextProvidedPredicate" predicateName="BO API attempt" />
 			<checkPredicate xsi:type="jqa:TypingPredicate">
 				<predicate xsi:type="jqa:NamingPredicate" namePattern="${bo.superType}" />
 			</checkPredicate>
@@ -69,19 +69,19 @@
 
 		<!-- BusinessObject implementation typing -->
 		<rule name="BO implementation typing"
-			message="The BO implementation '${type.name}' must implement a valid BO contract"
+			message="The BO implementation '${type.name}' must implement a valid BO API"
 			priority="3">
 			<filterPredicate xsi:type="jqa:ContextProvidedPredicate" predicateName="BO implementation attempt" />
 			<checkPredicate xsi:type="jqa:TypingPredicate">
-				<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="BO contract attempt" />
+				<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="BO API attempt" />
 			</checkPredicate>
 		</rule>
 
-		<!-- DataAccess contract typing -->
-		<rule name="DAO contract typing"
-			message="The DAO contract '${type.name}' must extend to '${dao.superType}'"
+		<!-- DataAccess API typing -->
+		<rule name="DAO API typing"
+			message="The DAO API '${type.name}' must extend to '${dao.superType}'"
 			priority="3">
-			<filterPredicate xsi:type="jqa:ContextProvidedPredicate" predicateName="DAO contract attempt" />
+			<filterPredicate xsi:type="jqa:ContextProvidedPredicate" predicateName="DAO API attempt" />
 			<checkPredicate xsi:type="jqa:TypingPredicate">
 				<predicate xsi:type="jqa:NamingPredicate" namePattern="${dao.superType}" />
 			</checkPredicate>
@@ -89,11 +89,11 @@
 
 		<!-- DataAccess implementation typing -->
 		<rule name="DAO implementation typing"
-			message="The DAO implementation '${type.name}' must implement a valid DAO contract"
+			message="The DAO implementation '${type.name}' must implement a valid DAO API"
 			priority="3">
 			<filterPredicate xsi:type="jqa:ContextProvidedPredicate" predicateName="DAO implementation attempt" />
 			<checkPredicate xsi:type="jqa:TypingPredicate">
-				<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="DAO contract attempt" />
+				<predicate xsi:type="jqa:ContextProvidedPredicate" predicateName="DAO API attempt" />
 			</checkPredicate>
 		</rule>
 

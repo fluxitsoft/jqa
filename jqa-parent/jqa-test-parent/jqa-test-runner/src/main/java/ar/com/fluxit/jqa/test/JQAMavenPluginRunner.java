@@ -135,9 +135,9 @@ public class JQAMavenPluginRunner {
 		assertContains(result, "View allocation", "ar.com.fluxit.jqa.test.view.actions.TrainAction", fails);
 		assertContains(result, "View allocation", "ar.com.fluxit.jqa.test.view.actions.CarAction", fails);
 		// Abstraction asserts
-		assertContains(result, "Contract abstraction", "ar.com.fluxit.jqa.test.service.MotorcycleService", fails);
-		assertContains(result, "Contract abstraction", "ar.com.fluxit.jqa.test.bo.MotorcycleBO", fails);
-		assertContains(result, "Contract abstraction", "ar.com.fluxit.jqa.test.dao.MotorcycleDAO", fails);
+		assertContains(result, "API abstraction", "ar.com.fluxit.jqa.test.service.MotorcycleService", fails);
+		assertContains(result, "API abstraction", "ar.com.fluxit.jqa.test.bo.MotorcycleBO", fails);
+		assertContains(result, "API abstraction", "ar.com.fluxit.jqa.test.dao.MotorcycleDAO", fails);
 		assertContains(result, "Implementation abstraction", "ar.com.fluxit.jqa.test.service.impl.BusService", fails);
 		assertContains(result, "Implementation abstraction", "ar.com.fluxit.jqa.test.bo.impl.BusBO", fails);
 		assertContains(result, "Implementation abstraction", "ar.com.fluxit.jqa.test.dao.impl.BusDAO", fails);
@@ -150,6 +150,7 @@ public class JQAMavenPluginRunner {
 			if (args.length != 2) {
 				System.out.print("Required arguments: mavenPath, JQAVersion");
 			} else {
+				System.out.println("Please, be sure you have runned 'mvn clean install' over the parent project");
 				String mavenHomeArg = args[0];
 				String jqaVersionArg = args[1];
 				System.setProperty("maven.home", mavenHomeArg);
@@ -166,6 +167,7 @@ public class JQAMavenPluginRunner {
 		request.setPomFile(new File("../pom.xml"));
 		request.setGoals(Collections.singletonList("ar.com.fluxit.jqa:jqa-maven-plugin:" + jqaVersionArg + ":check"));
 		request.setDebug(true);
+		request.setMavenOpts("-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=8000");
 		Invoker invoker = new DefaultInvoker();
 		invoker.execute(request);
 		final File resultsFile = new File("../jqa-test-project/target/results-jqa-test-project.xml");
